@@ -1,0 +1,6 @@
+framework module ParseCareKit {
+  umbrella header "ParseCareKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

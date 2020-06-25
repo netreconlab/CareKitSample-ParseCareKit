@@ -1,0 +1,7 @@
+${PODS_ROOT}/Target Support Files/Pods-OCKSample/Pods-OCKSample-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework
+${BUILT_PRODUCTS_DIR}/CareKit/CareKit.framework
+${BUILT_PRODUCTS_DIR}/CareKitStore/CareKitStore.framework
+${BUILT_PRODUCTS_DIR}/CareKitUI/CareKitUI.framework
+${BUILT_PRODUCTS_DIR}/Parse/Parse.framework
+${BUILT_PRODUCTS_DIR}/ParseCareKit/ParseCareKit.framework

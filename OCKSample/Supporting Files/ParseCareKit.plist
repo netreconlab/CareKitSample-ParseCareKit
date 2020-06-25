@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ParseClientConfiguration</key>
+	<dict>
+		<key>ApplicationID</key>
+		<string>E036A0C5-6829-4B40-9B3B-3E05F6DF32B2</string>
+		<key>Server</key>
+		<string>http://localhost:1337/parse</string>
+		<key>EnableLocalDataStore</key>
+		<false/>
+	</dict>
+</dict>
+</plist>
