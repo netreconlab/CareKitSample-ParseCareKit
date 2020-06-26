@@ -98,7 +98,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     return
                 }else{
                     print("Parse signup successful \(PFUser.current()!)")
-                    self.coreDataStore.synchronize{error in
+                    self.store.synchronize{error in
                         print(error?.localizedDescription ?? "Syncing for the first time!")
                     }
                 }
