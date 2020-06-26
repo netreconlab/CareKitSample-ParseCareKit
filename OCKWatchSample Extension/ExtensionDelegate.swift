@@ -176,7 +176,7 @@ extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchr
     }
     
     func chooseConflictResolutionPolicy(_ conflict: OCKMergeConflictDescription, completion: @escaping (OCKMergeConflictResolutionPolicy) -> Void) {
-        let conflictPolicy = OCKMergeConflictResolutionPolicy.keepDevice
+        let conflictPolicy = OCKMergeConflictResolutionPolicy.keepRemote
         completion(conflictPolicy)
     }
     

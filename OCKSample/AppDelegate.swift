@@ -55,7 +55,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if syncWithCloud{
             coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
-            parse.delegate = self
             parse.parseRemoteDelegate = self
             sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
         }else{
@@ -287,7 +286,7 @@ extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizat
     }
     
     func chooseConflictResolutionPolicy(_ conflict: OCKMergeConflictDescription, completion: @escaping (OCKMergeConflictResolutionPolicy) -> Void) {
-        let conflictPolicy = OCKMergeConflictResolutionPolicy.keepDevice
+        let conflictPolicy = OCKMergeConflictResolutionPolicy.keepRemote
         completion(conflictPolicy)
     }
     
