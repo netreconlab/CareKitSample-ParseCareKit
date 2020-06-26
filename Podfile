@@ -3,7 +3,7 @@ def shared_pods
   pod 'CareKitUI', :git => 'https://github.com/cbaker6/CareKit.git', :branch => 'pod-2.1'
   pod 'CareKitStore', :git => 'https://github.com/cbaker6/CareKit.git', :branch => 'pod-2.1'
   pod 'CareKit', :git => 'https://github.com/cbaker6/CareKit.git', :branch => 'pod-2.1'
-  pod 'ParseCareKit', :git => 'https://github.com/netreconlab/ParseCareKit.git', :branch => '2.1'
+  pod 'ParseCareKit', :git => 'https://github.com/netreconlab/ParseCareKit.git', :branch => 'main'
 end
 
 target 'OCKSample' do

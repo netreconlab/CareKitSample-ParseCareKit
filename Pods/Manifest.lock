@@ -17,7 +17,7 @@ DEPENDENCIES:
   - CareKit (from `https://github.com/cbaker6/CareKit.git`, branch `pod-2.1`)
   - CareKitStore (from `https://github.com/cbaker6/CareKit.git`, branch `pod-2.1`)
   - CareKitUI (from `https://github.com/cbaker6/CareKit.git`, branch `pod-2.1`)
-  - ParseCareKit (from `https://github.com/netreconlab/ParseCareKit.git`, branch `2.1`)
+  - ParseCareKit (from `https://github.com/netreconlab/ParseCareKit.git`, branch `main`)
 
 SPEC REPOS:
   trunk:
@@ -35,7 +35,7 @@ EXTERNAL SOURCES:
     :branch: pod-2.1
     :git: https://github.com/cbaker6/CareKit.git
   ParseCareKit:
-    :branch: '2.1'
+    :branch: main
     :git: https://github.com/netreconlab/ParseCareKit.git
 
 CHECKOUT OPTIONS:
@@ -49,7 +49,7 @@ CHECKOUT OPTIONS:
     :commit: 4fe387dfa0ef7d163f0f0cfcd4355d2c816e8c6c
     :git: https://github.com/cbaker6/CareKit.git
   ParseCareKit:
-    :commit: 9e93540da6c7f1760366e61a0703c5e39cfc3fce
+    :commit: 75e37c2a09c4fc604bea0ab3bc58cfdaa45ed189
     :git: https://github.com/netreconlab/ParseCareKit.git
 
 SPEC CHECKSUMS:
@@ -60,6 +60,6 @@ SPEC CHECKSUMS:
   Parse: 79bdda34fdb7eb2a707a43a951c8aae236cb3e34
   ParseCareKit: ead95de3242e664501588c8336681a5605e5d4bf
 
-PODFILE CHECKSUM: b20a445eaecacbe6c65a67ca61663b4b1e6835b1
+PODFILE CHECKSUM: 7521f92797edef4a95defc09608a32ca93f1cbaf
 
 COCOAPODS: 1.9.3
