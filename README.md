@@ -2,6 +2,8 @@
 
 An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing with [ParseCareKit](https://github.com/netreconlab/ParseCareKit). 
 
+***NEW - This branch is for CareKit 2.1 version of OCKSample. Just like the [What's New in CareKit](https://developer.apple.com/videos/play/wwdc2020/10151/) WWDC20 video, this branch implements syncing between the AppleWatch (setting the flag in `ExtensionDelegate.swift` and `AppDelegate.swift` to  `syncWithCloud = false`. Different from the video, setting `syncWithCloud = true` in the aforementioned files syncs with a Parse Server. If you are looking for the Xcode 11 version, go to the [main](https://github.com/netreconlab/CareKitSample-ParseCareKit/) branch. You will need Xcode 12 to run this branch***
+
 The main branch uses a cocoapod version of CareKit that mirrors the CareKit master branch. The differences between the [pod](https://github.com/cbaker6/CareKit/tree/pod) branch and CareKits [master](https://github.com/carekit-apple/CareKit) can be seen [here](https://github.com/cbaker6/CareKit/pull/2/files). ParseCareKit synchs the following entities to Parse tables/classes:
 
 - [x] OCKTask <-> Task

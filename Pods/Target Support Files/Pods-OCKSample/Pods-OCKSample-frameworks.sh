@@ -197,20 +197,20 @@ if [ -r "${ARTIFACT_LIST_FILE}" ]; then
 fi
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/CareKit/CareKit.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/CareKitStore/CareKitStore.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/CareKitUI/CareKitUI.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Parse/Parse.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ParseCareKit/ParseCareKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Bolts-iOS/Bolts.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CareKit-iOS/CareKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CareKitStore-iOS/CareKitStore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CareKitUI-iOS/CareKitUI.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Parse-iOS/Parse.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ParseCareKit-iOS/ParseCareKit.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/CareKit/CareKit.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/CareKitStore/CareKitStore.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/CareKitUI/CareKitUI.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Parse/Parse.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ParseCareKit/ParseCareKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Bolts-iOS/Bolts.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CareKit-iOS/CareKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CareKitStore-iOS/CareKitStore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CareKitUI-iOS/CareKitUI.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Parse-iOS/Parse.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ParseCareKit-iOS/ParseCareKit.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

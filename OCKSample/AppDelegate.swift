@@ -35,32 +35,47 @@ import UIKit
 import HealthKit
 import ParseCareKit
 import Parse
+import WatchConnectivity
+
+let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var parse: ParseRemoteSynchronizationManager!
+    
+    private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
     var coreDataStore: OCKStore!
     let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
+    private lazy var parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+    private lazy var watch = OCKWatchConnectivityPeer()
+    private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         ParseCareKitUtility.setupServer()
-        parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
-        coreDataStore = OCKStore(name: "SampleAppStore", type: .inMemory, remote: parse)
-        parse.delegate = self
-        parse.parseRemoteDelegate = self
-
-        coreDataStore.populateSampleData()
-        healthKitStore.populateSampleData()
-
+        
+        if syncWithCloud{
+            coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
+            parse.delegate = self
+            parse.parseRemoteDelegate = self
+            sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
+        }else{
+            coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: watch)
+            sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
+        }
+        
+        WCSession.default.delegate = sessionDelegate
+        WCSession.default.activate()
+        
         let coordinator = OCKStoreCoordinator()
         coordinator.attach(eventStore: healthKitStore)
         coordinator.attach(store: coreDataStore)
 
         synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
+        
+        self.coreDataStore.populateSampleData()
+        self.healthKitStore.populateSampleData()
         
         PFUser.enableRevocableSessionInBackground()
         
@@ -73,19 +88,65 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //If the user isn't logged in, log them in
         guard let _ = PFUser.current() else{
             
-            PFAnonymousUtils.logIn{
-                (user: PFUser?, error: Error?) -> Void in
+            let newUser = PFUser()
+            newUser.username = "ParseCareKit"
+            newUser.password = "ThisIsAStrongPass1!"
             
-                if user != nil{
-                    print("Parse login successful \(user!)")
-                    self.coreDataStore.synchronize{_ in} //Force first sync
+            newUser.signUpInBackground(){
+                (success,error) in
+                if !success{
+                    guard let parseError = error as NSError? else{
+                        //There was a different issue that we don't know how to handle
+                        print("Error signing in. Unkown...")
+                        return
+                    }
+                    
+                    switch parseError.code{
+                    case 202: //Account already exists for this username.
+                        PFUser.logInWithUsername(inBackground: newUser.username!, password: newUser.password!){
+                            (user, error) -> Void in
+                                
+                            if user != nil{
+                                print("Parse login successful \(user!)")
+                                self.coreDataStore.synchronize{error in
+                                    print(error?.localizedDescription ?? "Successful sync!")
+                                }
+                            }else{
+                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                                print("Parse error: \(String(describing: error))")
+                            }
+                        }
+                        //How to login anonymously
+                        /*
+                        PFAnonymousUtils.logIn{
+                            (user, error) -> Void in
+                        
+                            if user != nil{
+                                print("Parse login successful \(user!)")
+                                self.coreDataStore.synchronize{error in
+                                    print(error?.localizedDescription ?? "Successful sync!")
+                                }
+                            }else{
+                                print("*** Error logging into Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                                print("Parse error: \(String(describing: error))")
+                            }
+                        }*/
+                    default:
+                        //There was a different issue that we don't know how to handle
+                        print("*** Error Signing up as user for Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                        print(parseError)
+                    }
                 }else{
-                    print("*** Error logging into Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
-                    print("Parse error: \(String(describing: error))")
+                    
                 }
             }
                 
             return true
+        }
+        
+        print("User already signed up, attempting to sync...")
+        self.coreDataStore.synchronize{error in
+            print(error?.localizedDescription ?? "Successful sync!")
         }
 
         return true
@@ -135,8 +196,13 @@ private extension OCKStore {
         var kegels = OCKTask(id: "kegels", title: "Kegel Exercises", carePlanUUID: nil, schedule: kegelSchedule)
         kegels.impactsAdherence = true
         kegels.instructions = "Perform kegel exercies"
+        
+        let stretchElement = OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 1))
+        let stretchSchedule = OCKSchedule(composing: [stretchElement])
+        var stretch = OCKTask(id: "stretch", title: "Stretch", carePlanUUID: nil, schedule: stretchSchedule)
+        stretch.impactsAdherence = true
 
-        addTasks([nausea, doxylamine, kegels], callbackQueue: .main, completion: nil)
+        addTasks([nausea, doxylamine, kegels, stretch], callbackQueue: .main, completion: nil)
 
         var contact1 = OCKContact(id: "jane", givenName: "Jane",
                                   familyName: "Daniels", carePlanUUID: nil)
@@ -212,6 +278,13 @@ extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizat
         print("Implement")
     }
     
+    func successfullyPushedDataToCloud(){
+        WCSession.default.sendMessage(["needToSyncNotification": "needToSyncNotification"], replyHandler: nil){
+            error in
+            print(error.localizedDescription)
+        }
+    }
+    
     func chooseConflictResolutionPolicy(_ conflict: OCKMergeConflictDescription, completion: @escaping (OCKMergeConflictResolutionPolicy) -> Void) {
         let conflictPolicy = OCKMergeConflictResolutionPolicy.keepDevice
         completion(conflictPolicy)
@@ -240,3 +313,77 @@ extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizat
     
 }
 
+protocol SessionDelegate: WCSessionDelegate {
+    
+}
+
+private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("sessionDidBecomeInactive")
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        print("sessionDidDeactivate")
+    }
+    
+    let store: OCKStore
+    
+    init(store: OCKStore) {
+        self.store = store
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("New session state: \(activationState)")
+        
+        if activationState == .activated {
+            store.synchronize{ error in
+                print(error?.localizedDescription ?? "Successful sync with Cloud!")
+            }
+        }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        store.synchronize{ error in
+            print(error?.localizedDescription ?? "Successful sync with Cloud!")
+        }
+    }
+}
+
+private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
+    let remote: OCKWatchConnectivityPeer
+    let store: OCKStore
+    
+    init(remote: OCKWatchConnectivityPeer, store: OCKStore) {
+        self.remote = remote
+        self.store = store
+    }
+    
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        print("sessionDidBecomeInactive")
+    }
+    
+    func sessionDidDeactivate(_ session: WCSession) {
+        print("sessionDidDeactivate")
+    }
+    
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+        print("New session state: \(activationState)")
+        
+        if activationState == .activated {
+            store.synchronize{ error in
+                print(error?.localizedDescription ?? "Successful sync!")
+            }
+        }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        
+        print("Received message from peer")
+        
+        remote.reply(to: message, store: store){ reply in
+            print("Sending reply to peer!")
+            
+            replyHandler(reply)
+        }
+    }
+}

@@ -64,7 +64,7 @@ class CareViewController: OCKDailyPageViewController {
     override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
                                           prepare listViewController: OCKListViewController, for date: Date) {
 
-        let identifiers = ["doxylamine", "nausea", "kegels", "steps", "heartRate"]
+        let identifiers = ["doxylamine", "nausea", "stretch", "kegels", "steps", "heartRate"]
         var query = OCKTaskQuery(for: date)
         query.ids = identifiers
         query.excludesTasksWithNoEvents = true
@@ -96,6 +96,12 @@ class CareViewController: OCKDailyPageViewController {
                         .padding([.vertical], 10)
 
                     listViewController.appendViewController(view.formattedHostingController(), animated: false)
+                }
+                
+                if let stretchTask = tasks.first(where: { $0.id == "stretch" }) {
+                    let stretchCard = OCKInstructionsTaskViewController(task: stretchTask, eventQuery: .init(for: date),
+                                                                 storeManager: self.storeManager)
+                    listViewController.appendViewController(stretchCard, animated: false)
                 }
 
                 // Since the kegel task is only scheduled every other day, there will be cases

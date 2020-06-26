@@ -17,6 +17,7 @@
   },
   "platforms": {
     "ios": "13.0",
+    "watchos": "6.0",
     "osx": "10.15"
   },
   "swift_versions": [

@@ -8,10 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		03F0600A2331946600CCE09B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F060092331946600CCE09B /* SceneDelegate.swift */; };
+		46FD0E60CFA600C745D14C0A /* Pods_OCKSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98347ACD8596F9883802D4A9 /* Pods_OCKSample.framework */; };
+		4AE49E6347529D57075DB8CA /* Pods_OCKWatchSample_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E0DE6BE0FBDF9840E533402 /* Pods_OCKWatchSample_Extension.framework */; };
 		5173CB8A23C3A846007655A0 /* OCKSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5173CB8923C3A846007655A0 /* OCKSampleUITests.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
-		E608A66FAFE236DBB77827F8 /* Pods_OCKSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50FF0F0E89B8C8C4C3894641 /* Pods_OCKSample.framework */; };
+		91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922924A4C42B00925D4D /* Interface.storyboard */; };
+		91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922C24A4C42D00925D4D /* Assets.xcassets */; };
+		91AD923424A4C42D00925D4D /* OCKWatchSample Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		91AD923924A4C42D00925D4D /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923824A4C42D00925D4D /* HostingController.swift */; };
+		91AD923B24A4C42D00925D4D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923A24A4C42D00925D4D /* ContentView.swift */; };
+		91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */; };
+		91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923E24A4C42D00925D4D /* NotificationController.swift */; };
+		91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD924024A4C42D00925D4D /* NotificationView.swift */; };
+		91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD924224A4C42E00925D4D /* Assets.xcassets */; };
+		91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD924524A4C42E00925D4D /* Preview Assets.xcassets */; };
+		91AD924B24A4C42E00925D4D /* OCKWatchSample.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 91AD922724A4C42B00925D4D /* OCKWatchSample.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		91AD929C24A52D4200925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD929B24A52D4200925D4D /* ParseCareKit.plist */; };
 		E72B2C0A226939E3009A9438 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72B2C09226939E3009A9438 /* AppDelegate.swift */; };
 		E72B2C14226939E4009A9438 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E72B2C12226939E4009A9438 /* LaunchScreen.storyboard */; };
 		E7440E4F229477F7007AD30A /* CareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7440E4E229477F7007AD30A /* CareViewController.swift */; };
@@ -27,6 +40,20 @@
 			remoteGlobalIDString = E72B2C05226939E3009A9438;
 			remoteInfo = OCKSample;
 		};
+		91AD923524A4C42D00925D4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E72B2BFE226939E3009A9438 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 91AD923224A4C42D00925D4D;
+			remoteInfo = "OCKWatchSample Extension";
+		};
+		91AD924924A4C42E00925D4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E72B2BFE226939E3009A9438 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 91AD922624A4C42B00925D4D;
+			remoteInfo = OCKWatchSample;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,20 +67,60 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		91AD924C24A4C42E00925D4D /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				91AD924B24A4C42E00925D4D /* OCKWatchSample.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91AD924F24A4C42E00925D4D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				91AD923424A4C42D00925D4D /* OCKWatchSample Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		03580E3E23CFA2E400A57818 /* OCKSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OCKSample.entitlements; sourceTree = "<group>"; };
 		03F060092331946600CCE09B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0520468223C3C1F2004F0F36 /* OCKSample.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OCKSample.xctestplan; sourceTree = "<group>"; };
-		50FF0F0E89B8C8C4C3894641 /* Pods_OCKSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OCKSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0E0C07E13AD85E95F906B0BB /* Pods-OCKWatchSample Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCKWatchSample Extension.debug.xcconfig"; path = "Target Support Files/Pods-OCKWatchSample Extension/Pods-OCKWatchSample Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		5173CB8723C3A846007655A0 /* OCKSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OCKSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5173CB8923C3A846007655A0 /* OCKSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKSampleUITests.swift; sourceTree = "<group>"; };
 		5173CB8B23C3A846007655A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51F6343923D2877B00FE576E /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		624703C93696E8B871849F7F /* Pods-OCKSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCKSample.debug.xcconfig"; path = "Target Support Files/Pods-OCKSample/Pods-OCKSample.debug.xcconfig"; sourceTree = "<group>"; };
+		6BB562FF52D1B77F86A50BA8 /* Pods-OCKWatchSample Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCKWatchSample Extension.release.xcconfig"; path = "Target Support Files/Pods-OCKWatchSample Extension/Pods-OCKWatchSample Extension.release.xcconfig"; sourceTree = "<group>"; };
+		8E0DE6BE0FBDF9840E533402 /* Pods_OCKWatchSample_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OCKWatchSample_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91AD922124A45A3900925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseCareKit.plist; sourceTree = "<group>"; };
 		91AD922324A461D200925D4D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		91AD922724A4C42B00925D4D /* OCKWatchSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCKWatchSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		91AD922A24A4C42B00925D4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		91AD922C24A4C42D00925D4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		91AD922E24A4C42D00925D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "OCKWatchSample Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91AD923824A4C42D00925D4D /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		91AD923A24A4C42D00925D4D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		91AD923E24A4C42D00925D4D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		91AD924024A4C42D00925D4D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		91AD924224A4C42E00925D4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		91AD924524A4C42E00925D4D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		91AD924724A4C42E00925D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		91AD929B24A52D4200925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = ParseCareKit.plist; path = "OCKSample/Supporting Files/ParseCareKit.plist"; sourceTree = SOURCE_ROOT; };
+		98347ACD8596F9883802D4A9 /* Pods_OCKSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OCKSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFDE3E4072066ECF54F40750 /* Pods-OCKSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCKSample.release.xcconfig"; path = "Target Support Files/Pods-OCKSample/Pods-OCKSample.release.xcconfig"; sourceTree = "<group>"; };
 		E72B2C06226939E3009A9438 /* OCKSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCKSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E72B2C09226939E3009A9438 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -69,7 +136,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E608A66FAFE236DBB77827F8 /* Pods_OCKSample.framework in Frameworks */,
+				46FD0E60CFA600C745D14C0A /* Pods_OCKSample.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8E2FA4969104CA618976C1EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91AD923024A4C42D00925D4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AE49E6347529D57075DB8CA /* Pods_OCKWatchSample_Extension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,7 +169,8 @@
 			isa = PBXGroup;
 			children = (
 				51F6343923D2877B00FE576E /* HealthKit.framework */,
-				50FF0F0E89B8C8C4C3894641 /* Pods_OCKSample.framework */,
+				98347ACD8596F9883802D4A9 /* Pods_OCKSample.framework */,
+				8E0DE6BE0FBDF9840E533402 /* Pods_OCKWatchSample_Extension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,11 +195,48 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		91AD922824A4C42B00925D4D /* OCKWatchSample */ = {
+			isa = PBXGroup;
+			children = (
+				91AD922924A4C42B00925D4D /* Interface.storyboard */,
+				91AD922C24A4C42D00925D4D /* Assets.xcassets */,
+				91AD922E24A4C42D00925D4D /* Info.plist */,
+			);
+			path = OCKWatchSample;
+			sourceTree = "<group>";
+		};
+		91AD923724A4C42D00925D4D /* OCKWatchSample Extension */ = {
+			isa = PBXGroup;
+			children = (
+				91AD923824A4C42D00925D4D /* HostingController.swift */,
+				91AD923A24A4C42D00925D4D /* ContentView.swift */,
+				91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */,
+				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
+				91AD924024A4C42D00925D4D /* NotificationView.swift */,
+				91AD924224A4C42E00925D4D /* Assets.xcassets */,
+				91AD924724A4C42E00925D4D /* Info.plist */,
+				91AD929B24A52D4200925D4D /* ParseCareKit.plist */,
+				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
+				91AD924424A4C42E00925D4D /* Preview Content */,
+			);
+			path = "OCKWatchSample Extension";
+			sourceTree = "<group>";
+		};
+		91AD924424A4C42E00925D4D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				91AD924524A4C42E00925D4D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		CD99B077B85B2D5F1D30CAFB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				624703C93696E8B871849F7F /* Pods-OCKSample.debug.xcconfig */,
 				CFDE3E4072066ECF54F40750 /* Pods-OCKSample.release.xcconfig */,
+				0E0C07E13AD85E95F906B0BB /* Pods-OCKWatchSample Extension.debug.xcconfig */,
+				6BB562FF52D1B77F86A50BA8 /* Pods-OCKWatchSample Extension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -128,6 +248,8 @@
 				0520468223C3C1F2004F0F36 /* OCKSample.xctestplan */,
 				E72B2C08226939E3009A9438 /* OCKSample */,
 				5173CB8823C3A846007655A0 /* OCKSampleUITests */,
+				91AD922824A4C42B00925D4D /* OCKWatchSample */,
+				91AD923724A4C42D00925D4D /* OCKWatchSample Extension */,
 				E72B2C07226939E3009A9438 /* Products */,
 				51431F9723D166AE006A7CFD /* Frameworks */,
 				CD99B077B85B2D5F1D30CAFB /* Pods */,
@@ -139,6 +261,8 @@
 			children = (
 				E72B2C06226939E3009A9438 /* OCKSample.app */,
 				5173CB8723C3A846007655A0 /* OCKSampleUITests.xctest */,
+				91AD922724A4C42B00925D4D /* OCKWatchSample.app */,
+				91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,6 +301,45 @@
 			productReference = 5173CB8723C3A846007655A0 /* OCKSampleUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		91AD922624A4C42B00925D4D /* OCKWatchSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91AD925324A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample" */;
+			buildPhases = (
+				91AD922524A4C42B00925D4D /* Resources */,
+				91AD924F24A4C42E00925D4D /* Embed App Extensions */,
+				8E2FA4969104CA618976C1EC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				91AD923624A4C42D00925D4D /* PBXTargetDependency */,
+			);
+			name = OCKWatchSample;
+			productName = OCKWatchSample;
+			productReference = 91AD922724A4C42B00925D4D /* OCKWatchSample.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		91AD923224A4C42D00925D4D /* OCKWatchSample Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91AD925224A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample Extension" */;
+			buildPhases = (
+				CA0CE3F7312737CCC6EC8030 /* [CP] Check Pods Manifest.lock */,
+				91AD922F24A4C42D00925D4D /* Sources */,
+				91AD923024A4C42D00925D4D /* Frameworks */,
+				91AD923124A4C42D00925D4D /* Resources */,
+				1824AF6311D5BF025B37B0CE /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "OCKWatchSample Extension";
+			packageProductDependencies = (
+			);
+			productName = "OCKWatchSample Extension";
+			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		E72B2C05226939E3009A9438 /* OCKSample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E72B2C18226939E4009A9438 /* Build configuration list for PBXNativeTarget "OCKSample" */;
@@ -186,11 +349,13 @@
 				E72B2C04226939E3009A9438 /* Resources */,
 				51431FA123D166AE006A7CFD /* Frameworks */,
 				51431FA223D166AE006A7CFD /* Embed Frameworks */,
-				21800B94944917BA2DDBF09A /* [CP] Embed Pods Frameworks */,
+				91AD924C24A4C42E00925D4D /* Embed Watch Content */,
+				90B0147871CAE2852E679A70 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				91AD924A24A4C42E00925D4D /* PBXTargetDependency */,
 			);
 			name = OCKSample;
 			packageProductDependencies = (
@@ -205,13 +370,19 @@
 		E72B2BFE226939E3009A9438 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1110;
+				LastSwiftUpdateCheck = 1200;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = Apple;
 				TargetAttributes = {
 					5173CB8623C3A846007655A0 = {
 						CreatedOnToolsVersion = 11.1;
 						TestTargetID = E72B2C05226939E3009A9438;
+					};
+					91AD922624A4C42B00925D4D = {
+						CreatedOnToolsVersion = 12.0;
+					};
+					91AD923224A4C42D00925D4D = {
+						CreatedOnToolsVersion = 12.0;
 					};
 					E72B2C05226939E3009A9438 = {
 						CreatedOnToolsVersion = 10.2;
@@ -235,6 +406,8 @@
 			targets = (
 				E72B2C05226939E3009A9438 /* OCKSample */,
 				5173CB8623C3A846007655A0 /* OCKSampleUITests */,
+				91AD922624A4C42B00925D4D /* OCKWatchSample */,
+				91AD923224A4C42D00925D4D /* OCKWatchSample Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -244,6 +417,25 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91AD922524A4C42B00925D4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */,
+				91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91AD923124A4C42D00925D4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */,
+				91AD929C24A52D4200925D4D /* ParseCareKit.plist in Resources */,
+				91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -283,7 +475,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		21800B94944917BA2DDBF09A /* [CP] Embed Pods Frameworks */ = {
+		1824AF6311D5BF025B37B0CE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OCKWatchSample Extension/Pods-OCKWatchSample Extension-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OCKWatchSample Extension/Pods-OCKWatchSample Extension-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OCKWatchSample Extension/Pods-OCKWatchSample Extension-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		90B0147871CAE2852E679A70 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -300,6 +509,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OCKSample/Pods-OCKSample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		CA0CE3F7312737CCC6EC8030 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OCKWatchSample Extension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -308,6 +539,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				5173CB8A23C3A846007655A0 /* OCKSampleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91AD922F24A4C42D00925D4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91AD923B24A4C42D00925D4D /* ContentView.swift in Sources */,
+				91AD923924A4C42D00925D4D /* HostingController.swift in Sources */,
+				91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */,
+				91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */,
+				91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,9 +573,27 @@
 			target = E72B2C05226939E3009A9438 /* OCKSample */;
 			targetProxy = 5173CB8C23C3A846007655A0 /* PBXContainerItemProxy */;
 		};
+		91AD923624A4C42D00925D4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 91AD923224A4C42D00925D4D /* OCKWatchSample Extension */;
+			targetProxy = 91AD923524A4C42D00925D4D /* PBXContainerItemProxy */;
+		};
+		91AD924A24A4C42E00925D4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 91AD922624A4C42B00925D4D /* OCKWatchSample */;
+			targetProxy = 91AD924924A4C42E00925D4D /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		91AD922924A4C42B00925D4D /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				91AD922A24A4C42B00925D4D /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		E72B2C12226939E4009A9438 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -412,15 +673,19 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 13;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = K26KDKYY38;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/OCKSample/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.carekit-samplecode.OCKSample";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
@@ -514,6 +779,108 @@
 			};
 			name = Release;
 		};
+		91AD924D24A4C42E00925D4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = K26KDKYY38;
+				IBSC_MODULE = OCKWatchSample_Extension;
+				INFOPLIST_FILE = OCKWatchSample/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		91AD924E24A4C42E00925D4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = K26KDKYY38;
+				IBSC_MODULE = OCKWatchSample_Extension;
+				INFOPLIST_FILE = OCKWatchSample/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
+		91AD925024A4C42E00925D4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E0C07E13AD85E95F906B0BB /* Pods-OCKWatchSample Extension.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = K26KDKYY38;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "OCKWatchSample Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		91AD925124A4C42E00925D4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BB562FF52D1B77F86A50BA8 /* Pods-OCKWatchSample Extension.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = K26KDKYY38;
+				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = "OCKWatchSample Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
 		E72B2C16226939E4009A9438 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -588,15 +955,19 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 13;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = K26KDKYY38;
 				ENABLE_BITCODE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_TREAT_WARNINGS_AS_ERRORS = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/OCKSample/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.example.carekit-samplecode.OCKSample";
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
@@ -612,6 +983,24 @@
 			buildConfigurations = (
 				5173CB8E23C3A846007655A0 /* Debug */,
 				5173CB9023C3A846007655A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		91AD925224A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91AD925024A4C42E00925D4D /* Debug */,
+				91AD925124A4C42E00925D4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		91AD925324A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91AD924D24A4C42E00925D4D /* Debug */,
+				91AD924E24A4C42E00925D4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
