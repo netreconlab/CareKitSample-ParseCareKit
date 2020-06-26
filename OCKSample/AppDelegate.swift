@@ -137,7 +137,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         print(parseError)
                     }
                 }else{
-                    
+                    print("Parse signup successful \(PFUser.current()!)")
+                    self.coreDataStore.synchronize{error in
+                        print(error?.localizedDescription ?? "Syncing for the first time!")
+                    }
                 }
             }
                 
