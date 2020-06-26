@@ -37,8 +37,6 @@ import ParseCareKit
 import Parse
 import WatchConnectivity
 
-let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
