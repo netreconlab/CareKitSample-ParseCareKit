@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03F0600A2331946600CCE09B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F060092331946600CCE09B /* SceneDelegate.swift */; };
+		23D15B03DA6E52E06E5172EE /* Pods_OCKSampleUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91ED8B0635B00B5007725F79 /* Pods_OCKSampleUITests.framework */; };
 		46FD0E60CFA600C745D14C0A /* Pods_OCKSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98347ACD8596F9883802D4A9 /* Pods_OCKSample.framework */; };
 		4AE49E6347529D57075DB8CA /* Pods_OCKWatchSample_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E0DE6BE0FBDF9840E533402 /* Pods_OCKWatchSample_Extension.framework */; };
 		5173CB8A23C3A846007655A0 /* OCKSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5173CB8923C3A846007655A0 /* OCKSampleUITests.swift */; };
@@ -102,6 +103,8 @@
 		51F6343923D2877B00FE576E /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		624703C93696E8B871849F7F /* Pods-OCKSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCKSample.debug.xcconfig"; path = "Target Support Files/Pods-OCKSample/Pods-OCKSample.debug.xcconfig"; sourceTree = "<group>"; };
 		6BB562FF52D1B77F86A50BA8 /* Pods-OCKWatchSample Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCKWatchSample Extension.release.xcconfig"; path = "Target Support Files/Pods-OCKWatchSample Extension/Pods-OCKWatchSample Extension.release.xcconfig"; sourceTree = "<group>"; };
+		78C53EECBF43E2EF4D90CE5C /* Pods-OCKSampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCKSampleUITests.release.xcconfig"; path = "Target Support Files/Pods-OCKSampleUITests/Pods-OCKSampleUITests.release.xcconfig"; sourceTree = "<group>"; };
+		7FEC4AA8FDEA0180A9F7482D /* Pods-OCKSampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCKSampleUITests.debug.xcconfig"; path = "Target Support Files/Pods-OCKSampleUITests/Pods-OCKSampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8E0DE6BE0FBDF9840E533402 /* Pods_OCKWatchSample_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OCKWatchSample_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91AD922124A45A3900925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseCareKit.plist; sourceTree = "<group>"; };
 		91AD922324A461D200925D4D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		91AD924724A4C42E00925D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		91AD929B24A52D4200925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = ParseCareKit.plist; path = "OCKSample/Supporting Files/ParseCareKit.plist"; sourceTree = SOURCE_ROOT; };
+		91ED8B0635B00B5007725F79 /* Pods_OCKSampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OCKSampleUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		98347ACD8596F9883802D4A9 /* Pods_OCKSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OCKSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFDE3E4072066ECF54F40750 /* Pods-OCKSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OCKSample.release.xcconfig"; path = "Target Support Files/Pods-OCKSample/Pods-OCKSample.release.xcconfig"; sourceTree = "<group>"; };
 		E72B2C06226939E3009A9438 /* OCKSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCKSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23D15B03DA6E52E06E5172EE /* Pods_OCKSampleUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +176,7 @@
 				51F6343923D2877B00FE576E /* HealthKit.framework */,
 				98347ACD8596F9883802D4A9 /* Pods_OCKSample.framework */,
 				8E0DE6BE0FBDF9840E533402 /* Pods_OCKWatchSample_Extension.framework */,
+				91ED8B0635B00B5007725F79 /* Pods_OCKSampleUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -237,6 +243,8 @@
 				CFDE3E4072066ECF54F40750 /* Pods-OCKSample.release.xcconfig */,
 				0E0C07E13AD85E95F906B0BB /* Pods-OCKWatchSample Extension.debug.xcconfig */,
 				6BB562FF52D1B77F86A50BA8 /* Pods-OCKWatchSample Extension.release.xcconfig */,
+				7FEC4AA8FDEA0180A9F7482D /* Pods-OCKSampleUITests.debug.xcconfig */,
+				78C53EECBF43E2EF4D90CE5C /* Pods-OCKSampleUITests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -287,9 +295,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5173CB9723C3A846007655A0 /* Build configuration list for PBXNativeTarget "OCKSampleUITests" */;
 			buildPhases = (
+				9EE40A007EB64681CCABAF5C /* [CP] Check Pods Manifest.lock */,
 				5173CB8323C3A846007655A0 /* Sources */,
 				5173CB8523C3A846007655A0 /* Resources */,
 				A6114C4D70D4BD989D400083 /* Frameworks */,
+				8A8F855B40B2CFC1EA08BA18 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -334,8 +344,6 @@
 			dependencies = (
 			);
 			name = "OCKWatchSample Extension";
-			packageProductDependencies = (
-			);
 			productName = "OCKWatchSample Extension";
 			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
 			productType = "com.apple.product-type.watchkit2-extension";
@@ -358,8 +366,6 @@
 				91AD924A24A4C42E00925D4D /* PBXTargetDependency */,
 			);
 			name = OCKSample;
-			packageProductDependencies = (
-			);
 			productName = CareKitDemoApp;
 			productReference = E72B2C06226939E3009A9438 /* OCKSample.app */;
 			productType = "com.apple.product-type.application";
@@ -398,8 +404,6 @@
 				Base,
 			);
 			mainGroup = E72B2BFD226939E3009A9438;
-			packageReferences = (
-			);
 			productRefGroup = E72B2C07226939E3009A9438 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -492,6 +496,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OCKWatchSample Extension/Pods-OCKWatchSample Extension-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		8A8F855B40B2CFC1EA08BA18 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OCKSampleUITests/Pods-OCKSampleUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-OCKSampleUITests/Pods-OCKSampleUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OCKSampleUITests/Pods-OCKSampleUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		90B0147871CAE2852E679A70 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -507,6 +528,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-OCKSample/Pods-OCKSample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9EE40A007EB64681CCABAF5C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OCKSampleUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		CA0CE3F7312737CCC6EC8030 /* [CP] Check Pods Manifest.lock */ = {
@@ -695,6 +738,7 @@
 		};
 		5173CB8E23C3A846007655A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7FEC4AA8FDEA0180A9F7482D /* Pods-OCKSampleUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -715,6 +759,7 @@
 		};
 		5173CB9023C3A846007655A0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 78C53EECBF43E2EF4D90CE5C /* Pods-OCKSampleUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

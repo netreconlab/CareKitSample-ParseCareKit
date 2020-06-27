@@ -40,13 +40,13 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   CareKit:
-    :commit: 4fe387dfa0ef7d163f0f0cfcd4355d2c816e8c6c
+    :commit: f1974c5e8a460047b07237231e023feca8e4b8ce
     :git: https://github.com/cbaker6/CareKit.git
   CareKitStore:
-    :commit: 4fe387dfa0ef7d163f0f0cfcd4355d2c816e8c6c
+    :commit: f1974c5e8a460047b07237231e023feca8e4b8ce
     :git: https://github.com/cbaker6/CareKit.git
   CareKitUI:
-    :commit: 4fe387dfa0ef7d163f0f0cfcd4355d2c816e8c6c
+    :commit: f1974c5e8a460047b07237231e023feca8e4b8ce
     :git: https://github.com/cbaker6/CareKit.git
   ParseCareKit:
     :commit: c76b7abea817a40383b3880853926bf9a0d6bffe
@@ -60,6 +60,6 @@ SPEC CHECKSUMS:
   Parse: 79bdda34fdb7eb2a707a43a951c8aae236cb3e34
   ParseCareKit: ead95de3242e664501588c8336681a5605e5d4bf
 
-PODFILE CHECKSUM: 7521f92797edef4a95defc09608a32ca93f1cbaf
+PODFILE CHECKSUM: 12f5f3169ad09061aff8b2d93f6ccf9deff54754
 
 COCOAPODS: 1.9.3

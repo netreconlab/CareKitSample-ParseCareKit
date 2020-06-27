@@ -100,6 +100,7 @@
 		108384146C1919E64537C156F2F8232C /* OCKPersistentStoreCoordinator+Patients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DC91B7930F82B8569B48B042B6ECFD /* OCKPersistentStoreCoordinator+Patients.swift */; };
 		10A4958E0102A6CA5107F7B99FC3372B /* OCKGridTaskController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3B4A9A3B09BE9C6B6DA984E46D2B15 /* OCKGridTaskController.swift */; };
 		10C606D9114AE4ED6A3BA283730E5584 /* OCKUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE85AE522D6CBBEBB56BE4178C1A9915 /* OCKUtilities.swift */; };
+		10D080367F2F4B0D29099A4ED94FE428 /* Pods-OCKSampleUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7197D9C1F8AA88844CFB436A4452E768 /* Pods-OCKSampleUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		10EF452006BA3CD3F20F547615B63A8E /* Localizable.stringsdict in Sources */ = {isa = PBXBuildFile; fileRef = 3A178C9D5B5E8743B98EA146AB9701BB /* Localizable.stringsdict */; };
 		11579168BEA7B812385389A1B40F0AB8 /* OCKAdherenceQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92A8546B979B47C6F0F4513C85A962D /* OCKAdherenceQuery.swift */; };
 		115E49F444045BBDF5425338F480840D /* OCKHealthKitPassthroughStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD6C158D19744082D95778F191C78F8 /* OCKHealthKitPassthroughStore.swift */; };
@@ -216,7 +217,7 @@
 		270A68CC6CED64C8F42D3E3CB1E42336 /* PFObjectState.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DF4F1BF701D9F940ED955E3847F5892 /* PFObjectState.m */; };
 		27210F421D848FF7F1CBBCBFF5829D88 /* PFUserAuthenticationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 88413E52C6765824F86C388381535DC8 /* PFUserAuthenticationController.m */; };
 		2749956E483ED4A5B98CDFE7DA2EB8CE /* PFRESTSessionCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = ECD8C637830A2C2E5763D20FF66FA314 /* PFRESTSessionCommand.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		275486EB6AFF90A1EE4826EB8DCCFFBE /* Pods-OCKSample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A70A569EDBA67D8980239709DF5D662 /* Pods-OCKSample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		275486EB6AFF90A1EE4826EB8DCCFFBE /* Pods-OCKSample-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A91547EF18EA2331ED80A2ADD6D871C2 /* Pods-OCKSample-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2768B520664CDD999F0D7C88F4DE4EF2 /* PFQueryConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 49779001077F074FE48BFBC49E828F0E /* PFQueryConstants.m */; };
 		27BF8556D5D826DD64E6BD7BF76E762A /* PFRESTPushCommand.h in Headers */ = {isa = PBXBuildFile; fileRef = 6ABA6A5A57B6114D8C48CE278E95CCCB /* PFRESTPushCommand.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		27C2A723543555868AD589E13E46443F /* PFCoreManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 89826AEE6D7A824B40E395A524991C3E /* PFCoreManager.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -594,6 +595,7 @@
 		6F9ADD6878F3FC431C13E62FF3C83C74 /* OCKChecklistTaskViewSynchronizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AF06421C5F1F5379DA898B272420D9 /* OCKChecklistTaskViewSynchronizer.swift */; };
 		6FB122197902E83C7C3D299B82EFE3BA /* PFObjectSubclassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = CDF2C469AEC0AC290487C1DF197381D2 /* PFObjectSubclassInfo.m */; };
 		6FCC5FE653A69B3A644464C3F355B542 /* OCKAnyEventStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9828D3E2B6E4A4BF93081E1E35B6EF4 /* OCKAnyEventStore.swift */; };
+		6FFE4853516000FDF26DDBEB6B591869 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE95DCE17C5C1CAB02F49F0B5E814454 /* Foundation.framework */; };
 		7003B5EA57DA5E7A78810ECA47153EBF /* CareKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91154437CA3917C560666E9082E32AAB /* CareKitUI.framework */; };
 		706C684121C1F2343CC2F64A9357245A /* PFEventuallyQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D458F93F337EF88E6042CCBA99C177 /* PFEventuallyQueue.m */; };
 		70789EA9280D595F80423D2E3BFFE0B3 /* OCKAnimationStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6E556C1908A234FB2997F4B420D5A94 /* OCKAnimationStyler.swift */; };
@@ -1006,7 +1008,7 @@
 		BDA66AC19C3A10E7B94C06FFF59CB401 /* InstructionsTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC293D82A822F500E8C9E994661D41A /* InstructionsTaskView.swift */; };
 		BDF7CA7C3B89D18B15E38A06CCD8A791 /* PCKObject+Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94337C520A70468D855DF54DFC49F568 /* PCKObject+Task.swift */; };
 		BE510BB783679CEB898776B2DDAFB0FB /* OCKCDCarePlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEC5EA4B9927F41252E5BA0807EEED9 /* OCKCDCarePlan.swift */; };
-		BF38BC125D35EEEB934ABAC735608C2E /* Pods-OCKWatchSample Extension-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A5F85E0B1D790DAA885834E5DBE5B7 /* Pods-OCKWatchSample Extension-dummy.m */; };
+		BF38BC125D35EEEB934ABAC735608C2E /* Pods-OCKWatchSample Extension-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E85AEAAA89257A8AA70F220FD938C33 /* Pods-OCKWatchSample Extension-dummy.m */; };
 		BF4F6FD8D4824C110C0B8CA3577F8B82 /* OCKTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 383423F4D52248775738CC935A0F99E4 /* OCKTaskViewController.swift */; };
 		BF567C40E29EF1B33CB47AB283BBBA00 /* LabeledValueTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AAB8987266BE164FF644A881A51832 /* LabeledValueTaskView.swift */; };
 		BF82A8599745C3DC1DDF1BC67BEA261D /* PFDateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = E5FECAF7C41A3B2C346597BD628A3108 /* PFDateFormatter.m */; };
@@ -1025,6 +1027,7 @@
 		C1431E109F0D4FD7FB14DFC227F29A64 /* PFUserController.h in Headers */ = {isa = PBXBuildFile; fileRef = 94E381B56B51B26AC023F4E18C06C60D /* PFUserController.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		C14BAA9854A3BB16436E39FC0B202746 /* OCKScatterLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3FAFEABE321F61D02EBFB503987824 /* OCKScatterLayer.swift */; };
 		C188C16460C3BE5AD8538384CE9F3AE7 /* ParseClientConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = 6844C25788F381AE6228607FF4815333 /* ParseClientConfiguration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C1D2113196F9F2573B270E86E531A401 /* Pods-OCKSampleUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6151A095068E0AB9E8E1CE5EA1A34D /* Pods-OCKSampleUITests-dummy.m */; };
 		C1E8C6ADA85C87FEBF6B32C03079A970 /* Bolts-iOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 37E92F7394B83706E3C156F1EBCFA3A9 /* Bolts-iOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C22CE85907EF841298EA5BEF56FB1034 /* OCKAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D801F20D68CD31813855DADF6DD7210 /* OCKAnyEvent.swift */; };
 		C2D3B08A9E0E9F1BE519B9B1E2182AFE /* PFHTTPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = F11B4E93D1BC43FEB895F5238FF8335D /* PFHTTPRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1244,7 +1247,7 @@
 		E36722E356A2C290AFF386BBFD7158BE /* PFURLSession.m in Sources */ = {isa = PBXBuildFile; fileRef = F8CBB80622BA38C16E295E66CB8ACFA8 /* PFURLSession.m */; };
 		E36DB569F85ED734DA8A8E2BD70775CC /* PFMultiProcessFileLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A0BADC349EFF8C4B60AFFF20F20112 /* PFMultiProcessFileLock.m */; };
 		E375F2B1225F4487841FEDB74C5FD424 /* PFCommandRunningConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 93C4A642FBBCDEFC772842C6147DB0B8 /* PFCommandRunningConstants.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		E38623DCBA6D2C4A1F21D63A9EB860F3 /* Pods-OCKSample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5386DDC50DDCF114170554FB62AFB5F2 /* Pods-OCKSample-dummy.m */; };
+		E38623DCBA6D2C4A1F21D63A9EB860F3 /* Pods-OCKSample-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BD9041C41688DAA22F32EF2E1B00468 /* Pods-OCKSample-dummy.m */; };
 		E3DBFED2AB5531FAFF49E522E818ABBB /* PFACL.m in Sources */ = {isa = PBXBuildFile; fileRef = C81EF1194BF3C612159E4DD3D074D085 /* PFACL.m */; };
 		E3E74BE5ED4247909AB9198983C5EB3C /* PFURLSessionUploadTaskDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F30227F070F23C9B951161C1B72AB88B /* PFURLSessionUploadTaskDelegate.m */; };
 		E40CBB4977EDD210AB1069E2A83EF437 /* PFCategoryLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C70BBD3BF9EC3E3B1933E102817AF84 /* PFCategoryLoader.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -1344,7 +1347,7 @@
 		F43688F544DFB96BC78CD73B38F7ED89 /* PFFileObject+Synchronous.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D07D4F98BBACA7706B919267270B67E /* PFFileObject+Synchronous.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F470D704E1CEC0EEF33B48D3FA874097 /* OCKBiologicalSex.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF526EF5D9007E5F8FE02B0C11353812 /* OCKBiologicalSex.swift */; };
 		F4BF883E06E4BB82021E67156B407FF2 /* ParseInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = 8E802BCB4D54F2C8607CCD0990F9E228 /* ParseInternal.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		F4C2ABBC54D993FFA68AF846951916E7 /* Pods-OCKWatchSample Extension-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DC0B7CD78A2C1816950D77A2B6B6E5CC /* Pods-OCKWatchSample Extension-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F4C2ABBC54D993FFA68AF846951916E7 /* Pods-OCKWatchSample Extension-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F90217C7483EAAF55284624E177BDBFE /* Pods-OCKWatchSample Extension-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F4C5EDE0E6BBA02B5313A5C574DDD623 /* os_log+CareKitUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF3D3999386E4C81D4093F63FE581F4 /* os_log+CareKitUI.swift */; };
 		F4D5CA73BEF7900120874C021C9FD2DE /* CareKitUI-watchOS-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3566BE6819363A608B888859B3B64760 /* CareKitUI-watchOS-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F4D73B7E4AB63CE6DE5D713A9F645D37 /* OutcomeValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC185EE6DB13523B7A3870B0A1EFCE5 /* OutcomeValue.swift */; };
@@ -1472,12 +1475,26 @@
 			remoteGlobalIDString = B76698423BC03EF849A89368BD556652;
 			remoteInfo = "ParseCareKit-watchOS";
 		};
+		2EE5A930E8167BE06D3B4CE1E26A9E11 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A04582400606BB02D715D6C15E301E6;
+			remoteInfo = "Parse-iOS";
+		};
 		38CE2FD02B8B7AF61BD23130B7BC8E06 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = C562BE2B39E391793B8568F76CAC3B35;
 			remoteInfo = "Bolts-watchOS";
+		};
+		4107F8293AFA6EEC12B655797479E7F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3CB01EDC4F9EEBD7408720D018948F7A;
+			remoteInfo = "CareKitUI-iOS";
 		};
 		41A14D415FA2094EEDB422EF26A055BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1521,6 +1538,13 @@
 			remoteGlobalIDString = 6A04582400606BB02D715D6C15E301E6;
 			remoteInfo = "Parse-iOS";
 		};
+		6595DB21ED8E5CFC5C5EE2E9DA854852 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 17A3DBEC70D4AF0EE3166CCFCD9D011C;
+			remoteInfo = "ParseCareKit-iOS";
+		};
 		695B3FE1B469A9E20ACA93E07D90A378 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
@@ -1563,12 +1587,26 @@
 			remoteGlobalIDString = 3CB01EDC4F9EEBD7408720D018948F7A;
 			remoteInfo = "CareKitUI-iOS";
 		};
+		A67EF5D5050A7DC2DBD530EB89FEEC89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A30252BF34A7A2067F6A80CE0E21CB68;
+			remoteInfo = "CareKit-iOS";
+		};
 		A951DD56DCC081DC60FAC9F77045F05A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = A30252BF34A7A2067F6A80CE0E21CB68;
 			remoteInfo = "CareKit-iOS";
+		};
+		ADE1E24EFF706DBED897DD59EDD8A58B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 42219C2BE12A899F961642315D37C57E;
+			remoteInfo = "CareKitStore-iOS";
 		};
 		C878B76022B2D0DCC9A6DB5D22156FB1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1583,6 +1621,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 57BF1F898DE1147E9CFE38C223DBEE12;
 			remoteInfo = "CareKitUI-watchOS";
+		};
+		D6E2C7AF33B8537676525B28CAF2DFF1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A14B19C2715826C79606A40B9C384E2D;
+			remoteInfo = "Bolts-iOS";
 		};
 		EBA275A074B037090A85CBFE6C0F163E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1601,6 +1646,7 @@
 		00DBEE88AE96A61260FD54EAB2DF2798 /* OCKSimpleContactView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKSimpleContactView.swift; path = CareKitUI/CareKitUI/iOS/Contact/OCKSimpleContactView.swift; sourceTree = "<group>"; };
 		00FB9724766E20BF83EF554CD4FDC48C /* PFOperationSet.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFOperationSet.h; path = Parse/Parse/Internal/Object/OperationSet/PFOperationSet.h; sourceTree = "<group>"; };
 		01E79AF215885A2439E428D3B0D0B162 /* CareKit-watchOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "CareKit-watchOS-prefix.pch"; path = "../CareKit-watchOS/CareKit-watchOS-prefix.pch"; sourceTree = "<group>"; };
+		021FED36AB065DEA1E96559185540122 /* Pods-OCKWatchSample Extension-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKWatchSample Extension-acknowledgements.plist"; sourceTree = "<group>"; };
 		026801FB29DE60FDD0A0AA9803D5299E /* Parse-watchOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Parse-watchOS-umbrella.h"; path = "../Parse-watchOS/Parse-watchOS-umbrella.h"; sourceTree = "<group>"; };
 		028A82BFB351022F759C720345736129 /* PFObjectSubclassingController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectSubclassingController.h; path = Parse/Parse/Internal/Object/Subclassing/PFObjectSubclassingController.h; sourceTree = "<group>"; };
 		0300AEE0792DA2445BBD7412621CA1DB /* OCKGridTaskCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKGridTaskCell.swift; path = CareKitUI/CareKitUI/iOS/Task/Collection/OCKGridTaskCell.swift; sourceTree = "<group>"; };
@@ -1616,6 +1662,7 @@
 		06053296DB4C73407074B1F394A8C042 /* PCKObject+Note.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "PCKObject+Note.swift"; path = "ParseCareKit/Extensions/PCKObject+Note.swift"; sourceTree = "<group>"; };
 		061FF1F4B09A3D5CB87F489948CC4BBE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		0668C83CFE17FDD446C0B6E22012D1F0 /* PFAnonymousAuthenticationProvider.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFAnonymousAuthenticationProvider.m; path = Parse/Parse/Internal/User/AuthenticationProviders/Providers/Anonymous/PFAnonymousAuthenticationProvider.m; sourceTree = "<group>"; };
+		06AF2F724E1694275D1DF531DDD9F78E /* Pods-OCKSampleUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKSampleUITests-acknowledgements.plist"; sourceTree = "<group>"; };
 		06BB19A1B385785BED37026DF05B6280 /* OCKOutcomeStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKOutcomeStore.swift; path = CareKitStore/CareKitStore/Protocols/Outcomes/OCKOutcomeStore.swift; sourceTree = "<group>"; };
 		076489C949C1C898AF8FCE584AE231A3 /* CareKitStore-watchOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "CareKitStore-watchOS-Info.plist"; path = "../CareKitStore-watchOS/CareKitStore-watchOS-Info.plist"; sourceTree = "<group>"; };
 		0767383D3DD4DDC026A756DF1480AE5D /* PFRelation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRelation.h; path = Parse/Parse/PFRelation.h; sourceTree = "<group>"; };
@@ -1624,10 +1671,8 @@
 		091D8AB980E7E08B7A60C3E472C715B4 /* PFACLState_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFACLState_Private.h; path = Parse/Parse/Internal/ACL/State/PFACLState_Private.h; sourceTree = "<group>"; };
 		092042108A30CB850138398CAC5C9850 /* PFObjectState_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectState_Private.h; path = Parse/Parse/Internal/Object/State/PFObjectState_Private.h; sourceTree = "<group>"; };
 		097E79714201FDBA1D2950977E4E786B /* OCKCDPostalAddress.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCDPostalAddress.swift; path = CareKitStore/CareKitStore/CoreData/OCKCDPostalAddress.swift; sourceTree = "<group>"; };
-		09A3BF3578CBA624FC4D0437E403B275 /* Pods-OCKWatchSample Extension-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKWatchSample Extension-Info.plist"; sourceTree = "<group>"; };
 		09BF9B829E534057D8CA9D22770A15EB /* CareKitUI-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "CareKitUI-iOS-umbrella.h"; sourceTree = "<group>"; };
 		09E7B9B4F6C152E315EC7DC7033E051E /* PFTaskQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFTaskQueue.h; path = Parse/Parse/Internal/PFTaskQueue.h; sourceTree = "<group>"; };
-		0A70A569EDBA67D8980239709DF5D662 /* Pods-OCKSample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OCKSample-umbrella.h"; sourceTree = "<group>"; };
 		0A7575A88243811B715AE23AF17858F7 /* PFNetworkCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFNetworkCommand.h; path = Parse/Parse/Internal/PFNetworkCommand.h; sourceTree = "<group>"; };
 		0AF6A188F33161D3BBBE73E7FEF48925 /* PFCoreManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCoreManager.m; path = Parse/Parse/Internal/PFCoreManager.m; sourceTree = "<group>"; };
 		0B077BA810D9C9E0204075151A24BCA0 /* OCKOutcome.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKOutcome.swift; path = CareKitStore/CareKitStore/Structs/OCKOutcome.swift; sourceTree = "<group>"; };
@@ -1644,6 +1689,7 @@
 		0F151E704371F1C212F14565FF9B30F9 /* PFBase64Encoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFBase64Encoder.h; path = Parse/Parse/Internal/PFBase64Encoder.h; sourceTree = "<group>"; };
 		0FB626D8D629BA90A427979FCD5EDCE9 /* OCKSimpleTaskView+Updatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OCKSimpleTaskView+Updatable.swift"; path = "CareKit/CareKit/iOS/View Updaters/Task/OCKSimpleTaskView+Updatable.swift"; sourceTree = "<group>"; };
 		0FE6805FDDD6A6AD187254C2CEC7523A /* PFMutableUserState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMutableUserState.h; path = Parse/Parse/Internal/User/State/PFMutableUserState.h; sourceTree = "<group>"; };
+		10410D429EC48C44C2D994390375F8B8 /* Pods-OCKSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKSample.debug.xcconfig"; sourceTree = "<group>"; };
 		10586455ADAD259F2374B5A96B9837DF /* OCKCartesianChartView+Updatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OCKCartesianChartView+Updatable.swift"; path = "CareKit/CareKit/iOS/View Updaters/Chart/OCKCartesianChartView+Updatable.swift"; sourceTree = "<group>"; };
 		112E1234B23564569A390943F0BE2230 /* OCKHealthKitProxy.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKHealthKitProxy.swift; path = CareKitStore/CareKitStore/HealthKit/OCKHealthKitProxy.swift; sourceTree = "<group>"; };
 		1140338E6FF8C025309D41C2342A15A6 /* ParseModule.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ParseModule.m; path = Parse/Parse/Internal/ParseModule.m; sourceTree = "<group>"; };
@@ -1680,7 +1726,6 @@
 		1E8A0AA0B6B5D21D8038F20E680EF112 /* CareKitStore-iOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "CareKitStore-iOS.modulemap"; sourceTree = "<group>"; };
 		1ED33080ECC9D282AA1A6B92946F43BB /* PFRESTFileCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTFileCommand.h; path = Parse/Parse/Internal/Commands/PFRESTFileCommand.h; sourceTree = "<group>"; };
 		1F1C3527638FD5213AA27951D0EFECAC /* PFOfflineQueryController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFOfflineQueryController.h; path = Parse/Parse/Internal/Query/Controller/PFOfflineQueryController.h; sourceTree = "<group>"; };
-		1F2ACCF415A6EFCEB00D6014D84C4ED6 /* Pods-OCKSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKSample.release.xcconfig"; sourceTree = "<group>"; };
 		1F70B18FACC00BEC0B2772AA757BA58D /* OCKObjectCompatible.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKObjectCompatible.swift; path = CareKitStore/CareKitStore/Protocols/OCKObjectCompatible.swift; sourceTree = "<group>"; };
 		1F93A6C7DBBE4A9F0B5A06DCA44B0692 /* View+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "View+Extension.swift"; path = "CareKitUI/CareKitUI/Shared/Extensions/View+Extension.swift"; sourceTree = "<group>"; };
 		205DCB68E379B28FFC1CEFDC1F34E830 /* BFCancellationTokenRegistration.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BFCancellationTokenRegistration.h; path = Bolts/Common/BFCancellationTokenRegistration.h; sourceTree = "<group>"; };
@@ -1697,6 +1742,7 @@
 		235EAF3BC432E626D81DDD8EF15223C1 /* OCKHealthKitLinkage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKHealthKitLinkage.swift; path = CareKitStore/CareKitStore/Structs/OCKHealthKitLinkage.swift; sourceTree = "<group>"; };
 		23790C31B06A1F3D0E8F6EB875D00905 /* OCKCDClock.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCDClock.swift; path = CareKitStore/CareKitStore/CoreData/OCKCDClock.swift; sourceTree = "<group>"; };
 		23BC81068849158AD09A73697D7C3BFF /* SimpleTaskView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SimpleTaskView.swift; path = CareKitUI/CareKitUI/Shared/Task/SimpleTaskView.swift; sourceTree = "<group>"; };
+		23D5CDC88AE2888B23F1B7B64ACF78A3 /* Pods-OCKSample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-OCKSample-frameworks.sh"; sourceTree = "<group>"; };
 		23F741D594820CBAF605B57ED3834829 /* OCKRingView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKRingView.swift; path = CareKitUI/CareKitUI/iOS/Calendar/Ring/OCKRingView.swift; sourceTree = "<group>"; };
 		2425032F407D2C230B7804049C8A91FD /* PFRESTCloudCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTCloudCommand.h; path = Parse/Parse/Internal/Commands/PFRESTCloudCommand.h; sourceTree = "<group>"; };
 		24415982BA7276C38B258864099D5990 /* PFApplication.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFApplication.h; path = Parse/Parse/Internal/PFApplication.h; sourceTree = "<group>"; };
@@ -1729,6 +1775,7 @@
 		2C8A2FEF5CBE39067E56CE32708167B5 /* OCKInstructionsTaskView+Updatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OCKInstructionsTaskView+Updatable.swift"; path = "CareKit/CareKit/iOS/View Updaters/Task/OCKInstructionsTaskView+Updatable.swift"; sourceTree = "<group>"; };
 		2DE1F93C155E87A807A9CC22FE1238AF /* PFMulticastDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMulticastDelegate.h; path = Parse/Parse/Internal/PFMulticastDelegate.h; sourceTree = "<group>"; };
 		2E3B9C98C933EC1EE65150C48BF603F4 /* CareKitStore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CareKitStore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CareKitStore.framework; sourceTree = DEVELOPER_DIR; };
+		2E3E20B0F2736A1918EB0D0BE862955B /* Pods-OCKWatchSample Extension-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-OCKWatchSample Extension-frameworks.sh"; sourceTree = "<group>"; };
 		2E5011EED9C4579C15A049A2E8EDE758 /* OCKBarPlotView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKBarPlotView.swift; path = "CareKitUI/CareKitUI/iOS/Charts/Gradient Plots/OCKBarPlotView.swift"; sourceTree = "<group>"; };
 		2E766FFD035FE99B296AD39D9EAB685C /* OCKChecklistTaskView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKChecklistTaskView.swift; path = CareKitUI/CareKitUI/iOS/Task/OCKChecklistTaskView.swift; sourceTree = "<group>"; };
 		2EB68EEABB81811C3F140B1C5E02627A /* OCKManagedObjectModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKManagedObjectModel.swift; path = CareKitStore/CareKitStore/CoreData/OCKManagedObjectModel.swift; sourceTree = "<group>"; };
@@ -1748,11 +1795,13 @@
 		340CCB47A272777C06F00E619CB83D6E /* OCKContactViewSynchronizerProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKContactViewSynchronizerProtocol.swift; path = CareKit/CareKit/iOS/Contact/Synchronizers/OCKContactViewSynchronizerProtocol.swift; sourceTree = "<group>"; };
 		342525C72979DA051CD6CD3146781B91 /* PFCloud.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCloud.h; path = Parse/Parse/PFCloud.h; sourceTree = "<group>"; };
 		346F99ABD3F5D14CC7D8DD19A2B3975A /* CareKitUI-watchOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "CareKitUI-watchOS.release.xcconfig"; path = "../CareKitUI-watchOS/CareKitUI-watchOS.release.xcconfig"; sourceTree = "<group>"; };
+		34BAF2B30C56EE855DB423CB88466AFB /* Pods-OCKSample-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKSample-Info.plist"; sourceTree = "<group>"; };
 		35150028962D806E2966A42901A8CEBA /* PFRESTUserCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRESTUserCommand.m; path = Parse/Parse/Internal/Commands/PFRESTUserCommand.m; sourceTree = "<group>"; };
 		353C66DCC3FA1525DE2E6F60AE9B2B2B /* PFDefaultACLController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFDefaultACLController.m; path = Parse/Parse/Internal/ACL/DefaultACLController/PFDefaultACLController.m; sourceTree = "<group>"; };
 		3566BE6819363A608B888859B3B64760 /* CareKitUI-watchOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "CareKitUI-watchOS-umbrella.h"; path = "../CareKitUI-watchOS/CareKitUI-watchOS-umbrella.h"; sourceTree = "<group>"; };
 		35A56DFEEB7901F2CC42E64F79199D50 /* Bolts-watchOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Bolts-watchOS-prefix.pch"; path = "../Bolts-watchOS/Bolts-watchOS-prefix.pch"; sourceTree = "<group>"; };
 		371110AE46E178CE5B2C04FA060B2439 /* PFPushState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFPushState.m; path = Parse/Parse/Internal/Push/State/PFPushState.m; sourceTree = "<group>"; };
+		371A35475D9251EC17F1D0630984692F /* Pods-OCKSampleUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKSampleUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3782300C3CEB8E03128DBE01649347F0 /* OCKGridView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKGridView.swift; path = CareKitUI/CareKitUI/iOS/Charts/OCKGridView.swift; sourceTree = "<group>"; };
 		37A82BAA0A2B5207C1B32B4B84B678AE /* LinkItem.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LinkItem.swift; path = CareKitUI/CareKitUI/iOS/Link/LinkItem.swift; sourceTree = "<group>"; };
 		37E92F7394B83706E3C156F1EBCFA3A9 /* Bolts-iOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Bolts-iOS-umbrella.h"; sourceTree = "<group>"; };
@@ -1770,6 +1819,7 @@
 		3B7C50A403F1A8A098BD563CD3C3E9D8 /* OCKStoreError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKStoreError.swift; path = CareKitStore/CareKitStore/OCKStoreError.swift; sourceTree = "<group>"; };
 		3B9148E5E41D27B0A9119FAE8C33AA9E /* OCKStore+CarePlans.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OCKStore+CarePlans.swift"; path = "CareKitStore/CareKitStore/CoreData/OCKStore+CarePlans.swift"; sourceTree = "<group>"; };
 		3BB09FBCFA424E2144E8D62209C0BDD0 /* ScheduleElement.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ScheduleElement.swift; path = ParseCareKit/PCKObjects/ScheduleElement.swift; sourceTree = "<group>"; };
+		3BD9041C41688DAA22F32EF2E1B00468 /* Pods-OCKSample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OCKSample-dummy.m"; sourceTree = "<group>"; };
 		3BEFF5E9C54C51709938A0276B60C77D /* PFMutableUserState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMutableUserState.m; path = Parse/Parse/Internal/User/State/PFMutableUserState.m; sourceTree = "<group>"; };
 		3C70BBD3BF9EC3E3B1933E102817AF84 /* PFCategoryLoader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFCategoryLoader.h; path = Parse/Parse/Internal/PFCategoryLoader.h; sourceTree = "<group>"; };
 		3CF1929D34150137308C72C90AB36EA2 /* PFJSONSerialization.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFJSONSerialization.m; path = Parse/Parse/Internal/PFJSONSerialization.m; sourceTree = "<group>"; };
@@ -1781,6 +1831,7 @@
 		3EABA1527E033402B7E7624CA8C9AB32 /* PFHTTPURLRequestConstructor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFHTTPURLRequestConstructor.h; path = Parse/Parse/Internal/HTTPRequest/PFHTTPURLRequestConstructor.h; sourceTree = "<group>"; };
 		3F93080C27698B79345B5A051937DEF9 /* OCKPatient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKPatient.swift; path = CareKitStore/CareKitStore/Structs/OCKPatient.swift; sourceTree = "<group>"; };
 		41456A8443356A647C43976B6CDD037A /* PFURLSessionCommandRunner.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFURLSessionCommandRunner.m; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/PFURLSessionCommandRunner.m; sourceTree = "<group>"; };
+		415C51C02AA8405C3E9D97F4380EFC85 /* Pods-OCKSampleUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-OCKSampleUITests-frameworks.sh"; sourceTree = "<group>"; };
 		4187F1AAEB53516EA9416E79CDFC3F39 /* PFRelationState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRelationState.h; path = Parse/Parse/Internal/Relation/State/PFRelationState.h; sourceTree = "<group>"; };
 		418AF1A5491CBBA8526F51A7433678C2 /* PFOfflineQueryLogic.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFOfflineQueryLogic.m; path = Parse/Parse/Internal/LocalDataStore/OfflineQueryLogic/PFOfflineQueryLogic.m; sourceTree = "<group>"; };
 		42D7DBDC328D6B8E1452606DA6C1AE5A /* OCKGridTaskView+Updatable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OCKGridTaskView+Updatable.swift"; path = "CareKit/CareKit/iOS/View Updaters/Task/OCKGridTaskView+Updatable.swift"; sourceTree = "<group>"; };
@@ -1806,8 +1857,6 @@
 		48AC96FC391311E8FE51B0ECACB3E4B1 /* NumericProgressTaskView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NumericProgressTaskView.swift; path = CareKit/CareKit/iOS/Task/NumericProgressTaskView.swift; sourceTree = "<group>"; };
 		48AE75C9ECFDD2BFD9C51559D2654EF1 /* PFEventuallyPin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFEventuallyPin.h; path = Parse/Parse/Internal/PFEventuallyPin.h; sourceTree = "<group>"; };
 		48D70218305D57A631D765A952A4F2A3 /* LinkLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LinkLabel.swift; path = CareKitUI/CareKitUI/iOS/Link/LinkLabel.swift; sourceTree = "<group>"; };
-		48DEB01FE892293FA230D6321B06055B /* Pods-OCKWatchSample Extension-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-OCKWatchSample Extension-frameworks.sh"; sourceTree = "<group>"; };
-		48E9615349E32D108614621AECC14AEB /* Pods-OCKWatchSample Extension-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OCKWatchSample Extension-acknowledgements.markdown"; sourceTree = "<group>"; };
 		4918AD79667B06378553FB77165A51E4 /* PFURLSessionDataTaskDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFURLSessionDataTaskDelegate.m; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionDataTaskDelegate.m; sourceTree = "<group>"; };
 		49286A32544DEEC5EB6D2C048D342A7D /* PFRESTAnalyticsCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTAnalyticsCommand.h; path = Parse/Parse/Internal/Commands/PFRESTAnalyticsCommand.h; sourceTree = "<group>"; };
 		4960060492636296560FD8A04AEBBC2B /* PFFileObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileObject.m; path = Parse/Parse/PFFileObject.m; sourceTree = "<group>"; };
@@ -1847,8 +1896,7 @@
 		517C4724B61BA1E60564E180C0CE33EA /* PFUserConstants.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserConstants.m; path = Parse/Parse/Internal/User/Constants/PFUserConstants.m; sourceTree = "<group>"; };
 		51CC5E84E63AA630ABCDB0998DFA38FB /* OCKCartesianGraphView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCartesianGraphView.swift; path = CareKitUI/CareKitUI/iOS/Charts/OCKCartesianGraphView.swift; sourceTree = "<group>"; };
 		531593C53742BBBA870548D30284ADB2 /* PFEventuallyQueue_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFEventuallyQueue_Private.h; path = Parse/Parse/Internal/PFEventuallyQueue_Private.h; sourceTree = "<group>"; };
-		5386DDC50DDCF114170554FB62AFB5F2 /* Pods-OCKSample-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OCKSample-dummy.m"; sourceTree = "<group>"; };
-		53A5F85E0B1D790DAA885834E5DBE5B7 /* Pods-OCKWatchSample Extension-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OCKWatchSample Extension-dummy.m"; sourceTree = "<group>"; };
+		53A7360B848D92C5C2AFCE2E3D747B3A /* Pods-OCKWatchSample Extension-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKWatchSample Extension-Info.plist"; sourceTree = "<group>"; };
 		54095EE99CC5B6E8A1281E12FA11F5D8 /* PFUserFileCodingLogic.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserFileCodingLogic.m; path = Parse/Parse/Internal/User/Coder/File/PFUserFileCodingLogic.m; sourceTree = "<group>"; };
 		54C0A299ADB450E15676140A366C72BF /* ParseManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ParseManager.m; path = Parse/Parse/Internal/ParseManager.m; sourceTree = "<group>"; };
 		54E20BD675FA6CBBE63AB23242F1D217 /* PFFileUploadResult.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFileUploadResult.h; path = Parse/Parse/PFFileUploadResult.h; sourceTree = "<group>"; };
@@ -1954,6 +2002,7 @@
 		70DC91B7930F82B8569B48B042B6ECFD /* OCKPersistentStoreCoordinator+Patients.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OCKPersistentStoreCoordinator+Patients.swift"; path = "CareKitStore/CareKitStore/StoreCoordinator/OCKPersistentStoreCoordinator+Patients.swift"; sourceTree = "<group>"; };
 		70F49218DFDB5D82271B3571DA0FC5E2 /* PFACLPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFACLPrivate.h; path = Parse/Parse/Internal/ACL/PFACLPrivate.h; sourceTree = "<group>"; };
 		711079F149EC5B8F3633AE3CF7FA97BF /* OCKContact+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OCKContact+Extensions.swift"; path = "CareKit/CareKit/iOS/Extensions/OCKContact+Extensions.swift"; sourceTree = "<group>"; };
+		7197D9C1F8AA88844CFB436A4452E768 /* Pods-OCKSampleUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OCKSampleUITests-umbrella.h"; sourceTree = "<group>"; };
 		71B8BAA439ED0B003B619485C37F8AFE /* PFPushUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPushUtilities.h; path = Parse/Parse/Internal/Push/Utilites/PFPushUtilities.h; sourceTree = "<group>"; };
 		725C6F5DC735690EF39DF49C061932EE /* PFCurrentUserController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCurrentUserController.m; path = Parse/Parse/Internal/User/CurrentUserController/PFCurrentUserController.m; sourceTree = "<group>"; };
 		72643836513D482954A02DBF23502223 /* PFPushChannelsController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPushChannelsController.h; path = Parse/Parse/Internal/Push/ChannelsController/PFPushChannelsController.h; sourceTree = "<group>"; };
@@ -1975,7 +2024,6 @@
 		77D458F93F337EF88E6042CCBA99C177 /* PFEventuallyQueue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFEventuallyQueue.m; path = Parse/Parse/Internal/PFEventuallyQueue.m; sourceTree = "<group>"; };
 		77F985F4DE3F52CA3BC54425ED6BA9AB /* PFQuery.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFQuery.h; path = Parse/Parse/PFQuery.h; sourceTree = "<group>"; };
 		786C83B0328903AB5D36B7322CF7A995 /* PFRESTCloudCommand.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFRESTCloudCommand.m; path = Parse/Parse/Internal/Commands/PFRESTCloudCommand.m; sourceTree = "<group>"; };
-		788866A8E0ED91E6B748FF4EC36B9EF8 /* Pods-OCKSample-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-OCKSample-frameworks.sh"; sourceTree = "<group>"; };
 		78945E4ADF2DB3BA1D3398AF200745DD /* OCKTaskEvents.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKTaskEvents.swift; path = CareKit/CareKit/Shared/Task/Controller/OCKTaskEvents.swift; sourceTree = "<group>"; };
 		791B0F0DD5D7C378860847B36B3302E8 /* ParseRemoteSynchronizationManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ParseRemoteSynchronizationManager.swift; path = ParseCareKit/ParseRemoteSynchronizationManager.swift; sourceTree = "<group>"; };
 		79412FAB92101657CD82F8326B6D2631 /* PFFileController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileController.m; path = Parse/Parse/Internal/File/Controller/PFFileController.m; sourceTree = "<group>"; };
@@ -1998,6 +2046,7 @@
 		7E905D6825A1043E7917BB653F0CC9E8 /* PFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFNetworkActivityIndicatorManager.h; path = Parse/Parse/PFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		7F008E8D4B688FBCAD6E3A741298268D /* PFFieldOperationDecoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFieldOperationDecoder.m; path = Parse/Parse/Internal/FieldOperation/PFFieldOperationDecoder.m; sourceTree = "<group>"; };
 		7F8ECCA42A80D4B97D78CDB3676C6E91 /* PFQueryState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFQueryState.m; path = Parse/Parse/Internal/Query/State/PFQueryState.m; sourceTree = "<group>"; };
+		800BD17C65B9946239D7D119E5E4CFDF /* Pods_OCKSampleUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_OCKSampleUITests.framework; path = "Pods-OCKSampleUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		801A5DFE60105512EB311F304F10281D /* BFCancellationTokenRegistration.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BFCancellationTokenRegistration.m; path = Bolts/Common/BFCancellationTokenRegistration.m; sourceTree = "<group>"; };
 		80A10A263776AA9ABDA4F06952A49DB3 /* PFFileUploadResult.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileUploadResult.m; path = Parse/Parse/Internal/File/Controller/PFFileUploadResult.m; sourceTree = "<group>"; };
 		80AAB8987266BE164FF644A881A51832 /* LabeledValueTaskView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LabeledValueTaskView.swift; path = CareKitUI/CareKitUI/iOS/Task/LabeledValueTaskView.swift; sourceTree = "<group>"; };
@@ -2006,6 +2055,7 @@
 		81EA635E3E64ED29628068CCA8BB1F26 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
 		822C04B7A937097F4A331A525A8EE130 /* OCKOutcomeStoreDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKOutcomeStoreDelegate.swift; path = CareKitStore/CareKitStore/Protocols/Outcomes/OCKOutcomeStoreDelegate.swift; sourceTree = "<group>"; };
 		82BECF447DB5125B3528698F2B87A437 /* Number+Extensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "Number+Extensions.swift"; path = "CareKitUI/CareKitUI/Shared/Extensions/Number+Extensions.swift"; sourceTree = "<group>"; };
+		82FCD7399FA20B377EA09D21B3FED0DA /* Pods-OCKSample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-OCKSample.modulemap"; sourceTree = "<group>"; };
 		83B21D5465EE878C1180ABF067E1EA87 /* CareKitStore-iOS-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "CareKitStore-iOS-dummy.m"; sourceTree = "<group>"; };
 		849A846EF463C1D103DF6E8D775EE26B /* PFURLSessionFileDownloadTaskDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLSessionFileDownloadTaskDelegate.h; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionFileDownloadTaskDelegate.h; sourceTree = "<group>"; };
 		852CD874D267F4F910D24D9F0436BBB9 /* OCKContactStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKContactStore.swift; path = CareKitStore/CareKitStore/Protocols/Contacts/OCKContactStore.swift; sourceTree = "<group>"; };
@@ -2018,6 +2068,7 @@
 		86AD148B272B1BAB057CF903ECC532F9 /* PFLocationManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFLocationManager.m; path = Parse/Parse/Internal/PFLocationManager.m; sourceTree = "<group>"; };
 		86AE3C55B256639D99031B51B680B219 /* PFConfigController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFConfigController.h; path = Parse/Parse/Internal/Config/Controller/PFConfigController.h; sourceTree = "<group>"; };
 		86B60972E42A3A404E8C7BEEB49F4E9E /* PFCommandURLRequestConstructor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCommandURLRequestConstructor.m; path = Parse/Parse/Internal/Commands/CommandRunner/URLRequestConstructor/PFCommandURLRequestConstructor.m; sourceTree = "<group>"; };
+		87D1BD9E91F4831B0AC22030FEAA8167 /* Pods-OCKWatchSample Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKWatchSample Extension.release.xcconfig"; sourceTree = "<group>"; };
 		88413E52C6765824F86C388381535DC8 /* PFUserAuthenticationController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserAuthenticationController.m; path = Parse/Parse/Internal/User/AuthenticationProviders/Controller/PFUserAuthenticationController.m; sourceTree = "<group>"; };
 		88532266DE75283DA9045145C555CC09 /* OCKFeaturedContentView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKFeaturedContentView.swift; path = "CareKitUI/CareKitUI/iOS/Featured Content/OCKFeaturedContentView.swift"; sourceTree = "<group>"; };
 		886741EE4BAEDAE3228226CB443C283F /* ParseCareKit-iOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ParseCareKit-iOS-prefix.pch"; sourceTree = "<group>"; };
@@ -2026,6 +2077,7 @@
 		898DE4E879FAF426A51E569FC6F2FAF1 /* CareKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CareKitUI.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS5.2.sdk/System/Library/Frameworks/CareKitUI.framework; sourceTree = DEVELOPER_DIR; };
 		89BF7DF53F52F054309C74E2BB7005E9 /* PFACL.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFACL.h; path = Parse/Parse/PFACL.h; sourceTree = "<group>"; };
 		8A521395726776453FA9AD2941694F5F /* PFAlertView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFAlertView.m; path = Parse/Parse/Internal/PFAlertView.m; sourceTree = "<group>"; };
+		8AB1641A6FC60128C3038D99C9DB2162 /* Pods-OCKWatchSample Extension-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OCKWatchSample Extension-acknowledgements.markdown"; sourceTree = "<group>"; };
 		8B09528CAE67E92E27466EA8BD33CF83 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		8B46AE1D64FD8CB804FAE47F27ABD631 /* OCKCartesianChartViewSynchronizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCartesianChartViewSynchronizer.swift; path = CareKit/CareKit/iOS/Chart/Synchronizers/OCKCartesianChartViewSynchronizer.swift; sourceTree = "<group>"; };
 		8C27D0A1CAF6C027C849C28327622E12 /* PFSessionUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFSessionUtilities.m; path = Parse/Parse/Internal/Session/Utilities/PFSessionUtilities.m; sourceTree = "<group>"; };
@@ -2036,6 +2088,7 @@
 		8DC866B0679946B3A07A2B5B77CD7058 /* PFQueryConstants.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFQueryConstants.h; path = Parse/Parse/Internal/Query/PFQueryConstants.h; sourceTree = "<group>"; };
 		8E044AC6651EBA0470E4CD055BD1CAEE /* PFURLConstructor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFURLConstructor.h; path = Parse/Parse/Internal/HTTPRequest/PFURLConstructor.h; sourceTree = "<group>"; };
 		8E802BCB4D54F2C8607CCD0990F9E228 /* ParseInternal.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ParseInternal.h; path = Parse/Parse/Internal/ParseInternal.h; sourceTree = "<group>"; };
+		8E85AEAAA89257A8AA70F220FD938C33 /* Pods-OCKWatchSample Extension-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OCKWatchSample Extension-dummy.m"; sourceTree = "<group>"; };
 		8EADEDC807B1629B8E718A8043D8470C /* PFObjectFileCoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectFileCoder.m; path = Parse/Parse/Internal/Object/Coder/File/PFObjectFileCoder.m; sourceTree = "<group>"; };
 		8EC9936C569C61EC2029053720D6E5A1 /* PFEventuallyQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFEventuallyQueue.h; path = Parse/Parse/Internal/PFEventuallyQueue.h; sourceTree = "<group>"; };
 		8F20FEDAA522FD2827CA2E67ECEFE8E6 /* PFThreadsafety.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFThreadsafety.m; path = Parse/Parse/Internal/ThreadSafety/PFThreadsafety.m; sourceTree = "<group>"; };
@@ -2059,6 +2112,7 @@
 		93FF4A80AA70E613C4CD8F497BEA5520 /* CareKitUI-iOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "CareKitUI-iOS-Info.plist"; sourceTree = "<group>"; };
 		94187CAF63C313C222F5AB7438DA3756 /* PFPin.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPin.h; path = Parse/Parse/Internal/LocalDataStore/Pin/PFPin.h; sourceTree = "<group>"; };
 		94337C520A70468D855DF54DFC49F568 /* PCKObject+Task.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "PCKObject+Task.swift"; path = "ParseCareKit/Extensions/PCKObject+Task.swift"; sourceTree = "<group>"; };
+		9457C648E185C19302CA4A0EB0FF391A /* Pods-OCKWatchSample Extension.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-OCKWatchSample Extension.modulemap"; sourceTree = "<group>"; };
 		94B280031CB14556D34D45DF997C7337 /* PFQuery+Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFQuery+Deprecated.h"; path = "Parse/Parse/PFQuery+Deprecated.h"; sourceTree = "<group>"; };
 		94E381B56B51B26AC023F4E18C06C60D /* PFUserController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFUserController.h; path = Parse/Parse/Internal/User/Controller/PFUserController.h; sourceTree = "<group>"; };
 		94F3926DC76343BA5BF50260060965BC /* CareKit-watchOS-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "CareKit-watchOS-umbrella.h"; path = "../CareKit-watchOS/CareKit-watchOS-umbrella.h"; sourceTree = "<group>"; };
@@ -2083,16 +2137,17 @@
 		9949DFF5AD8A2C6250B0F1E72B09689A /* PFSQLiteDatabase.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFSQLiteDatabase.m; path = Parse/Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabase.m; sourceTree = "<group>"; };
 		9973D5C65A4A814783DC700858120078 /* Bolts.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Bolts.m; path = Bolts/Common/Bolts.m; sourceTree = "<group>"; };
 		999C8FF6DF0B58197081EF996834F524 /* Localizable.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		99A4FF159349C03EF6A33FFE26A3423A /* Pods-OCKWatchSample Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKWatchSample Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		99FF855D85C7A187BCAB05044DC12FB0 /* OCKCarePlanStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCarePlanStore.swift; path = CareKitStore/CareKitStore/Protocols/CarePlans/OCKCarePlanStore.swift; sourceTree = "<group>"; };
 		9A1433999EEDC5B18EB6D2AAF68C0A4D /* PFMutablePushState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMutablePushState.m; path = Parse/Parse/Internal/Push/State/PFMutablePushState.m; sourceTree = "<group>"; };
 		9A17AAA2E1930026DB4B233B81D08788 /* OCKResponsiveLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKResponsiveLayout.swift; path = CareKitUI/CareKitUI/iOS/OCKResponsiveLayout.swift; sourceTree = "<group>"; };
 		9A5E86B19FA797D6C906A4630E280DF9 /* Parse.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Parse.bundle; path = "Parse-watchOS-Parse.bundle"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A63FBDE2FBF869B930207FE75D44200 /* SimpleTaskView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SimpleTaskView.swift; path = CareKit/CareKit/Shared/Task/SimpleTaskView.swift; sourceTree = "<group>"; };
 		9B0F1085F9B101A844DED38726CE0287 /* PFUser+Deprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFUser+Deprecated.h"; path = "Parse/Parse/PFUser+Deprecated.h"; sourceTree = "<group>"; };
-		9B147ED25496DA0781CF712729DBBBBF /* Pods-OCKWatchSample Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKWatchSample Extension.release.xcconfig"; sourceTree = "<group>"; };
 		9BDDF46F70C9F5F4A72753FA9B3FFAB7 /* OCKOutcomeValue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKOutcomeValue.swift; path = CareKitStore/CareKitStore/Structs/OCKOutcomeValue.swift; sourceTree = "<group>"; };
 		9C05CFD82FCFD83FF5AC03AA42E045F2 /* PFWeakValue.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFWeakValue.m; path = Parse/Parse/Internal/PFWeakValue.m; sourceTree = "<group>"; };
 		9C48A1334158B08F6EF08DAC3CD2E35D /* OCKCDScheduleElement.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCDScheduleElement.swift; path = CareKitStore/CareKitStore/CoreData/OCKCDScheduleElement.swift; sourceTree = "<group>"; };
+		9C6151A095068E0AB9E8E1CE5EA1A34D /* Pods-OCKSampleUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-OCKSampleUITests-dummy.m"; sourceTree = "<group>"; };
 		9CA7119BE2552DA108A7608C2E587580 /* ParseModule.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ParseModule.h; path = Parse/Parse/Internal/ParseModule.h; sourceTree = "<group>"; };
 		9CEB6DE968F9EF73AF8E3FE6CADED060 /* OCKGridTaskViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKGridTaskViewController.swift; path = "CareKit/CareKit/iOS/Task/View Controllers/OCKGridTaskViewController.swift"; sourceTree = "<group>"; };
 		9D11C8DF885AEFEC5FAC21DD69A1B707 /* PFMutableFileState.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFMutableFileState.h; path = Parse/Parse/Internal/File/State/PFMutableFileState.h; sourceTree = "<group>"; };
@@ -2133,9 +2188,11 @@
 		A79ACDFAD67516E85E1E5D6DA71B2E17 /* OCKAnimatedButton.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKAnimatedButton.swift; path = CareKitUI/CareKitUI/iOS/Controls/OCKAnimatedButton.swift; sourceTree = "<group>"; };
 		A7AF7A65577CEFB866E582821E0891A7 /* OCKCalendarDisplayable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCalendarDisplayable.swift; path = CareKitUI/CareKitUI/iOS/Calendar/OCKCalendarDisplayable.swift; sourceTree = "<group>"; };
 		A8653D835002CE82FBE31041B41D93C7 /* PFErrorUtilities.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFErrorUtilities.m; path = Parse/Parse/Internal/PFErrorUtilities.m; sourceTree = "<group>"; };
+		A898E6D57725BA449195FA8BBBA903FF /* Pods-OCKSampleUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-OCKSampleUITests.modulemap"; sourceTree = "<group>"; };
 		A8A05C40CA8741F167E26BE2BBFEC1D0 /* PFUserDefaultsPersistenceGroup.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFUserDefaultsPersistenceGroup.m; path = Parse/Parse/Internal/Persistence/Group/PFUserDefaultsPersistenceGroup.m; sourceTree = "<group>"; };
 		A8C0B122903E26A7AE7B82976DD9C8A9 /* PCKVersionedObject+Task.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "PCKVersionedObject+Task.swift"; path = "ParseCareKit/Extensions/PCKVersionedObject+Task.swift"; sourceTree = "<group>"; };
 		A8E8766F68A0C39F8C5EF9DF4183B3A4 /* ResourceBundle-Parse-Parse-watchOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "ResourceBundle-Parse-Parse-watchOS-Info.plist"; path = "../Parse-watchOS/ResourceBundle-Parse-Parse-watchOS-Info.plist"; sourceTree = "<group>"; };
+		A91547EF18EA2331ED80A2ADD6D871C2 /* Pods-OCKSample-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OCKSample-umbrella.h"; sourceTree = "<group>"; };
 		A92A8546B979B47C6F0F4513C85A962D /* OCKAdherenceQuery.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKAdherenceQuery.swift; path = CareKitStore/CareKitStore/Structs/Queries/OCKAdherenceQuery.swift; sourceTree = "<group>"; };
 		A9377315BAABB1B4CB911EF09EB376A4 /* OCKWeekCalendarController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKWeekCalendarController.swift; path = CareKit/CareKit/iOS/Calendar/Controllers/OCKWeekCalendarController.swift; sourceTree = "<group>"; };
 		A94C3CA38B3D156E41807B3305F3C869 /* OCKSemanticVersion.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKSemanticVersion.swift; path = CareKitStore/CareKitStore/Structs/OCKSemanticVersion.swift; sourceTree = "<group>"; };
@@ -2160,7 +2217,6 @@
 		AD51B67169494C5BA08BA6C4F552197F /* PFAnalyticsController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFAnalyticsController.m; path = Parse/Parse/Internal/Analytics/Controller/PFAnalyticsController.m; sourceTree = "<group>"; };
 		AD7ED74F48DABA2C7B785CFD318ECF34 /* PFPinningObjectStore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPinningObjectStore.h; path = Parse/Parse/Internal/Object/PinningStore/PFPinningObjectStore.h; sourceTree = "<group>"; };
 		AD9DB3CEA03C0C82A219771CCF3224AE /* OCKTaskViewSynchronizerProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKTaskViewSynchronizerProtocol.swift; path = CareKit/CareKit/iOS/Task/Synchronizers/OCKTaskViewSynchronizerProtocol.swift; sourceTree = "<group>"; };
-		ADD27B4E47875B07F7B210B4FD4D8499 /* Pods-OCKSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKSample.debug.xcconfig"; sourceTree = "<group>"; };
 		ADECAB1C6BDD52C729EEB5E43395CDF3 /* Bolts-iOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Bolts-iOS.modulemap"; sourceTree = "<group>"; };
 		AE28A07507775BE42CDE8E5FBC5A2963 /* BFExecutor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BFExecutor.m; path = Bolts/Common/BFExecutor.m; sourceTree = "<group>"; };
 		AE45760B96DE78AAA8217124FD6F510B /* PCKVersionedObject+Patient.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "PCKVersionedObject+Patient.swift"; path = "ParseCareKit/Extensions/PCKVersionedObject+Patient.swift"; sourceTree = "<group>"; };
@@ -2178,7 +2234,6 @@
 		B23C6696522F4DC153105EF838F537A9 /* OCKDetailedImageView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKDetailedImageView.swift; path = "CareKitUI/CareKitUI/iOS/Detail View/OCKDetailedImageView.swift"; sourceTree = "<group>"; };
 		B24CA49A797C1D8CB79282B01EF5DD6A /* Pods_OCKWatchSample_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_OCKWatchSample_Extension.framework; path = "Pods-OCKWatchSample Extension.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B26A35F1A8C1C42E1F7F961DF22EEF13 /* PFObjectFileCodingLogic.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectFileCodingLogic.m; path = Parse/Parse/Internal/Object/Coder/File/PFObjectFileCodingLogic.m; sourceTree = "<group>"; };
-		B2700EB3C861E9E6BE00FCF3C0619A37 /* Pods-OCKSample-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKSample-Info.plist"; sourceTree = "<group>"; };
 		B28FB1727EF99317F1035642E846C86A /* PFMutableRelationState.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMutableRelationState.m; path = Parse/Parse/Internal/Relation/State/PFMutableRelationState.m; sourceTree = "<group>"; };
 		B31D286F8D43B5E75303AFAE49E76FF8 /* PFDevice.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFDevice.h; path = Parse/Parse/Internal/PFDevice.h; sourceTree = "<group>"; };
 		B3BA8D052BFAE43CA8EED31C70144F4B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS5.2.sdk/System/Library/Frameworks/SwiftUI.framework; sourceTree = DEVELOPER_DIR; };
@@ -2236,6 +2291,7 @@
 		C2445697C3738A1353F1786D997493D6 /* BFCancellationTokenSource.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = BFCancellationTokenSource.m; path = Bolts/Common/BFCancellationTokenSource.m; sourceTree = "<group>"; };
 		C2501B6C243A0CB79155D1ADB4B57B41 /* PFInstallationPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFInstallationPrivate.h; path = Parse/Parse/Internal/Installation/PFInstallationPrivate.h; sourceTree = "<group>"; };
 		C2B9B3272F7B8BEC83A74D36FC0DE685 /* PFPurchaseController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPurchaseController.h; path = Parse/Parse/Internal/Purchase/Controller/PFPurchaseController.h; sourceTree = "<group>"; };
+		C32FD5281DA82EA46528F908E6E7D7A3 /* Pods-OCKSampleUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKSampleUITests-Info.plist"; sourceTree = "<group>"; };
 		C333931A66195C3A6F8D415B0E51F9C4 /* PFSQLiteDatabaseController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFSQLiteDatabaseController.m; path = Parse/Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabaseController.m; sourceTree = "<group>"; };
 		C33E35A54205F2FB87DBE71BA9536382 /* OCKEntity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKEntity.swift; path = CareKitStore/CareKitStore/Structs/OCKEntity.swift; sourceTree = "<group>"; };
 		C35638DB6D1836C8299F8058C3BCF66E /* PFReachability.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFReachability.m; path = Parse/Parse/Internal/PFReachability.m; sourceTree = "<group>"; };
@@ -2317,7 +2373,6 @@
 		DB3262F814A8DD8D835268D9BFCC3DAE /* PFErrorUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFErrorUtilities.h; path = Parse/Parse/Internal/PFErrorUtilities.h; sourceTree = "<group>"; };
 		DB42C3A7AB78FC63449664C415D9DB40 /* PFFileStagingController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFFileStagingController.m; path = Parse/Parse/Internal/File/Controller/PFFileStagingController.m; sourceTree = "<group>"; };
 		DBA731E58FDF0E935D011C48DFE9F393 /* OCKButtonLogViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKButtonLogViewController.swift; path = "CareKit/CareKit/iOS/Task/View Controllers/OCKButtonLogViewController.swift"; sourceTree = "<group>"; };
-		DC0B7CD78A2C1816950D77A2B6B6E5CC /* Pods-OCKWatchSample Extension-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OCKWatchSample Extension-umbrella.h"; sourceTree = "<group>"; };
 		DC5D280C182F415239B3C99985C3BFDA /* PFThreadsafety.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFThreadsafety.h; path = Parse/Parse/Internal/ThreadSafety/PFThreadsafety.h; sourceTree = "<group>"; };
 		DC65BC60B3EE4C994EC15343C1E5D187 /* PFPushManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPushManager.h; path = Parse/Parse/Internal/Push/Manager/PFPushManager.h; sourceTree = "<group>"; };
 		DC686CD51E646F6B83A4384503D451DC /* PFObjectBatchController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFObjectBatchController.m; path = Parse/Parse/Internal/Object/BatchController/PFObjectBatchController.m; sourceTree = "<group>"; };
@@ -2326,7 +2381,6 @@
 		DDD6C158D19744082D95778F191C78F8 /* OCKHealthKitPassthroughStore.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKHealthKitPassthroughStore.swift; path = CareKitStore/CareKitStore/HealthKit/OCKHealthKitPassthroughStore.swift; sourceTree = "<group>"; };
 		DE95DCE17C5C1CAB02F49F0B5E814454 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		DEEC5EA4B9927F41252E5BA0807EEED9 /* OCKCDCarePlan.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCDCarePlan.swift; path = CareKitStore/CareKitStore/CoreData/OCKCDCarePlan.swift; sourceTree = "<group>"; };
-		DF214BE1A8C735EEB7A60ABD6FB46499 /* Pods-OCKSample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OCKSample-acknowledgements.markdown"; sourceTree = "<group>"; };
 		DF5AA2A1CF574054861417420CBB1172 /* PFHash.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFHash.h; path = Parse/Parse/Internal/PFHash.h; sourceTree = "<group>"; };
 		DFF762D55CAC4D24A5E65607B0F251EC /* Note.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Note.swift; path = ParseCareKit/PCKObjects/Note.swift; sourceTree = "<group>"; };
 		E025ADAF469771B388C9A8584B27E15A /* OCKCDOutcomeValue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCDOutcomeValue.swift; path = CareKitStore/CareKitStore/CoreData/OCKCDOutcomeValue.swift; sourceTree = "<group>"; };
@@ -2340,7 +2394,6 @@
 		E334789CBD54E7074B32709FF6C68F1D /* en.lproj */ = {isa = PBXFileReference; includeInIndex = 1; name = en.lproj; path = Parse/Parse/Resources/en.lproj; sourceTree = "<group>"; };
 		E3570F72B52C96C1BA1865FA371704B4 /* PFProduct.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFProduct.m; path = Parse/Parse/PFProduct.m; sourceTree = "<group>"; };
 		E39CC3833A67A9AFDD42E9F38D463ACC /* PFQuery+Synchronous.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "PFQuery+Synchronous.h"; path = "Parse/Parse/PFQuery+Synchronous.h"; sourceTree = "<group>"; };
-		E41085F93725D10F4388BFBB25ABD8CB /* Pods-OCKWatchSample Extension-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKWatchSample Extension-acknowledgements.plist"; sourceTree = "<group>"; };
 		E4BABFFC0DC1F2B117D51273E3A15525 /* PCKObject+Outcome.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "PCKObject+Outcome.swift"; path = "ParseCareKit/Extensions/PCKObject+Outcome.swift"; sourceTree = "<group>"; };
 		E501575FD047AA5A5BFC9674E2A4BF98 /* Bolts-watchOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; name = "Bolts-watchOS.modulemap"; path = "../Bolts-watchOS/Bolts-watchOS.modulemap"; sourceTree = "<group>"; };
 		E52DB036E8715B15936E87B7EB153B09 /* ParseCareKit-watchOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "ParseCareKit-watchOS.release.xcconfig"; path = "../ParseCareKit-watchOS/ParseCareKit-watchOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -2352,7 +2405,7 @@
 		E5F9576AD0D4CBA515ADE29D3E5FB50E /* OCKWeekCalendarViewSynchronizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKWeekCalendarViewSynchronizer.swift; path = CareKit/CareKit/iOS/Calendar/Synchronizers/OCKWeekCalendarViewSynchronizer.swift; sourceTree = "<group>"; };
 		E5FECAF7C41A3B2C346597BD628A3108 /* PFDateFormatter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFDateFormatter.m; path = Parse/Parse/Internal/PFDateFormatter.m; sourceTree = "<group>"; };
 		E60FA53CBE8CBBFDEE195C6D4F3FFEA8 /* OCKChartDisplayable.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKChartDisplayable.swift; path = CareKitUI/CareKitUI/iOS/Charts/Protocols/OCKChartDisplayable.swift; sourceTree = "<group>"; };
-		E9244A44C3CCB04516AADAA36B3E6E67 /* Pods-OCKSample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKSample-acknowledgements.plist"; sourceTree = "<group>"; };
+		E793F915A0288A08CE361CA1BADBC222 /* Pods-OCKSampleUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OCKSampleUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		E959D860CD8A57F8A8479C051E9F9F3F /* PFLogging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFLogging.h; path = Parse/Parse/Internal/PFLogging.h; sourceTree = "<group>"; };
 		E9C9563B5BA7DF189AAA2524A5F6BCD0 /* PFPinningEventuallyQueue.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPinningEventuallyQueue.h; path = Parse/Parse/Internal/PFPinningEventuallyQueue.h; sourceTree = "<group>"; };
 		E9F5A3036B8E1AD9DEF45CB86F8FC22B /* PFCloudCodeController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFCloudCodeController.m; path = Parse/Parse/Internal/CloudCode/PFCloudCodeController.m; sourceTree = "<group>"; };
@@ -2360,7 +2413,9 @@
 		EA64C36A4F774202A86F74A908BD8AD2 /* PFPush.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPush.h; path = Parse/Parse/PFPush.h; sourceTree = "<group>"; };
 		EA993FC2C9879D107C508262E4CA1834 /* OCKAdherenceAggregator.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKAdherenceAggregator.swift; path = CareKitStore/CareKitStore/OCKAdherenceAggregator.swift; sourceTree = "<group>"; };
 		EABFD526C8DB0058533D456D8F6BDCDB /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS5.2.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		EAC8B4399880051E0A8CCC9CC34F7E3A /* Pods-OCKSampleUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKSampleUITests.release.xcconfig"; sourceTree = "<group>"; };
 		EACE078BAE483A43A5C5D08BDD36BA27 /* OCKCDObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCDObject.swift; path = CareKitStore/CareKitStore/CoreData/OCKCDObject.swift; sourceTree = "<group>"; };
+		EB0B339F3D33A713D60FD465DD7B1ED2 /* Pods-OCKSample-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-OCKSample-acknowledgements.markdown"; sourceTree = "<group>"; };
 		EB8B77E518C3D23A2A5CE3F8C777415D /* Bolts-iOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Bolts-iOS-Info.plist"; sourceTree = "<group>"; };
 		EC4F588304D7EFE2B79E5150FD9E0086 /* OCKDetailedContactView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKDetailedContactView.swift; path = CareKitUI/CareKitUI/iOS/Contact/OCKDetailedContactView.swift; sourceTree = "<group>"; };
 		EC71109E68ECBA18506E534413EDEFAC /* Parse-watchOS-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "Parse-watchOS-prefix.pch"; path = "../Parse-watchOS/Parse-watchOS-prefix.pch"; sourceTree = "<group>"; };
@@ -2368,14 +2423,12 @@
 		ECD8C637830A2C2E5763D20FF66FA314 /* PFRESTSessionCommand.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRESTSessionCommand.h; path = Parse/Parse/Internal/Commands/PFRESTSessionCommand.h; sourceTree = "<group>"; };
 		EDA9F05D3B59B721F7C1F540FC5D7540 /* OCKAccessibleValue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKAccessibleValue.swift; path = CareKitUI/CareKitUI/iOS/OCKAccessibleValue.swift; sourceTree = "<group>"; };
 		EDB8CEB42023677AED55DC840A357435 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS12.2.sdk/System/Library/Frameworks/CoreLocation.framework; sourceTree = DEVELOPER_DIR; };
-		EE034B9C0F50FFAB7726080FCE821CBD /* Pods-OCKWatchSample Extension.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-OCKWatchSample Extension.modulemap"; sourceTree = "<group>"; };
 		EE6BD714A0CAF7943BF78014BC3DD1EC /* CareKitUI-watchOS-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "CareKitUI-watchOS-Info.plist"; path = "../CareKitUI-watchOS/CareKitUI-watchOS-Info.plist"; sourceTree = "<group>"; };
 		EE81C4025A291BD4F71A3C4921F50D74 /* PFProductsRequestHandler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFProductsRequestHandler.h; path = Parse/Parse/Internal/Product/ProductsRequestHandler/PFProductsRequestHandler.h; sourceTree = "<group>"; };
 		EEF3D3999386E4C81D4093F63FE581F4 /* os_log+CareKitUI.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "os_log+CareKitUI.swift"; path = "CareKitUI/CareKitUI/Shared/os_log+CareKitUI.swift"; sourceTree = "<group>"; };
 		EEF9B4705D560BEA0AC25593B2B4FFD6 /* PFFilePersistenceGroup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFFilePersistenceGroup.h; path = Parse/Parse/Internal/Persistence/Group/PFFilePersistenceGroup.h; sourceTree = "<group>"; };
 		EF2A376499E5C5C9A37CD6D816047204 /* Parse-watchOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Parse-watchOS.debug.xcconfig"; path = "../Parse-watchOS/Parse-watchOS.debug.xcconfig"; sourceTree = "<group>"; };
 		EFB2D6C0CFA8611D545DEE8DA163C185 /* PFPaymentTransactionObserver.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFPaymentTransactionObserver.h; path = Parse/Parse/Internal/Purchase/PaymentTransactionObserver/PFPaymentTransactionObserver.h; sourceTree = "<group>"; };
-		EFB4FEB90BC6A151DB238E2EFA962782 /* Pods-OCKWatchSample Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKWatchSample Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		EFFB4F7168C5C1B5165B20DAA094A178 /* OCKGridTaskViewSynchronizer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKGridTaskViewSynchronizer.swift; path = CareKit/CareKit/iOS/Task/Synchronizers/OCKGridTaskViewSynchronizer.swift; sourceTree = "<group>"; };
 		F05A0A21F13D578EB03953547D99BC37 /* Bolts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Bolts.framework; path = "Bolts-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0E70563F8E978DBEE94982A26F8E09E /* Bolts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Bolts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2387,7 +2440,6 @@
 		F1D06B777D8E7A3F6DA152FF1F3F1BB5 /* OCKCDOutcome.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCDOutcome.swift; path = CareKitStore/CareKitStore/CoreData/OCKCDOutcome.swift; sourceTree = "<group>"; };
 		F21033F03783603BE8AD7E9B6ECA218B /* ParseManagerPrivate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ParseManagerPrivate.h; path = Parse/Parse/Internal/ParseManagerPrivate.h; sourceTree = "<group>"; };
 		F252C67561B4B667EEC1DFB3FA02A173 /* ParseCareKit-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "ParseCareKit-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		F2E56F10D65FBA2818332F7FD95608F3 /* Pods-OCKSample.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-OCKSample.modulemap"; sourceTree = "<group>"; };
 		F2FE302D1435B5B6A7719FEFCCD728F0 /* PFConfig_Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFConfig_Private.h; path = Parse/Parse/Internal/Config/PFConfig_Private.h; sourceTree = "<group>"; };
 		F30227F070F23C9B951161C1B72AB88B /* PFURLSessionUploadTaskDelegate.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFURLSessionUploadTaskDelegate.m; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/TaskDelegate/PFURLSessionUploadTaskDelegate.m; sourceTree = "<group>"; };
 		F34DA076E1DFDB4B7F93EDCC91726BA6 /* OCKStore+Outcomes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OCKStore+Outcomes.swift"; path = "CareKitStore/CareKitStore/CoreData/OCKStore+Outcomes.swift"; sourceTree = "<group>"; };
@@ -2397,6 +2449,7 @@
 		F3FA7E1A3E8B5F4CEF90336B5E647A34 /* Parse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Parse.framework; path = "Parse-iOS.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4321E618E460C61631C6DB33CF95603 /* OCKCappedSizeLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCappedSizeLabel.swift; path = CareKitUI/CareKitUI/iOS/Labels/OCKCappedSizeLabel.swift; sourceTree = "<group>"; };
 		F48A55A8D4B95DD823BC3CDA92C8750C /* OCKContact.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKContact.swift; path = CareKitStore/CareKitStore/Structs/OCKContact.swift; sourceTree = "<group>"; };
+		F51284289965C0516A50A5BB5EB1E416 /* Pods-OCKSample-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-OCKSample-acknowledgements.plist"; sourceTree = "<group>"; };
 		F52DDCA6138D676626E7D1A0ED495E24 /* PFRole.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFRole.h; path = Parse/Parse/PFRole.h; sourceTree = "<group>"; };
 		F62E62871BDA7E175CB7A1060B72FFCB /* PFObjectFilePersistenceController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFObjectFilePersistenceController.h; path = Parse/Parse/Internal/Object/FilePersistence/PFObjectFilePersistenceController.h; sourceTree = "<group>"; };
 		F638DA72BEFEB12AA495D7921163D036 /* OCKDimensionStyler.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKDimensionStyler.swift; path = CareKitUI/CareKitUI/Shared/Style/OCKDimensionStyler.swift; sourceTree = "<group>"; };
@@ -2404,9 +2457,11 @@
 		F6E9B09512B75F6FC2CB8DF607F88B42 /* PFMultiProcessFileLockController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFMultiProcessFileLockController.m; path = Parse/Parse/Internal/MultiProcessLock/PFMultiProcessFileLockController.m; sourceTree = "<group>"; };
 		F78C96BDB8F76316A35EF9948227F7BC /* PFUserFileCodingLogic.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFUserFileCodingLogic.h; path = Parse/Parse/Internal/User/Coder/File/PFUserFileCodingLogic.h; sourceTree = "<group>"; };
 		F790775976BCD01EB9762CED5E093A96 /* PFOperationSet.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFOperationSet.m; path = Parse/Parse/Internal/Object/OperationSet/PFOperationSet.m; sourceTree = "<group>"; };
+		F7B07B70CB4EE89FB44CB4A52B0D4D70 /* Pods-OCKSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-OCKSample.release.xcconfig"; sourceTree = "<group>"; };
 		F82B7083921704389826B5E46B628C64 /* OCKCalendarViewSynchronizerProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = OCKCalendarViewSynchronizerProtocol.swift; path = CareKit/CareKit/iOS/Calendar/Synchronizers/OCKCalendarViewSynchronizerProtocol.swift; sourceTree = "<group>"; };
 		F8902D453D50AB76FD24453D03902DA3 /* CareKitUI-iOS.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "CareKitUI-iOS.modulemap"; sourceTree = "<group>"; };
 		F8CBB80622BA38C16E295E66CB8ACFA8 /* PFURLSession.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFURLSession.m; path = Parse/Parse/Internal/Commands/CommandRunner/URLSession/Session/PFURLSession.m; sourceTree = "<group>"; };
+		F90217C7483EAAF55284624E177BDBFE /* Pods-OCKWatchSample Extension-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-OCKWatchSample Extension-umbrella.h"; sourceTree = "<group>"; };
 		F9A2BCC88F7CE0D1D18FB51A57159B8C /* PFSQLiteDatabaseResult.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = PFSQLiteDatabaseResult.h; path = Parse/Parse/Internal/LocalDataStore/SQLite/PFSQLiteDatabaseResult.h; sourceTree = "<group>"; };
 		FA2BA797F2CE1C4B5D0183FB973BB79F /* PFConfig.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = PFConfig.m; path = Parse/Parse/PFConfig.m; sourceTree = "<group>"; };
 		FA59F4952BF77FAA5D6FF738AF5C52D0 /* OCKStoreProtocol+Synchronous.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "OCKStoreProtocol+Synchronous.swift"; path = "CareKitStore/CareKitStore/Protocols/OCKStoreProtocol+Synchronous.swift"; sourceTree = "<group>"; };
@@ -2509,6 +2564,14 @@
 				AC9F6C9871CC2A3442B0F9DEEAA47885 /* CoreData.framework in Frameworks */,
 				E23BD91DB40C1EFD11814A63B772060A /* Foundation.framework in Frameworks */,
 				E806B8FE9AA825197E1FB10A261BF2DD /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		863B684F7C1172B83362AC2C08CCFD48 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FFE4853516000FDF26DDBEB6B591869 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2707,13 +2770,21 @@
 			path = CareKitStore;
 			sourceTree = "<group>";
 		};
-		11E5144CF24A1B4654D0EA6C14B0718F /* Targets Support Files */ = {
+		0FCDAD273FE9A3CAF91E67B942218706 /* Pods-OCKSample */ = {
 			isa = PBXGroup;
 			children = (
-				577433CDF61C703BA623CF2E509B9B69 /* Pods-OCKSample */,
-				602D6F2B9D7482E9D703D9F43D40E20E /* Pods-OCKWatchSample Extension */,
+				82FCD7399FA20B377EA09D21B3FED0DA /* Pods-OCKSample.modulemap */,
+				EB0B339F3D33A713D60FD465DD7B1ED2 /* Pods-OCKSample-acknowledgements.markdown */,
+				F51284289965C0516A50A5BB5EB1E416 /* Pods-OCKSample-acknowledgements.plist */,
+				3BD9041C41688DAA22F32EF2E1B00468 /* Pods-OCKSample-dummy.m */,
+				23D5CDC88AE2888B23F1B7B64ACF78A3 /* Pods-OCKSample-frameworks.sh */,
+				34BAF2B30C56EE855DB423CB88466AFB /* Pods-OCKSample-Info.plist */,
+				A91547EF18EA2331ED80A2ADD6D871C2 /* Pods-OCKSample-umbrella.h */,
+				10410D429EC48C44C2D994390375F8B8 /* Pods-OCKSample.debug.xcconfig */,
+				F7B07B70CB4EE89FB44CB4A52B0D4D70 /* Pods-OCKSample.release.xcconfig */,
 			);
-			name = "Targets Support Files";
+			name = "Pods-OCKSample";
+			path = "Target Support Files/Pods-OCKSample";
 			sourceTree = "<group>";
 		};
 		127120A5A286AB3B7812D09D340899BE /* Support Files */ = {
@@ -3053,6 +3124,30 @@
 			path = "../Target Support Files/CareKitUI-iOS";
 			sourceTree = "<group>";
 		};
+		44571E50D2D090D213653047F2FC0393 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F05A0A21F13D578EB03953547D99BC37 /* Bolts.framework */,
+				B1976D4C361098ADEF5FBA8361367EAC /* Bolts.framework */,
+				19E5E37FCD1ADDE92BA8EF235F3A7396 /* CareKit.framework */,
+				AF3322D9FE3722EA9255CCCC6440F5C1 /* CareKit.framework */,
+				26326FB9A2491C96318B5FC7F05062FF /* CareKitStore.framework */,
+				2C6F27302537667AF8FE61913C65B355 /* CareKitStore.framework */,
+				6E683D10195322F712FCBA5348175C61 /* CareKitUI.framework */,
+				9E7D57DA3913DF71D590F3DAC0443EDF /* CareKitUI.framework */,
+				9A5E86B19FA797D6C906A4630E280DF9 /* Parse.bundle */,
+				ECB205E697E9C0678C84B7EB0069D5EB /* Parse.bundle */,
+				F3FA7E1A3E8B5F4CEF90336B5E647A34 /* Parse.framework */,
+				636EFCAFDA626A762E8E3BE09C2615B1 /* Parse.framework */,
+				128E91E780DE2F8F875FE78D3AD7C6E4 /* ParseCareKit.framework */,
+				5D02C1CE75C719D7848142DF59ED60B7 /* ParseCareKit.framework */,
+				1C5CAF5F1A888055C0DFE14196D9E602 /* Pods_OCKSample.framework */,
+				800BD17C65B9946239D7D119E5E4CFDF /* Pods_OCKSampleUITests.framework */,
+				B24CA49A797C1D8CB79282B01EF5DD6A /* Pods_OCKWatchSample_Extension.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		562B475BDFABF0E269F702B1756676E8 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -3075,21 +3170,21 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		577433CDF61C703BA623CF2E509B9B69 /* Pods-OCKSample */ = {
+		5C566F80476DA5088BFDF053E229ECE4 /* Pods-OCKSampleUITests */ = {
 			isa = PBXGroup;
 			children = (
-				F2E56F10D65FBA2818332F7FD95608F3 /* Pods-OCKSample.modulemap */,
-				DF214BE1A8C735EEB7A60ABD6FB46499 /* Pods-OCKSample-acknowledgements.markdown */,
-				E9244A44C3CCB04516AADAA36B3E6E67 /* Pods-OCKSample-acknowledgements.plist */,
-				5386DDC50DDCF114170554FB62AFB5F2 /* Pods-OCKSample-dummy.m */,
-				788866A8E0ED91E6B748FF4EC36B9EF8 /* Pods-OCKSample-frameworks.sh */,
-				B2700EB3C861E9E6BE00FCF3C0619A37 /* Pods-OCKSample-Info.plist */,
-				0A70A569EDBA67D8980239709DF5D662 /* Pods-OCKSample-umbrella.h */,
-				ADD27B4E47875B07F7B210B4FD4D8499 /* Pods-OCKSample.debug.xcconfig */,
-				1F2ACCF415A6EFCEB00D6014D84C4ED6 /* Pods-OCKSample.release.xcconfig */,
+				A898E6D57725BA449195FA8BBBA903FF /* Pods-OCKSampleUITests.modulemap */,
+				E793F915A0288A08CE361CA1BADBC222 /* Pods-OCKSampleUITests-acknowledgements.markdown */,
+				06AF2F724E1694275D1DF531DDD9F78E /* Pods-OCKSampleUITests-acknowledgements.plist */,
+				9C6151A095068E0AB9E8E1CE5EA1A34D /* Pods-OCKSampleUITests-dummy.m */,
+				415C51C02AA8405C3E9D97F4380EFC85 /* Pods-OCKSampleUITests-frameworks.sh */,
+				C32FD5281DA82EA46528F908E6E7D7A3 /* Pods-OCKSampleUITests-Info.plist */,
+				7197D9C1F8AA88844CFB436A4452E768 /* Pods-OCKSampleUITests-umbrella.h */,
+				371A35475D9251EC17F1D0630984692F /* Pods-OCKSampleUITests.debug.xcconfig */,
+				EAC8B4399880051E0A8CCC9CC34F7E3A /* Pods-OCKSampleUITests.release.xcconfig */,
 			);
-			name = "Pods-OCKSample";
-			path = "Target Support Files/Pods-OCKSample";
+			name = "Pods-OCKSampleUITests";
+			path = "Target Support Files/Pods-OCKSampleUITests";
 			sourceTree = "<group>";
 		};
 		5EBD79D684B47EA74C3D77A8D0B89AA4 /* Pods */ = {
@@ -3127,23 +3222,6 @@
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Parse-iOS";
-			sourceTree = "<group>";
-		};
-		602D6F2B9D7482E9D703D9F43D40E20E /* Pods-OCKWatchSample Extension */ = {
-			isa = PBXGroup;
-			children = (
-				EE034B9C0F50FFAB7726080FCE821CBD /* Pods-OCKWatchSample Extension.modulemap */,
-				48E9615349E32D108614621AECC14AEB /* Pods-OCKWatchSample Extension-acknowledgements.markdown */,
-				E41085F93725D10F4388BFBB25ABD8CB /* Pods-OCKWatchSample Extension-acknowledgements.plist */,
-				53A5F85E0B1D790DAA885834E5DBE5B7 /* Pods-OCKWatchSample Extension-dummy.m */,
-				48DEB01FE892293FA230D6321B06055B /* Pods-OCKWatchSample Extension-frameworks.sh */,
-				09A3BF3578CBA624FC4D0437E403B275 /* Pods-OCKWatchSample Extension-Info.plist */,
-				DC0B7CD78A2C1816950D77A2B6B6E5CC /* Pods-OCKWatchSample Extension-umbrella.h */,
-				EFB4FEB90BC6A151DB238E2EFA962782 /* Pods-OCKWatchSample Extension.debug.xcconfig */,
-				9B147ED25496DA0781CF712729DBBBBF /* Pods-OCKWatchSample Extension.release.xcconfig */,
-			);
-			name = "Pods-OCKWatchSample Extension";
-			path = "Target Support Files/Pods-OCKWatchSample Extension";
 			sourceTree = "<group>";
 		};
 		70E439F1C0BB33A480A2D78BEFBE6AA9 /* Tasks */ = {
@@ -3552,6 +3630,23 @@
 			name = Core;
 			sourceTree = "<group>";
 		};
+		7FA8E944B0FED43353C66F113081B679 /* Pods-OCKWatchSample Extension */ = {
+			isa = PBXGroup;
+			children = (
+				9457C648E185C19302CA4A0EB0FF391A /* Pods-OCKWatchSample Extension.modulemap */,
+				8AB1641A6FC60128C3038D99C9DB2162 /* Pods-OCKWatchSample Extension-acknowledgements.markdown */,
+				021FED36AB065DEA1E96559185540122 /* Pods-OCKWatchSample Extension-acknowledgements.plist */,
+				8E85AEAAA89257A8AA70F220FD938C33 /* Pods-OCKWatchSample Extension-dummy.m */,
+				2E3E20B0F2736A1918EB0D0BE862955B /* Pods-OCKWatchSample Extension-frameworks.sh */,
+				53A7360B848D92C5C2AFCE2E3D747B3A /* Pods-OCKWatchSample Extension-Info.plist */,
+				F90217C7483EAAF55284624E177BDBFE /* Pods-OCKWatchSample Extension-umbrella.h */,
+				99A4FF159349C03EF6A33FFE26A3423A /* Pods-OCKWatchSample Extension.debug.xcconfig */,
+				87D1BD9E91F4831B0AC22030FEAA8167 /* Pods-OCKWatchSample Extension.release.xcconfig */,
+			);
+			name = "Pods-OCKWatchSample Extension";
+			path = "Target Support Files/Pods-OCKWatchSample Extension";
+			sourceTree = "<group>";
+		};
 		801C68735118B3DA8E50E75093E68E42 /* Bolts */ = {
 			isa = PBXGroup;
 			children = (
@@ -3562,35 +3657,22 @@
 			path = Bolts;
 			sourceTree = "<group>";
 		};
+		806E9A636FE7B4AD0D3796971AED8BCD /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				0FCDAD273FE9A3CAF91E67B942218706 /* Pods-OCKSample */,
+				5C566F80476DA5088BFDF053E229ECE4 /* Pods-OCKSampleUITests */,
+				7FA8E944B0FED43353C66F113081B679 /* Pods-OCKWatchSample Extension */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
 		9DB78127219A376CC8F53D015BD49C32 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				E334789CBD54E7074B32709FF6C68F1D /* en.lproj */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		AAFDBB213EA67F297FF2119B8FF843AF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F05A0A21F13D578EB03953547D99BC37 /* Bolts.framework */,
-				B1976D4C361098ADEF5FBA8361367EAC /* Bolts.framework */,
-				19E5E37FCD1ADDE92BA8EF235F3A7396 /* CareKit.framework */,
-				AF3322D9FE3722EA9255CCCC6440F5C1 /* CareKit.framework */,
-				26326FB9A2491C96318B5FC7F05062FF /* CareKitStore.framework */,
-				2C6F27302537667AF8FE61913C65B355 /* CareKitStore.framework */,
-				6E683D10195322F712FCBA5348175C61 /* CareKitUI.framework */,
-				9E7D57DA3913DF71D590F3DAC0443EDF /* CareKitUI.framework */,
-				9A5E86B19FA797D6C906A4630E280DF9 /* Parse.bundle */,
-				ECB205E697E9C0678C84B7EB0069D5EB /* Parse.bundle */,
-				F3FA7E1A3E8B5F4CEF90336B5E647A34 /* Parse.framework */,
-				636EFCAFDA626A762E8E3BE09C2615B1 /* Parse.framework */,
-				128E91E780DE2F8F875FE78D3AD7C6E4 /* ParseCareKit.framework */,
-				5D02C1CE75C719D7848142DF59ED60B7 /* ParseCareKit.framework */,
-				1C5CAF5F1A888055C0DFE14196D9E602 /* Pods_OCKSample.framework */,
-				B24CA49A797C1D8CB79282B01EF5DD6A /* Pods_OCKWatchSample_Extension.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		C1A4339A33D012BA8B0C59F4C5F6A133 /* watchOS */ = {
@@ -3613,8 +3695,8 @@
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				3014F7065A4256FF1B041366BE9821EA /* Frameworks */,
 				5EBD79D684B47EA74C3D77A8D0B89AA4 /* Pods */,
-				AAFDBB213EA67F297FF2119B8FF843AF /* Products */,
-				11E5144CF24A1B4654D0EA6C14B0718F /* Targets Support Files */,
+				44571E50D2D090D213653047F2FC0393 /* Products */,
+				806E9A636FE7B4AD0D3796971AED8BCD /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3914,6 +3996,14 @@
 				994AE1300DDFE6A76D7423BD0D0AAA2F /* PFUserState.h in Headers */,
 				D42365AFCE36BA233D87EF8A22FFCFDA /* PFUserState_Private.h in Headers */,
 				D8D619FE70066773EFA002D6CDBC3D92 /* PFWeakValue.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95B451E34374E03EB3DF42871810832F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				10D080367F2F4B0D29099A4ED94FE428 /* Pods-OCKSampleUITests-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4226,6 +4316,30 @@
 			productReference = ECB205E697E9C0678C84B7EB0069D5EB /* Parse.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
+		342CA4F0C5C532C35DFD47AE955675ED /* Pods-OCKSampleUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A242251BF22170195DBB199A4D2D428E /* Build configuration list for PBXNativeTarget "Pods-OCKSampleUITests" */;
+			buildPhases = (
+				95B451E34374E03EB3DF42871810832F /* Headers */,
+				CCCC22717E6C9381A069B5A0861D1B0E /* Sources */,
+				863B684F7C1172B83362AC2C08CCFD48 /* Frameworks */,
+				DF76C599B1BD382ABE6F1C6F4CE82E73 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DB67E8DF545D4182ED651A3A086D3879 /* PBXTargetDependency */,
+				D7FD8481B03D8A11C5211164C34E896F /* PBXTargetDependency */,
+				FCD245431C7C271C91185D6AE71AE9B1 /* PBXTargetDependency */,
+				B25BCAD0011257E4F39297D918B5D11D /* PBXTargetDependency */,
+				8B4EF867EC7508B16CB1A4A441F7D098 /* PBXTargetDependency */,
+				B3649824BE935FB6E7E828A4CC9DC061 /* PBXTargetDependency */,
+			);
+			name = "Pods-OCKSampleUITests";
+			productName = "Pods-OCKSampleUITests";
+			productReference = 800BD17C65B9946239D7D119E5E4CFDF /* Pods_OCKSampleUITests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		369206C558A04A4B405FFF2F9153D7C4 /* CareKitStore-watchOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 413625FB65BEABD7CF523AA4E5523F84 /* Build configuration list for PBXNativeTarget "CareKitStore-watchOS" */;
@@ -4517,7 +4631,7 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = AAFDBB213EA67F297FF2119B8FF843AF /* Products */;
+			productRefGroup = 44571E50D2D090D213653047F2FC0393 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -4536,6 +4650,7 @@
 				17A3DBEC70D4AF0EE3166CCFCD9D011C /* ParseCareKit-iOS */,
 				B76698423BC03EF849A89368BD556652 /* ParseCareKit-watchOS */,
 				3C65A36DA79F8C7E85992EA794800433 /* Pods-OCKSample */,
+				342CA4F0C5C532C35DFD47AE955675ED /* Pods-OCKSampleUITests */,
 				EBE8171261AF9085570EB7B2928D5652 /* Pods-OCKWatchSample Extension */,
 			);
 		};
@@ -4640,6 +4755,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F433ABD6AF9E051688C4F667753FCA1 /* Parse.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DF76C599B1BD382ABE6F1C6F4CE82E73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5227,6 +5349,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CCCC22717E6C9381A069B5A0861D1B0E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C1D2113196F9F2573B270E86E531A401 /* Pods-OCKSampleUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D8F6882F499BBD08371EA874E437C82B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -5780,6 +5910,12 @@
 			target = 42219C2BE12A899F961642315D37C57E /* CareKitStore-iOS */;
 			targetProxy = 178F2C4953B70D008641A30C80BE96DF /* PBXContainerItemProxy */;
 		};
+		8B4EF867EC7508B16CB1A4A441F7D098 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Parse-iOS";
+			target = 6A04582400606BB02D715D6C15E301E6 /* Parse-iOS */;
+			targetProxy = 2EE5A930E8167BE06D3B4CE1E26A9E11 /* PBXContainerItemProxy */;
+		};
 		90FDAAD746E008A607F586EF99627FDE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Parse-iOS-Parse";
@@ -5810,6 +5946,18 @@
 			target = A14B19C2715826C79606A40B9C384E2D /* Bolts-iOS */;
 			targetProxy = 0C5A086F0F44C18BB2E428E2A6984B6A /* PBXContainerItemProxy */;
 		};
+		B25BCAD0011257E4F39297D918B5D11D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CareKitUI-iOS";
+			target = 3CB01EDC4F9EEBD7408720D018948F7A /* CareKitUI-iOS */;
+			targetProxy = 4107F8293AFA6EEC12B655797479E7F2 /* PBXContainerItemProxy */;
+		};
+		B3649824BE935FB6E7E828A4CC9DC061 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ParseCareKit-iOS";
+			target = 17A3DBEC70D4AF0EE3166CCFCD9D011C /* ParseCareKit-iOS */;
+			targetProxy = 6595DB21ED8E5CFC5C5EE2E9DA854852 /* PBXContainerItemProxy */;
+		};
 		C7248D11B634F5A6FD7F03B4B89B3325 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "ParseCareKit-watchOS";
@@ -5834,11 +5982,29 @@
 			target = 6A04582400606BB02D715D6C15E301E6 /* Parse-iOS */;
 			targetProxy = 626420F93B23C18C1E7C0D9E71521DE9 /* PBXContainerItemProxy */;
 		};
+		D7FD8481B03D8A11C5211164C34E896F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CareKit-iOS";
+			target = A30252BF34A7A2067F6A80CE0E21CB68 /* CareKit-iOS */;
+			targetProxy = A67EF5D5050A7DC2DBD530EB89FEEC89 /* PBXContainerItemProxy */;
+		};
+		DB67E8DF545D4182ED651A3A086D3879 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Bolts-iOS";
+			target = A14B19C2715826C79606A40B9C384E2D /* Bolts-iOS */;
+			targetProxy = D6E2C7AF33B8537676525B28CAF2DFF1 /* PBXContainerItemProxy */;
+		};
 		E1875A3D16454DF95E6A4C12B4F69A5A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Bolts-watchOS";
 			target = C562BE2B39E391793B8568F76CAC3B35 /* Bolts-watchOS */;
 			targetProxy = 38CE2FD02B8B7AF61BD23130B7BC8E06 /* PBXContainerItemProxy */;
+		};
+		FCD245431C7C271C91185D6AE71AE9B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CareKitStore-iOS";
+			target = 42219C2BE12A899F961642315D37C57E /* CareKitStore-iOS */;
+			targetProxy = ADE1E24EFF706DBED897DD59EDD8A58B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -6005,6 +6171,45 @@
 				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
+		};
+		2994895B06319914EAB1FDCD06D3C9C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EAC8B4399880051E0A8CCC9CC34F7E3A /* Pods-OCKSampleUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-OCKSampleUITests/Pods-OCKSampleUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-OCKSampleUITests/Pods-OCKSampleUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
 		};
 		29F68654DC9808A14846079FB67289B7 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -6362,6 +6567,44 @@
 			};
 			name = Debug;
 		};
+		7726F5752877D0E9E0B5236B1B8AA02F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 371A35475D9251EC17F1D0630984692F /* Pods-OCKSampleUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-OCKSampleUITests/Pods-OCKSampleUITests-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-OCKSampleUITests/Pods-OCKSampleUITests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		79DCA7EEBCE98AE0BB16E7F0D4728F34 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BAB398437BE4B4F4C5B9597A81C91BEA /* CareKitUI-iOS.release.xcconfig */;
@@ -6401,7 +6644,7 @@
 		};
 		7D4F162B08935DF52D1F4B9B05CF820D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9B147ED25496DA0781CF712729DBBBBF /* Pods-OCKWatchSample Extension.release.xcconfig */;
+			baseConfigurationReference = 87D1BD9E91F4831B0AC22030FEAA8167 /* Pods-OCKWatchSample Extension.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -6662,7 +6905,7 @@
 		};
 		A646511FBF6B1A665E577816F3A2052E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1F2ACCF415A6EFCEB00D6014D84C4ED6 /* Pods-OCKSample.release.xcconfig */;
+			baseConfigurationReference = F7B07B70CB4EE89FB44CB4A52B0D4D70 /* Pods-OCKSample.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -6825,7 +7068,7 @@
 		};
 		DEB47F1E2346B522B0A18A05266AED9D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ADD27B4E47875B07F7B210B4FD4D8499 /* Pods-OCKSample.debug.xcconfig */;
+			baseConfigurationReference = 10410D429EC48C44C2D994390375F8B8 /* Pods-OCKSample.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -7046,7 +7289,7 @@
 		};
 		F4589E61207909E1266728BB04264F3B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EFB4FEB90BC6A151DB238E2EFA962782 /* Pods-OCKWatchSample Extension.debug.xcconfig */;
+			baseConfigurationReference = 99A4FF159349C03EF6A33FFE26A3423A /* Pods-OCKWatchSample Extension.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -7207,6 +7450,15 @@
 			buildConfigurations = (
 				7314FD4572E1FD327F0E0467C1670E94 /* Debug */,
 				79DCA7EEBCE98AE0BB16E7F0D4728F34 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A242251BF22170195DBB199A4D2D428E /* Build configuration list for PBXNativeTarget "Pods-OCKSampleUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7726F5752877D0E9E0B5236B1B8AA02F /* Debug */,
+				2994895B06319914EAB1FDCD06D3C9C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
