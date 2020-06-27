@@ -1,5 +1,8 @@
 language: swift
 osx_image: xcode12
+before_install:
+  - gem install cocoapods
+  - pod update
 xcode_workspace: OCKSample.xcworkspace
 jobs:
   include:
