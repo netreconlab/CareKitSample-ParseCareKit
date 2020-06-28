@@ -67,8 +67,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                                 
                             if user != nil{
                                 print("Parse login successful \(user!)")
+                                self.parse.automaticallySynchronizes = true
                                 self.store.synchronize{error in
-                                    print(error?.localizedDescription ?? "Successful sync!")
+                                    print(error?.localizedDescription ?? "Successful first sync!")
                                 }
                             }else{
                                 print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
@@ -98,17 +99,19 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     return
                 }else{
                     print("Parse signup successful \(PFUser.current()!)")
+                    self.parse.automaticallySynchronizes = true
                     self.store.synchronize{error in
-                        print(error?.localizedDescription ?? "Syncing for the first time!")
+                        print(error?.localizedDescription ?? "Successful first sync!")
                     }
                 }
             }
             return
         }
         
-        print("User already signed up, attempting to sync...")
+        self.parse.automaticallySynchronizes = true
+        print("User is already signed in. Autosync is set to \(self.parse.automaticallySynchronizes)")
         self.store.synchronize{error in
-            print(error?.localizedDescription ?? "Successful sync!")
+            print(error?.localizedDescription ?? "Completed sync after app startup!")
         }
     }
 

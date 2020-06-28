@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
     var coreDataStore: OCKStore!
     let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
-    private lazy var parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+    private lazy var parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
     private lazy var watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
@@ -105,8 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                 
                             if user != nil{
                                 print("Parse login successful \(user!)")
+                                self.parse.automaticallySynchronizes = true
                                 self.coreDataStore.synchronize{error in
-                                    print(error?.localizedDescription ?? "Successful sync!")
+                                    print(error?.localizedDescription ?? "Successful first sync!")
                                 }
                             }else{
                                 print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
@@ -135,8 +136,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }else{
                     print("Parse signup successful \(PFUser.current()!)")
+                    self.parse.automaticallySynchronizes = true
                     self.coreDataStore.synchronize{error in
-                        print(error?.localizedDescription ?? "Syncing for the first time!")
+                        print(error?.localizedDescription ?? "Successful first sync!")
                     }
                 }
             }
@@ -144,9 +146,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         
-        print("User already signed up, attempting to sync...")
+        self.parse.automaticallySynchronizes = true
+        print("User is already signed in. Autosync is set to \(self.parse.automaticallySynchronizes)")
         self.coreDataStore.synchronize{error in
-            print(error?.localizedDescription ?? "Successful sync!")
+            print(error?.localizedDescription ?? "Completed sync after app startup!")
         }
 
         return true
