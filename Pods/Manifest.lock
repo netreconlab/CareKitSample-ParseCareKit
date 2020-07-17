@@ -49,7 +49,7 @@ CHECKOUT OPTIONS:
     :commit: 0cb91341850c5eae069444b1307c449ffeb42793
     :git: https://github.com/cbaker6/CareKit.git
   ParseCareKit:
-    :commit: c76b7abea817a40383b3880853926bf9a0d6bffe
+    :commit: 75dfec3e24ae71f5705761a5375ae23f51900251
     :git: https://github.com/netreconlab/ParseCareKit.git
 
 SPEC CHECKSUMS:
