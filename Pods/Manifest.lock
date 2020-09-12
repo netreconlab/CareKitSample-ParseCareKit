@@ -5,9 +5,9 @@ PODS:
     - CareKitUI (= 2.0)
   - CareKitStore (2.0)
   - CareKitUI (2.0)
-  - Parse (1.18.0):
-    - Parse/Core (= 1.18.0)
-  - Parse/Core (1.18.0):
+  - Parse (1.19.0):
+    - Parse/Core (= 1.19.0)
+  - Parse/Core (1.19.0):
     - Bolts/Tasks (= 1.9.1)
   - ParseCareKit (1.0):
     - CareKitStore (~> 2.0)
@@ -49,7 +49,7 @@ CHECKOUT OPTIONS:
     :commit: 0cb91341850c5eae069444b1307c449ffeb42793
     :git: https://github.com/cbaker6/CareKit.git
   ParseCareKit:
-    :commit: 75dfec3e24ae71f5705761a5375ae23f51900251
+    :commit: edc5567e48c1b00e6d2646c375718701d3da1fa9
     :git: https://github.com/netreconlab/ParseCareKit.git
 
 SPEC CHECKSUMS:
@@ -57,7 +57,7 @@ SPEC CHECKSUMS:
   CareKit: 3519eeb974b6a65c7ae335b3b369dbc359d41b99
   CareKitStore: a25e631eee3b5649427b05cbe685b4522cf86d47
   CareKitUI: 7f81cb83e1c6b62bd0831a542b09e9b003aa9d7b
-  Parse: 79bdda34fdb7eb2a707a43a951c8aae236cb3e34
+  Parse: 0fb5c7cc7ee5900f2434e24607d0496155b8d04f
   ParseCareKit: ead95de3242e664501588c8336681a5605e5d4bf
 
 PODFILE CHECKSUM: 12f5f3169ad09061aff8b2d93f6ccf9deff54754
