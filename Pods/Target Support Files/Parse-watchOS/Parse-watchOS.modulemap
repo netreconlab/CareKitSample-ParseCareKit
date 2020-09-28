@@ -1,6 +1,0 @@
-framework module Parse {
-  umbrella header "Parse-watchOS-umbrella.h"
-
-  export *
-  module * { export * }
-}

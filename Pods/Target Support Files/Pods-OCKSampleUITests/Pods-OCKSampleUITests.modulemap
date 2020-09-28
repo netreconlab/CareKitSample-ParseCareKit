@@ -1,6 +1,0 @@
-framework module Pods_OCKSampleUITests {
-  umbrella header "Pods-OCKSampleUITests-umbrella.h"
-
-  export *
-  module * { export * }
-}

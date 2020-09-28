@@ -1,7 +1,0 @@
-${PODS_ROOT}/Target Support Files/Pods-OCKWatchSample Extension/Pods-OCKWatchSample Extension-frameworks.sh
-${BUILT_PRODUCTS_DIR}/Bolts-watchOS/Bolts.framework
-${BUILT_PRODUCTS_DIR}/CareKit-watchOS/CareKit.framework
-${BUILT_PRODUCTS_DIR}/CareKitStore-watchOS/CareKitStore.framework
-${BUILT_PRODUCTS_DIR}/CareKitUI-watchOS/CareKitUI.framework
-${BUILT_PRODUCTS_DIR}/Parse-watchOS/Parse.framework
-${BUILT_PRODUCTS_DIR}/ParseCareKit-watchOS/ParseCareKit.framework

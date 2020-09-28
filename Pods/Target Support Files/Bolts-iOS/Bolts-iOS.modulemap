@@ -1,6 +1,0 @@
-framework module Bolts {
-  umbrella header "Bolts-iOS-umbrella.h"
-
-  export *
-  module * { export * }
-}

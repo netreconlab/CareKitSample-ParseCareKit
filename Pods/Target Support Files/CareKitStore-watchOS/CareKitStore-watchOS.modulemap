@@ -1,6 +1,0 @@
-framework module CareKitStore {
-  umbrella header "CareKitStore-watchOS-umbrella.h"
-
-  export *
-  module * { export * }
-}
