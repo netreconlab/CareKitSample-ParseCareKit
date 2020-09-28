@@ -1,0 +1,10 @@
+language: swift
+osx_image: xcode12
+before_install:
+  - gem install cocoapods
+  - pod update
+xcode_workspace: OCKSample.xcworkspace
+jobs:
+  include:
+    - xcode_scheme: OCKSample
+      xcode_destination: platform=iOS Simulator,OS=14.0,name=iPhone 11 Pro Max
