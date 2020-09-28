@@ -8,7 +8,7 @@
 import CareKit
 import CareKitStore
 import ParseCareKit
-import Parse
+import ParseSwift
 import WatchKit
 import WatchConnectivity
 
@@ -16,7 +16,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
     private var store: OCKStore!
-    private lazy var parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+    private lazy var parse = ParseRemoteSynchronizationManager<Patient>(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
     private var sessionDelegate:SessionDelegate!
     private(set) lazy var storeManager = OCKSynchronizedStoreManager(wrapping: store)
     
@@ -36,49 +36,55 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         WCSession.default.delegate = sessionDelegate
         WCSession.default.activate()
         
-        PFUser.enableRevocableSessionInBackground()
+        //User.enableRevocableSessionInBackground()
         
         //Set default ACL for all Parse Classes
-        let defaultACL = PFACL()
-        defaultACL.hasPublicReadAccess = false
-        defaultACL.hasPublicWriteAccess = false
-        PFACL.setDefault(defaultACL, withAccessForCurrentUser:true)
-        
+        var defaultACL = ParseACL()
+        defaultACL.publicRead = false
+        defaultACL.publicWrite = false
+        do {
+            _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+        } catch {
+            print(error.localizedDescription)
+        }
+
         //If the user isn't logged in, log them in
-        guard let _ = PFUser.current() else{
+        guard let _ = User.current else{
             
-            let newUser = PFUser()
+            var newUser = User()
             newUser.username = "ParseCareKit"
             newUser.password = "ThisIsAStrongPass1!"
             
-            newUser.signUpInBackground(){
-                (success,error) in
-                if !success{
-                    guard let parseError = error as NSError? else{
-                        //There was a different issue that we don't know how to handle
-                        print("Error signing in. Unkown...")
-                        return
+            newUser.signup{ result in
+                switch result {
+                
+                case .success(let user):
+                    print("Parse signup successful \(user)")
+                    self.parse.automaticallySynchronizes = true
+                    self.store.synchronize{error in
+                        print(error?.localizedDescription ?? "Successful first sync!")
                     }
-                    
-                    switch parseError.code{
-                    case 202: //Account already exists for this username.
-                        PFUser.logInWithUsername(inBackground: newUser.username!, password: newUser.password!){
-                            (user, error) -> Void in
+                case .failure(let parseError):
+                    switch parseError.code {
+                    case .usernameTaken:
+                        User.login(username: newUser.username!, password: newUser.password!) { result in
                                 
-                            if user != nil{
-                                print("Parse login successful \(user!)")
+                            switch result {
+                            
+                            case .success(let user):
+                                print("Parse login successful \(user)")
                                 self.parse.automaticallySynchronizes = true
                                 self.store.synchronize{error in
                                     print(error?.localizedDescription ?? "Successful first sync!")
                                 }
-                            }else{
+                            case .failure(let error):
                                 print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
                                 print("Parse error: \(String(describing: error))")
                             }
                         }
                         //How to login anonymously
                         /*
-                        PFAnonymousUtils.logIn{
+                        AnonymousUtils.logIn{
                             (user, error) -> Void in
                         
                             if user != nil{
@@ -96,13 +102,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                         print("*** Error Signing up as user for Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
                         print(parseError)
                     }
-                    return
-                }else{
-                    print("Parse signup successful \(PFUser.current()!)")
-                    self.parse.automaticallySynchronizes = true
-                    self.store.synchronize{error in
-                        print(error?.localizedDescription ?? "Successful first sync!")
-                    }
                 }
             }
             return
@@ -118,7 +117,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidBecomeActive() {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
-        if PFUser.current() != nil{
+        if User.current != nil{
             self.store.synchronize{error in
                 print(error?.localizedDescription ?? "Successful sync!")
             }

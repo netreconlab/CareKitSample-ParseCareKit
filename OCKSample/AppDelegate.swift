@@ -34,7 +34,7 @@ import Contacts
 import UIKit
 import HealthKit
 import ParseCareKit
-import Parse
+import ParseSwift
 import WatchConnectivity
 
 @UIApplicationMain
@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
     var coreDataStore: OCKStore!
     let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
-    private lazy var parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+    private lazy var parse = ParseRemoteSynchronizationManager<Patient>(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
     private lazy var watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
@@ -74,42 +74,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.coreDataStore.populateSampleData()
         self.healthKitStore.populateSampleData()
         
-        PFUser.enableRevocableSessionInBackground()
+        //User.enableRevocableSessionInBackground()
         
         //Set default ACL for all Parse Classes
-        let defaultACL = PFACL()
-        defaultACL.hasPublicReadAccess = false
-        defaultACL.hasPublicWriteAccess = false
-        PFACL.setDefault(defaultACL, withAccessForCurrentUser:true)
+        var defaultACL = ParseACL()
+        defaultACL.publicRead = false
+        defaultACL.publicWrite = false
+        do {
+            _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+        } catch {
+            print(error.localizedDescription)
+        }
         
         //If the user isn't logged in, log them in
-        guard let _ = PFUser.current() else{
+        guard let _ = User.current else{
             
-            let newUser = PFUser()
+            var newUser = User()
             newUser.username = "ParseCareKit"
             newUser.password = "ThisIsAStrongPass1!"
             
-            newUser.signUpInBackground(){
-                (success,error) in
-                if !success{
-                    guard let parseError = error as NSError? else{
-                        //There was a different issue that we don't know how to handle
-                        print("Error signing in. Unkown...")
-                        return
+            newUser.signup { result in
+                switch result {
+                
+                case .success(let user):
+                    print("Parse signup successful \(user)")
+                    self.parse.automaticallySynchronizes = true
+                    self.coreDataStore.synchronize{error in
+                        print(error?.localizedDescription ?? "Successful first sync!")
                     }
-                    
+                case .failure(let parseError):
                     switch parseError.code{
-                    case 202: //Account already exists for this username.
-                        PFUser.logInWithUsername(inBackground: newUser.username!, password: newUser.password!){
-                            (user, error) -> Void in
+                    case .usernameTaken: //Account already exists for this username.
+                        User.login(username: newUser.username!, password: newUser.password!){ result in
                                 
-                            if user != nil{
-                                print("Parse login successful \(user!)")
+                            switch result {
+                            
+                            case .success(let user):
+                                print("Parse login successful \(user)")
                                 self.parse.automaticallySynchronizes = true
                                 self.coreDataStore.synchronize{error in
                                     print(error?.localizedDescription ?? "Successful first sync!")
                                 }
-                            }else{
+                            case .failure(let error):
                                 print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
                                 print("Parse error: \(String(describing: error))")
                             }
@@ -133,12 +139,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         //There was a different issue that we don't know how to handle
                         print("*** Error Signing up as user for Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
                         print(parseError)
-                    }
-                }else{
-                    print("Parse signup successful \(PFUser.current()!)")
-                    self.parse.automaticallySynchronizes = true
-                    self.coreDataStore.synchronize{error in
-                        print(error?.localizedDescription ?? "Successful first sync!")
                     }
                 }
             }
