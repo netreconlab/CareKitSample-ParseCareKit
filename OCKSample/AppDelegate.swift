@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
     var coreDataStore: OCKStore!
     let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
-    private lazy var parse = ParseRemoteSynchronizationManager<Patient>(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+    private lazy var parse = try? ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
     private lazy var watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
@@ -52,10 +52,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         ParseCareKitUtility.setupServer()
+        //Clear items out of the Keychain on app first run. Used for debugging
+        //try? User.logout()
         
         if syncWithCloud{
             coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
-            parse.parseRemoteDelegate = self
+            parse?.parseRemoteDelegate = self
             sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
         }else{
             coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: watch)
@@ -74,8 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.coreDataStore.populateSampleData()
         self.healthKitStore.populateSampleData()
         
-        //User.enableRevocableSessionInBackground()
-        
         //Set default ACL for all Parse Classes
         var defaultACL = ParseACL()
         defaultACL.publicRead = false
@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let _ = User.current else{
             
             var newUser = User()
-            newUser.username = "ParseCareKit"
+            newUser.username = "ParseCareKit2"
             newUser.password = "ThisIsAStrongPass1!"
             
             newUser.signup { result in
@@ -98,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 case .success(let user):
                     print("Parse signup successful \(user)")
-                    self.parse.automaticallySynchronizes = true
+                    self.parse?.automaticallySynchronizes = true
                     self.coreDataStore.synchronize{error in
                         print(error?.localizedDescription ?? "Successful first sync!")
                     }
@@ -111,7 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
                             case .success(let user):
                                 print("Parse login successful \(user)")
-                                self.parse.automaticallySynchronizes = true
+                                self.parse?.automaticallySynchronizes = true
                                 self.coreDataStore.synchronize{error in
                                     print(error?.localizedDescription ?? "Successful first sync!")
                                 }
@@ -146,8 +146,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
         }
         
-        self.parse.automaticallySynchronizes = true
-        print("User is already signed in. Autosync is set to \(self.parse.automaticallySynchronizes)")
+        self.parse?.automaticallySynchronizes = true
+        print("User is already signed in. Autosync is set to \(String(describing: self.parse?.automaticallySynchronizes))")
         self.coreDataStore.synchronize{error in
             print(error?.localizedDescription ?? "Completed sync after app startup!")
         }

@@ -22,7 +22,5 @@ struct User: ParseUser {
     
     var updatedAt: Date?
     
-    var ACL: ParseACL?
-    
-    
+    var ACL: ParseACL? = try? ParseACL.defaultACL()
 }

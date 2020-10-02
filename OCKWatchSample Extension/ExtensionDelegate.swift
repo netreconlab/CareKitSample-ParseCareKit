@@ -16,7 +16,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
     private var store: OCKStore!
-    private lazy var parse = ParseRemoteSynchronizationManager<Patient>(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+    private lazy var parse = try! ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
     private var sessionDelegate:SessionDelegate!
     private(set) lazy var storeManager = OCKSynchronizedStoreManager(wrapping: store)
     
