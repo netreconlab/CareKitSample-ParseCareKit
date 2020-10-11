@@ -33,7 +33,6 @@ import CareKit
 import CareKitStore
 import CareKitUI
 import ParseCareKit
-import Parse
 import XCTest
 
 class OCKSampleUITests: XCTestCase {

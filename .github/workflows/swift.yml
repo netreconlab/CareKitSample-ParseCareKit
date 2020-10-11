@@ -16,6 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace OCKSample.xcworkspace -scheme OCKSample -destination platform\=iOS\ Simulator,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme OCKSample -destination platform\=iOS\ Simulator,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
