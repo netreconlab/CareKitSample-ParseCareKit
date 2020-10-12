@@ -32,7 +32,7 @@ You can setup your parse-server locally to test using [parse-hipaa](https://gith
 ## Fork this repo to get the modified OCKSample app. 
 
 1. Fork [CareKitSample-ParseCareKit](https://github.com/netreconlab/ParseCareKit)
-2. Open `OCKSample.xcworkspace` in Xcode
+2. Open `OCKSample.xcodeproj` in Xcode
 3. You may need to configure your "Team" and "Bundle Identifier" in "Signing and Capabilities"
 4. Build the project. If you get any errors, type "pod update" in the project directory in Terminal
 5. Run the app and data will synchronize with parse-hipaa via http://localhost:1337/parse automatically
