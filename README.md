@@ -9,15 +9,11 @@ ParseCareKit synchs the following entities to Parse tables/classes:
 - [x] OCKTask <-> Task
 - [x] OCKOutcome <-> Outcome
 - [x] OCKOutcomeValue <-> OutcomeValue
-- [x] OCKScheduleElement <-> ScheduleElement
 - [x] OCKNote <-> Note
-- [x] OCKRevisionRecord.KnowledgeVector <-> KnowledgeVector
+- [x] OCKRevisionRecord.KnowledgeVector <-> Clock
 - [x] OCKPatient <-> Patient
 - [x] OCKCarePlan <-> CarePlan
 - [x] OCKContact <-> Contact
-
-Note that there's currently a small bug on CareKit's master branch that prevents "deleted" entites from synching to a remote server properly. If you want the fixed version you should fork the [experimental branch](https://github.com/netreconlab/CareKitSample-ParseCareKit/tree/experimental) instead. The differences are in the [Podfile](https://github.com/netreconlab/CareKitSample-ParseCareKit/blob/87873cc1c9e35f46571ca340fbf8ec74baea0b70/Podfile#L9), specifically the `CareKitStore` pod. The main branch uses the [pod](https://github.com/cbaker6/CareKit/tree/pod) branch of CareKitStore while the experimental branch uses [pod_vector](https://github.com/cbaker6/CareKit/tree/pod_vector). The differences in the pod_vector branch from CareKit's master can be seen [here](https://github.com/cbaker6/CareKit/pull/1/files).
-
 
 **Use at your own risk. There is no promise that this is HIPAA compliant and we are not responsible for any mishandling of your data**
 
