@@ -24,7 +24,7 @@
         "repositoryURL": "https://github.com/parse-community/Parse-Swift.git",
         "state": {
           "branch": "geopoint",
-          "revision": "63344e220a49348e2d3b3ef6526157b1c08812be",
+          "revision": "9a7acc080e4234d98964e241ed64d7e6d7c1a061",
           "version": null
         }
       },
@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
           "branch": "main",
-          "revision": "fe1ec12b259e83f1157c61a8bf5fa39aa718fd80",
+          "revision": "d0b2f911bfd5427a542274e33aec83b1e291d494",
           "version": null
         }
       }
