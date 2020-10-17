@@ -51,10 +51,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        //Parse-server setup
         ParseCareKitUtility.setupServer()
+
         //Clear items out of the Keychain on app first run. Used for debugging
-        //try? User.logout()
+        if UserDefaults.standard.object(forKey: "firstRun") == nil {
+            try? User.logout()
+            //This is no longer the first run
+            UserDefaults.standard.setValue("firstRun", forKey: "firstRun")
+            UserDefaults.standard.synchronize()
+        }
         
+        //Set default ACL for all Parse Classes
+        var defaultACL = ParseACL()
+        defaultACL.publicRead = false
+        defaultACL.publicWrite = false
+        do {
+            _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+        } catch {
+            print(error.localizedDescription)
+        }
+
         if syncWithCloud{
             coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
             parse?.parseRemoteDelegate = self
@@ -76,21 +93,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.coreDataStore.populateSampleData()
         self.healthKitStore.populateSampleData()
         
-        //Set default ACL for all Parse Classes
-        var defaultACL = ParseACL()
-        defaultACL.publicRead = false
-        defaultACL.publicWrite = false
-        do {
-            _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
-        } catch {
-            print(error.localizedDescription)
-        }
-        
         //If the user isn't logged in, log them in
         guard let _ = User.current else{
             
             var newUser = User()
-            newUser.username = "ParseCareKit2"
+            newUser.username = "ParseCareKit"
             newUser.password = "ThisIsAStrongPass1!"
             
             newUser.signup { result in
@@ -116,28 +123,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                     print(error?.localizedDescription ?? "Successful first sync!")
                                 }
                             case .failure(let error):
-                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                                 print("Parse error: \(String(describing: error))")
                             }
                         }
-                        //How to login anonymously
-                        /*
-                        PFAnonymousUtils.logIn{
-                            (user, error) -> Void in
-                        
-                            if user != nil{
-                                print("Parse login successful \(user!)")
-                                self.coreDataStore.synchronize{error in
-                                    print(error?.localizedDescription ?? "Successful sync!")
-                                }
-                            }else{
-                                print("*** Error logging into Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
-                                print("Parse error: \(String(describing: error))")
-                            }
-                        }*/
                     default:
                         //There was a different issue that we don't know how to handle
-                        print("*** Error Signing up as user for Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                        print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
                         print(parseError)
                     }
                 }

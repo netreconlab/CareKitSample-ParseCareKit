@@ -16,28 +16,23 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
     private var store: OCKStore!
-    private lazy var parse = try! ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+    private lazy var parse = try? ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
     private var sessionDelegate:SessionDelegate!
     private(set) lazy var storeManager = OCKSynchronizedStoreManager(wrapping: store)
     
     func applicationDidFinishLaunching() {
         
+        //Parse-server setup
         ParseCareKitUtility.setupServer()
-        
-        if syncWithCloud{
-            store = OCKStore(name: "SampleWatchAppStore", remote: parse)
-            parse.parseRemoteDelegate = self
-            sessionDelegate = CloudSyncSessionDelegate(store: store)
-        }else {
-            store = OCKStore(name: "SampleWatchAppStore", remote: phone)
-            sessionDelegate =  LocalSyncSessionDelegate(remote: phone, store: store)
+
+        //Clear items out of the Keychain on app first run. Used for debugging
+        if UserDefaults.standard.object(forKey: "firstRun") == nil {
+            try? User.logout()
+            //This is no longer the first run
+            UserDefaults.standard.setValue("firstRun", forKey: "firstRun")
+            UserDefaults.standard.synchronize()
         }
-        
-        WCSession.default.delegate = sessionDelegate
-        WCSession.default.activate()
-        
-        //User.enableRevocableSessionInBackground()
-        
+
         //Set default ACL for all Parse Classes
         var defaultACL = ParseACL()
         defaultACL.publicRead = false
@@ -47,7 +42,19 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         } catch {
             print(error.localizedDescription)
         }
-
+        
+        if syncWithCloud{
+            store = OCKStore(name: "SampleWatchAppStore", remote: parse)
+            parse?.parseRemoteDelegate = self
+            sessionDelegate = CloudSyncSessionDelegate(store: store)
+        }else {
+            store = OCKStore(name: "SampleWatchAppStore", remote: phone)
+            sessionDelegate =  LocalSyncSessionDelegate(remote: phone, store: store)
+        }
+        
+        WCSession.default.delegate = sessionDelegate
+        WCSession.default.activate()
+        
         //If the user isn't logged in, log them in
         guard let _ = User.current else{
             
@@ -60,7 +67,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 
                 case .success(let user):
                     print("Parse signup successful \(user)")
-                    self.parse.automaticallySynchronizes = true
+                    self.parse?.automaticallySynchronizes = true
                     self.store.synchronize{error in
                         print(error?.localizedDescription ?? "Successful first sync!")
                     }
@@ -73,33 +80,18 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                             
                             case .success(let user):
                                 print("Parse login successful \(user)")
-                                self.parse.automaticallySynchronizes = true
+                                self.parse?.automaticallySynchronizes = true
                                 self.store.synchronize{error in
                                     print(error?.localizedDescription ?? "Successful first sync!")
                                 }
                             case .failure(let error):
-                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                                 print("Parse error: \(String(describing: error))")
                             }
                         }
-                        //How to login anonymously
-                        /*
-                        AnonymousUtils.logIn{
-                            (user, error) -> Void in
-                        
-                            if user != nil{
-                                print("Parse login successful \(user!)")
-                                self.store.synchronize{error in
-                                    print(error?.localizedDescription ?? "Successful sync!")
-                                }
-                            }else{
-                                print("*** Error logging into Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
-                                print("Parse error: \(String(describing: error))")
-                            }
-                        }*/
                     default:
                         //There was a different issue that we don't know how to handle
-                        print("*** Error Signing up as user for Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                        print("*** Error Signing up as user for Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                         print(parseError)
                     }
                 }
@@ -107,8 +99,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             return
         }
         
-        self.parse.automaticallySynchronizes = true
-        print("User is already signed in. Autosync is set to \(self.parse.automaticallySynchronizes)")
+        self.parse?.automaticallySynchronizes = true
+        print("User is already signed in. Autosync is set to \(String(describing: self.parse?.automaticallySynchronizes))")
         self.store.synchronize{error in
             print(error?.localizedDescription ?? "Completed sync after app startup!")
         }
