@@ -64,7 +64,7 @@ class CareViewController: OCKDailyPageViewController {
     override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
                                           prepare listViewController: OCKListViewController, for date: Date) {
 
-        let identifiers = ["doxylamine", "nausea", "stretch", "kegels", "steps", "heartRate"]
+        let identifiers = ["doxylamine", "nausea", "stretch", "kegels", "steps", "heartRate", "pain"]
         var query = OCKTaskQuery(for: date)
         query.ids = identifiers
         query.excludesTasksWithNoEvents = true
@@ -86,7 +86,7 @@ class CareViewController: OCKDailyPageViewController {
                     tipView.imageView.image = UIImage(named: "exercise.jpg")
                     listViewController.appendView(tipView, animated: false)
                 }
-
+                
                 if #available(iOS 14, *), let walkTask = tasks.first(where: { $0.id == "steps" }) {
 
                     let view = NumericProgressTaskView(
@@ -170,6 +170,13 @@ class CareViewController: OCKDailyPageViewController {
                     let nauseaCard = OCKButtonLogTaskViewController(task: nauseaTask, eventQuery: .init(for: date),
                                                                     storeManager: self.storeManager)
                     listViewController.appendViewController(nauseaCard, animated: false)
+                }
+                
+                if let painTask = tasks.first(where: { $0.id == "pain" }) {
+                
+                    let painCard = OCKButtonLogTaskViewController(task: painTask, eventQuery: .init(for: date),
+                                                                    storeManager: self.storeManager)
+                    listViewController.appendViewController(painCard, animated: false)
                 }
             }
         }

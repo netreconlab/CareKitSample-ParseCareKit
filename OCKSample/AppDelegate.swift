@@ -186,6 +186,8 @@ private extension OCKStore {
         nausea.impactsAdherence = false
         nausea.instructions = "Tap the button below anytime you experience nausea."
 
+        addTask(nausea)
+        
         let kegelElement = OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 2))
         let kegelSchedule = OCKSchedule(composing: [kegelElement])
         var kegels = OCKTask(id: "kegels", title: "Kegel Exercises", carePlanUUID: nil, schedule: kegelSchedule)
@@ -197,8 +199,24 @@ private extension OCKStore {
         var stretch = OCKTask(id: "stretch", title: "Stretch", carePlanUUID: nil, schedule: stretchSchedule)
         stretch.impactsAdherence = true
 
-        addTasks([nausea, doxylamine, kegels, stretch], callbackQueue: .main, completion: nil)
-
+        var pain = OCKTask(id: "pain", title: "Track your pain",
+                             carePlanUUID: nil, schedule: nauseaSchedule)
+        pain.impactsAdherence = false
+        pain.instructions = "Tap the button below anytime you experience pain."
+        
+        addTasks([nausea, doxylamine, kegels, stretch, pain], callbackQueue: .main) {
+            results in
+            
+            switch results {
+            
+            case .success(let tasks):
+                print(tasks)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        
         var contact1 = OCKContact(id: "jane", givenName: "Jane",
                                   familyName: "Daniels", carePlanUUID: nil)
         contact1.asset = "JaneDaniels"
@@ -222,7 +240,7 @@ private extension OCKStore {
         contact2.asset = "MatthewReiff"
         contact2.title = "OBGYN"
         contact2.role = "Dr. Reiff is an OBGYN with 13 years of experience."
-        contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
+        contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(434) 333-3345")]
         contact2.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
         contact2.address = {
             let address = OCKPostalAddress()
@@ -233,7 +251,8 @@ private extension OCKStore {
             return address
         }()
 
-        addContacts([contact1, contact2])
+        //addContacts([contact1, contact2])
+        updateContacts([contact2])
     }
 }
 
