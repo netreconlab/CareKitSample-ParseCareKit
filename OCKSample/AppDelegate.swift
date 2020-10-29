@@ -186,7 +186,7 @@ private extension OCKStore {
         nausea.impactsAdherence = false
         nausea.instructions = "Tap the button below anytime you experience nausea."
 
-        addTask(nausea)
+        
         
         let kegelElement = OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 2))
         let kegelSchedule = OCKSchedule(composing: [kegelElement])
@@ -204,6 +204,37 @@ private extension OCKStore {
         pain.impactsAdherence = false
         pain.instructions = "Tap the button below anytime you experience pain."
         
+        var water = OCKTask(id: "drinkWater", title: "Track how much water consumed",
+                             carePlanUUID: nil, schedule: nauseaSchedule)
+        water.impactsAdherence = false
+        water.instructions = "Tap the button when you have had water."
+        
+        addTask(water, callbackQueue: .main) {
+            result in
+            
+            switch result {
+            
+            case .success(let task):
+                print("Succesffully added task: \(task)")
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        addTasks([nausea, doxylamine, kegels, stretch, pain, water], callbackQueue: .main) {
+            taskResults in
+            
+            switch taskResults {
+            
+            case .success(let tasks):
+                print("Succesffully added \(tasks.count) tasks: \(tasks)")
+            case .failure(let error):
+                print(error)
+            }
+        }
+
+        
+        /*
         addTasks([nausea, doxylamine, kegels, stretch, pain], callbackQueue: .main) {
             results in
             
@@ -214,7 +245,7 @@ private extension OCKStore {
             case .failure(let error):
                 print(error)
             }
-        }
+        }*/
         
         
         var contact1 = OCKContact(id: "jane", givenName: "Jane",
@@ -223,7 +254,7 @@ private extension OCKStore {
         contact1.title = "Family Practice Doctor"
         contact1.role = "Dr. Daniels is a family practice doctor with 8 years of experience."
         contact1.emailAddresses = [OCKLabeledValue(label: CNLabelEmailiCloud, value: "janedaniels@icloud.com")]
-        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
+        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 233-4444")]
         contact1.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
 
         contact1.address = {
@@ -251,8 +282,9 @@ private extension OCKStore {
             return address
         }()
 
-        //addContacts([contact1, contact2])
-        updateContacts([contact2])
+        updateContact(contact1)
+        addContacts([contact1, contact2])
+        //updateContacts([contact2])
     }
 }
 
