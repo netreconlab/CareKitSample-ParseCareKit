@@ -203,6 +203,8 @@ private extension OCKStore {
                              carePlanUUID: nil, schedule: nauseaSchedule)
         pain.impactsAdherence = false
         pain.instructions = "Tap the button below anytime you experience pain."
+
+        addTask(pain, callbackQueue: .main, completion: nil)
         
         addTasks([nausea, doxylamine, kegels, stretch, pain], callbackQueue: .main) {
             results in
@@ -223,7 +225,7 @@ private extension OCKStore {
         contact1.title = "Family Practice Doctor"
         contact1.role = "Dr. Daniels is a family practice doctor with 8 years of experience."
         contact1.emailAddresses = [OCKLabeledValue(label: CNLabelEmailiCloud, value: "janedaniels@icloud.com")]
-        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
+        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7416")]
         contact1.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
 
         contact1.address = {
@@ -241,7 +243,7 @@ private extension OCKStore {
         contact2.title = "OBGYN"
         contact2.role = "Dr. Reiff is an OBGYN with 13 years of experience."
         contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(434) 333-3345")]
-        contact2.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
+        contact2.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7416")]
         contact2.address = {
             let address = OCKPostalAddress()
             address.street = "396 El Verano Way"
@@ -251,7 +253,7 @@ private extension OCKStore {
             return address
         }()
 
-        //addContacts([contact1, contact2])
+        addContacts([contact1, contact2])
         updateContacts([contact2])
     }
 }
