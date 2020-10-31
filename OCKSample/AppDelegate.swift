@@ -197,16 +197,16 @@ private extension OCKStore {
         contact1.asset = "JaneDaniels"
         contact1.title = "Family Practice Doctor"
         contact1.role = "Dr. Daniels is a family practice doctor with 8 years of experience."
-        contact1.emailAddresses = [OCKLabeledValue(label: CNLabelEmailiCloud, value: "janedaniels@icloud.com")]
-        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
-        contact1.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
+        contact1.emailAddresses = [OCKLabeledValue(label: CNLabelEmailiCloud, value: "janedaniels@uky.edu")]
+        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 257-2000")]
+        contact1.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 357-2040")]
 
         contact1.address = {
             let address = OCKPostalAddress()
-            address.street = "2598 Reposa Way"
-            address.city = "San Francisco"
-            address.state = "CA"
-            address.postalCode = "94127"
+            address.street = "2195 Harrodsburg Rd"
+            address.city = "Lexington"
+            address.state = "KY"
+            address.postalCode = "40504"
             return address
         }()
 
@@ -215,14 +215,14 @@ private extension OCKStore {
         contact2.asset = "MatthewReiff"
         contact2.title = "OBGYN"
         contact2.role = "Dr. Reiff is an OBGYN with 13 years of experience."
-        contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
-        contact2.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
+        contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 257-1000")]
+        contact2.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 257-1234")]
         contact2.address = {
             let address = OCKPostalAddress()
-            address.street = "396 El Verano Way"
-            address.city = "San Francisco"
-            address.state = "CA"
-            address.postalCode = "94127"
+            address.street = "1000 S Limestone"
+            address.city = "Lexington"
+            address.state = "KY"
+            address.postalCode = "40536"
             return address
         }()
 
