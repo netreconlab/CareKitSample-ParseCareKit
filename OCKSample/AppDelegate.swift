@@ -71,27 +71,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } catch {
             print(error.localizedDescription)
         }
-
-        if syncWithCloud{
-            coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
-            parse?.parseRemoteDelegate = self
-            sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
-        }else{
-            coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: watch)
-            sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
-        }
-        
-        WCSession.default.delegate = sessionDelegate
-        WCSession.default.activate()
-        
-        let coordinator = OCKStoreCoordinator()
-        coordinator.attach(eventStore: healthKitStore)
-        coordinator.attach(store: coreDataStore)
-
-        synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
-        
-        self.coreDataStore.populateSampleData()
-        self.healthKitStore.populateSampleData()
         
         //If the user isn't logged in, log them in
         guard let _ = User.current else{
@@ -105,10 +84,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 case .success(let user):
                     print("Parse signup successful \(user)")
-                    self.parse?.automaticallySynchronizes = true
-                    self.coreDataStore.synchronize{error in
-                        print(error?.localizedDescription ?? "Successful first sync!")
-                    }
+                    self.setupRemotes()
+                    self.coreDataStore.populateSampleData()
+                    self.healthKitStore.populateSampleData()
                 case .failure(let parseError):
                     switch parseError.code{
                     case .usernameTaken: //Account already exists for this username.
@@ -118,10 +96,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             
                             case .success(let user):
                                 print("Parse login successful \(user)")
-                                self.parse?.automaticallySynchronizes = true
-                                self.coreDataStore.synchronize{error in
-                                    print(error?.localizedDescription ?? "Successful first sync!")
-                                }
+                                self.setupRemotes()
+                                self.coreDataStore.populateSampleData()
+                                self.healthKitStore.populateSampleData()
                             case .failure(let error):
                                 print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                                 print("Parse error: \(String(describing: error))")
@@ -137,13 +114,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             return true
         }
-        
-        self.parse?.automaticallySynchronizes = true
-        print("User is already signed in. Autosync is set to \(String(describing: self.parse?.automaticallySynchronizes))")
-        self.coreDataStore.synchronize{error in
-            print(error?.localizedDescription ?? "Completed sync after app startup!")
-        }
 
+        self.setupRemotes()
+        print("User is already signed in. Autosync is set to \(String(describing: self.parse?.automaticallySynchronizes))")
         return true
     }
 
@@ -151,6 +124,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
+    
+    func setupRemotes() {
+        parse = try? ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+        if syncWithCloud{
+            coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
+            parse?.parseRemoteDelegate = self
+            sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
+        }else{
+            coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: watch)
+            sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
+        }
+        
+        WCSession.default.delegate = sessionDelegate
+        WCSession.default.activate()
+        
+        let coordinator = OCKStoreCoordinator()
+        coordinator.attach(eventStore: healthKitStore)
+        coordinator.attach(store: coreDataStore)
+        synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
     }
 }
 
