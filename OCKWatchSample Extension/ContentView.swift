@@ -45,7 +45,7 @@ struct ContentView: View {
                 .init(title: Text(controller.viewModel?.title ?? ""), detail: nil, isComplete: controller.viewModel?.isComplete ?? false, action: controller.viewModel?.action ?? {})
             }
             
-        }.accentColor(Color(#colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1)))
+        }.accentColor(Color(#colorLiteral(red: 0.8310135007, green: 0.8244097233, blue: 0.8242591023, alpha: 1)))
     }
 }
 

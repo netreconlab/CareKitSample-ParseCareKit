@@ -15,10 +15,10 @@ import WatchConnectivity
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
-    private var store: OCKStore!
+    private var store: OCKStore = OCKStore(name: "SampleWatchAppStore")
     private lazy var parse = try? ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
     private var sessionDelegate:SessionDelegate!
-    private(set) lazy var storeManager = OCKSynchronizedStoreManager(wrapping: store)
+    private(set) lazy var storeManager: OCKSynchronizedStoreManager! = OCKSynchronizedStoreManager(wrapping: store)
     
     func applicationDidFinishLaunching() {
         
@@ -43,18 +43,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             print(error.localizedDescription)
         }
         
-        if syncWithCloud{
-            store = OCKStore(name: "SampleWatchAppStore", remote: parse)
-            parse?.parseRemoteDelegate = self
-            sessionDelegate = CloudSyncSessionDelegate(store: store)
-        }else {
-            store = OCKStore(name: "SampleWatchAppStore", remote: phone)
-            sessionDelegate =  LocalSyncSessionDelegate(remote: phone, store: store)
-        }
-        
-        WCSession.default.delegate = sessionDelegate
-        WCSession.default.activate()
-        
         //If the user isn't logged in, log them in
         guard let _ = User.current else{
             
@@ -67,10 +55,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 
                 case .success(let user):
                     print("Parse signup successful \(user)")
-                    self.parse?.automaticallySynchronizes = true
-                    self.store.synchronize{error in
-                        print(error?.localizedDescription ?? "Successful first sync!")
-                    }
+                    self.setupRemotes()
                 case .failure(let parseError):
                     switch parseError.code {
                     case .usernameTaken:
@@ -80,10 +65,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                             
                             case .success(let user):
                                 print("Parse login successful \(user)")
-                                self.parse?.automaticallySynchronizes = true
-                                self.store.synchronize{error in
-                                    print(error?.localizedDescription ?? "Successful first sync!")
-                                }
+                                self.setupRemotes()
                             case .failure(let error):
                                 print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                                 print("Parse error: \(String(describing: error))")
@@ -98,14 +80,29 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             }
             return
         }
-        
-        self.parse?.automaticallySynchronizes = true
+        self.setupRemotes()
         print("User is already signed in. Autosync is set to \(String(describing: self.parse?.automaticallySynchronizes))")
-        self.store.synchronize{error in
-            print(error?.localizedDescription ?? "Completed sync after app startup!")
-        }
     }
 
+    func setupRemotes() {
+        parse = try? ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+        if syncWithCloud{
+            store = OCKStore(name: "SampleWatchAppStore", remote: parse)
+            storeManager = OCKSynchronizedStoreManager(wrapping: store)
+            
+            parse?.parseRemoteDelegate = self
+            sessionDelegate = CloudSyncSessionDelegate(store: store)
+        }else {
+            store = OCKStore(name: "SampleWatchAppStore", remote: phone)
+            storeManager = OCKSynchronizedStoreManager(wrapping: store)
+            
+            sessionDelegate =  LocalSyncSessionDelegate(remote: phone, store: store)
+        }
+        
+        WCSession.default.delegate = sessionDelegate
+        WCSession.default.activate()
+    }
+    
     func applicationDidBecomeActive() {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
