@@ -30,6 +30,7 @@
 
 import CareKit
 import UIKit
+import CareKitStore
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -40,9 +41,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                options connectionOptions: UIScene.ConnectionOptions) {
 
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let manager = appDelegate.synchronizedStoreManager!
-        let careViewController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
-
         let permissionViewController = UIViewController()
         permissionViewController.view.backgroundColor = .white
         if let windowScene = scene as? UIWindowScene {
@@ -53,7 +51,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { _ in
+                    appDelegate.coreDataStore.synchronize { error in
+                        print(error?.localizedDescription ?? "Completed sync in DailyPageViewController")
+                    }
                     DispatchQueue.main.async {
+                        let manager = appDelegate.synchronizedStoreManager!
+                        let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
                         self.window?.rootViewController = careViewController
                     }
                 }
