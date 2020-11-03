@@ -79,7 +79,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             newUser.username = "ParseCareKit"
             newUser.password = "ThisIsAStrongPass1!"
             
-            newUser.signup { result in
+            newUser.signup(callbackQueue: .main) { result in
                 switch result {
                 
                 case .success(let user):
@@ -90,15 +90,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 case .failure(let parseError):
                     switch parseError.code{
                     case .usernameTaken: //Account already exists for this username.
-                        User.login(username: newUser.username!, password: newUser.password!){ result in
+                        User.login(username: newUser.username!, password: newUser.password!, callbackQueue: .main) { result in
                                 
                             switch result {
                             
                             case .success(let user):
                                 print("Parse login successful \(user)")
                                 self.setupRemotes()
-                                self.coreDataStore.populateSampleData()
-                                self.healthKitStore.populateSampleData()
                             case .failure(let error):
                                 print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                                 print("Parse error: \(String(describing: error))")

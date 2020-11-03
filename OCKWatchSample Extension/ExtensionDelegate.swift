@@ -50,32 +50,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             newUser.username = "ParseCareKit"
             newUser.password = "ThisIsAStrongPass1!"
             
-            newUser.signup{ result in
+            User.login(username: newUser.username!, password: newUser.password!, callbackQueue: .main) { result in
+                    
                 switch result {
                 
                 case .success(let user):
-                    print("Parse signup successful \(user)")
+                    print("Parse login successful \(user)")
                     self.setupRemotes()
-                case .failure(let parseError):
-                    switch parseError.code {
-                    case .usernameTaken:
-                        User.login(username: newUser.username!, password: newUser.password!) { result in
-                                
-                            switch result {
-                            
-                            case .success(let user):
-                                print("Parse login successful \(user)")
-                                self.setupRemotes()
-                            case .failure(let error):
-                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                                print("Parse error: \(String(describing: error))")
-                            }
-                        }
-                    default:
-                        //There was a different issue that we don't know how to handle
-                        print("*** Error Signing up as user for Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                        print(parseError)
-                    }
+                case .failure(let error):
+                    print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+                    print("Parse error: \(String(describing: error))")
                 }
             }
             return
@@ -101,15 +85,15 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         
         WCSession.default.delegate = sessionDelegate
         WCSession.default.activate()
+        self.store.synchronize { error in
+            print(error?.localizedDescription ?? "Successful sync!")
+        }
     }
     
     func applicationDidBecomeActive() {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
-        if User.current != nil{
-            self.store.synchronize{error in
-                print(error?.localizedDescription ?? "Successful sync!")
-            }
+        self.store.synchronize{error in
+            print(error?.localizedDescription ?? "Successful sync!")
         }
     }
 
