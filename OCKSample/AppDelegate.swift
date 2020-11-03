@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 case .failure(let parseError):
                     switch parseError.code{
                     case .usernameTaken: //Account already exists for this username.
-                        User.login(username: newUser.username!, password: newUser.password!){ result in
+                        User.login(username: newUser.username!, password: newUser.password!, callbackQueue: .main) { result in
                                 
                             switch result {
                             
