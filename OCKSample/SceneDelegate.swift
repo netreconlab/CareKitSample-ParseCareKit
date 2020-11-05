@@ -57,7 +57,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     if User.current == nil {
                         
                         var newUser = User()
-                        newUser.username = "ParseCareKit11"
+                        newUser.username = "ParseCareKit"
                         newUser.password = "ThisIsAStrongPass1!"
                         
                         newUser.signup(callbackQueue: .main) { result in
