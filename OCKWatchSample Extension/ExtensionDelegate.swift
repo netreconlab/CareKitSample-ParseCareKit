@@ -16,7 +16,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
     private var store: OCKStore = OCKStore(name: "SampleWatchAppStore")
-    private lazy var parse = try? ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+    private var parse: ParseRemoteSynchronizationManager!
     private var sessionDelegate:SessionDelegate!
     private(set) lazy var storeManager: OCKSynchronizedStoreManager! = OCKSynchronizedStoreManager(wrapping: store)
     
@@ -44,7 +44,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
         
         //If the user isn't logged in, log them in
-        guard let _ = User.current else{
+        if User.current == nil {
             
             var newUser = User()
             newUser.username = "ParseCareKit"
@@ -63,31 +63,37 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 }
             }
             return
+        } else {
+            self.setupRemotes()
+            print("User is already signed in...")
         }
-        self.setupRemotes()
-        print("User is already signed in. Autosync is set to \(String(describing: self.parse?.automaticallySynchronizes))")
     }
 
     func setupRemotes() {
-        parse = try? ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
-        if syncWithCloud{
-            store = OCKStore(name: "SampleWatchAppStore", remote: parse)
-            storeManager = OCKSynchronizedStoreManager(wrapping: store)
+        do {
+            parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+            if syncWithCloud{
+                store = OCKStore(name: "SampleWatchAppStore", remote: parse)
+                storeManager = OCKSynchronizedStoreManager(wrapping: store)
+                
+                parse?.parseRemoteDelegate = self
+                sessionDelegate = CloudSyncSessionDelegate(store: store)
+            }else {
+                store = OCKStore(name: "SampleWatchAppStore", remote: phone)
+                storeManager = OCKSynchronizedStoreManager(wrapping: store)
+                
+                sessionDelegate =  LocalSyncSessionDelegate(remote: phone, store: store)
+            }
             
-            parse?.parseRemoteDelegate = self
-            sessionDelegate = CloudSyncSessionDelegate(store: store)
-        }else {
-            store = OCKStore(name: "SampleWatchAppStore", remote: phone)
-            storeManager = OCKSynchronizedStoreManager(wrapping: store)
-            
-            sessionDelegate =  LocalSyncSessionDelegate(remote: phone, store: store)
+            WCSession.default.delegate = sessionDelegate
+            WCSession.default.activate()
+            self.store.synchronize { error in
+                print(error?.localizedDescription ?? "Successful sync!")
+            }
+        } catch {
+            print("Error setting up remote: \(error.localizedDescription)")
         }
         
-        WCSession.default.delegate = sessionDelegate
-        WCSession.default.activate()
-        self.store.synchronize { error in
-            print(error?.localizedDescription ?? "Successful sync!")
-        }
     }
     
     func applicationDidBecomeActive() {
