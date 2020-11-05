@@ -35,12 +35,13 @@ import CareKitStore
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
 
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
         let permissionViewController = UIViewController()
         permissionViewController.view.backgroundColor = .white
         if let windowScene = scene as? UIWindowScene {
@@ -50,13 +51,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.makeKeyAndVisible()
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { _ in
+                self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { _ in
 
                     //If the user isn't logged in, log them in
                     if User.current == nil {
                         
                         var newUser = User()
-                        newUser.username = "ParseCareKit"
+                        newUser.username = "ParseCareKit11"
                         newUser.password = "ThisIsAStrongPass1!"
                         
                         newUser.signup(callbackQueue: .main) { result in
@@ -64,15 +65,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             
                             case .success(let user):
                                 print("Parse signup successful \(user)")
-                                appDelegate.setupRemotes()
-                                appDelegate.coreDataStore.populateSampleData()
-                                appDelegate.healthKitStore.populateSampleData()
-
-                                DispatchQueue.main.async {
-                                    let manager = appDelegate.synchronizedStoreManager!
-                                    let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
-                                    self.window?.rootViewController = careViewController
-                                }
+                                self.appDelegate.setupRemotes()
+                                self.appDelegate.coreDataStore.populateSampleData()
+                                self.appDelegate.healthKitStore.populateSampleData()
+                                self.goToTabController()
                                                                     
                             case .failure(let parseError):
                                 switch parseError.code{
@@ -83,13 +79,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                         
                                         case .success(let user):
                                             print("Parse login successful \(user)")
-                                            appDelegate.setupRemotes()
-                                            
-                                            DispatchQueue.main.async {
-                                                let manager = appDelegate.synchronizedStoreManager!
-                                                let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
-                                                self.window?.rootViewController = careViewController
-                                            }
+                                            self.appDelegate.setupRemotes()
+                                            self.goToTabController()
                                                 
                                         case .failure(let error):
                                             print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
@@ -105,18 +96,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         }
                     } else {
                         print("User is already signed in...")
-                        appDelegate.setupRemotes()
-                        appDelegate.coreDataStore.synchronize { error in
+                        self.appDelegate.setupRemotes()
+                        self.appDelegate.coreDataStore.synchronize { error in
                             print(error?.localizedDescription ?? "Completed sync in DailyPageViewController")
                         }
-                        DispatchQueue.main.async {
-                            let manager = appDelegate.synchronizedStoreManager!
-                            let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
-                            self.window?.rootViewController = careViewController
-                        }
+                        self.goToTabController()
                     }
                 }
             }
+        }
+    }
+    
+    func goToTabController() {
+        DispatchQueue.main.async {
+            let manager = self.appDelegate.synchronizedStoreManager!
+            let care = CareViewController(storeManager: manager)
+            care.tabBarItem = UITabBarItem(title: "Patient Care", image: .init(imageLiteralResourceName: "carecard"), selectedImage: .init(imageLiteralResourceName: "carecard-filled"))
+            let careViewController = UINavigationController(rootViewController: care)
+            
+            let contacts = OCKContactsListViewController(storeManager: manager)
+            contacts.title = "Contacts"
+            contacts.tabBarItem = UITabBarItem(title: "Contacts", image: .init(imageLiteralResourceName: "connect"), selectedImage: .init(imageLiteralResourceName: "connect-filled"))
+            let contactViewController = UINavigationController(rootViewController: contacts)
+            let tabBarController = UITabBarController()
+            tabBarController.viewControllers = [careViewController, contactViewController]
+            self.window?.rootViewController = tabBarController
         }
     }
 }

@@ -38,25 +38,24 @@ class CareViewController: OCKDailyPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem =
-            UIBarButtonItem(title: "Care Team", style: .plain, target: self,
-                            action: #selector(presentContactsListViewController))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(synchronizeWithRemote))
     }
 
-    @objc private func presentContactsListViewController() {
-        let viewController = OCKContactsListViewController(storeManager: storeManager)
-        viewController.title = "Care Team"
-        viewController.isModalInPresentation = true
-        viewController.navigationItem.rightBarButtonItem =
-            UIBarButtonItem(title: "Done", style: .plain, target: self,
-                            action: #selector(dismissContactsListViewController))
-
-        let navigationController = UINavigationController(rootViewController: viewController)
-        present(navigationController, animated: true, completion: nil)
-    }
-
-    @objc private func dismissContactsListViewController() {
-        dismiss(animated: true, completion: nil)
+    @objc private func synchronizeWithRemote() {
+        navigationItem.rightBarButtonItem?.tintColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1): #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.coreDataStore.synchronize { error in
+            DispatchQueue.main.async {
+                if error != nil {
+                    self.navigationItem.rightBarButtonItem?.tintColor = .red
+                } else {
+                    self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
+                }
+            }
+            print(error?.localizedDescription ?? "Succesffuly synced with cloud")
+        }
+        //Bug: the sync auto refreshes automatically, but this addresses a bug that only occurs on first login where the cards don't show after the sync
+        reload()
     }
 
     // This will be called each time the selected date changes.
