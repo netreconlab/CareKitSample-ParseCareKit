@@ -51,13 +51,69 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { _ in
-                    appDelegate.coreDataStore.synchronize { error in
-                        print(error?.localizedDescription ?? "Completed sync in DailyPageViewController")
-                    }
-                    DispatchQueue.main.async {
-                        let manager = appDelegate.synchronizedStoreManager!
-                        let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
-                        self.window?.rootViewController = careViewController
+
+                    //If the user isn't logged in, log them in
+                    if User.current == nil {
+                        
+                        var newUser = User()
+                        newUser.username = "ParseCareKit"
+                        newUser.password = "ThisIsAStrongPass1!"
+                        
+                        newUser.signup(callbackQueue: .main) { result in
+                            switch result {
+                            
+                            case .success(let user):
+                                print("Parse signup successful \(user)")
+                                appDelegate.setupRemotes()
+                                appDelegate.coreDataStore.populateSampleData()
+                                appDelegate.healthKitStore.populateSampleData()
+
+                                DispatchQueue.main.async {
+                                    let manager = appDelegate.synchronizedStoreManager!
+                                    let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
+                                    self.window?.rootViewController = careViewController
+                                }
+                                                                    
+                            case .failure(let parseError):
+                                switch parseError.code{
+                                case .usernameTaken: //Account already exists for this username.
+                                    User.login(username: newUser.username!, password: newUser.password!, callbackQueue: .main) { result in
+                                            
+                                        switch result {
+                                        
+                                        case .success(let user):
+                                            print("Parse login successful \(user)")
+                                            appDelegate.setupRemotes()
+                                            
+                                            DispatchQueue.main.async {
+                                                let manager = appDelegate.synchronizedStoreManager!
+                                                let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
+                                                self.window?.rootViewController = careViewController
+                                            }
+                                                
+                                        case .failure(let error):
+                                            print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+                                            print("Parse error: \(String(describing: error))")
+                                        }
+                                    }
+                                default:
+                                    //There was a different issue that we don't know how to handle
+                                    print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                                    print(parseError)
+                                }
+                            }
+                        }
+                    } else {
+                        print("User is already signed in...")
+                        appDelegate.setupRemotes()
+                        appDelegate.coreDataStore.synchronize { error in
+                            print(error?.localizedDescription ?? "Completed sync in DailyPageViewController")
+                        }
+                        DispatchQueue.main.async {
+                            let manager = appDelegate.synchronizedStoreManager!
+                            let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
+                            self.window?.rootViewController = careViewController
+                        }
                     }
                 }
             }
