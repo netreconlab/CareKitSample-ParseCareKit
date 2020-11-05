@@ -43,8 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
     var coreDataStore: OCKStore!
     let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
-    private lazy var parse = try? ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
-    private lazy var watch = OCKWatchConnectivityPeer()
+    private var parse: ParseRemoteSynchronizationManager!
+    private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
 
@@ -72,78 +72,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
 
-        if syncWithCloud{
-            coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
-            parse?.parseRemoteDelegate = self
-            sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
-        }else{
-            coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: watch)
-            sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
-        }
-        
-        WCSession.default.delegate = sessionDelegate
-        WCSession.default.activate()
-        
-        let coordinator = OCKStoreCoordinator()
-        coordinator.attach(eventStore: healthKitStore)
-        coordinator.attach(store: coreDataStore)
-
-        synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
-        
-        self.coreDataStore.populateSampleData()
-        self.healthKitStore.populateSampleData()
-        
-        //If the user isn't logged in, log them in
-        guard let _ = User.current else{
-            
-            var newUser = User()
-            newUser.username = "ParseCareKit"
-            newUser.password = "ThisIsAStrongPass1!"
-            
-            newUser.signup { result in
-                switch result {
-                
-                case .success(let user):
-                    print("Parse signup successful \(user)")
-                    self.parse?.automaticallySynchronizes = true
-                    self.coreDataStore.synchronize{error in
-                        print(error?.localizedDescription ?? "Successful first sync!")
-                    }
-                case .failure(let parseError):
-                    switch parseError.code{
-                    case .usernameTaken: //Account already exists for this username.
-                        User.login(username: newUser.username!, password: newUser.password!){ result in
-                                
-                            switch result {
-                            
-                            case .success(let user):
-                                print("Parse login successful \(user)")
-                                self.parse?.automaticallySynchronizes = true
-                                self.coreDataStore.synchronize{error in
-                                    print(error?.localizedDescription ?? "Successful first sync!")
-                                }
-                            case .failure(let error):
-                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                                print("Parse error: \(String(describing: error))")
-                            }
-                        }
-                    default:
-                        //There was a different issue that we don't know how to handle
-                        print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
-                        print(parseError)
-                    }
-                }
-            }
-                
-            return true
-        }
-        
-        self.parse?.automaticallySynchronizes = true
-        print("User is already signed in. Autosync is set to \(String(describing: self.parse?.automaticallySynchronizes))")
-        self.coreDataStore.synchronize{error in
-            print(error?.localizedDescription ?? "Completed sync after app startup!")
-        }
-
         return true
     }
 
@@ -152,9 +80,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
+    
+    func setupRemotes() {
+        do {
+            parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+            if syncWithCloud{
+                coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
+                parse?.parseRemoteDelegate = self
+                sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
+            }else{
+                coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: watch)
+                sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
+            }
+            
+            WCSession.default.delegate = sessionDelegate
+            WCSession.default.activate()
+            
+            let coordinator = OCKStoreCoordinator()
+            coordinator.attach(eventStore: healthKitStore)
+            coordinator.attach(store: coreDataStore)
+            synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
+        } catch {
+            print("Error setting up remote: \(error.localizedDescription)")
+        }
+    }
 }
 
-private extension OCKStore {
+extension OCKStore {
 
     // Adds tasks and contacts into the store
     func populateSampleData() {
@@ -253,16 +205,16 @@ private extension OCKStore {
         contact1.asset = "JaneDaniels"
         contact1.title = "Family Practice Doctor"
         contact1.role = "Dr. Daniels is a family practice doctor with 8 years of experience."
-        contact1.emailAddresses = [OCKLabeledValue(label: CNLabelEmailiCloud, value: "janedaniels@icloud.com")]
-        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 233-4444")]
-        contact1.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
+        contact1.emailAddresses = [OCKLabeledValue(label: CNLabelEmailiCloud, value: "janedaniels@uky.edu")]
+        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 257-2000")]
+        contact1.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 357-2040")]
 
         contact1.address = {
             let address = OCKPostalAddress()
-            address.street = "2598 Reposa Way"
-            address.city = "San Francisco"
-            address.state = "CA"
-            address.postalCode = "94127"
+            address.street = "2195 Harrodsburg Rd"
+            address.city = "Lexington"
+            address.state = "KY"
+            address.postalCode = "40504"
             return address
         }()
 
@@ -271,14 +223,14 @@ private extension OCKStore {
         contact2.asset = "MatthewReiff"
         contact2.title = "OBGYN"
         contact2.role = "Dr. Reiff is an OBGYN with 13 years of experience."
-        contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(434) 333-3345")]
-        contact2.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(324) 555-7415")]
+        contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 257-1000")]
+        contact2.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 257-1234")]
         contact2.address = {
             let address = OCKPostalAddress()
-            address.street = "396 El Verano Way"
-            address.city = "San Francisco"
-            address.state = "CA"
-            address.postalCode = "94127"
+            address.street = "1000 S Limestone"
+            address.city = "Lexington"
+            address.state = "KY"
+            address.postalCode = "40536"
             return address
         }()
 
