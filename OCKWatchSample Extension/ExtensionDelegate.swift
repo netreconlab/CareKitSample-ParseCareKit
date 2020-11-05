@@ -71,8 +71,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func setupRemotes() {
         do {
-            parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
             if syncWithCloud{
+                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
                 store = OCKStore(name: "SampleWatchAppStore", remote: parse)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
                 
@@ -81,15 +81,14 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             }else {
                 store = OCKStore(name: "SampleWatchAppStore", remote: phone)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
-                
-                sessionDelegate =  LocalSyncSessionDelegate(remote: phone, store: store)
+
+                phone.delegate = self
+                sessionDelegate = LocalSyncSessionDelegate(remote: phone, store: store)
             }
             
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
-            self.store.synchronize { error in
-                print(error?.localizedDescription ?? "Successful sync!")
-            }
+
         } catch {
             print("Error setting up remote: \(error.localizedDescription)")
         }

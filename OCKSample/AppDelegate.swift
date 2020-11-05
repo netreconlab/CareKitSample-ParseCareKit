@@ -90,6 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
             }else{
                 coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: watch)
+                watch.delegate = self
                 sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
             }
             
