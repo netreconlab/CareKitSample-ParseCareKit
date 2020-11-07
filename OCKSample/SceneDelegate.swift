@@ -60,21 +60,26 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         newUser.username = "ParseCareKit"
                         newUser.password = "ThisIsAStrongPass1!"
                         
-                        newUser.signup(callbackQueue: .main) { result in
+                        newUser.signup { result in
                             switch result {
                             
                             case .success(let user):
                                 print("Parse signup successful \(user)")
                                 self.appDelegate.setupRemotes()
-                                self.appDelegate.coreDataStore.populateSampleData()
-                                self.appDelegate.healthKitStore.populateSampleData()
-                                self.goToTabController()
-                                                                    
+                                //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
+                                DispatchQueue.main.async {
+                                    self.appDelegate.coreDataStore.populateSampleData()
+                                    self.appDelegate.healthKitStore.populateSampleData()
+                                    self.goToTabController()
+                                }
+                                
                             case .failure(let parseError):
                                 switch parseError.code{
                                 case .usernameTaken: //Account already exists for this username.
-                                    User.login(username: newUser.username!, password: newUser.password!, callbackQueue: .main) { result in
-                                            
+                                    User.login(username: newUser.username!, password: newUser.password!) { result in
+                                        //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
+                                        DispatchQueue.main.async {
+                                        
                                         switch result {
                                         
                                         case .success(let user):
@@ -85,6 +90,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                         case .failure(let error):
                                             print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                                             print("Parse error: \(String(describing: error))")
+                                        }
                                         }
                                     }
                                 default:
