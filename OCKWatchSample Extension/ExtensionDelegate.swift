@@ -42,30 +42,35 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         } catch {
             print(error.localizedDescription)
         }
-        
-        //If the user isn't logged in, log them in
-        if User.current == nil {
-            
-            var newUser = User()
-            newUser.username = "ParseCareKit"
-            newUser.password = "ThisIsAStrongPass1!"
-            
-            User.login(username: newUser.username!, password: newUser.password!, callbackQueue: .main) { result in
-                    
-                switch result {
-                
-                case .success(let user):
-                    print("Parse login successful \(user)")
-                    self.setupRemotes()
-                case .failure(let error):
-                    print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                    print("Parse error: \(String(describing: error))")
-                }
-            }
-            return
+
+        //When syncing directly with watchOS, we don't care about login and need to setup remotes
+        if !syncWithCloud {
+            setupRemotes()
         } else {
-            self.setupRemotes()
-            print("User is already signed in...")
+            //If the user isn't logged in, log them in
+            if User.current == nil {
+                
+                var newUser = User()
+                newUser.username = "ParseCareKit"
+                newUser.password = "ThisIsAStrongPass1!"
+                
+                User.login(username: newUser.username!, password: newUser.password!) { result in
+                        
+                    switch result {
+                    
+                    case .success(let user):
+                        print("Parse login successful \(user)")
+                        DispatchQueue.main.async { self.setupRemotes() }
+                    case .failure(let error):
+                        print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+                        print("Parse error: \(String(describing: error))")
+                    }
+                }
+                return
+            } else {
+                self.setupRemotes()
+                print("User is already signed in...")
+            }
         }
     }
 

@@ -53,60 +53,73 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { _ in
 
-                    //If the user isn't logged in, log them in
-                    if User.current == nil {
-                        
-                        var newUser = User()
-                        newUser.username = "ParseCareKit"
-                        newUser.password = "ThisIsAStrongPass1!"
-                        
-                        newUser.signup { result in
-                            switch result {
+                    //When syncing directly with watchOS, we don't care about login and need to setup remotes
+                    if !self.appDelegate.syncWithCloud {
+                        DispatchQueue.main.async {
+                            self.appDelegate.setupRemotes()
+                            self.appDelegate.coreDataStore.populateSampleData()
+                            self.appDelegate.healthKitStore.populateSampleData()
+                            self.goToTabController()
+                        }
+
+                    } else {
+                        //If the user isn't logged in, log them in
+                        if User.current == nil {
                             
-                            case .success(let user):
-                                print("Parse signup successful \(user)")
-                                self.appDelegate.setupRemotes()
-                                //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
-                                DispatchQueue.main.async {
-                                    self.appDelegate.coreDataStore.populateSampleData()
-                                    self.appDelegate.healthKitStore.populateSampleData()
-                                    self.goToTabController()
-                                }
+                            var newUser = User()
+                            newUser.username = "ParseCareKit"
+                            newUser.password = "ThisIsAStrongPass1!"
+                            
+                            newUser.signup { result in
+                                switch result {
                                 
-                            case .failure(let parseError):
-                                switch parseError.code{
-                                case .usernameTaken: //Account already exists for this username.
-                                    User.login(username: newUser.username!, password: newUser.password!) { result in
-                                        //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
-                                        DispatchQueue.main.async {
-                                        
-                                        switch result {
-                                        
-                                        case .success(let user):
-                                            print("Parse login successful \(user)")
-                                            self.appDelegate.setupRemotes()
-                                            self.goToTabController()
-                                                
-                                        case .failure(let error):
-                                            print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                                            print("Parse error: \(String(describing: error))")
-                                        }
-                                        }
+                                case .success(let user):
+                                    print("Parse signup successful \(user)")
+                                    //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
+                                    DispatchQueue.main.async {
+                                        self.appDelegate.setupRemotes()
+                                        self.appDelegate.coreDataStore.populateSampleData()
+                                        self.appDelegate.healthKitStore.populateSampleData()
+                                        self.goToTabController()
                                     }
-                                default:
-                                    //There was a different issue that we don't know how to handle
-                                    print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
-                                    print(parseError)
+                                    
+                                case .failure(let parseError):
+                                    switch parseError.code{
+                                    case .usernameTaken: //Account already exists for this username.
+                                        User.login(username: newUser.username!, password: newUser.password!) { result in
+
+                                            switch result {
+                                            
+                                            case .success(let user):
+                                                print("Parse login successful \(user)")
+                                                //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
+                                                DispatchQueue.main.async {
+                                                self.appDelegate.setupRemotes()
+                                                self.goToTabController()
+                                                }
+                                                    
+                                            case .failure(let error):
+                                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+                                                print("Parse error: \(String(describing: error))")
+                                            }
+                                        }
+                                    default:
+                                        //There was a different issue that we don't know how to handle
+                                        print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                                        print(parseError)
+                                    }
                                 }
                             }
+                        } else {
+                            print("User is already signed in...")
+                            DispatchQueue.main.async {
+                                self.appDelegate.setupRemotes()
+                                self.appDelegate.coreDataStore.synchronize { error in
+                                    print(error?.localizedDescription ?? "Completed sync in DailyPageViewController")
+                                }
+                                self.goToTabController()
+                            }
                         }
-                    } else {
-                        print("User is already signed in...")
-                        self.appDelegate.setupRemotes()
-                        self.appDelegate.coreDataStore.synchronize { error in
-                            print(error?.localizedDescription ?? "Completed sync in DailyPageViewController")
-                        }
-                        self.goToTabController()
                     }
                 }
             }
@@ -114,19 +127,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func goToTabController() {
-        DispatchQueue.main.async {
-            let manager = self.appDelegate.synchronizedStoreManager!
-            let care = CareViewController(storeManager: manager)
-            care.tabBarItem = UITabBarItem(title: "Patient Care", image: .init(imageLiteralResourceName: "carecard"), selectedImage: .init(imageLiteralResourceName: "carecard-filled"))
-            let careViewController = UINavigationController(rootViewController: care)
-            
-            let contacts = OCKContactsListViewController(storeManager: manager)
-            contacts.title = "Contacts"
-            contacts.tabBarItem = UITabBarItem(title: "Contacts", image: .init(imageLiteralResourceName: "connect"), selectedImage: .init(imageLiteralResourceName: "connect-filled"))
-            let contactViewController = UINavigationController(rootViewController: contacts)
-            let tabBarController = UITabBarController()
-            tabBarController.viewControllers = [careViewController, contactViewController]
-            self.window?.rootViewController = tabBarController
-        }
+        
+        let manager = self.appDelegate.synchronizedStoreManager!
+        let care = CareViewController(storeManager: manager)
+        care.tabBarItem = UITabBarItem(title: "Patient Care", image: .init(imageLiteralResourceName: "carecard"), selectedImage: .init(imageLiteralResourceName: "carecard-filled"))
+        let careViewController = UINavigationController(rootViewController: care)
+        
+        let contacts = OCKContactsListViewController(storeManager: manager)
+        contacts.title = "Contacts"
+        contacts.tabBarItem = UITabBarItem(title: "Contacts", image: .init(imageLiteralResourceName: "connect"), selectedImage: .init(imageLiteralResourceName: "connect-filled"))
+        let contactViewController = UINavigationController(rootViewController: contacts)
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [careViewController, contactViewController]
+        self.window?.rootViewController = tabBarController
     }
 }
