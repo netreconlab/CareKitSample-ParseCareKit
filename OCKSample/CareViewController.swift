@@ -36,14 +36,23 @@ import SwiftUI
 
 class CareViewController: OCKDailyPageViewController {
 
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(synchronizeWithRemote))
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+            }
+        }
     }
 
     @objc private func synchronizeWithRemote() {
         navigationItem.rightBarButtonItem?.tintColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1): #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) }
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.coreDataStore.synchronize { error in
             DispatchQueue.main.async {
                 if error != nil {

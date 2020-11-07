@@ -50,76 +50,69 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.tintColor = UIColor { $0.userInterfaceStyle == .light ?  #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) }
             window?.makeKeyAndVisible()
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { _ in
+            //When syncing directly with watchOS, we don't care about login and need to setup remotes
+            if !self.appDelegate.syncWithCloud {
+                DispatchQueue.main.async {
+                    self.appDelegate.setupRemotes()
+                    self.appDelegate.coreDataStore.populateSampleData()
+                    self.appDelegate.healthKitStore.populateSampleData()
+                    self.goToTabController()
+                }
 
-                    //When syncing directly with watchOS, we don't care about login and need to setup remotes
-                    if !self.appDelegate.syncWithCloud {
-                        DispatchQueue.main.async {
-                            self.appDelegate.setupRemotes()
-                            self.appDelegate.coreDataStore.populateSampleData()
-                            self.appDelegate.healthKitStore.populateSampleData()
-                            self.goToTabController()
-                        }
-
-                    } else {
-                        //If the user isn't logged in, log them in
-                        if User.current == nil {
-                            
-                            var newUser = User()
-                            newUser.username = "ParseCareKit"
-                            newUser.password = "ThisIsAStrongPass1!"
-                            
-                            newUser.signup { result in
-                                switch result {
-                                
-                                case .success(let user):
-                                    print("Parse signup successful \(user)")
-                                    //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
-                                    DispatchQueue.main.async {
-                                        self.appDelegate.setupRemotes()
-                                        self.appDelegate.coreDataStore.populateSampleData()
-                                        self.appDelegate.healthKitStore.populateSampleData()
-                                        self.goToTabController()
-                                    }
-                                    
-                                case .failure(let parseError):
-                                    switch parseError.code{
-                                    case .usernameTaken: //Account already exists for this username.
-                                        User.login(username: newUser.username!, password: newUser.password!) { result in
-
-                                            switch result {
-                                            
-                                            case .success(let user):
-                                                print("Parse login successful \(user)")
-                                                //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
-                                                DispatchQueue.main.async {
-                                                self.appDelegate.setupRemotes()
-                                                self.goToTabController()
-                                                }
-                                                    
-                                            case .failure(let error):
-                                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                                                print("Parse error: \(String(describing: error))")
-                                            }
-                                        }
-                                    default:
-                                        //There was a different issue that we don't know how to handle
-                                        print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
-                                        print(parseError)
-                                    }
-                                }
-                            }
-                        } else {
-                            print("User is already signed in...")
+            } else {
+                //If the user isn't logged in, log them in
+                if User.current == nil {
+                    
+                    var newUser = User()
+                    newUser.username = "ParseCareKit"
+                    newUser.password = "ThisIsAStrongPass1!"
+                    
+                    newUser.signup { result in
+                        switch result {
+                        
+                        case .success(let user):
+                            print("Parse signup successful \(user)")
+                            //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
                             DispatchQueue.main.async {
                                 self.appDelegate.setupRemotes()
-                                self.appDelegate.coreDataStore.synchronize { error in
-                                    print(error?.localizedDescription ?? "Completed sync in DailyPageViewController")
-                                }
+                                self.appDelegate.coreDataStore.populateSampleData()
+                                self.appDelegate.healthKitStore.populateSampleData()
                                 self.goToTabController()
                             }
+                            
+                        case .failure(let parseError):
+                            switch parseError.code{
+                            case .usernameTaken: //Account already exists for this username.
+                                User.login(username: newUser.username!, password: newUser.password!) { result in
+
+                                    switch result {
+                                    
+                                    case .success(let user):
+                                        print("Parse login successful \(user)")
+                                        //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
+                                        DispatchQueue.main.async {
+                                            self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
+                                            self.appDelegate.setupRemotes()
+                                            self.goToTabController()
+                                        }
+                                            
+                                    case .failure(let error):
+                                        print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+                                        print("Parse error: \(String(describing: error))")
+                                    }
+                                }
+                            default:
+                                //There was a different issue that we don't know how to handle
+                                print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                                print(parseError)
+                            }
                         }
+                    }
+                } else {
+                    print("User is already signed in...")
+                    DispatchQueue.main.async {
+                        self.appDelegate.setupRemotes()
+                        self.goToTabController()
                     }
                 }
             }
@@ -140,5 +133,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [careViewController, contactViewController]
         self.window?.rootViewController = tabBarController
+
+        self.appDelegate.coreDataStore.synchronize { error in
+
+            print(error?.localizedDescription ?? "Completed initial sync for app launch")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    }
+                }
+            }
+        }
     }
 }
