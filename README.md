@@ -1,5 +1,5 @@
 # CareKitSample+ParseCareKit
-![Swift](https://img.shields.io/badge/swift-5.3-brightgreen.svg) ![Xcode 12.0+](https://img.shields.io/badge/xcode-11.0%2B-blue.svg) ![iOS 13.0+](https://img.shields.io/badge/iOS-13.0%2B-blue.svg) ![watchOS 7.0+](https://img.shields.io/badge/watchOS-7.0%2B-blue.svg)
+![Swift](https://img.shields.io/badge/swift-5.3-brightgreen.svg) ![Xcode 12.0+](https://img.shields.io/badge/xcode-12.0%2B-blue.svg) ![iOS 13.0+](https://img.shields.io/badge/iOS-13.0%2B-blue.svg) ![watchOS 7.0+](https://img.shields.io/badge/watchOS-7.0%2B-blue.svg)
 
 An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing with [ParseCareKit](https://github.com/netreconlab/ParseCareKit). 
 
