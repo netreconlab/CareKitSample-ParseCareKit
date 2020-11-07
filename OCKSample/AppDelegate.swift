@@ -40,7 +40,7 @@ import WatchConnectivity
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
+    let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
     var coreDataStore: OCKStore!
     let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
     private var parse: ParseRemoteSynchronizationManager!
@@ -83,8 +83,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func setupRemotes() {
         do {
-            parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+            
             if syncWithCloud{
+                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
                 coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
