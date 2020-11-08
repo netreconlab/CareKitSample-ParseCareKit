@@ -41,10 +41,10 @@ import WatchConnectivity
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
+    var firstLogin = false
     var coreDataStore: OCKStore!
     let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
-    var firstLogin = false
-    private var parse: ParseRemoteSynchronizationManager!
+    var parse: ParseRemoteSynchronizationManager!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
@@ -87,12 +87,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             
             if syncWithCloud{
-                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
-                coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
+                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+                coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
             }else{
-                coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: watch)
+                coreDataStore = OCKStore(name: "WatchStore", type: .onDisk, remote: watch)
                 watch.delegate = self
                 sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
             }
@@ -287,18 +287,15 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
         print("New session state: \(activationState)")
         
         if activationState == .activated {
-            store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync with Cloud!")
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
-                }
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
             }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        store.synchronize{ error in
-            print(error?.localizedDescription ?? "Successful sync with Cloud!")
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
         }
     }
 }
@@ -324,8 +321,8 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
         print("New session state: \(activationState)")
         
         if activationState == .activated {
-            store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync!")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
             }
         }
     }
