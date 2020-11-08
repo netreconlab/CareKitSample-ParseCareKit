@@ -41,7 +41,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
 
-        
         let permissionViewController = UIViewController()
         permissionViewController.view.backgroundColor = .white
         if let windowScene = scene as? UIWindowScene {
@@ -49,13 +48,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = permissionViewController
             window?.tintColor = UIColor { $0.userInterfaceStyle == .light ?  #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) }
             window?.makeKeyAndVisible()
+            self.setupTabBarController()
 
             //When syncing directly with watchOS, we don't care about login and need to setup remotes
             if !self.appDelegate.syncWithCloud {
                 self.appDelegate.coreDataStore.populateSampleData()
                 self.appDelegate.healthKitStore.populateSampleData()
-                self.goToTabController()
-
+                
             } else {
                 //If the user isn't logged in, log them in
                 if User.current == nil {
@@ -69,10 +68,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         
                         case .success(let user):
                             print("Parse signup successful \(user)")
-                            self.appDelegate.firstLogin = true
                             self.appDelegate.coreDataStore.populateSampleData()
                             self.appDelegate.healthKitStore.populateSampleData()
-                            self.goToTabController()
+                            self.appDelegate.parse.automaticallySynchronizes = true
+                            self.appDelegate.firstLogin = true
+                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+                            
 
                         case .failure(let parseError):
                             switch parseError.code{
@@ -83,10 +84,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                     
                                     case .success(let user):
                                         print("Parse login successful \(user)")
-                                        self.appDelegate.firstLogin = true
                                         self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
-                                        self.appDelegate.setupRemotes()
-                                        self.goToTabController()
+                                        self.appDelegate.parse.automaticallySynchronizes = true
+                                        self.appDelegate.firstLogin = true
+                                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
                                             
                                     case .failure(let error):
                                         print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
@@ -102,15 +103,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     }
                 } else {
                     print("User is already signed in...")
-                    DispatchQueue.main.async {
-                        self.goToTabController()
-                    }
+                    self.appDelegate.parse.automaticallySynchronizes = true
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
                 }
             }
         }
     }
     
-    func goToTabController() {
+    func setupTabBarController() {
         
         let manager = self.appDelegate.synchronizedStoreManager!
         let care = CareViewController(storeManager: manager)
@@ -129,15 +129,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 if error != nil {
                     print(error!.localizedDescription)
-                }
-                
-                if self.appDelegate.firstLogin {
-                    self.appDelegate.coreDataStore.synchronize{ error in
-                        print(error?.localizedDescription ?? "Successful sync with Cloud!")
-                        DispatchQueue.main.async {
-                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
-                        }
-                    }
                 }
             }
         }

@@ -37,36 +37,39 @@ import SwiftUI
 class CareViewController: OCKDailyPageViewController {
 
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
+    var alreadySyncing = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(synchronizeWithRemote))
 
-        if appDelegate.firstLogin {
-            NotificationCenter.default.addObserver(self, selector: #selector(CareViewController.handleFirstLoginSyncCompleted(_:)), name: Notification.Name(rawValue: "firstLoginSyncComplete"), object: nil)
-        }
-    }
-
-    @objc func handleFirstLoginSyncCompleted(_ notification: Notification) {
-        self.reload()
-        NotificationCenter.default.removeObserver(self)
-        self.appDelegate.firstLogin = false
+        NotificationCenter.default.addObserver(self, selector: #selector(synchronizeWithRemote), name: Notification.Name(rawValue: "firstLoginSyncComplete"), object: nil)
     }
 
     @objc private func synchronizeWithRemote() {
+        
+        if alreadySyncing {
+            return
+        } else {
+            alreadySyncing = true
+        }
+
         navigationItem.rightBarButtonItem?.tintColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1): #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) }
         appDelegate.coreDataStore.synchronize { error in
             DispatchQueue.main.async {
+                print(error?.localizedDescription ?? "Succesffuly synced with cloud!")
                 if error != nil {
                     self.navigationItem.rightBarButtonItem?.tintColor = .red
                 } else {
                     self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
+                    if self.appDelegate.firstLogin {
+                        self.reload()
+                        self.appDelegate.firstLogin = false
+                    }
                 }
+                self.alreadySyncing = false
             }
-            print(error?.localizedDescription ?? "Succesffuly synced with cloud")
         }
-        //Bug: the sync auto refreshes automatically, but this addresses a bug that only occurs on first login where the cards don't show after the sync
-        reload()
     }
 
     // This will be called each time the selected date changes.

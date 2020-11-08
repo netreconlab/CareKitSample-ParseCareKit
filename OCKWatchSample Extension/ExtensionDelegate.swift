@@ -68,6 +68,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             }
         } else {
             print("User is already signed in...")
+            store.synchronize{ error in
+                print(error?.localizedDescription ?? "Successful sync with Cloud!")
+            }
         }
         
     }
@@ -76,13 +79,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         do {
             if syncWithCloud{
                 parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
-                store = OCKStore(name: "SampleWatchAppStore", remote: parse)
+                store = OCKStore(name: "WatchParseStore", remote: parse)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
                 
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: store)
             }else {
-                store = OCKStore(name: "SampleWatchAppStore", remote: phone)
+                store = OCKStore(name: "PhoneStore", remote: phone)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
 
                 phone.delegate = self
@@ -198,12 +201,7 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
         print("New session state: \(activationState)")
         
         if activationState == .activated {
-            store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync with Cloud!")
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
-                }
-            }
+            
         }
     }
     
