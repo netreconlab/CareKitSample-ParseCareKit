@@ -43,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
     var coreDataStore: OCKStore!
     let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
+    var firstLogin = false
     private var parse: ParseRemoteSynchronizationManager!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
@@ -72,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
 
+        setupRemotes()
         return true
     }
 
@@ -287,6 +289,9 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
         if activationState == .activated {
             store.synchronize{ error in
                 print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+                }
             }
         }
     }
