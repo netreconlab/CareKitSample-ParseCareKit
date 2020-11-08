@@ -41,14 +41,16 @@ class CareViewController: OCKDailyPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(synchronizeWithRemote))
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            }
+        if appDelegate.firstLogin {
+            NotificationCenter.default.addObserver(self, selector: #selector(CareViewController.handleFirstLoginSyncCompleted(_:)), name: Notification.Name(rawValue: "firstLoginSyncComplete"), object: nil)
         }
+    }
+
+    @objc func handleFirstLoginSyncCompleted(_ notification: Notification) {
+        self.reload()
+        NotificationCenter.default.removeObserver(self)
+        self.appDelegate.firstLogin = false
     }
 
     @objc private func synchronizeWithRemote() {

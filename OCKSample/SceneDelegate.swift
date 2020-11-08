@@ -52,12 +52,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             //When syncing directly with watchOS, we don't care about login and need to setup remotes
             if !self.appDelegate.syncWithCloud {
-                DispatchQueue.main.async {
-                    self.appDelegate.setupRemotes()
-                    self.appDelegate.coreDataStore.populateSampleData()
-                    self.appDelegate.healthKitStore.populateSampleData()
-                    self.goToTabController()
-                }
+                self.appDelegate.coreDataStore.populateSampleData()
+                self.appDelegate.healthKitStore.populateSampleData()
+                self.goToTabController()
 
             } else {
                 //If the user isn't logged in, log them in
@@ -72,14 +69,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         
                         case .success(let user):
                             print("Parse signup successful \(user)")
-                            //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
-                            DispatchQueue.main.async {
-                                self.appDelegate.setupRemotes()
-                                self.appDelegate.coreDataStore.populateSampleData()
-                                self.appDelegate.healthKitStore.populateSampleData()
-                                self.goToTabController()
-                            }
-                            
+                            self.appDelegate.firstLogin = true
+                            self.appDelegate.coreDataStore.populateSampleData()
+                            self.appDelegate.healthKitStore.populateSampleData()
+                            self.goToTabController()
+
                         case .failure(let parseError):
                             switch parseError.code{
                             case .usernameTaken: //Account already exists for this username.
@@ -89,12 +83,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                     
                                     case .success(let user):
                                         print("Parse login successful \(user)")
-                                        //This is in place because Parse-Swift currently has a bug, remove dispatch on bug fix
-                                        DispatchQueue.main.async {
-                                            self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
-                                            self.appDelegate.setupRemotes()
-                                            self.goToTabController()
-                                        }
+                                        self.appDelegate.firstLogin = true
+                                        self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
+                                        self.appDelegate.setupRemotes()
+                                        self.goToTabController()
                                             
                                     case .failure(let error):
                                         print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
@@ -111,7 +103,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 } else {
                     print("User is already signed in...")
                     DispatchQueue.main.async {
-                        self.appDelegate.setupRemotes()
                         self.goToTabController()
                     }
                 }
@@ -133,15 +124,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [careViewController, contactViewController]
         self.window?.rootViewController = tabBarController
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
-        self.appDelegate.coreDataStore.synchronize { error in
-
-            print(error?.localizedDescription ?? "Completed initial sync for app launch")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
-
-                    if error != nil {
-                        print(error!.localizedDescription)
+                if error != nil {
+                    print(error!.localizedDescription)
+                }
+                
+                if self.appDelegate.firstLogin {
+                    self.appDelegate.coreDataStore.synchronize{ error in
+                        print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                        DispatchQueue.main.async {
+                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+                        }
                     }
                 }
             }

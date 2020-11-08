@@ -15,10 +15,10 @@ import WatchConnectivity
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
-    private var store: OCKStore = OCKStore(name: "SampleWatchAppStore")
+    private var store: OCKStore! //= OCKStore(name: "SampleWatchAppStore")
     private var parse: ParseRemoteSynchronizationManager!
     private var sessionDelegate:SessionDelegate!
-    private(set) lazy var storeManager: OCKSynchronizedStoreManager! = OCKSynchronizedStoreManager(wrapping: store)
+    private(set) var storeManager: OCKSynchronizedStoreManager! //= OCKSynchronizedStoreManager(wrapping: store)
     
     func applicationDidFinishLaunching() {
         
@@ -43,35 +43,33 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             print(error.localizedDescription)
         }
 
-        //When syncing directly with watchOS, we don't care about login and need to setup remotes
-        if !syncWithCloud {
-            setupRemotes()
-        } else {
-            //If the user isn't logged in, log them in
-            if User.current == nil {
-                
-                var newUser = User()
-                newUser.username = "ParseCareKit"
-                newUser.password = "ThisIsAStrongPass1!"
-                
-                User.login(username: newUser.username!, password: newUser.password!) { result in
-                        
-                    switch result {
+        self.setupRemotes()
+        
+        //If the user isn't logged in, log them in
+        if User.current == nil {
+            
+            var newUser = User()
+            newUser.username = "ParseCareKit"
+            newUser.password = "ThisIsAStrongPass1!"
+            
+            User.login(username: newUser.username!, password: newUser.password!) { result in
                     
-                    case .success(let user):
-                        print("Parse login successful \(user)")
-                        DispatchQueue.main.async { self.setupRemotes() }
-                    case .failure(let error):
-                        print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                        print("Parse error: \(String(describing: error))")
+                switch result {
+                
+                case .success(let user):
+                    print("Parse login successful \(user)")
+                    self.store.synchronize { error in
+                        print(error?.localizedDescription ?? "Successful sync with Cloud!")
                     }
+                case .failure(let error):
+                    print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+                    print("Parse error: \(String(describing: error))")
                 }
-                return
-            } else {
-                self.setupRemotes()
-                print("User is already signed in...")
             }
+        } else {
+            print("User is already signed in...")
         }
+        
     }
 
     func setupRemotes() {
@@ -102,9 +100,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     
     func applicationDidBecomeActive() {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        self.store.synchronize{error in
-            print(error?.localizedDescription ?? "Successful sync!")
-        }
     }
 
     func applicationWillResignActive() {
@@ -205,6 +200,9 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
         if activationState == .activated {
             store.synchronize{ error in
                 print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+                }
             }
         }
     }
