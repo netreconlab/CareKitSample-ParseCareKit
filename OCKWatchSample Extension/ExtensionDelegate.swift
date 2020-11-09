@@ -15,10 +15,10 @@ import WatchConnectivity
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
-    private var store: OCKStore! //= OCKStore(name: "SampleWatchAppStore")
+    private var store: OCKStore!
     private var parse: ParseRemoteSynchronizationManager!
     private var sessionDelegate:SessionDelegate!
-    private(set) var storeManager: OCKSynchronizedStoreManager! //= OCKSynchronizedStoreManager(wrapping: store)
+    private(set) var storeManager: OCKSynchronizedStoreManager!
     
     func applicationDidFinishLaunching() {
         
@@ -186,11 +186,9 @@ extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchr
     
 }
 
-protocol SessionDelegate: WCSessionDelegate {
-    
-}
+protocol SessionDelegate: WCSessionDelegate {}
 
-private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
+private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     let store: OCKStore
     
     init(store: OCKStore) {
@@ -199,10 +197,6 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("New session state: \(activationState)")
-        
-        if activationState == .activated {
-            
-        }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
@@ -211,7 +205,6 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
         }
     }
 }
-
 
 private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
     let remote: OCKWatchConnectivityPeer
@@ -227,18 +220,15 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
         
         if activationState == .activated {
             store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync!")
+                print(error?.localizedDescription ?? "Successful sync with iPhone!")
             }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         
-        print("Received message from peer")
-        
+        print("Received message from iPhone")
         remote.reply(to: message, store: store){ reply in
-            print("Sending reply to peer!")
-            
             replyHandler(reply)
         }
     }
