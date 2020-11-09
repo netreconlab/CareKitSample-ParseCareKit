@@ -264,11 +264,9 @@ extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizat
     
 }
 
-protocol SessionDelegate: WCSessionDelegate {
-    
-}
+protocol SessionDelegate: WCSessionDelegate {}
 
-private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
+private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     func sessionDidBecomeInactive(_ session: WCSession) {
         print("sessionDidBecomeInactive")
     }
@@ -300,7 +298,7 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
     }
 }
 
-private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
+private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
     let remote: OCKWatchConnectivityPeer
     let store: OCKStore
     
@@ -329,11 +327,8 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         
-        print("Received message from peer")
-        
+        print("Received message from Apple Watch")
         remote.reply(to: message, store: store){ reply in
-            print("Sending reply to peer!")
-            
             replyHandler(reply)
         }
     }
