@@ -286,14 +286,14 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
         
         if activationState == .activated {
             DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
             }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
         }
     }
 }
@@ -320,7 +320,7 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
         
         if activationState == .activated {
             DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
             }
         }
     }
