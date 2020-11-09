@@ -67,12 +67,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         switch result {
                         
                         case .success(let user):
-                            print("Parse signup successful \(user)")
+                            print("Parse signup successful: \(user)")
                             self.appDelegate.coreDataStore.populateSampleData()
                             self.appDelegate.healthKitStore.populateSampleData()
                             self.appDelegate.parse.automaticallySynchronizes = true
                             self.appDelegate.firstLogin = true
-                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
                             
 
                         case .failure(let parseError):
@@ -83,11 +83,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                     switch result {
                                     
                                     case .success(let user):
-                                        print("Parse login successful \(user)")
+                                        print("Parse login successful: \(user)")
                                         self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
                                         self.appDelegate.parse.automaticallySynchronizes = true
                                         self.appDelegate.firstLogin = true
-                                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+                                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
                                             
                                     case .failure(let error):
                                         print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
@@ -104,7 +104,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 } else {
                     print("User is already signed in...")
                     self.appDelegate.parse.automaticallySynchronizes = true
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "firstLoginSyncComplete")))
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
                 }
             }
         }
