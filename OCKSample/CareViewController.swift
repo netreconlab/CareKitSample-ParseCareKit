@@ -36,27 +36,40 @@ import SwiftUI
 
 class CareViewController: OCKDailyPageViewController {
 
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var alreadySyncing = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem =
-            UIBarButtonItem(title: "Care Team", style: .plain, target: self,
-                            action: #selector(presentContactsListViewController))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(synchronizeWithRemote))
+
+        NotificationCenter.default.addObserver(self, selector: #selector(synchronizeWithRemote), name: Notification.Name(rawValue: "requestSync"), object: nil)
     }
 
-    @objc private func presentContactsListViewController() {
-        let viewController = OCKContactsListViewController(storeManager: storeManager)
-        viewController.title = "Care Team"
-        viewController.isModalInPresentation = true
-        viewController.navigationItem.rightBarButtonItem =
-            UIBarButtonItem(title: "Done", style: .plain, target: self,
-                            action: #selector(dismissContactsListViewController))
+    @objc private func synchronizeWithRemote() {
+        
+        if alreadySyncing {
+            return
+        } else {
+            alreadySyncing = true
+        }
 
-        let navigationController = UINavigationController(rootViewController: viewController)
-        present(navigationController, animated: true, completion: nil)
-    }
-
-    @objc private func dismissContactsListViewController() {
-        dismiss(animated: true, completion: nil)
+        navigationItem.rightBarButtonItem?.tintColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1): #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) }
+        appDelegate.coreDataStore.synchronize { error in
+            DispatchQueue.main.async {
+                print(error?.localizedDescription ?? "Successful sync with remote!")
+                if error != nil {
+                    self.navigationItem.rightBarButtonItem?.tintColor = .red
+                } else {
+                    self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
+                    if self.appDelegate.firstLogin {
+                        self.reload()
+                        self.appDelegate.firstLogin = false
+                    }
+                }
+                self.alreadySyncing = false
+            }
+        }
     }
 
     // This will be called each time the selected date changes.

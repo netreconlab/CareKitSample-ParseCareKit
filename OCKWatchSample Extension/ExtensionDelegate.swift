@@ -15,10 +15,10 @@ import WatchConnectivity
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
-    private var store: OCKStore = OCKStore(name: "SampleWatchAppStore")
+    private var store: OCKStore!
     private var parse: ParseRemoteSynchronizationManager!
     private var sessionDelegate:SessionDelegate!
-    private(set) lazy var storeManager: OCKSynchronizedStoreManager! = OCKSynchronizedStoreManager(wrapping: store)
+    private(set) var storeManager: OCKSynchronizedStoreManager!
     
     func applicationDidFinishLaunching() {
         
@@ -42,6 +42,8 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         } catch {
             print(error.localizedDescription)
         }
+
+        self.setupRemotes()
         
         //If the user isn't logged in, log them in
         if User.current == nil {
@@ -50,46 +52,49 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             newUser.username = "ParseCareKit"
             newUser.password = "ThisIsAStrongPass1!"
             
-            User.login(username: newUser.username!, password: newUser.password!, callbackQueue: .main) { result in
+            User.login(username: newUser.username!, password: newUser.password!) { result in
                     
                 switch result {
                 
                 case .success(let user):
                     print("Parse login successful \(user)")
-                    self.setupRemotes()
+                    self.store.synchronize { error in
+                        print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                    }
                 case .failure(let error):
                     print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                     print("Parse error: \(String(describing: error))")
                 }
             }
-            return
         } else {
-            self.setupRemotes()
             print("User is already signed in...")
+            store.synchronize{ error in
+                print(error?.localizedDescription ?? "Successful sync with Cloud!")
+            }
         }
+        
     }
 
     func setupRemotes() {
         do {
-            parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
             if syncWithCloud{
-                store = OCKStore(name: "SampleWatchAppStore", remote: parse)
+                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+                store = OCKStore(name: "WatchParseStore", remote: parse)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
                 
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: store)
             }else {
-                store = OCKStore(name: "SampleWatchAppStore", remote: phone)
+                store = OCKStore(name: "PhoneStore", remote: phone)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
-                
-                sessionDelegate =  LocalSyncSessionDelegate(remote: phone, store: store)
+
+                phone.delegate = self
+                sessionDelegate = LocalSyncSessionDelegate(remote: phone, store: store)
             }
             
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
-            self.store.synchronize { error in
-                print(error?.localizedDescription ?? "Successful sync!")
-            }
+
         } catch {
             print("Error setting up remote: \(error.localizedDescription)")
         }
@@ -98,9 +103,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     
     func applicationDidBecomeActive() {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        self.store.synchronize{error in
-            print(error?.localizedDescription ?? "Successful sync!")
-        }
     }
 
     func applicationWillResignActive() {
@@ -184,11 +186,9 @@ extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchr
     
 }
 
-protocol SessionDelegate: WCSessionDelegate {
-    
-}
+protocol SessionDelegate: WCSessionDelegate {}
 
-private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
+private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     let store: OCKStore
     
     init(store: OCKStore) {
@@ -197,12 +197,6 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("New session state: \(activationState)")
-        
-        if activationState == .activated {
-            store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync with Cloud!")
-            }
-        }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
@@ -211,7 +205,6 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
         }
     }
 }
-
 
 private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
     let remote: OCKWatchConnectivityPeer
@@ -227,18 +220,15 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
         
         if activationState == .activated {
             store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync!")
+                print(error?.localizedDescription ?? "Successful sync with iPhone!")
             }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         
-        print("Received message from peer")
-        
+        print("Received message from iPhone")
         remote.reply(to: message, store: store){ reply in
-            print("Sending reply to peer!")
-            
             replyHandler(reply)
         }
     }
