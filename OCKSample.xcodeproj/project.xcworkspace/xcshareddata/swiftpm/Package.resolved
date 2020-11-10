@@ -32,8 +32,8 @@
         "package": "ParseCareKit",
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
-          "branch": null,
-          "revision": "03e02d1a702e5496bd4710eefd53515ac6d1176d",
+          "branch": "main",
+          "revision": "995b677937be59d8258267cd0b99664363990e7b",
           "version": null
         }
       }
