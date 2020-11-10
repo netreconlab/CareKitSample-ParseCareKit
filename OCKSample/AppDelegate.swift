@@ -40,10 +40,11 @@ import WatchConnectivity
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
+    let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
+    var firstLogin = false
     var coreDataStore: OCKStore!
     let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
-    private var parse: ParseRemoteSynchronizationManager!
+    var parse: ParseRemoteSynchronizationManager!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
@@ -72,6 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
 
+        setupRemotes()
         return true
     }
 
@@ -83,13 +85,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func setupRemotes() {
         do {
-            parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+            
             if syncWithCloud{
-                coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: parse)
+                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+                coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
             }else{
-                coreDataStore = OCKStore(name: "SampleAppStore", type: .onDisk, remote: watch)
+                coreDataStore = OCKStore(name: "WatchStore", type: .onDisk, remote: watch)
+                watch.delegate = self
                 sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
             }
             
@@ -281,11 +285,9 @@ extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizat
     
 }
 
-protocol SessionDelegate: WCSessionDelegate {
-    
-}
+protocol SessionDelegate: WCSessionDelegate {}
 
-private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
+private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     func sessionDidBecomeInactive(_ session: WCSession) {
         print("sessionDidBecomeInactive")
     }
@@ -304,20 +306,20 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate{
         print("New session state: \(activationState)")
         
         if activationState == .activated {
-            store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync with Cloud!")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
             }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        store.synchronize{ error in
-            print(error?.localizedDescription ?? "Successful sync with Cloud!")
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
         }
     }
 }
 
-private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
+private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
     let remote: OCKWatchConnectivityPeer
     let store: OCKStore
     
@@ -338,19 +340,16 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
         print("New session state: \(activationState)")
         
         if activationState == .activated {
-            store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync!")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
             }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         
-        print("Received message from peer")
-        
+        print("Received message from Apple Watch")
         remote.reply(to: message, store: store){ reply in
-            print("Sending reply to peer!")
-            
             replyHandler(reply)
         }
     }

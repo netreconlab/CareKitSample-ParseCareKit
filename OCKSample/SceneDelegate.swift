@@ -35,12 +35,12 @@ import CareKitStore
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
 
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let permissionViewController = UIViewController()
         permissionViewController.view.backgroundColor = .white
         if let windowScene = scene as? UIWindowScene {
@@ -48,73 +48,87 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = permissionViewController
             window?.tintColor = UIColor { $0.userInterfaceStyle == .light ?  #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) }
             window?.makeKeyAndVisible()
+            self.setupTabBarController()
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { _ in
-
-                    //If the user isn't logged in, log them in
-                    if User.current == nil {
+            //When syncing directly with watchOS, we don't care about login and need to setup remotes
+            if !self.appDelegate.syncWithCloud {
+                self.appDelegate.coreDataStore.populateSampleData()
+                self.appDelegate.healthKitStore.populateSampleData()
+                
+            } else {
+                //If the user isn't logged in, log them in
+                if User.current == nil {
+                    
+                    var newUser = User()
+                    newUser.username = "ParseCareKit"
+                    newUser.password = "ThisIsAStrongPass1!"
+                    
+                    newUser.signup { result in
+                        switch result {
                         
-                        var newUser = User()
-                        newUser.username = "ParseCareKit"
-                        newUser.password = "ThisIsAStrongPass1!"
-                        
-                        newUser.signup(callbackQueue: .main) { result in
-                            switch result {
+                        case .success(let user):
+                            print("Parse signup successful: \(user)")
+                            self.appDelegate.coreDataStore.populateSampleData()
+                            self.appDelegate.healthKitStore.populateSampleData()
+                            self.appDelegate.parse.automaticallySynchronizes = true
+                            self.appDelegate.firstLogin = true
+                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
                             
-                            case .success(let user):
-                                print("Parse signup successful \(user)")
-                                appDelegate.setupRemotes()
-                                appDelegate.coreDataStore.populateSampleData()
-                                appDelegate.healthKitStore.populateSampleData()
 
-                                DispatchQueue.main.async {
-                                    let manager = appDelegate.synchronizedStoreManager!
-                                    let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
-                                    self.window?.rootViewController = careViewController
-                                }
-                                                                    
-                            case .failure(let parseError):
-                                switch parseError.code{
-                                case .usernameTaken: //Account already exists for this username.
-                                    User.login(username: newUser.username!, password: newUser.password!, callbackQueue: .main) { result in
+                        case .failure(let parseError):
+                            switch parseError.code{
+                            case .usernameTaken: //Account already exists for this username.
+                                User.login(username: newUser.username!, password: newUser.password!) { result in
+
+                                    switch result {
+                                    
+                                    case .success(let user):
+                                        print("Parse login successful: \(user)")
+                                        self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
+                                        self.appDelegate.parse.automaticallySynchronizes = true
+                                        self.appDelegate.firstLogin = true
+                                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
                                             
-                                        switch result {
-                                        
-                                        case .success(let user):
-                                            print("Parse login successful \(user)")
-                                            appDelegate.setupRemotes()
-                                            
-                                            DispatchQueue.main.async {
-                                                let manager = appDelegate.synchronizedStoreManager!
-                                                let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
-                                                self.window?.rootViewController = careViewController
-                                            }
-                                                
-                                        case .failure(let error):
-                                            print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                                            print("Parse error: \(String(describing: error))")
-                                        }
+                                    case .failure(let error):
+                                        print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+                                        print("Parse error: \(String(describing: error))")
                                     }
-                                default:
-                                    //There was a different issue that we don't know how to handle
-                                    print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
-                                    print(parseError)
                                 }
+                            default:
+                                //There was a different issue that we don't know how to handle
+                                print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                                print(parseError)
                             }
                         }
-                    } else {
-                        print("User is already signed in...")
-                        appDelegate.setupRemotes()
-                        appDelegate.coreDataStore.synchronize { error in
-                            print(error?.localizedDescription ?? "Completed sync in DailyPageViewController")
-                        }
-                        DispatchQueue.main.async {
-                            let manager = appDelegate.synchronizedStoreManager!
-                            let careViewController: UINavigationController = UINavigationController(rootViewController: CareViewController(storeManager: manager))
-                            self.window?.rootViewController = careViewController
-                        }
                     }
+                } else {
+                    print("User is already signed in...")
+                    self.appDelegate.parse.automaticallySynchronizes = true
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                }
+            }
+        }
+    }
+    
+    func setupTabBarController() {
+        
+        let manager = self.appDelegate.synchronizedStoreManager!
+        let care = CareViewController(storeManager: manager)
+        care.tabBarItem = UITabBarItem(title: "Patient Care", image: .init(imageLiteralResourceName: "carecard"), selectedImage: .init(imageLiteralResourceName: "carecard-filled"))
+        let careViewController = UINavigationController(rootViewController: care)
+        
+        let contacts = OCKContactsListViewController(storeManager: manager)
+        contacts.title = "Contacts"
+        contacts.tabBarItem = UITabBarItem(title: "Contacts", image: .init(imageLiteralResourceName: "connect"), selectedImage: .init(imageLiteralResourceName: "connect-filled"))
+        let contactViewController = UINavigationController(rootViewController: contacts)
+        let tabBarController = UITabBarController()
+        tabBarController.viewControllers = [careViewController, contactViewController]
+        self.window?.rootViewController = tabBarController
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+
+                if error != nil {
+                    print(error!.localizedDescription)
                 }
             }
         }
