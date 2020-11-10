@@ -21,10 +21,10 @@
       },
       {
         "package": "ParseSwift",
-        "repositoryURL": "https://github.com/parse-community/Parse-Swift.git",
+        "repositoryURL": "https://github.com/netreconlab/Parse-Swift.git",
         "state": {
-          "branch": "main",
-          "revision": "7015af270a3b1d581b9b01dbf8ea96e3a0c85ec4",
+          "branch": "fixNestedUnkeyedController",
+          "revision": "a060bf5e2253527a06971da7ccf1127462e057c1",
           "version": null
         }
       },
@@ -32,8 +32,8 @@
         "package": "ParseCareKit",
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
-          "branch": "main",
-          "revision": "186356aa77b94375fc643eb4705042c5baa7e6a6",
+          "branch": null,
+          "revision": "912769006084a0db36c0e90d81d471dce7c1bafb",
           "version": null
         }
       }
