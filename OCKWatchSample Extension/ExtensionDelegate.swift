@@ -152,9 +152,11 @@ extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchr
     }
     
     func successfullyPushedDataToCloud(){
-        WCSession.default.sendMessage(["needToSyncNotification": "needToSyncNotification"], replyHandler: nil){
-            error in
-            print(error.localizedDescription)
+        DispatchQueue.main.async {
+            WCSession.default.sendMessage(["needToSyncNotification": "needToSyncNotification"], replyHandler: nil){
+                error in
+                print(error.localizedDescription)
+            }
         }
     }
     
