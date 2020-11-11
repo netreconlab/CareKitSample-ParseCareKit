@@ -8,7 +8,7 @@
 import CareKit
 import CareKitStore
 import ParseCareKit
-import ParseSwift
+import Parse
 import WatchKit
 import WatchConnectivity
 
@@ -27,41 +27,37 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
         //Clear items out of the Keychain on app first run. Used for debugging
         if UserDefaults.standard.object(forKey: "firstRun") == nil {
-            try? User.logout()
+            PFUser.logOut()
             //This is no longer the first run
             UserDefaults.standard.setValue("firstRun", forKey: "firstRun")
             UserDefaults.standard.synchronize()
         }
 
+        PFUser.enableRevocableSessionInBackground()
+                
         //Set default ACL for all Parse Classes
-        var defaultACL = ParseACL()
-        defaultACL.publicRead = false
-        defaultACL.publicWrite = false
-        do {
-            _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
-        } catch {
-            print(error.localizedDescription)
-        }
+        let defaultACL = PFACL()
+        defaultACL.hasPublicReadAccess = false
+        defaultACL.hasPublicWriteAccess = false
+        PFACL.setDefault(defaultACL, withAccessForCurrentUser:true)
 
         self.setupRemotes()
         
         //If the user isn't logged in, log them in
-        if User.current == nil {
+        if PFUser.current() == nil {
             
-            var newUser = User()
+            let newUser = PFUser()
             newUser.username = "ParseCareKit"
             newUser.password = "ThisIsAStrongPass1!"
             
-            User.login(username: newUser.username!, password: newUser.password!) { result in
+            PFUser.logInWithUsername(inBackground: newUser.username!, password: newUser.password!) { (user, error) in
                     
-                switch result {
-                
-                case .success(let user):
-                    print("Parse login successful \(user)")
+                if user != nil {
+                    print("Parse login successful \(user!)")
                     self.store.synchronize { error in
                         print(error?.localizedDescription ?? "Successful sync with Cloud!")
                     }
-                case .failure(let error):
+                } else {
                     print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                     print("Parse error: \(String(describing: error))")
                 }
@@ -76,29 +72,24 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     func setupRemotes() {
-        do {
-            if syncWithCloud{
-                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
-                store = OCKStore(name: "WatchParseStore", remote: parse)
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
-                
-                parse?.parseRemoteDelegate = self
-                sessionDelegate = CloudSyncSessionDelegate(store: store)
-            }else {
-                store = OCKStore(name: "PhoneStore", remote: phone)
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
-
-                phone.delegate = self
-                sessionDelegate = LocalSyncSessionDelegate(remote: phone, store: store)
-            }
+       
+        if syncWithCloud{
+            parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+            store = OCKStore(name: "WatchParseStore", remote: parse)
+            storeManager = OCKSynchronizedStoreManager(wrapping: store)
             
-            WCSession.default.delegate = sessionDelegate
-            WCSession.default.activate()
+            parse?.parseRemoteDelegate = self
+            sessionDelegate = CloudSyncSessionDelegate(store: store)
+        }else {
+            store = OCKStore(name: "PhoneStore", remote: phone)
+            storeManager = OCKSynchronizedStoreManager(wrapping: store)
 
-        } catch {
-            print("Error setting up remote: \(error.localizedDescription)")
+            phone.delegate = self
+            sessionDelegate = LocalSyncSessionDelegate(remote: phone, store: store)
         }
         
+        WCSession.default.delegate = sessionDelegate
+        WCSession.default.activate()
     }
     
     func applicationDidBecomeActive() {

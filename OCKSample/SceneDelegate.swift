@@ -31,6 +31,7 @@
 import CareKit
 import UIKit
 import CareKitStore
+import Parse
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -57,43 +58,62 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
             } else {
                 //If the user isn't logged in, log them in
-                if User.current == nil {
+                if PFUser.current() == nil {
                     
-                    var newUser = User()
+                    let newUser = PFUser()
                     newUser.username = "ParseCareKit"
                     newUser.password = "ThisIsAStrongPass1!"
                     
-                    newUser.signup { result in
-                        switch result {
+                    newUser.signUpInBackground { (success, error) in
                         
-                        case .success(let user):
-                            print("Parse signup successful: \(user)")
-                            self.appDelegate.coreDataStore.populateSampleData()
-                            self.appDelegate.healthKitStore.populateSampleData()
-                            self.appDelegate.parse.automaticallySynchronizes = true
-                            self.appDelegate.firstLogin = true
-                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                        if success {
+                            DispatchQueue.main.async {
+                                print("Parse signup successful: \(PFUser.current()!)")
+                                self.appDelegate.coreDataStore.populateSampleData()
+                                self.appDelegate.healthKitStore.populateSampleData()
+                                self.appDelegate.parse.automaticallySynchronizes = true
+                                self.appDelegate.firstLogin = true
+                                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                            }
+                        } else {
+                            guard let parseError = error as NSError? else {
+                                //There was a different issue that we don't know how to handle
+                                print("Error signing in. Unkown...")
+                                return
+                            }
                             
+                            switch parseError.code {
+                            case 202: //Account already exists for this username.
+                                PFUser.logInWithUsername(inBackground: newUser.username!, password: newUser.password!) { (user, error) -> Void in
 
-                        case .failure(let parseError):
-                            switch parseError.code{
-                            case .usernameTaken: //Account already exists for this username.
-                                User.login(username: newUser.username!, password: newUser.password!) { result in
-
-                                    switch result {
-                                    
-                                    case .success(let user):
-                                        print("Parse login successful: \(user)")
-                                        self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
-                                        self.appDelegate.parse.automaticallySynchronizes = true
-                                        self.appDelegate.firstLogin = true
-                                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
-                                            
-                                    case .failure(let error):
+                                    if user != nil {
+                                        DispatchQueue.main.async {
+                                            print("Parse login successful: \(PFUser.current()!)")
+                                            self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
+                                            self.appDelegate.parse.automaticallySynchronizes = true
+                                            self.appDelegate.firstLogin = true
+                                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                                        }
+                                    } else {
                                         print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                                         print("Parse error: \(String(describing: error))")
                                     }
                                 }
+                                //How to login anonymously
+                                /*
+                                PFAnonymousUtils.logIn{
+                                    (user, error) -> Void in
+                                
+                                    if user != nil{
+                                        print("Parse login successful \(user!)")
+                                        self.coreDataStore.synchronize{error in
+                                            print(error?.localizedDescription ?? "Successful sync!")
+                                        }
+                                    }else{
+                                        print("*** Error logging into Parse Server. Are you running parse-postgres and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                                        print("Parse error: \(String(describing: error))")
+                                    }
+                                }*/
                             default:
                                 //There was a different issue that we don't know how to handle
                                 print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")

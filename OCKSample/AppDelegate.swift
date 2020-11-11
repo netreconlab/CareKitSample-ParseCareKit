@@ -34,7 +34,7 @@ import Contacts
 import UIKit
 import HealthKit
 import ParseCareKit
-import ParseSwift
+import Parse
 import WatchConnectivity
 
 @UIApplicationMain
@@ -57,21 +57,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //Clear items out of the Keychain on app first run. Used for debugging
         if UserDefaults.standard.object(forKey: "firstRun") == nil {
-            try? User.logout()
+            PFUser.logOut()
             //This is no longer the first run
             UserDefaults.standard.setValue("firstRun", forKey: "firstRun")
             UserDefaults.standard.synchronize()
         }
         
+        PFUser.enableRevocableSessionInBackground()
+                
         //Set default ACL for all Parse Classes
-        var defaultACL = ParseACL()
-        defaultACL.publicRead = false
-        defaultACL.publicWrite = false
-        do {
-            _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
-        } catch {
-            print(error.localizedDescription)
-        }
+        let defaultACL = PFACL()
+        defaultACL.hasPublicReadAccess = false
+        defaultACL.hasPublicWriteAccess = false
+        PFACL.setDefault(defaultACL, withAccessForCurrentUser:true)
 
         setupRemotes()
         return true
@@ -84,29 +82,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func setupRemotes() {
-        do {
-            
-            if syncWithCloud{
-                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
-                coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
-                parse?.parseRemoteDelegate = self
-                sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
-            }else{
-                coreDataStore = OCKStore(name: "WatchStore", type: .onDisk, remote: watch)
-                watch.delegate = self
-                sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
-            }
-            
-            WCSession.default.delegate = sessionDelegate
-            WCSession.default.activate()
-            
-            let coordinator = OCKStoreCoordinator()
-            coordinator.attach(eventStore: healthKitStore)
-            coordinator.attach(store: coreDataStore)
-            synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
-        } catch {
-            print("Error setting up remote: \(error.localizedDescription)")
+        if syncWithCloud{
+            parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+            coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
+            parse?.parseRemoteDelegate = self
+            sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
+        }else{
+            coreDataStore = OCKStore(name: "WatchStore", type: .onDisk, remote: watch)
+            watch.delegate = self
+            sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
         }
+        
+        WCSession.default.delegate = sessionDelegate
+        WCSession.default.activate()
+        
+        let coordinator = OCKStoreCoordinator()
+        coordinator.attach(eventStore: healthKitStore)
+        coordinator.attach(store: coreDataStore)
+        synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
     }
 }
 
