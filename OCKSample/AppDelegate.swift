@@ -37,6 +37,10 @@ import ParseCareKit
 import Parse
 import WatchConnectivity
 
+#if canImport(ParseLiveQuery)
+import ParseLiveQuery
+#endif
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -48,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
+    private var subscriptions = Set<String>()
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -214,6 +219,21 @@ extension OCKHealthKitPassthroughStore {
 }
 
 extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate{
+    func subscribe(_ query: PFQuery<PFObject>) {
+        #if canImport(ParseLiveQuery)
+        if !subscriptions.contains(query.parseClassName) {
+            subscriptions.insert(query.parseClassName)
+            let subcscription = Client.shared.subscribe(query)
+            subcscription.handleEvent { query, event in
+                DispatchQueue.main.async {
+                    print("Remote requested syncronization...")
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                }
+            }
+        }
+        #endif
+    }
+    
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         print("Implement")
     }

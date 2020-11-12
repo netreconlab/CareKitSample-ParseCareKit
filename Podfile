@@ -12,6 +12,7 @@ target 'OCKSample' do
   use_frameworks!
   
   shared_pods
+  pod 'ParseLiveQuery', '~> 2.7'
 end
 
 target 'OCKSampleUITests' do
