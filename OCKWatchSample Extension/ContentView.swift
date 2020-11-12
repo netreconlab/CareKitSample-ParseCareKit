@@ -47,6 +47,8 @@ struct ContentView: View {
             
         }.accentColor(Color(#colorLiteral(red: 0.8310135007, green: 0.8244097233, blue: 0.8242591023, alpha: 1)))
     }
+    
+    
 }
 
 struct ContentView_Previews: PreviewProvider {
