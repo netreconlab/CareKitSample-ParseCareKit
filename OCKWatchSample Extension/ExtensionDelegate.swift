@@ -134,6 +134,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 }
 
 extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate{
+    func subscribe(_ query: PFQuery<PFObject>) {
+        print("Implement")
+    }
+    
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         print("Implement... You need to have your push notifications certs setup to use this.")
     }
