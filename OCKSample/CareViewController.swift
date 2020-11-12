@@ -33,6 +33,7 @@ import UIKit
 import CareKit
 import CareKitStore
 import SwiftUI
+import CareKitUI
 
 class CareViewController: OCKDailyPageViewController {
 
@@ -109,6 +110,16 @@ class CareViewController: OCKDailyPageViewController {
                         .padding([.vertical], 10)
 
                     listViewController.appendViewController(view.formattedHostingController(), animated: false)
+                }
+                
+                if #available(iOS 14, *), let walkTask = tasks.first(where: { $0.id == "stretch" }) {
+                    let newCardView = LabeledValueTaskView(
+                        task: walkTask,
+                        eventQuery: OCKEventQuery(for: date),
+                        storeManager: self.storeManager)
+                        .padding([.vertical], 10)
+                    
+                    listViewController.appendViewController(newCardView.formattedHostingController(), animated: false)
                 }
                 
                 if let stretchTask = tasks.first(where: { $0.id == "stretch" }) {

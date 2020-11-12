@@ -141,8 +141,6 @@ extension OCKStore {
                              carePlanUUID: nil, schedule: nauseaSchedule)
         nausea.impactsAdherence = false
         nausea.instructions = "Tap the button below anytime you experience nausea."
-
-        addTask(nausea)
         
         let kegelElement = OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 2))
         let kegelSchedule = OCKSchedule(composing: [kegelElement])
@@ -160,8 +158,6 @@ extension OCKStore {
         pain.impactsAdherence = false
         pain.instructions = "Tap the button below anytime you experience pain."
 
-        addTask(pain, callbackQueue: .main, completion: nil)
-        
         addTasks([nausea, doxylamine, kegels, stretch, pain], callbackQueue: .main) {
             results in
             
@@ -210,7 +206,6 @@ extension OCKStore {
         }()
 
         addContacts([contact1, contact2])
-        updateContacts([contact2])
     }
 }
 
