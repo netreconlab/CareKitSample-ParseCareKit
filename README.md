@@ -23,14 +23,14 @@ The following CareKit Entities are synchronized with Parse tables/classes:
 ## Setup Your Parse Server
 You can setup your parse-server locally to test using [parse-hipaa](https://github.com/netreconlab/parse-hipaa). Simply type the following to get your parse-server running with postgres locally:
 
-1. Fork [parse-hipaa](https://github.com/netreconlab/parse-hipaa/tree/parse-obj-sdk)(be sure to use the `parse-obj-sdk`)
+1. Fork [parse-hipaa](https://github.com/netreconlab/parse-hipaa/tree/parse-obj-sdk)(be sure to use the `parse-obj-sdk` branch)
 2. `cd parse-hipaa`
 3.  `docker-compose up` - this will take a couple of minutes to setup as it needs to initialize postgres, but as soon as you see `parse-server running on port 1337.`, it's ready to go. See [here](https://github.com/netreconlab/parse-hipaa#getting-started) for details
 4. If you would like to use mongo instead of postgres, in step 3, type `docker-compose -f docker-compose.mongo.yml up` instead of `docker-compose up`
 
 ## Fork this repo to get the modified OCKSample app. 
 
-1. Fork [CareKitSample-ParseCareKit](https://github.com/netreconlab/CareKitSample-ParseCareKit/tree/parse-objc) (Be sure to use the `parse-objc` branch.)
+1. Fork [CareKitSample-ParseCareKit](https://github.com/netreconlab/CareKitSample-ParseCareKit/tree/parse-objc) (be sure to use the `parse-objc` branch.)
 2. Open `OCKSample.xcodeproj` in Xcode
 3. You may need to configure your "Team" and "Bundle Identifier" in "Signing and Capabilities"
 4. Run the app and data will synchronize with parse-hipaa via http://localhost:1337/parse automatically
