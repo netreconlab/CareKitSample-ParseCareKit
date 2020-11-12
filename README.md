@@ -1,8 +1,9 @@
 # CareKitSample+ParseCareKit
+![Swift](https://img.shields.io/badge/swift-5.3-brightgreen.svg) ![Xcode 12.0+](https://img.shields.io/badge/xcode-12.0%2B-blue.svg) ![iOS 13.0+](https://img.shields.io/badge/iOS-13.0%2B-blue.svg) ![watchOS 7.0+](https://img.shields.io/badge/watchOS-7.0%2B-blue.svg) ![CareKit 7.0+](https://img.shields.io/badge/CareKit-2.1%2B-red.svg)
 
 An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing with [ParseCareKit](https://github.com/netreconlab/ParseCareKit). 
 
-***NEW - This branch is for CareKit 2.1 version of OCKSample. Just like the [What's New in CareKit](https://developer.apple.com/videos/play/wwdc2020/10151/) WWDC20 video, this branch implements syncing between the AppleWatch (setting the flag in `ExtensionDelegate.swift` and `AppDelegate.swift` to  `syncWithCloud = false`. Different from the video, setting `syncWithCloud = true` in the aforementioned files syncs with a Parse Server. If you are looking for the Xcode 11 version, go to the [main](https://github.com/netreconlab/CareKitSample-ParseCareKit/) branch. You will need Xcode 12 to run this branch***
+***NEW - Just like the [What's New in CareKit](https://developer.apple.com/videos/play/wwdc2020/10151/) WWDC20 video, this app syncs between the AppleWatch (setting the flag in `ExtensionDelegate.swift` and `AppDelegate.swift` to  `syncWithCloud = false`. Different from the video, setting `syncWithCloud = true` (default behavior) in the aforementioned files syncs iOS and watchOS to a Parse Server.***
 
 ParseCareKit synchs the following entities to Parse tables/classes:
 
