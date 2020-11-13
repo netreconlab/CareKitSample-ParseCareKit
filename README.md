@@ -1,11 +1,9 @@
 # CareKitSample+ParseCareKit
 ![Swift](https://img.shields.io/badge/swift-5.3-brightgreen.svg) ![Xcode 12.0+](https://img.shields.io/badge/xcode-12.0%2B-blue.svg) ![iOS 13.0+](https://img.shields.io/badge/iOS-13.0%2B-blue.svg) ![watchOS 7.0+](https://img.shields.io/badge/watchOS-7.0%2B-blue.svg) ![CareKit 7.0+](https://img.shields.io/badge/CareKit-2.1%2B-red.svg)
 
-An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing with [ParseCareKit](https://github.com/netreconlab/ParseCareKit). 
+An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing CareKit data to the Cloud via [ParseCareKit](https://github.com/netreconlab/ParseCareKit).
 
-![Simulator Screen Shot - iPhone 12 Pro - 2020-11-12 at 21 28 42](https://user-images.githubusercontent.com/8621344/99021318-7107ec00-252e-11eb-9ede-24eb3bcf0099.png)
-![Simulator Screen Shot - iPhone 12 Pro - 2020-11-12 at 21 28 52](https://user-images.githubusercontent.com/8621344/99021411-9e549a00-252e-11eb-8076-039b3842fc34.png)
-![Simulator Screen Shot - iPhone 12 Pro - 2020-11-12 at 21 28 59](https://user-images.githubusercontent.com/8621344/99021455-b1676a00-252e-11eb-996d-42efb09115aa.png)
+<img src="https://user-images.githubusercontent.com/8621344/99021318-7107ec00-252e-11eb-9ede-24eb3bcf0099.png" width="300"> <img src="https://user-images.githubusercontent.com/8621344/99021411-9e549a00-252e-11eb-8076-039b3842fc34.png" width="300"> <img src="https://user-images.githubusercontent.com/8621344/99021455-b1676a00-252e-11eb-996d-42efb09115aa.png" width="300">
 
 ***NEW - Just like the [What's New in CareKit](https://developer.apple.com/videos/play/wwdc2020/10151/) WWDC20 video, this app syncs between the AppleWatch (setting the flag in `ExtensionDelegate.swift` and `AppDelegate.swift` to  `syncWithCloud = false`. Different from the video, setting `syncWithCloud = true` (default behavior) in the aforementioned files syncs iOS and watchOS to a Parse Server.***
 
