@@ -23,7 +23,7 @@ The following CareKit Entities are synchronized with Parse tables/classes:
 **Use at your own risk. There is no promise that this is HIPAA compliant and we are not responsible for any mishandling of your data**
 
 ## Setup Your Parse Server
-You can setup your parse-server locally to test using [parse-hipaa](https://github.com/netreconlab/parse-hipaa). Simply type the following to get your parse-server running with postgres locally:
+You can setup your parse-server locally to test using [parse-hipaa](https://github.com/netreconlab/parse-hipaa/tree/parse-obj-sdk). Simply type the following to get your parse-server running with postgres locally:
 
 1. Fork [parse-hipaa](https://github.com/netreconlab/parse-hipaa/tree/parse-obj-sdk)(be sure to use the `parse-obj-sdk` branch)
 2. `cd parse-hipaa`
