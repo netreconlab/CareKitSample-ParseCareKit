@@ -197,26 +197,26 @@ if [ -r "${ARTIFACT_LIST_FILE}" ]; then
 fi
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Bolts-Swift/BoltsSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Bolts-Swift-iOS/BoltsSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Bolts-iOS/Bolts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKit-iOS/CareKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKitStore-iOS/CareKitStore.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKitUI-iOS/CareKitUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Parse-iOS/Parse.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ParseCareKit-iOS/ParseCareKit.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ParseLiveQuery/ParseLiveQuery.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ParseLiveQuery-iOS/ParseLiveQuery.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Starscream-iOS/Starscream.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
-  install_framework "${BUILT_PRODUCTS_DIR}/Bolts-Swift/BoltsSwift.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Bolts-Swift-iOS/BoltsSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Bolts-iOS/Bolts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKit-iOS/CareKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKitStore-iOS/CareKitStore.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKitUI-iOS/CareKitUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Parse-iOS/Parse.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ParseCareKit-iOS/ParseCareKit.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/ParseLiveQuery/ParseLiveQuery.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ParseLiveQuery-iOS/ParseLiveQuery.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Starscream-iOS/Starscream.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait
