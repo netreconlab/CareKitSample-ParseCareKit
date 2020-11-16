@@ -62,10 +62,10 @@ CHECKOUT OPTIONS:
     :commit: 25686733fb9ca1f7e4bec9aafe63ce13f17678f3
     :git: https://github.com/cbaker6/CareKit.git
   ParseCareKit:
-    :commit: 7b6bc4abe3db6fcf86fea6a99192125474deb348
+    :commit: 08e043052f5beecd513802aed875913d93f2de8e
     :git: https://github.com/netreconlab/ParseCareKit.git
   ParseLiveQuery:
-    :commit: 1a7c46524442467c37c6094f0b7d825fc02b8bde
+    :commit: 9746563e2305b280be492fbd146677d112de3aff
     :git: https://github.com/cbaker6/ParseLiveQuery-iOS-OSX.git
 
 SPEC CHECKSUMS:

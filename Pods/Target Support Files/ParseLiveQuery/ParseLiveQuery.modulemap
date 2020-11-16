@@ -1,6 +1,0 @@
-framework module ParseLiveQuery {
-  umbrella header "ParseLiveQuery-umbrella.h"
-
-  export *
-  module * { export * }
-}

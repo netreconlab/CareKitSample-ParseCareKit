@@ -1,0 +1,6 @@
+framework module BoltsSwift {
+  umbrella header "Bolts-Swift-watchOS-umbrella.h"
+
+  export *
+  module * { export * }
+}

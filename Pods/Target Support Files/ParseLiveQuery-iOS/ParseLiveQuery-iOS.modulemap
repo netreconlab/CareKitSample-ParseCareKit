@@ -1,0 +1,6 @@
+framework module ParseLiveQuery {
+  umbrella header "ParseLiveQuery-iOS-umbrella.h"
+
+  export *
+  module * { export * }
+}
