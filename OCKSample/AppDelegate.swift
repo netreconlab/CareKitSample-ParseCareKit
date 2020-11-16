@@ -37,10 +37,6 @@ import ParseCareKit
 import Parse
 import WatchConnectivity
 
-#if canImport(ParseLiveQuery)
-import ParseLiveQuery
-#endif
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
@@ -52,7 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
-    private var subscriptions = Set<String>()
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -88,18 +83,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func setupRemotes() {
         if syncWithCloud{
-            parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+            parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false, subscribeToServerUpdates: true)
             coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
             parse?.parseRemoteDelegate = self
-            sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
+            //sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
         }else{
             coreDataStore = OCKStore(name: "WatchStore", type: .onDisk, remote: watch)
             watch.delegate = self
             sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
+            
+            WCSession.default.delegate = sessionDelegate
+            WCSession.default.activate()
         }
-        
-        WCSession.default.delegate = sessionDelegate
-        WCSession.default.activate()
         
         let coordinator = OCKStoreCoordinator()
         coordinator.attach(eventStore: healthKitStore)
@@ -219,23 +214,12 @@ extension OCKHealthKitPassthroughStore {
 }
 
 extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate{
-    func subscribe(_ query: PFQuery<PFObject>) {
-        #if canImport(ParseLiveQuery)
-        if !subscriptions.contains(query.parseClassName) {
-            subscriptions.insert(query.parseClassName)
-            let subcscription = Client.shared.subscribe(query)
-            subcscription.handleEvent { query, event in
-                DispatchQueue.main.async {
-                    print("Remote requested syncronization...")
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
-                }
-            }
-        }
-        #endif
-    }
-    
+
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
-        print("Implement")
+        DispatchQueue.main.async {
+            print("Remote requested syncronization...")
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+        }
     }
     
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
@@ -244,9 +228,11 @@ extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizat
     
     func successfullyPushedDataToCloud(){
         DispatchQueue.main.async {
-            WCSession.default.sendMessage(["needToSyncNotification": "needToSyncNotification"], replyHandler: nil){
-                error in
-                print(error.localizedDescription)
+            if !self.syncWithCloud {
+                WCSession.default.sendMessage(["needToSyncNotification": "needToSyncNotification"], replyHandler: nil){
+                    error in
+                    print(error.localizedDescription)
+                }
             }
         }
     }

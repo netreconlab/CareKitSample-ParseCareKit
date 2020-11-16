@@ -74,22 +74,22 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func setupRemotes() {
        
         if syncWithCloud{
-            parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+            parse = ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true, subscribeToServerUpdates: true)
             store = OCKStore(name: "WatchParseStore", remote: parse)
             storeManager = OCKSynchronizedStoreManager(wrapping: store)
             
             parse?.parseRemoteDelegate = self
-            sessionDelegate = CloudSyncSessionDelegate(store: store)
+            //sessionDelegate = CloudSyncSessionDelegate(store: store)
         }else {
             store = OCKStore(name: "PhoneStore", remote: phone)
             storeManager = OCKSynchronizedStoreManager(wrapping: store)
 
             phone.delegate = self
             sessionDelegate = LocalSyncSessionDelegate(remote: phone, store: store)
+
+            WCSession.default.delegate = sessionDelegate
+            WCSession.default.activate()
         }
-        
-        WCSession.default.delegate = sessionDelegate
-        WCSession.default.activate()
     }
     
     func applicationDidBecomeActive() {
@@ -134,12 +134,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 }
 
 extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate{
-    func subscribe(_ query: PFQuery<PFObject>) {
-        print("Implement")
-    }
-    
+
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
-        print("Implement... You need to have your push notifications certs setup to use this.")
+        store.synchronize{ error in
+            print(error?.localizedDescription ?? "Successful sync with Cloud!")
+        }
     }
     
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
@@ -148,9 +147,11 @@ extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchr
     
     func successfullyPushedDataToCloud(){
         DispatchQueue.main.async {
-            WCSession.default.sendMessage(["needToSyncNotification": "needToSyncNotification"], replyHandler: nil){
-                error in
-                print(error.localizedDescription)
+            if !self.syncWithCloud {
+                WCSession.default.sendMessage(["needToSyncNotification": "needToSyncNotification"], replyHandler: nil){
+                    error in
+                    print(error.localizedDescription)
+                }
             }
         }
     }

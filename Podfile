@@ -3,8 +3,8 @@ def shared_pods
   pod 'CareKitUI', :git => 'https://github.com/cbaker6/CareKit.git', :branch => 'pod'
   pod 'CareKitStore', :git => 'https://github.com/cbaker6/CareKit.git', :branch => 'pod'
   pod 'CareKit', :git => 'https://github.com/cbaker6/CareKit.git', :branch => 'pod'
-  pod 'ParseCareKit', :git => 'https://github.com/netreconlab/ParseCareKit.git', :branch => 'updateObjc'
   pod 'ParseLiveQuery', :git => 'https://github.com/cbaker6/ParseLiveQuery-iOS-OSX.git', :branch => 'latest'
+  pod 'ParseCareKit', :git => 'https://github.com/netreconlab/ParseCareKit.git', :branch => 'parse-objc'
 end
 
 target 'OCKSample' do
