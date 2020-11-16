@@ -197,20 +197,26 @@ if [ -r "${ARTIFACT_LIST_FILE}" ]; then
 fi
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Bolts-Swift-watchOS/BoltsSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Bolts-watchOS/Bolts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKit-watchOS/CareKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKitStore-watchOS/CareKitStore.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKitUI-watchOS/CareKitUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Parse-watchOS/Parse.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ParseCareKit-watchOS/ParseCareKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ParseLiveQuery-watchOS/ParseLiveQuery.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Starscream-watchOS/Starscream.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "${BUILT_PRODUCTS_DIR}/Bolts-Swift-watchOS/BoltsSwift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Bolts-watchOS/Bolts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKit-watchOS/CareKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKitStore-watchOS/CareKitStore.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/CareKitUI-watchOS/CareKitUI.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Parse-watchOS/Parse.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ParseCareKit-watchOS/ParseCareKit.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ParseLiveQuery-watchOS/ParseLiveQuery.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Starscream-watchOS/Starscream.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

@@ -1,10 +1,10 @@
 ${PODS_ROOT}/Target Support Files/Pods-OCKSample/Pods-OCKSample-frameworks.sh
-${BUILT_PRODUCTS_DIR}/Bolts-Swift/BoltsSwift.framework
+${BUILT_PRODUCTS_DIR}/Bolts-Swift-iOS/BoltsSwift.framework
 ${BUILT_PRODUCTS_DIR}/Bolts-iOS/Bolts.framework
 ${BUILT_PRODUCTS_DIR}/CareKit-iOS/CareKit.framework
 ${BUILT_PRODUCTS_DIR}/CareKitStore-iOS/CareKitStore.framework
 ${BUILT_PRODUCTS_DIR}/CareKitUI-iOS/CareKitUI.framework
 ${BUILT_PRODUCTS_DIR}/Parse-iOS/Parse.framework
 ${BUILT_PRODUCTS_DIR}/ParseCareKit-iOS/ParseCareKit.framework
-${BUILT_PRODUCTS_DIR}/ParseLiveQuery/ParseLiveQuery.framework
-${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework
+${BUILT_PRODUCTS_DIR}/ParseLiveQuery-iOS/ParseLiveQuery.framework
+${BUILT_PRODUCTS_DIR}/Starscream-iOS/Starscream.framework

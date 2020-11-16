@@ -125,7 +125,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     print("User is already signed in...")
                     self.appDelegate.healthKitStore.populateSampleData()
                     self.appDelegate.parse.automaticallySynchronizes = true
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                    }
                 }
             }
         }
