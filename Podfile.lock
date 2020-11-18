@@ -13,10 +13,10 @@ PODS:
   - ParseCareKit (1.0):
     - CareKitStore (~> 2.0)
     - Parse (~> 1.19.1)
-    - ParseLiveQuery (~> 2.7.3)
-  - ParseLiveQuery (2.7.3):
+    - ParseLiveQuery (~> 2.8.0)
+  - ParseLiveQuery (2.8.0):
     - Bolts-Swift (~> 1.5.0)
-    - Parse (~> 1.19.1)
+    - Parse (~> 1.19.0)
     - Starscream (~> 4.0.4)
   - Starscream (4.0.4)
 
@@ -25,13 +25,13 @@ DEPENDENCIES:
   - CareKitStore (from `https://github.com/cbaker6/CareKit.git`, branch `pod`)
   - CareKitUI (from `https://github.com/cbaker6/CareKit.git`, branch `pod`)
   - ParseCareKit (from `https://github.com/netreconlab/ParseCareKit.git`, branch `parse-objc`)
-  - ParseLiveQuery (from `https://github.com/cbaker6/ParseLiveQuery-iOS-OSX.git`, branch `latest`)
 
 SPEC REPOS:
   trunk:
     - Bolts
     - Bolts-Swift
     - Parse
+    - ParseLiveQuery
     - Starscream
 
 EXTERNAL SOURCES:
@@ -47,9 +47,6 @@ EXTERNAL SOURCES:
   ParseCareKit:
     :branch: parse-objc
     :git: https://github.com/netreconlab/ParseCareKit.git
-  ParseLiveQuery:
-    :branch: latest
-    :git: https://github.com/cbaker6/ParseLiveQuery-iOS-OSX.git
 
 CHECKOUT OPTIONS:
   CareKit:
@@ -62,11 +59,8 @@ CHECKOUT OPTIONS:
     :commit: 25686733fb9ca1f7e4bec9aafe63ce13f17678f3
     :git: https://github.com/cbaker6/CareKit.git
   ParseCareKit:
-    :commit: 08e043052f5beecd513802aed875913d93f2de8e
+    :commit: 350d469337cf3dedb29a45b066485c5793f8d8d8
     :git: https://github.com/netreconlab/ParseCareKit.git
-  ParseLiveQuery:
-    :commit: 9746563e2305b280be492fbd146677d112de3aff
-    :git: https://github.com/cbaker6/ParseLiveQuery-iOS-OSX.git
 
 SPEC CHECKSUMS:
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
@@ -75,10 +69,10 @@ SPEC CHECKSUMS:
   CareKitStore: a25e631eee3b5649427b05cbe685b4522cf86d47
   CareKitUI: 7f81cb83e1c6b62bd0831a542b09e9b003aa9d7b
   Parse: e40fdb9c7d665823b7fe9865949cac9a53eb2ce7
-  ParseCareKit: 917b2c0e3655e6a2069fa13c1b3e1479357129fa
-  ParseLiveQuery: 44dfda8d646723df05b17e495b15d5b74c433e76
+  ParseCareKit: 819d76dbdef09a42955744981ffed1f32f5ff340
+  ParseLiveQuery: 366b5876aa20074ea7fea52446376e102447b5df
   Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
 
-PODFILE CHECKSUM: d5129d88e1afda81a14909b7a959e1cb2b937328
+PODFILE CHECKSUM: e63e6e3091664a23abf0f4fb64d3bd1f0df38d3b
 
 COCOAPODS: 1.9.3
