@@ -22,14 +22,12 @@ struct LoginView: View {
                 TextField("Username", text: $usersname)
                 SecureField("Password", text: $password)
             }
+            Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                Text("Login")
+            })
         })
     }
 }
-
-
-
-
-
 
 
 struct LoginView_Previews: PreviewProvider {

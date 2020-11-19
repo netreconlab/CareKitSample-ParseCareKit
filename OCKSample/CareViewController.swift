@@ -57,6 +57,7 @@ class CareViewController: OCKDailyPageViewController {
 
         navigationItem.rightBarButtonItem?.tintColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1): #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) }
         appDelegate.coreDataStore.synchronize { error in
+            
             DispatchQueue.main.async {
                 print(error?.localizedDescription ?? "Successful sync with remote!")
                 if error != nil {
@@ -73,6 +74,18 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
+    
+    func functionType(_ result: Result<[OCKAnyTask], OCKStoreError>) {
+    
+        switch result {
+        
+        case .success(let tasks):
+            print("Success: \(tasks)")
+        case .failure(let error):
+            print("Error: \(error)")
+        }
+    }
+    
     // This will be called each time the selected date changes.
     // Use this as an opportunity to rebuild the content shown to the user.
     override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
@@ -83,7 +96,27 @@ class CareViewController: OCKDailyPageViewController {
         query.ids = identifiers
         query.excludesTasksWithNoEvents = true
 
+        /*
+        var functionTypeVariable: (Result<[OCKAnyTask], OCKStoreError>) -> Void
+        
+        functionTypeVariable = functionType(_:)
+        
         storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
+            
+            switch result {
+            
+            case .success(let tasks):
+                print("Success: \(tasks)")
+            case .failure(let error):
+                print("Error: \(error)")
+            }
+        }*/
+        
+        storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
+            
+            let newIdentifiers = identifiers
+            
+            
             switch result {
             case .failure(let error): print("Error: \(error)")
             case .success(let tasks):

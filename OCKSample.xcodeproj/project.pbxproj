@@ -23,6 +23,7 @@
 		709B98262556DCA100507778 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 709B98252556DCA100507778 /* CareKitUI */; };
 		70DBAA7F255DC75900C7976E /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70DBAA7E255DC75900C7976E /* ParseCareKit */; };
 		70DBAA87255DC83700C7976E /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70DBAA86255DC83700C7976E /* ParseCareKit */; };
+		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
 		91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922924A4C42B00925D4D /* Interface.storyboard */; };
@@ -502,6 +503,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7440E4F229477F7007AD30A /* CareViewController.swift in Sources */,
+				70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */,
 				E72B2C0A226939E3009A9438 /* AppDelegate.swift in Sources */,
 				707CC718254DA91900116728 /* OCKLocalization.swift in Sources */,
 				E7C37849228F887800E982D8 /* TipView.swift in Sources */,
