@@ -31,6 +31,7 @@
 import CareKit
 import UIKit
 import CareKitStore
+import SwiftUI //Need to add this, currently not in your code
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -48,17 +49,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.rootViewController = permissionViewController
             window?.tintColor = UIColor { $0.userInterfaceStyle == .light ?  #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) }
             window?.makeKeyAndVisible()
-            self.setupTabBarController()
 
             //When syncing directly with watchOS, we don't care about login and need to setup remotes
             if !self.appDelegate.syncWithCloud {
                 self.appDelegate.coreDataStore.populateSampleData()
                 self.appDelegate.healthKitStore.populateSampleData()
-                
+                self.setupTabBarController()
             } else {
+                
                 //If the user isn't logged in, log them in
                 if User.current == nil {
                     
+                    //Note that if you have a SwiftUI based app, SceneDelegate technically isn't needed anymore, but we will keep it for now
+                    self.window?.rootViewController = UIHostingController(rootView: LoginView()) //Wraps a SwiftUI view in UIKit view
+                    
+                    //The code below can be removed because it isn't needed anymore
+                    /*
                     var newUser = User()
                     newUser.username = "ParseCareKit"
                     newUser.password = "ThisIsAStrongPass1!"
@@ -100,11 +106,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                                 print(parseError)
                             }
                         }
-                    }
+                    }*/
                 } else {
                     print("User is already signed in...")
                     self.appDelegate.healthKitStore.populateSampleData()
                     self.appDelegate.parse.automaticallySynchronizes = true
+                    self.window?.rootViewController = UIHostingController(rootView: MainSwiftUIView(synchronizationManager: self.appDelegate.synchronizedStoreManager)) //Wraps a SwiftUI view in UIKit view
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
                     }

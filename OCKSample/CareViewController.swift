@@ -114,9 +114,6 @@ class CareViewController: OCKDailyPageViewController {
         
         storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
             
-            let newIdentifiers = identifiers
-            
-            
             switch result {
             case .failure(let error): print("Error: \(error)")
             case .success(let tasks):
