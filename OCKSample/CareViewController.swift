@@ -95,22 +95,6 @@ class CareViewController: OCKDailyPageViewController {
         var query = OCKTaskQuery(for: date)
         query.ids = identifiers
         query.excludesTasksWithNoEvents = true
-
-        /*
-        var functionTypeVariable: (Result<[OCKAnyTask], OCKStoreError>) -> Void
-        
-        functionTypeVariable = functionType(_:)
-        
-        storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
-            
-            switch result {
-            
-            case .success(let tasks):
-                print("Success: \(tasks)")
-            case .failure(let error):
-                print("Error: \(error)")
-            }
-        }*/
         
         storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
             

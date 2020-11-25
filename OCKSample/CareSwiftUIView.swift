@@ -24,33 +24,7 @@ struct CareSwiftUIView: UIViewControllerRepresentable {
         let care = CareViewController(storeManager: manager)
         let careViewController = UINavigationController(rootViewController: care)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
-
-                if error != nil {
-                    print(error!.localizedDescription)
-                }
-            }
-        }
-        
         return careViewController
-        /*
-        let contacts = OCKContactsListViewController(storeManager: manager)
-        contacts.title = "Contacts"
-        contacts.tabBarItem = UITabBarItem(title: "Contacts", image: .init(imageLiteralResourceName: "connect"), selectedImage: .init(imageLiteralResourceName: "connect-filled"))
-        let contactViewController = UINavigationController(rootViewController: contacts)
-        
-        //Added Profile
-        let profile = UIHostingController(rootView: ProfileView())
-        profile.title = "Profile"
-        profile.tabBarItem = UITabBarItem(title: "Profile", image: .init(imageLiteralResourceName: "symptoms"), selectedImage: .init(imageLiteralResourceName: "symptoms-filled"))
-        let profileViewController = UINavigationController(rootViewController: profile)
-        
-        let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [careViewController, contactViewController, profileViewController]
-        */
-        
-        //return tabBarController
     }
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {

@@ -59,54 +59,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
                 //If the user isn't logged in, log them in
                 if User.current == nil {
-                    
+
                     //Note that if you have a SwiftUI based app, SceneDelegate technically isn't needed anymore, but we will keep it for now
                     self.window?.rootViewController = UIHostingController(rootView: LoginView()) //Wraps a SwiftUI view in UIKit view
                     
-                    //The code below can be removed because it isn't needed anymore
-                    /*
-                    var newUser = User()
-                    newUser.username = "ParseCareKit"
-                    newUser.password = "ThisIsAStrongPass1!"
-                    
-                    newUser.signup { result in
-                        switch result {
-                        
-                        case .success(let user):
-                            print("Parse signup successful: \(user)")
-                            self.appDelegate.coreDataStore.populateSampleData()
-                            self.appDelegate.healthKitStore.populateSampleData()
-                            self.appDelegate.parse.automaticallySynchronizes = true
-                            self.appDelegate.firstLogin = true
-                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
-                            
-
-                        case .failure(let parseError):
-                            switch parseError.code{
-                            case .usernameTaken: //Account already exists for this username.
-                                User.login(username: newUser.username!, password: newUser.password!) { result in
-
-                                    switch result {
-                                    
-                                    case .success(let user):
-                                        print("Parse login successful: \(user)")
-                                        self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
-                                        self.appDelegate.parse.automaticallySynchronizes = true
-                                        self.appDelegate.firstLogin = true
-                                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
-                                            
-                                    case .failure(let error):
-                                        print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                                        print("Parse error: \(String(describing: error))")
-                                    }
-                                }
-                            default:
-                                //There was a different issue that we don't know how to handle
-                                print("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
-                                print(parseError)
-                            }
-                        }
-                    }*/
                 } else {
                     print("User is already signed in...")
                     self.appDelegate.healthKitStore.populateSampleData()
