@@ -19,6 +19,8 @@
 		7036E4D3256EBE35006E9A3C /* MainSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */; };
 		7036E4F1256EEC5F006E9A3C /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E4F0256EEC5F006E9A3C /* ParseCareKit */; };
 		7036E4F9256EEC74006E9A3C /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E4F8256EEC74006E9A3C /* ParseCareKit */; };
+		7036E507256F087A006E9A3C /* OCKContactsListViewControllerFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E506256F087A006E9A3C /* OCKContactsListViewControllerFix.swift */; };
+		7036E50C256F0CF3006E9A3C /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E50B256F0CF3006E9A3C /* ContactViewController.swift */; };
 		707CC714254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
 		707CC715254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
 		707CC716254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
@@ -125,6 +127,8 @@
 		7036E4C8256E1A6F006E9A3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		7036E4CD256E9A0C006E9A3C /* ContactSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSwiftUIView.swift; sourceTree = "<group>"; };
 		7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSwiftUIView.swift; sourceTree = "<group>"; };
+		7036E506256F087A006E9A3C /* OCKContactsListViewControllerFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKContactsListViewControllerFix.swift; sourceTree = "<group>"; };
+		7036E50B256F0CF3006E9A3C /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		707CC710254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		707CC712254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		707CC713254DA91900116728 /* OCKLocalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCKLocalization.swift; sourceTree = "<group>"; };
@@ -305,6 +309,8 @@
 				7036E4C3256E0A48006E9A3C /* CareSwiftUIView.swift */,
 				7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */,
 				7036E4CD256E9A0C006E9A3C /* ContactSwiftUIView.swift */,
+				7036E50B256F0CF3006E9A3C /* ContactViewController.swift */,
+				7036E506256F087A006E9A3C /* OCKContactsListViewControllerFix.swift */,
 				7036E4C8256E1A6F006E9A3C /* ProfileView.swift */,
 				70077596252228E900EC0EDA /* ParseObjects.swift */,
 				E7C37848228F887800E982D8 /* TipView.swift */,
@@ -531,8 +537,10 @@
 				7036E4BA256D9AC7006E9A3C /* ParseLoginModel.swift in Sources */,
 				70077597252228E900EC0EDA /* ParseObjects.swift in Sources */,
 				03F0600A2331946600CCE09B /* SceneDelegate.swift in Sources */,
+				7036E507256F087A006E9A3C /* OCKContactsListViewControllerFix.swift in Sources */,
 				7036E4C9256E1A6F006E9A3C /* ProfileView.swift in Sources */,
 				7036E4BF256DA089006E9A3C /* LoginViewModel.swift in Sources */,
+				7036E50C256F0CF3006E9A3C /* ContactViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
