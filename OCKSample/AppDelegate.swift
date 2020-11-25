@@ -236,7 +236,7 @@ extension OCKHealthKitPassthroughStore {
     }
 }
 
-extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate{
+extension AppDelegate: ParseRemoteSynchronizationDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         print("Implement")
     }
@@ -258,28 +258,6 @@ extension AppDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizat
         let conflictPolicy = OCKMergeConflictResolutionPolicy.keepRemote
         completion(conflictPolicy)
     }
-    
-    func storeUpdatedOutcome(_ outcome: OCKOutcome) {
-        synchronizedStoreManager.store.updateAnyOutcome(outcome, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    func storeUpdatedCarePlan(_ carePlan: OCKCarePlan) {
-        synchronizedStoreManager.store.updateAnyCarePlan(carePlan, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    func storeUpdatedContact(_ contact: OCKContact) {
-        synchronizedStoreManager.store.updateAnyContact(contact, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    func storeUpdatedPatient(_ patient: OCKPatient) {
-        synchronizedStoreManager.store.updateAnyPatient(patient, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    func storeUpdatedTask(_ task: OCKTask) {
-        synchronizedStoreManager.store.updateAnyTask(task, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    
 }
 
 protocol SessionDelegate: WCSessionDelegate {}
