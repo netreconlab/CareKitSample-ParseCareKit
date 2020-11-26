@@ -53,7 +53,7 @@ struct MainSwiftUIView: View {
                 }
                 .tag(1)
             
-            ProfileView()
+            ProfileView(manager: synchronizationManager)
                 .onTapGesture {
                     selectedTab = 2
                 }
