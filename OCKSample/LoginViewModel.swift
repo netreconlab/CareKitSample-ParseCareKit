@@ -9,6 +9,7 @@
 import Foundation
 import ParseSwift
 import CareKit
+import CareKitStore
 
 class LoginViewModel: ObservableObject {
     
@@ -24,10 +25,7 @@ class LoginViewModel: ObservableObject {
         }
     }
     
-    //This is another way of making a property read-only for Views to access, but not mess up
-    var sychonizationManager: OCKSynchronizedStoreManager {
-        parse.appDelegate.synchronizedStoreManager
-    }
+    private var profileModel: ProfileViewModel?
     
     init() {
         parse = ParseLoginModel()
@@ -37,26 +35,52 @@ class LoginViewModel: ObservableObject {
     
     //MARK: User intentional behavier
     
-    func signup(username: String, password: String) {
+    func signup(username: String, password: String, firstName: String, lastName: String) {
         parse.signup(username: username, password: password) { result in
             
             switch result {
             
             case .success(_):
-                self.isLoggedIn = true
+                self.profileModel = ProfileViewModel()
+                self.profileModel?.savePatientAfterSignUp(firstName, last: lastName) { result in
+                    switch result {
+                    
+                    case .success(_):
+                        self.isLoggedIn = true //Notify the SwiftUI view that the user is correctly logged in and to transition screens
+                        
+                    case .failure(let error):
+                        print("Error saving the patient after signup: \(error)")
+                    }
+                }
                 
             case .failure(let error):
-                self.loginError = error
+                self.loginError = error //Notify the SwiftUI view that there's an error
             }
         }
     }
     
     func login(username: String, password: String) {
-        //Need to implement, look at login and complete implementation in the model
-    }
-    
-    func logout() throws {
-        try parse.logout() //Log out of cloud database
+        parse.login(username: username, password: password) { result in
+            
+            switch result {
+            
+            case .success(_):
+                self.profileModel = ProfileViewModel()
+                self.profileModel?.setupRemoteAfterLoginButtonTapped { result in
+                    switch result {
+                    
+                    case .success(_):
+                        self.isLoggedIn = true //Notify the SwiftUI view that the user is correctly logged in and to transition screens
+                        
+                    case .failure(let error):
+                        print("Error saving the patient after signup: \(error)")
+                    }
+                }
+                
+            case .failure(let error):
+                self.loginError = error //Notify the SwiftUI view that there's an error
+            }
+        }
     }
 }
 

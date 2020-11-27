@@ -91,7 +91,7 @@ class CareViewController: OCKDailyPageViewController {
     override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
                                           prepare listViewController: OCKListViewController, for date: Date) {
 
-        let identifiers = ["doxylamine", "nausea", "stretch", "kegels", "steps", "heartRate", "pain"]
+        let identifiers = ["doxylamine", "nausea", "stretch", "kegels", "steps", "heartRate"]
         var query = OCKTaskQuery(for: date)
         query.ids = identifiers
         query.excludesTasksWithNoEvents = true
@@ -124,16 +124,6 @@ class CareViewController: OCKDailyPageViewController {
                         .padding([.vertical], 10)
 
                     listViewController.appendViewController(view.formattedHostingController(), animated: false)
-                }
-                
-                if #available(iOS 14, *), let walkTask = tasks.first(where: { $0.id == "stretch" }) {
-                    let newCardView = LabeledValueTaskView(
-                        task: walkTask,
-                        eventQuery: OCKEventQuery(for: date),
-                        storeManager: self.storeManager)
-                        .padding([.vertical], 10)
-                    
-                    listViewController.appendViewController(newCardView.formattedHostingController(), animated: false)
                 }
                 
                 if let stretchTask = tasks.first(where: { $0.id == "stretch" }) {
@@ -208,13 +198,6 @@ class CareViewController: OCKDailyPageViewController {
                     let nauseaCard = OCKButtonLogTaskViewController(task: nauseaTask, eventQuery: .init(for: date),
                                                                     storeManager: self.storeManager)
                     listViewController.appendViewController(nauseaCard, animated: false)
-                }
-                
-                if let painTask = tasks.first(where: { $0.id == "pain" }) {
-                
-                    let painCard = OCKButtonLogTaskViewController(task: painTask, eventQuery: .init(for: date),
-                                                                    storeManager: self.storeManager)
-                    listViewController.appendViewController(painCard, animated: false)
                 }
             }
         }

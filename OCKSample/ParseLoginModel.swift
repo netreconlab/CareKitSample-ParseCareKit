@@ -8,11 +8,8 @@
 
 import Foundation
 import ParseSwift
-import UIKit //Note: we are cheating a little here, because the model shouldn't need to import UIKit or SwiftUI, but we don't have time to rework the AppDelegate. The only piece we are using is UIApplication.
 
 struct ParseLoginModel {
-    
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate //Importing UIKit gives us access here to get the OCKStore and ParseRemote
     
     /**
      Signs up the user *asynchronously*.
@@ -31,16 +28,6 @@ struct ParseLoginModel {
             
             case .success(let user):
                 print("Parse signup successful: \(user)")
-                
-                //Because of the app delegate access above, we can place the initial data in the database
-                self.appDelegate.setupRemotes()
-                self.appDelegate.coreDataStore.populateSampleData()
-                self.appDelegate.healthKitStore.populateSampleData()
-                self.appDelegate.parse.automaticallySynchronizes = true
-                self.appDelegate.firstLogin = true
-                
-                //Post notification to sync
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
                 
                 //Finished the async call, return the signed in user
                 completion(.success(user))
@@ -69,7 +56,7 @@ struct ParseLoginModel {
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<User, ParseError>)`.
     */
-    func login(username: String, password: String) {
+    func login(username: String, password: String, completion: @escaping (Result<User,ParseError>)-> Void) {
         
         User.login(username: username, password: password) { result in
 
@@ -77,28 +64,15 @@ struct ParseLoginModel {
             
             case .success(let user):
                 print("Parse login successful: \(user)")
-                self.appDelegate.setupRemotes()
-                self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
-                self.appDelegate.parse.automaticallySynchronizes = true
-                self.appDelegate.firstLogin = true
-                
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
                     
-                //You will need a completion here for the async return
-            
+                completion(.success(user))
+                
             case .failure(let error):
                 print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
                 print("Parse error: \(String(describing: error))")
                 
-                //You will need a completion here for the async return
+                completion(.failure(error))
             }
         }
-    }
-    
-    //You may not have seen "throws" before, but it's simple, this throws an error if one occurs, if not it behaves as normal
-    //Normally, you've seen do {} catch{} which catches the error, same concept...
-    func logout() throws {
-        try User.logout()
-        try appDelegate.coreDataStore.delete() //Delete data in local OCKStore database
     }
 }

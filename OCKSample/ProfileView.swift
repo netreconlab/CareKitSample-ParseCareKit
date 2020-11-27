@@ -12,21 +12,13 @@ import CareKitStore
 import CareKit
 
 struct ProfileView: View {
-
-    var manager: OCKSynchronizedStoreManager
     
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject private var viewModel = LoginViewModel()
-    @ObservedObject private var profileViewModel: ProfileViewModel
+    @ObservedObject private var profileViewModel = ProfileViewModel()
     @State private var isLoggedOut = false
     @State var firstName: String = ""
     @State var lastName: String = ""
     @State var birthday: Date = Date()
-    
-    init(manager: OCKSynchronizedStoreManager) {
-        self.manager = manager
-        self.profileViewModel = ProfileViewModel(synchronizedStoreManager: manager)
-    }
     
     var body: some View {
         
@@ -59,8 +51,8 @@ struct ProfileView: View {
             
             //Notice that "action" is a closure (which is essentially a function as argument like we discussed in class)
             Button(action: {
-                
-                profileViewModel.savePatient(firstName, last: lastName, birth: birthday)
+
+                profileViewModel.saveProfile(firstName, last: lastName, birth: birthday)
 
             }, label: {
                 
@@ -78,7 +70,7 @@ struct ProfileView: View {
                 //Notice that "action" is a closure (which is essentially a function as argument like we discussed in class)
                 Button(action: {
                     do {
-                        try viewModel.logout()
+                        try profileViewModel.logout()
                         isLoggedOut = true
                         presentationMode.wrappedValue.dismiss()
                     } catch {
@@ -102,7 +94,7 @@ struct ProfileView: View {
                 // Fallback on earlier versions
                 Button(action: {
                     do {
-                        try viewModel.logout()
+                        try profileViewModel.logout()
                         isLoggedOut = true
                         presentationMode.wrappedValue.dismiss()
                     } catch {
@@ -129,6 +121,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(manager: OCKSynchronizedStoreManager(wrapping: OCKStore(name: "")))
+        ProfileView()
     }
 }

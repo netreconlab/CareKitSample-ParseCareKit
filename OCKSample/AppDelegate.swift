@@ -47,7 +47,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var parse: ParseRemoteSynchronizationManager!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
-    private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
+    private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager?
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -82,21 +82,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
     
-    func setupRemotes() {
+    func setupRemotes(uuid: UUID? = nil) {
         do {
             
             if syncWithCloud {
-                let uuid: String
-                if let uuidFromDefaults = UserDefaults.standard.object(forKey: "remoteUUID") as? String {
-                    uuid = uuidFromDefaults
-                } else {
-                    //This is no longer the first run
-                    uuid = UUID().uuidString
-                    UserDefaults.standard.setValue(uuid, forKey: "remoteUUID")
-                    UserDefaults.standard.synchronize()
+                guard let uuid = uuid else {
+                    print("Error in setupRemotes, uuid is nil")
+                    return
                 }
-        
-                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: uuid)!, auto: false)
+                parse = try ParseRemoteSynchronizationManager(uuid: uuid, auto: false)
                 coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
@@ -162,12 +156,7 @@ extension OCKStore {
         var stretch = OCKTask(id: "stretch", title: "Stretch", carePlanUUID: nil, schedule: stretchSchedule)
         stretch.impactsAdherence = true
 
-        var pain = OCKTask(id: "pain", title: "Track your pain",
-                             carePlanUUID: nil, schedule: nauseaSchedule)
-        pain.impactsAdherence = false
-        pain.instructions = "Tap the button below anytime you experience pain."
-
-        addTasks([nausea, doxylamine, kegels, stretch, pain], callbackQueue: .main) {
+        addTasks([nausea, doxylamine, kegels, stretch], callbackQueue: .main) {
             results in
             
             switch results {

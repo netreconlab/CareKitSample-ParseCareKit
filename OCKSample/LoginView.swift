@@ -10,20 +10,23 @@
 
 import SwiftUI
 import ParseSwift
+import UIKit
 
 struct LoginView: View {
     
     //Anything is @ is a wrapper that subscribes and refreshes the view when a change occurs. List to the last lecture in Section 2 for an explanation
+    @ObservedObject private var viewModel = LoginViewModel()
     @State private var usersname = ""
     @State private var password = ""
+    @State var firstName: String = ""
+    @State var lastName: String = ""
     @State private var signupLoginSegmentValue = 0
-    @ObservedObject private var viewModel = LoginViewModel()
     @State private var presentMainScreen = false
     
     var body: some View {
         
         if viewModel.isLoggedIn {
-            MainSwiftUIView(synchronizationManager: viewModel.sychonizationManager)
+            MainSwiftUIView()
         } else {
 
             VStack() {
@@ -31,15 +34,16 @@ struct LoginView: View {
                 Text("CareKit Sample App")
                     .font(.largeTitle) //These are modifiers of the text view
                     .foregroundColor(.white)
-                    .padding([.top, .bottom], 40)
+                    .padding([.top], 40)
                 
                 Image("exercise.jpg") //Change this image to something that represents your application
                     .resizable()
-                    .frame(width: 250, height: 250, alignment: .center)
+                    .frame(width: 150, height: 150, alignment: .center)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color(.white), lineWidth: 4))
                     .shadow(radius: 10)
-                    .padding(.bottom, 50)
+                    .padding()
+                    .layoutPriority(-100)
                 
                 //Example of how to do the picker here: https://www.swiftkickmobile.com/creating-a-segmented-control-in-swiftui/
                 Picker(selection: $signupLoginSegmentValue, label: Text("Login Picker"), content: {
@@ -63,13 +67,29 @@ struct LoginView: View {
                         .background(Color.white)
                         .cornerRadius(20.0)
                         .shadow(radius: 10.0, x: 20, y: 10)
+                    
+                    if signupLoginSegmentValue == 0 {
+                        TextField("First Name", text: $firstName)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(20.0)
+                            .shadow(radius: 10.0, x: 20, y: 10)
+                            
+                    
+                        TextField("Last Name", text: $lastName)
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(20.0)
+                            .shadow(radius: 10.0, x: 20, y: 10)
+                            
+                    }
                 }.padding([.leading, .trailing], 27.5)
 
                 //Notice that "action" is a closure (which is essentially a function as argument like we discussed in class)
                 Button(action: {
                     
                     if signupLoginSegmentValue == 0 {
-                        viewModel.signup(username: usersname, password: password)
+                        viewModel.signup(username: usersname, password: password, firstName: firstName, lastName: lastName)
                     }else {
                         viewModel.login(username: usersname, password: password)
                     }

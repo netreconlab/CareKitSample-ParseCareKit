@@ -10,23 +10,43 @@ import SwiftUI
 import CareKit
 import CareKitStore
 import CareKitUI
+import UIKit
 
 //This file is the SwiftUI equivalent to UITabBarController in setupTabBarController() in SceneDelegate.swift
 
+struct StoreManagerKey: EnvironmentKey {
+    
+    static var defaultValue: OCKSynchronizedStoreManager? {
+        let extensionDelegate = UIApplication.shared.delegate as! AppDelegate
+        return extensionDelegate.synchronizedStoreManager
+    }
+}
+
+extension EnvironmentValues {
+    
+    var storeManager: OCKSynchronizedStoreManager? {
+        get {
+            self[StoreManagerKey.self]
+        }
+        
+        set{
+            self[StoreManagerKey.self] = newValue
+        }
+    }
+}
+
+
 struct MainSwiftUIView: View {
     
+    @Environment(\.storeManager) private var storeManager
     @State private var selectedTab = 0
     @State private var tintColor = UIColor { $0.userInterfaceStyle == .light ?  #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) }
-    let synchronizationManager: OCKSynchronizedStoreManager
     
     var body: some View {
         
         TabView(selection: $selectedTab) {
             
             CareSwiftUIView()
-                .onTapGesture {
-                    selectedTab = 0
-                }
                 .tabItem {
                     if selectedTab == 0 {
                         Image("carecard-filled")
@@ -37,11 +57,9 @@ struct MainSwiftUIView: View {
                     }
                 }
                 .tag(0)
+                
             
-            ContactSwiftUIView(manager: synchronizationManager)
-                .onTapGesture {
-                    selectedTab = 1
-                }
+            ContactSwiftUIView(manager: storeManager!)
                 .tabItem {
                     if selectedTab == 1 {
                         Image("connect-filled")
@@ -53,10 +71,7 @@ struct MainSwiftUIView: View {
                 }
                 .tag(1)
             
-            ProfileView(manager: synchronizationManager)
-                .onTapGesture {
-                    selectedTab = 2
-                }
+            ProfileView()
                 .tabItem {
                     if selectedTab == 2 {
                         Image("symptoms-filled")
@@ -74,6 +89,6 @@ struct MainSwiftUIView: View {
 
 struct MainSwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        MainSwiftUIView(synchronizationManager: OCKSynchronizedStoreManager(wrapping: OCKStore(name: "test")))
+        MainSwiftUIView()
     }
 }
