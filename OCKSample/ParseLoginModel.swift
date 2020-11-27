@@ -33,6 +33,7 @@ struct ParseLoginModel {
                 print("Parse signup successful: \(user)")
                 
                 //Because of the app delegate access above, we can place the initial data in the database
+                self.appDelegate.setupRemotes()
                 self.appDelegate.coreDataStore.populateSampleData()
                 self.appDelegate.healthKitStore.populateSampleData()
                 self.appDelegate.parse.automaticallySynchronizes = true
@@ -76,7 +77,7 @@ struct ParseLoginModel {
             
             case .success(let user):
                 print("Parse login successful: \(user)")
-                
+                self.appDelegate.setupRemotes()
                 self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
                 self.appDelegate.parse.automaticallySynchronizes = true
                 self.appDelegate.firstLogin = true
@@ -99,6 +100,5 @@ struct ParseLoginModel {
     func logout() throws {
         try User.logout()
         try appDelegate.coreDataStore.delete() //Delete data in local OCKStore database
-        appDelegate.setupRemotes() //Create new database
     }
 }

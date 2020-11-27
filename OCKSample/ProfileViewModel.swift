@@ -51,14 +51,14 @@ class ProfileViewModel: ObservableObject {
     }
     
     private func findCurrentPatient(completion: @escaping (OCKPatient?)-> Void) {
-        guard let userObjectId = User.current?.objectId else {
+        guard let remoteUUID = UserDefaults.standard.object(forKey: "remoteUUID") as? String else {
             print("Error: The user currently isn't logged in")
             return
         }
         
         //Build query to search for OCKPatient
         var queryForCurrentPatient = OCKPatientQuery(for: Date()) //This makes the query for the current version of Patient
-        queryForCurrentPatient.ids = [userObjectId] //Search for the current logged in user
+        queryForCurrentPatient.ids = [remoteUUID] //Search for the current logged in user
         
         manager.store.fetchAnyPatients(query: queryForCurrentPatient, callbackQueue: .main) { result in
             switch result {
@@ -71,7 +71,7 @@ class ProfileViewModel: ObservableObject {
                 completion(currentPatient)
                 
             case .failure(let error):
-                print("Error: Couldn't find patient with objectId \"\(userObjectId)\". It's possible they have never been saved. Query error: \(error)")
+                print("Error: Couldn't find patient with id \"\(remoteUUID)\". It's possible they have never been saved. Query error: \(error)")
                 completion(nil)
             }
         }
@@ -115,12 +115,12 @@ class ProfileViewModel: ObservableObject {
             
         } else {
             
-            guard let userObjectId = User.current?.objectId else {
+            guard let remoteUUID = UserDefaults.standard.object(forKey: "remoteUUID") as? String else {
                 print("Error: The user currently isn't logged in")
                 return
             }
             
-            var newPatient = OCKPatient(id: userObjectId, givenName: first, familyName: last)
+            var newPatient = OCKPatient(id: remoteUUID, givenName: first, familyName: last)
             newPatient.birthday = birth
             
             //This is new patient that has never been saved before

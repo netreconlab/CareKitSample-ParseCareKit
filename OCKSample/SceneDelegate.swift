@@ -52,6 +52,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
             //When syncing directly with watchOS, we don't care about login and need to setup remotes
             if !self.appDelegate.syncWithCloud {
+                self.appDelegate.setupRemotes()
                 self.appDelegate.coreDataStore.populateSampleData()
                 self.appDelegate.healthKitStore.populateSampleData()
                 self.setupTabBarController()
@@ -62,9 +63,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                     //Note that if you have a SwiftUI based app, SceneDelegate technically isn't needed anymore, but we will keep it for now
                     self.window?.rootViewController = UIHostingController(rootView: LoginView()) //Wraps a SwiftUI view in UIKit view
-                    
+
                 } else {
+                
                     print("User is already signed in...")
+                    self.appDelegate.setupRemotes()
                     self.appDelegate.healthKitStore.populateSampleData()
                     self.appDelegate.parse.automaticallySynchronizes = true
                     self.window?.rootViewController = UIHostingController(rootView: MainSwiftUIView(synchronizationManager: self.appDelegate.synchronizedStoreManager)) //Wraps a SwiftUI view in UIKit view

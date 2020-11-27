@@ -73,7 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
 
-        setupRemotes()
         return true
     }
 
@@ -86,8 +85,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupRemotes() {
         do {
             
-            if syncWithCloud{
-                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+            if syncWithCloud {
+                let uuid: String
+                if let uuidFromDefaults = UserDefaults.standard.object(forKey: "remoteUUID") as? String {
+                    uuid = uuidFromDefaults
+                } else {
+                    //This is no longer the first run
+                    uuid = UUID().uuidString
+                    UserDefaults.standard.setValue(uuid, forKey: "remoteUUID")
+                    UserDefaults.standard.synchronize()
+                }
+        
+                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: uuid)!, auto: false)
                 coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
