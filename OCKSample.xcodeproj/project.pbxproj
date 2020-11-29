@@ -133,6 +133,8 @@
 		7036E50B256F0CF3006E9A3C /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		7036E516256F2413006E9A3C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		7036E63F25717F85006E9A3C /* OCKSampleConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKSampleConstants.swift; sourceTree = "<group>"; };
+		7036E6A225732179006E9A3C /* OCKWatchSample Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OCKWatchSample Extension.entitlements"; sourceTree = "<group>"; };
+		7036E6A3257321A1006E9A3C /* OCKWatchSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OCKWatchSample.entitlements; sourceTree = "<group>"; };
 		707CC710254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		707CC712254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		707CC713254DA91900116728 /* OCKLocalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCKLocalization.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 		91AD922824A4C42B00925D4D /* OCKWatchSample */ = {
 			isa = PBXGroup;
 			children = (
+				7036E6A3257321A1006E9A3C /* OCKWatchSample.entitlements */,
 				91AD922924A4C42B00925D4D /* Interface.storyboard */,
 				91AD922C24A4C42D00925D4D /* Assets.xcassets */,
 				91AD922E24A4C42D00925D4D /* Info.plist */,
@@ -253,6 +256,7 @@
 		91AD923724A4C42D00925D4D /* OCKWatchSample Extension */ = {
 			isa = PBXGroup;
 			children = (
+				7036E6A225732179006E9A3C /* OCKWatchSample Extension.entitlements */,
 				91AD923824A4C42D00925D4D /* HostingController.swift */,
 				91AD923A24A4C42D00925D4D /* ContentView.swift */,
 				91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */,
@@ -787,6 +791,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OCKWatchSample/OCKWatchSample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -809,6 +814,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OCKWatchSample/OCKWatchSample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K26KDKYY38;
@@ -828,6 +834,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
@@ -857,6 +864,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = K26KDKYY38;

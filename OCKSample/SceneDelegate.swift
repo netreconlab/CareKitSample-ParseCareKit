@@ -65,7 +65,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     self.window?.rootViewController = UIHostingController(rootView: LoginView()) //Wraps a SwiftUI view in UIKit view
 
                 } else {
-                
                     print("User is already signed in...")
                     let profileModelView = ProfileViewModel()
                     guard let uuid = profileModelView.getRemoteClockUUIDAfterLoginFromLocalStorage() else {

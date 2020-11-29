@@ -11,7 +11,7 @@ import SwiftUI
 
 private struct StoreManagerKey: EnvironmentKey {
     
-    static var defaultValue: OCKSynchronizedStoreManager {
+    static var defaultValue: OCKSynchronizedStoreManager? {
         let extensionDelegate = WKExtension.shared().delegate as! ExtensionDelegate
         return extensionDelegate.storeManager
     }
@@ -19,7 +19,7 @@ private struct StoreManagerKey: EnvironmentKey {
 
 extension EnvironmentValues {
     
-    var storeManager: OCKSynchronizedStoreManager {
+    var storeManager: OCKSynchronizedStoreManager? {
         get {
             self[StoreManagerKey.self]
         }
@@ -38,11 +38,15 @@ struct ContentView: View {
         
         ScrollView {
             
-            InstructionsTaskView(taskID: "stretch", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager)
-            
-            SimpleTaskView(taskID: "kegels", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager){ controller in
+            if let storeManager = storeManager {
+                InstructionsTaskView(taskID: "stretch", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager)
                 
-                .init(title: Text(controller.viewModel?.title ?? ""), detail: nil, isComplete: controller.viewModel?.isComplete ?? false, action: controller.viewModel?.action ?? {})
+                SimpleTaskView(taskID: "kegels", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager){ controller in
+                    
+                    .init(title: Text(controller.viewModel?.title ?? ""), detail: nil, isComplete: controller.viewModel?.isComplete ?? false, action: controller.viewModel?.action ?? {})
+                }
+            } else {
+                Text("Please open iOS app to login")
             }
             
         }.accentColor(Color(#colorLiteral(red: 0.8310135007, green: 0.8244097233, blue: 0.8242591023, alpha: 1)))

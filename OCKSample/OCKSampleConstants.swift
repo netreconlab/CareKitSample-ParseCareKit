@@ -23,3 +23,13 @@ extension AppError: LocalizedError {
         }
     }
 }
+
+enum Constants {
+    static let group = "group.netrecon.ParseCarekitSample"
+    static let parseUserKey = "requestParseUser"
+    static let parseremoteClockIDKey = "requestRemoteClockID"
+}
+
+extension UserDefaults {
+    static let group = UserDefaults(suiteName: Constants.group)!
+}

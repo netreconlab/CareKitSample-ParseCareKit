@@ -54,13 +54,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Parse-server setup
         ParseCareKitUtility.setupServer()
-
+        
         //Clear items out of the Keychain on app first run. Used for debugging
-        if UserDefaults.standard.object(forKey: "firstRun") == nil {
+        if UserDefaults.group.object(forKey: "firstRun") == nil {
             try? User.logout()
             //This is no longer the first run
-            UserDefaults.standard.setValue("firstRun", forKey: "firstRun")
-            UserDefaults.standard.synchronize()
+            UserDefaults.group.setValue("firstRun", forKey: "firstRun")
+            UserDefaults.group.synchronize()
         }
         
         //Set default ACL for all Parse Classes
@@ -261,18 +261,19 @@ extension AppDelegate: ParseRemoteSynchronizationDelegate {
 protocol SessionDelegate: WCSessionDelegate {}
 
 private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
+    
+    let store: OCKStore
+    
+    init(store: OCKStore) {
+        self.store = store
+    }
+    
     func sessionDidBecomeInactive(_ session: WCSession) {
         print("sessionDidBecomeInactive")
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
         print("sessionDidDeactivate")
-    }
-    
-    let store: OCKStore
-    
-    init(store: OCKStore) {
-        self.store = store
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -289,6 +290,26 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
         DispatchQueue.main.async {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
         }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        
+        if let _ = message[Constants.parseUserKey] as? String {
+            print("Received message from Apple Watch requesting ParseUser, sending now")
+            var returnMessage = [String: Any]()
+            
+            returnMessage[Constants.parseUserKey] = User.current
+            returnMessage[Constants.parseremoteClockIDKey] = UserDefaults.group.object(forKey: Constants.parseremoteClockIDKey)
+            
+            replyHandler(returnMessage)
+        } else {
+            
+            print("Received message from Apple Watch")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+            }
+        }
+        
     }
 }
 
