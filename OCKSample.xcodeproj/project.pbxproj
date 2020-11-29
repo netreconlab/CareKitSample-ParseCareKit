@@ -17,22 +17,22 @@
 		7036E4C9256E1A6F006E9A3C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C8256E1A6F006E9A3C /* ProfileView.swift */; };
 		7036E4CE256E9A0C006E9A3C /* ContactSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4CD256E9A0C006E9A3C /* ContactSwiftUIView.swift */; };
 		7036E4D3256EBE35006E9A3C /* MainSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */; };
-		7036E4F1256EEC5F006E9A3C /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E4F0256EEC5F006E9A3C /* ParseCareKit */; };
-		7036E4F9256EEC74006E9A3C /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E4F8256EEC74006E9A3C /* ParseCareKit */; };
 		7036E507256F087A006E9A3C /* OCKContactsListViewControllerFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E506256F087A006E9A3C /* OCKContactsListViewControllerFix.swift */; };
 		7036E50C256F0CF3006E9A3C /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E50B256F0CF3006E9A3C /* ContactViewController.swift */; };
 		7036E517256F2413006E9A3C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E516256F2413006E9A3C /* ProfileViewModel.swift */; };
 		7036E64025717F85006E9A3C /* OCKSampleConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E63F25717F85006E9A3C /* OCKSampleConstants.swift */; };
+		7036E68725731AD1006E9A3C /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E68625731AD1006E9A3C /* CareKitFHIR */; };
+		7036E68925731AD1006E9A3C /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E68825731AD1006E9A3C /* CareKit */; };
+		7036E68B25731AD1006E9A3C /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E68A25731AD1006E9A3C /* CareKitUI */; };
+		7036E69725731B52006E9A3C /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E69625731B52006E9A3C /* ParseCareKit */; };
+		7036E69C25731C12006E9A3C /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E69B25731C12006E9A3C /* CareKit */; };
+		7036E69E25731C18006E9A3C /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E69D25731C18006E9A3C /* ParseCareKit */; };
 		707CC714254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
 		707CC715254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
 		707CC716254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC717254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC718254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		707CC719254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
-		709B981B2556DC8D00507778 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 709B981A2556DC8D00507778 /* CareKitUI */; };
-		709B981D2556DC8D00507778 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 709B981C2556DC8D00507778 /* CareKit */; };
-		709B98242556DCA100507778 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 709B98232556DCA100507778 /* CareKit */; };
-		709B98262556DCA100507778 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 709B98252556DCA100507778 /* CareKitUI */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
@@ -168,9 +168,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				709B981D2556DC8D00507778 /* CareKit in Frameworks */,
-				709B981B2556DC8D00507778 /* CareKitUI in Frameworks */,
-				7036E4F1256EEC5F006E9A3C /* ParseCareKit in Frameworks */,
+				7036E68925731AD1006E9A3C /* CareKit in Frameworks */,
+				7036E68725731AD1006E9A3C /* CareKitFHIR in Frameworks */,
+				7036E69725731B52006E9A3C /* ParseCareKit in Frameworks */,
+				7036E68B25731AD1006E9A3C /* CareKitUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,9 +186,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				709B98242556DCA100507778 /* CareKit in Frameworks */,
-				709B98262556DCA100507778 /* CareKitUI in Frameworks */,
-				7036E4F9256EEC74006E9A3C /* ParseCareKit in Frameworks */,
+				7036E69E25731C18006E9A3C /* ParseCareKit in Frameworks */,
+				7036E69C25731C12006E9A3C /* CareKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,9 +378,8 @@
 			);
 			name = "OCKWatchSample Extension";
 			packageProductDependencies = (
-				709B98232556DCA100507778 /* CareKit */,
-				709B98252556DCA100507778 /* CareKitUI */,
-				7036E4F8256EEC74006E9A3C /* ParseCareKit */,
+				7036E69B25731C12006E9A3C /* CareKit */,
+				7036E69D25731C18006E9A3C /* ParseCareKit */,
 			);
 			productName = "OCKWatchSample Extension";
 			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
@@ -403,9 +402,10 @@
 			);
 			name = OCKSample;
 			packageProductDependencies = (
-				709B981A2556DC8D00507778 /* CareKitUI */,
-				709B981C2556DC8D00507778 /* CareKit */,
-				7036E4F0256EEC5F006E9A3C /* ParseCareKit */,
+				7036E68625731AD1006E9A3C /* CareKitFHIR */,
+				7036E68825731AD1006E9A3C /* CareKit */,
+				7036E68A25731AD1006E9A3C /* CareKitUI */,
+				7036E69625731B52006E9A3C /* ParseCareKit */,
 			);
 			productName = CareKitDemoApp;
 			productReference = E72B2C06226939E3009A9438 /* OCKSample.app */;
@@ -446,8 +446,8 @@
 			);
 			mainGroup = E72B2BFD226939E3009A9438;
 			packageReferences = (
-				709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */,
-				7036E4EF256EEC5F006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */,
+				7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */,
+				7036E69525731B52006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */,
 			);
 			productRefGroup = E72B2C07226939E3009A9438 /* Products */;
 			projectDirPath = "";
@@ -1025,17 +1025,17 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7036E4EF256EEC5F006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
+		7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
+			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
 			requirement = {
 				branch = main;
 				kind = branch;
 			};
 		};
-		709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */ = {
+		7036E69525731B52006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
+			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				branch = main;
 				kind = branch;
@@ -1044,35 +1044,35 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7036E4F0256EEC5F006E9A3C /* ParseCareKit */ = {
+		7036E68625731AD1006E9A3C /* CareKitFHIR */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7036E4EF256EEC5F006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */;
-			productName = ParseCareKit;
+			package = 7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitFHIR;
 		};
-		7036E4F8256EEC74006E9A3C /* ParseCareKit */ = {
+		7036E68825731AD1006E9A3C /* CareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7036E4EF256EEC5F006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */;
-			productName = ParseCareKit;
-		};
-		709B981A2556DC8D00507778 /* CareKitUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKitUI;
-		};
-		709B981C2556DC8D00507778 /* CareKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
 		};
-		709B98232556DCA100507778 /* CareKit */ = {
+		7036E68A25731AD1006E9A3C /* CareKitUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitUI;
+		};
+		7036E69625731B52006E9A3C /* ParseCareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7036E69525731B52006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			productName = ParseCareKit;
+		};
+		7036E69B25731C12006E9A3C /* CareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
 		};
-		709B98252556DCA100507778 /* CareKitUI */ = {
+		7036E69D25731C18006E9A3C /* ParseCareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKitUI;
+			package = 7036E69525731B52006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			productName = ParseCareKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
