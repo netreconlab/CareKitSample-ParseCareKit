@@ -281,14 +281,14 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
         
         if activationState == .activated {
             DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
             }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
     }
     
@@ -298,15 +298,26 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
             print("Received message from Apple Watch requesting ParseUser, sending now")
             var returnMessage = [String: Any]()
             
-            returnMessage[Constants.parseUserKey] = User.current
-            returnMessage[Constants.parseremoteClockIDKey] = UserDefaults.group.object(forKey: Constants.parseremoteClockIDKey)
-            
-            replyHandler(returnMessage)
+            DispatchQueue.main.async {
+                do {
+                    
+                    //Prepare data for watchOS
+                    let encoded = try ParseCareKitUtility.encoder().encode(User.current)
+                    
+                    returnMessage[Constants.parseUserKey] = encoded
+                    returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.group.object(forKey: Constants.parseRemoteClockIDKey)
+                    replyHandler(returnMessage)
+                    
+                } catch {
+                    print("Error encoding data for watchOS.")
+                }
+            }
+
         } else {
             
-            print("Received message from Apple Watch")
+            print("watchOS requested iPhone sync with Parse server.")
             DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
             }
         }
         
@@ -335,7 +346,7 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
         
         if activationState == .activated {
             DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
             }
         }
     }

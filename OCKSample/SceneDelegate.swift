@@ -77,7 +77,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     self.window?.rootViewController = UIHostingController(rootView: MainSwiftUIView()) //Wraps a SwiftUI view in UIKit view
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
                     }
                 }
             }

@@ -122,7 +122,7 @@ class ProfileViewModel: ObservableObject {
             
         } else {
             
-            guard let remoteUUID = UserDefaults.group.object(forKey: "remoteUUID") as? String else {
+            guard let remoteUUID = UserDefaults.group.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
                 print("Error: The user currently isn't logged in")
                 return
             }
@@ -159,7 +159,7 @@ class ProfileViewModel: ObservableObject {
         self.appDelegate.firstLogin = true
         
         //Post notification to sync
-        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
@@ -171,11 +171,11 @@ class ProfileViewModel: ObservableObject {
         }
         
         //Save remote ID to local
-        UserDefaults.group.setValue(remoteUUID.uuidString, forKey: "remoteClockUUID")
+        UserDefaults.group.setValue(remoteUUID.uuidString, forKey: Constants.parseRemoteClockIDKey)
         UserDefaults.group.synchronize()
         
         var newPatient = OCKPatient(id: remoteUUID.uuidString, givenName: first, familyName: last)
-        newPatient.userInfo = ["remoteClockID": remoteUUID.uuidString] //Save the remoteId String
+        newPatient.userInfo = [Constants.parseRemoteClockIDKey: remoteUUID.uuidString] //Save the remoteId String
         
         appDelegate.synchronizedStoreManager?.store.addAnyPatient(newPatient, callbackQueue: .main) { result in
             switch result {
@@ -199,7 +199,7 @@ class ProfileViewModel: ObservableObject {
     
     func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
         guard let defaults = UserDefaults.init(suiteName: Constants.group),
-            let uuid = defaults.object(forKey: "remoteClockUUID") as? String else {
+              let uuid = defaults.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
             return nil
         }
         
@@ -214,7 +214,7 @@ class ProfileViewModel: ObservableObject {
             switch result {
             
             case .success(let patient):
-                guard let uuid = patient.userInfo?["remoteClockID"],
+                guard let uuid = patient.userInfo?[Constants.parseRemoteClockIDKey],
                       let remoteClockId = UUID(uuidString: uuid) else {
                     completion(.failure(AppError.valueNotFoundInUserInfo))
                     return
@@ -241,10 +241,10 @@ class ProfileViewModel: ObservableObject {
                     self.appDelegate.firstLogin = true
                     
                     //Save remote ID to local
-                    UserDefaults.group.setValue(uuid.uuidString, forKey: "remoteClockUUID")
+                    UserDefaults.group.setValue(uuid.uuidString, forKey: Constants.parseRemoteClockIDKey)
                     UserDefaults.group.synchronize()
                     
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
@@ -268,7 +268,7 @@ class ProfileViewModel: ObservableObject {
     func logout() throws {
         try User.logout()
         try appDelegate.coreDataStore.delete() //Delete data in local OCKStore database
-        UserDefaults.group.removeObject(forKey: "remoteClockUUID")
+        UserDefaults.group.removeObject(forKey: Constants.parseRemoteClockIDKey)
         UserDefaults.group.synchronize()
     }
 }
