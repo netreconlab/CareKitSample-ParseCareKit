@@ -156,17 +156,7 @@ extension OCKStore {
         var stretch = OCKTask(id: "stretch", title: "Stretch", carePlanUUID: nil, schedule: stretchSchedule)
         stretch.impactsAdherence = true
 
-        addTasks([nausea, doxylamine, kegels, stretch], callbackQueue: .main) {
-            results in
-            
-            switch results {
-            
-            case .success(let tasks):
-                print(tasks)
-            case .failure(let error):
-                print(error)
-            }
-        }
+        addTasks([nausea, doxylamine, kegels, stretch], callbackQueue: .main, completion: nil)
         
         
         var contact1 = OCKContact(id: "jane", givenName: "Jane",
