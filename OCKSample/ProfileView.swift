@@ -16,9 +16,9 @@ struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject private var profileViewModel = ProfileViewModel()
     @State private var isLoggedOut = false
-    @State var firstName: String = ""
-    @State var lastName: String = ""
-    @State var birthday: Date = Date()
+    @State var firstName = ""
+    @State var lastName = ""
+    @State var birthday = Date()
     
     var body: some View {
         
@@ -28,25 +28,16 @@ struct ProfileView: View {
                     .padding()
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
-                    .onAppear(perform: {
-                        firstName = profileViewModel.firstName
-                    })
             
                 TextField("Last Name", text: $lastName)
                     .padding()
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
-                    .onAppear(perform: {
-                        lastName = profileViewModel.lastName
-                    })
                 
                 DatePicker("Birthday", selection: $birthday, displayedComponents: [DatePickerComponents.date])
                     .padding()
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
-                    .onAppear(perform: {
-                        birthday = profileViewModel.birthday
-                    })
             }
             
             //Notice that "action" is a closure (which is essentially a function as argument like we discussed in class)
@@ -115,7 +106,19 @@ struct ProfileView: View {
                     LoginView()
                 })
             }
-        }
+        }.onReceive(profileViewModel.$patient, perform: { patient in
+            if let currentFirstName = patient?.name.givenName {
+                firstName = currentFirstName
+            }
+            
+            if let currentLastName = patient?.name.familyName {
+                lastName = currentLastName
+            }
+            
+            if let currentBirthday = patient?.birthday {
+                birthday = currentBirthday
+            }
+        })
     }
 }
 

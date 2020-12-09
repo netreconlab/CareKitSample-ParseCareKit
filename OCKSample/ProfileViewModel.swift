@@ -15,32 +15,7 @@ import UIKit
 
 class ProfileViewModel: ObservableObject {
     
-    @Published private(set) var patient: OCKPatient? = nil {
-        willSet {
-            objectWillChange.send()
-        }
-    }
-    
-    var firstName: String {
-        guard let name = patient?.name.givenName else {
-            return ""
-        }
-        return name
-    }
-    
-    var lastName: String {
-        guard let name = patient?.name.familyName else {
-            return ""
-        }
-        return name
-    }
-    
-    var birthday: Date {
-        guard let birthday = patient?.birthday else {
-            return Calendar.current.date(byAdding: .year, value: -20, to: Date())!
-        }
-        return birthday
-    }
+    @Published var patient: OCKPatient? = nil
     
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate //Importing UIKit gives us access here to get the OCKStore and ParseRemote
     
@@ -89,17 +64,17 @@ class ProfileViewModel: ObservableObject {
             
             var patientHasBeenUpdated = false
             
-            if firstName != first {
+            if patient?.name.givenName != first {
                 patientHasBeenUpdated = true
                 patientToUpdate.name.givenName = first
             }
             
-            if lastName != last {
+            if patient?.name.familyName != last {
                 patientHasBeenUpdated = true
                 patientToUpdate.name.familyName = last
             }
             
-            if birthday != birth {
+            if patient?.birthday != birth {
                 patientHasBeenUpdated = true
                 patientToUpdate.birthday = birth
             }
