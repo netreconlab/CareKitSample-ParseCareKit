@@ -47,8 +47,8 @@ struct LoginView: View {
                 
                 //Example of how to do the picker here: https://www.swiftkickmobile.com/creating-a-segmented-control-in-swiftui/
                 Picker(selection: $signupLoginSegmentValue, label: Text("Login Picker"), content: {
-                    Text("Sign Up").tag(0)
-                    Text("Login").tag(1)
+                    Text("Login").tag(0)
+                    Text("Sign Up").tag(1)
                 })
                 .pickerStyle(SegmentedPickerStyle())
                 .background(Color.white)
@@ -68,7 +68,7 @@ struct LoginView: View {
                         .cornerRadius(20.0)
                         .shadow(radius: 10.0, x: 20, y: 10)
                     
-                    if signupLoginSegmentValue == 0 {
+                    if signupLoginSegmentValue == 1 {
                         TextField("First Name", text: $firstName)
                             .padding()
                             .background(Color.white)
@@ -88,7 +88,7 @@ struct LoginView: View {
                 //Notice that "action" is a closure (which is essentially a function as argument like we discussed in class)
                 Button(action: {
                     
-                    if signupLoginSegmentValue == 0 {
+                    if signupLoginSegmentValue == 1 {
                         viewModel.signup(username: usersname, password: password, firstName: firstName, lastName: lastName)
                     }else {
                         viewModel.login(username: usersname, password: password)
@@ -96,7 +96,7 @@ struct LoginView: View {
 
                 }, label: {
                     
-                    if signupLoginSegmentValue == 0 {
+                    if signupLoginSegmentValue == 1 {
                         Text("Sign Up")
                             .font(.headline)
                             .foregroundColor(.white)

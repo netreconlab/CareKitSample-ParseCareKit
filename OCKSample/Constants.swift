@@ -1,5 +1,5 @@
 //
-//  OCKSampleConstants.swift
+//  Constants.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 11/27/20.

@@ -73,18 +73,6 @@ class CareViewController: OCKDailyPageViewController {
             }
         }
     }
-
-    
-    func functionType(_ result: Result<[OCKAnyTask], OCKStoreError>) {
-    
-        switch result {
-        
-        case .success(let tasks):
-            print("Success: \(tasks)")
-        case .failure(let error):
-            print("Error: \(error)")
-        }
-    }
     
     // This will be called each time the selected date changes.
     // Use this as an opportunity to rebuild the content shown to the user.
@@ -95,7 +83,7 @@ class CareViewController: OCKDailyPageViewController {
         var query = OCKTaskQuery(for: date)
         query.ids = identifiers
         query.excludesTasksWithNoEvents = true
-        
+
         storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
             
             switch result {
@@ -114,7 +102,7 @@ class CareViewController: OCKDailyPageViewController {
                     tipView.imageView.image = UIImage(named: "exercise.jpg")
                     listViewController.appendView(tipView, animated: false)
                 }
-                
+
                 if #available(iOS 14, *), let walkTask = tasks.first(where: { $0.id == "steps" }) {
 
                     let view = NumericProgressTaskView(
