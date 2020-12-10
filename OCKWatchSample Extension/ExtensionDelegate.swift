@@ -13,7 +13,8 @@ import WatchKit
 import WatchConnectivity
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
-    private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
+
+    let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
     var store: OCKStore!
     private var parse: ParseRemoteSynchronizationManager!
@@ -36,27 +37,26 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
         
         //Clear items out of the Keychain on app first run. Used for debugging
-        if UserDefaults.group.object(forKey: "firstRun") == nil {
+        if UserDefaults.standard.object(forKey: "firstRun") == nil {
             try? User.logout()
             //This is no longer the first run
-            UserDefaults.group.setValue("firstRun", forKey: "firstRun")
-            UserDefaults.group.synchronize()
+            UserDefaults.standard.setValue("firstRun", forKey: "firstRun")
+            UserDefaults.standard.synchronize()
         }
         
         //If the user isn't logged in, log them in
         if User.current != nil {
-            self.setupRemotes(uuid: UserDefaults.group.object(forKey: Constants.parseRemoteClockIDKey) as? String) //Setup for getting info
+            self.setupRemotes(uuid: UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String) //Setup for getting info
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
+            }
             print("User is already signed in...")
             store.synchronize{ error in
                 print(error?.localizedDescription ?? "Successful sync with Cloud!")
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-                }
             }
         } else {
-            self.setupRemotes(uuid: nil) //Setup for getting info
+            setupRemotes(uuid: nil) //Setup for getting info
         }
-        
     }
 
     func setupRemotes(uuid: String? = nil) {
@@ -133,7 +133,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
-        guard let uuid = UserDefaults.group.object(forKey: "remoteClockUUID") as? String else {
+        guard let uuid = UserDefaults.standard.object(forKey: "remoteClockUUID") as? String else {
             return nil
         }
         
@@ -141,7 +141,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 }
 
-extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate{
+extension ExtensionDelegate: ParseRemoteSynchronizationDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         print("Implement... You need to have your push notifications certs setup to use this.")
     }
@@ -195,8 +195,8 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                         }
                         
                         //Save remoteUUID for later
-                        UserDefaults.group.setValue(uuidString, forKey: Constants.parseRemoteClockIDKey)
-                        UserDefaults.group.synchronize()
+                        UserDefaults.standard.setValue(uuidString, forKey: Constants.parseRemoteClockIDKey)
+                        UserDefaults.standard.synchronize()
                         
                         User.login(username: username, password: password) { result in
                                 
@@ -208,6 +208,17 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                                 watchDelegate.setupRemotes(uuid: uuidString)
                                 watchDelegate.store.synchronize { error in
                                     print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                                }
+                                
+                                //Setup installation to receive push notifications
+                                Installation.current?.save { result in
+                                    switch result {
+                                    
+                                    case .success(_):
+                                        print("Parse Installation saved, can now receive push notificaitons.")
+                                    case .failure(let error):
+                                        print("Error saving Parse Installation saved: \(error.localizedDescription)")
+                                    }
                                 }
                                 
                                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
@@ -261,16 +272,4 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
             replyHandler(reply)
         }
     }
-}
-
-enum Constants {
-    static let group = "group.netrecon.ParseCarekitSample"
-    static let parseUserKey = "requestParseUser"
-    static let parseRemoteClockIDKey = "requestRemoteClockID"
-    static let requestSync = "requestSync"
-    static let userLoggedIn = "userLoggedIn"
-}
-
-extension UserDefaults {
-    static let group = UserDefaults(suiteName: Constants.group)!
 }

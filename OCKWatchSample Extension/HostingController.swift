@@ -10,8 +10,8 @@ import WatchKit
 import Foundation
 import SwiftUI
 
-class HostingController: WKHostingController<ContentView> {
-    override var body: ContentView {
-        ContentView()
+class HostingController: WKHostingController<CareView> {
+    override var body: CareView {
+        CareView()
     }
 }

@@ -14,7 +14,7 @@ import CareKit
 struct ProfileView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject private var profileViewModel = ProfileViewModel()
+    @ObservedObject private var profileViewModel = Profile()
     @State private var isLoggedOut = false
     @State var firstName = ""
     @State var lastName = ""

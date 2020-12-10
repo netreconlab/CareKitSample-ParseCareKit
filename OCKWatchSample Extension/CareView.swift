@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CareView.swift
 //  OCKWatchSample Extension
 //
 //  Created by Corey Baker on 6/25/20.
@@ -11,21 +11,21 @@ import SwiftUI
 
 struct CareView: View {
 
-    @ObservedObject var loginViewModel = Login()
+    @ObservedObject var login = Login()
     
     var body: some View {
         
         ScrollView {
             
-            if loginViewModel.isLoggedIn {
+            if login.isLoggedIn || !login.syncWithCloud {
 
-                InstructionsTaskView(taskID: "stretch", eventQuery: OCKEventQuery(for: Date()), storeManager: loginViewModel.storeManager)
+                InstructionsTaskView(taskID: "stretch", eventQuery: OCKEventQuery(for: Date()), storeManager: login.storeManager)
                 
-                SimpleTaskView(taskID: "kegels", eventQuery: OCKEventQuery(for: Date()), storeManager: loginViewModel.storeManager){ controller in
+                SimpleTaskView(taskID: "kegels", eventQuery: OCKEventQuery(for: Date()), storeManager: login.storeManager){ controller in
                     
                     .init(title: Text(controller.viewModel?.title ?? ""), detail: nil, isComplete: controller.viewModel?.isComplete ?? false, action: controller.viewModel?.action ?? {})
                 }
-            
+                
             } else {
                 Text("Please open the OCKSample app on your iPhone and login")
                     .multilineTextAlignment(.center)

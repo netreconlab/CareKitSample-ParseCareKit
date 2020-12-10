@@ -1,5 +1,5 @@
 //
-//  MainSwiftUIView.swift
+//  MainView.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 11/25/20.
@@ -36,7 +36,7 @@ extension EnvironmentValues {
 }
 
 
-struct MainSwiftUIView: View {
+struct MainView: View {
     
     @Environment(\.storeManager) private var storeManager
     @State private var selectedTab = 0
@@ -46,7 +46,7 @@ struct MainSwiftUIView: View {
         
         TabView(selection: $selectedTab) {
             
-            CareSwiftUIView()
+            CareView()
                 .tabItem {
                     if selectedTab == 0 {
                         Image("carecard-filled")
@@ -59,7 +59,7 @@ struct MainSwiftUIView: View {
                 .tag(0)
                 
             
-            ContactSwiftUIView(manager: storeManager!)
+            ContactView(manager: storeManager!)
                 .tabItem {
                     if selectedTab == 1 {
                         Image("phone.bubble.left.fill")
@@ -87,8 +87,8 @@ struct MainSwiftUIView: View {
     }
 }
 
-struct MainSwiftUIView_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainSwiftUIView()
+        MainView()
     }
 }

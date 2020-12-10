@@ -1,5 +1,5 @@
 //
-//  CareSwiftUIView.swift
+//  CareView.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 11/24/20.
@@ -13,7 +13,7 @@ import UIKit
 import CareKit
 
 
-struct CareSwiftUIView: UIViewControllerRepresentable {
+struct CareView: UIViewControllerRepresentable {
     
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     
@@ -32,8 +32,8 @@ struct CareSwiftUIView: UIViewControllerRepresentable {
     }
 }
 
-struct CareSwiftUIView_Previews: PreviewProvider {
+struct CareView_Previews: PreviewProvider {
     static var previews: some View {
-        CareSwiftUIView()
+        CareView()
     }
 }

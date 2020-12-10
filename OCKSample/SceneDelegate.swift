@@ -66,15 +66,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 } else {
                     print("User is already signed in...")
-                    let profileModelView = ProfileViewModel()
-                    guard let uuid = profileModelView.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
+                    let profile = Profile()
+                    guard let uuid = profile.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
                         print("Error in SceneDelage, no uuid saved.")
                         return
                     }
                     self.appDelegate.setupRemotes(uuid: uuid)
                     self.appDelegate.healthKitStore.populateSampleData()
                     self.appDelegate.parse.automaticallySynchronizes = true
-                    self.window?.rootViewController = UIHostingController(rootView: MainSwiftUIView()) //Wraps a SwiftUI view in UIKit view
+                    self.window?.rootViewController = UIHostingController(rootView: MainView()) //Wraps a SwiftUI view in UIKit view
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
