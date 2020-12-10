@@ -62,10 +62,10 @@ struct MainSwiftUIView: View {
             ContactSwiftUIView(manager: storeManager!)
                 .tabItem {
                     if selectedTab == 1 {
-                        Image("connect-filled")
+                        Image("phone.bubble.left.fill")
                             .renderingMode(.template)
                     } else {
-                        Image("connect")
+                        Image("phone.bubble.left")
                             .renderingMode(.template)
                     }
                 }
@@ -74,10 +74,10 @@ struct MainSwiftUIView: View {
             ProfileView()
                 .tabItem {
                     if selectedTab == 2 {
-                        Image("symptoms-filled")
+                        Image("connect-filled")
                             .renderingMode(.template)
                     } else {
-                        Image("symptoms")
+                        Image("connect")
                             .renderingMode(.template)
                     }
                 }
