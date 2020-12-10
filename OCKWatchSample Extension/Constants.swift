@@ -9,7 +9,6 @@
 import Foundation
 
 enum Constants {
-    static let group = "group.netrecon.ParseCarekitSample"
     static let parseUserKey = "requestParseUser"
     static let parseRemoteClockIDKey = "requestRemoteClockID"
     static let requestSync = "requestSync"

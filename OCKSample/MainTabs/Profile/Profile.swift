@@ -97,7 +97,7 @@ class Profile: ObservableObject {
             
         } else {
             
-            guard let remoteUUID = UserDefaults.group.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
+            guard let remoteUUID = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
                 print("Error: The user currently isn't logged in")
                 return
             }
@@ -146,8 +146,8 @@ class Profile: ObservableObject {
         }
         
         //Save remote ID to local
-        UserDefaults.group.setValue(remoteUUID.uuidString, forKey: Constants.parseRemoteClockIDKey)
-        UserDefaults.group.synchronize()
+        UserDefaults.standard.setValue(remoteUUID.uuidString, forKey: Constants.parseRemoteClockIDKey)
+        UserDefaults.standard.synchronize()
         
         var newPatient = OCKPatient(id: remoteUUID.uuidString, givenName: first, familyName: last)
         newPatient.userInfo = [Constants.parseRemoteClockIDKey: remoteUUID.uuidString] //Save the remoteId String
@@ -173,8 +173,7 @@ class Profile: ObservableObject {
     }
     
     func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
-        guard let defaults = UserDefaults.init(suiteName: Constants.group),
-              let uuid = defaults.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
+        guard let uuid = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
             return nil
         }
         
@@ -216,8 +215,8 @@ class Profile: ObservableObject {
                     self.appDelegate.firstLogin = true
                     
                     //Save remote ID to local
-                    UserDefaults.group.setValue(uuid.uuidString, forKey: Constants.parseRemoteClockIDKey)
-                    UserDefaults.group.synchronize()
+                    UserDefaults.standard.setValue(uuid.uuidString, forKey: Constants.parseRemoteClockIDKey)
+                    UserDefaults.standard.synchronize()
                     
                     NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
                     
@@ -243,7 +242,7 @@ class Profile: ObservableObject {
     func logout() throws {
         try User.logout()
         try appDelegate.coreDataStore.delete() //Delete data in local OCKStore database
-        UserDefaults.group.removeObject(forKey: Constants.parseRemoteClockIDKey)
-        UserDefaults.group.synchronize()
+        UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
+        UserDefaults.standard.synchronize()
     }
 }

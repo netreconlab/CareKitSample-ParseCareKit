@@ -56,11 +56,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ParseCareKitUtility.setupServer()
         
         //Clear items out of the Keychain on app first run. Used for debugging
-        if UserDefaults.group.object(forKey: "firstRun") == nil {
+        if UserDefaults.standard.object(forKey: "firstRun") == nil {
             try? User.logout()
             //This is no longer the first run
-            UserDefaults.group.setValue("firstRun", forKey: "firstRun")
-            UserDefaults.group.synchronize()
+            UserDefaults.standard.setValue(String("firstRun"), forKey: "firstRun")
+            UserDefaults.standard.synchronize()
         }
         
         //Set default ACL for all Parse Classes
@@ -295,7 +295,7 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                     let encoded = try ParseCareKitUtility.encoder().encode(User.current)
                     
                     returnMessage[Constants.parseUserKey] = encoded
-                    returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.group.object(forKey: Constants.parseRemoteClockIDKey)
+                    returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey)
                     replyHandler(returnMessage)
                     
                 } catch {
