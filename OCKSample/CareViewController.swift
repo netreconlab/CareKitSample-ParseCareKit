@@ -73,7 +73,7 @@ class CareViewController: OCKDailyPageViewController {
             }
         }
     }
-    
+
     // This will be called each time the selected date changes.
     // Use this as an opportunity to rebuild the content shown to the user.
     override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
