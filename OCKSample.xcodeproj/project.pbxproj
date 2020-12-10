@@ -11,18 +11,26 @@
 		5173CB8A23C3A846007655A0 /* OCKSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5173CB8923C3A846007655A0 /* OCKSampleUITests.swift */; };
 		70077597252228E900EC0EDA /* ParseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* ParseObjects.swift */; };
 		7007759B252229C900EC0EDA /* ParseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* ParseObjects.swift */; };
-		7036E66A257315B9006E9A3C /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E669257315B9006E9A3C /* ParseCareKit */; };
-		7036E66F257315DE006E9A3C /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E66E257315DE006E9A3C /* ParseCareKit */; };
+		70308840258040D300FFABB6 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7030883F258040D300FFABB6 /* ParseCareKit */; };
+		70308845258040E900FFABB6 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70308844258040E900FFABB6 /* ParseCareKit */; };
+		7036E4BF256DA089006E9A3C /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4BE256DA089006E9A3C /* LoginViewModel.swift */; };
+		7036E4C4256E0A48006E9A3C /* CareSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C3256E0A48006E9A3C /* CareSwiftUIView.swift */; };
+		7036E4C9256E1A6F006E9A3C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C8256E1A6F006E9A3C /* ProfileView.swift */; };
+		7036E4CE256E9A0C006E9A3C /* ContactSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4CD256E9A0C006E9A3C /* ContactSwiftUIView.swift */; };
+		7036E4D3256EBE35006E9A3C /* MainSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */; };
+		7036E517256F2413006E9A3C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E516256F2413006E9A3C /* ProfileViewModel.swift */; };
+		7036E64025717F85006E9A3C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E63F25717F85006E9A3C /* Constants.swift */; };
+		7036E68725731AD1006E9A3C /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E68625731AD1006E9A3C /* CareKitFHIR */; };
+		7036E68925731AD1006E9A3C /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E68825731AD1006E9A3C /* CareKit */; };
+		7036E68B25731AD1006E9A3C /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E68A25731AD1006E9A3C /* CareKitUI */; };
+		7036E69C25731C12006E9A3C /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E69B25731C12006E9A3C /* CareKit */; };
 		707CC714254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
 		707CC715254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
 		707CC716254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC717254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC718254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		707CC719254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
-		709B981B2556DC8D00507778 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 709B981A2556DC8D00507778 /* CareKitUI */; };
-		709B981D2556DC8D00507778 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 709B981C2556DC8D00507778 /* CareKit */; };
-		709B98242556DCA100507778 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 709B98232556DCA100507778 /* CareKit */; };
-		709B98262556DCA100507778 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 709B98252556DCA100507778 /* CareKitUI */; };
+		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
 		91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922924A4C42B00925D4D /* Interface.storyboard */; };
@@ -112,9 +120,19 @@
 		5173CB8B23C3A846007655A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51F6343923D2877B00FE576E /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		70077596252228E900EC0EDA /* ParseObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjects.swift; sourceTree = "<group>"; };
+		7036E4BE256DA089006E9A3C /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		7036E4C3256E0A48006E9A3C /* CareSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareSwiftUIView.swift; sourceTree = "<group>"; };
+		7036E4C8256E1A6F006E9A3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		7036E4CD256E9A0C006E9A3C /* ContactSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSwiftUIView.swift; sourceTree = "<group>"; };
+		7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSwiftUIView.swift; sourceTree = "<group>"; };
+		7036E516256F2413006E9A3C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		7036E63F25717F85006E9A3C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		7036E6A225732179006E9A3C /* OCKWatchSample Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OCKWatchSample Extension.entitlements"; sourceTree = "<group>"; };
+		7036E6A3257321A1006E9A3C /* OCKWatchSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OCKWatchSample.entitlements; sourceTree = "<group>"; };
 		707CC710254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		707CC712254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		707CC713254DA91900116728 /* OCKLocalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCKLocalization.swift; sourceTree = "<group>"; };
+		70BD2B1E254B44DB0030B424 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		91AD922124A45A3900925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseCareKit.plist; sourceTree = "<group>"; };
 		91AD922324A461D200925D4D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		91AD922724A4C42B00925D4D /* OCKWatchSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCKWatchSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,9 +164,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				709B981D2556DC8D00507778 /* CareKit in Frameworks */,
-				709B981B2556DC8D00507778 /* CareKitUI in Frameworks */,
-				7036E66A257315B9006E9A3C /* ParseCareKit in Frameworks */,
+				7036E68925731AD1006E9A3C /* CareKit in Frameworks */,
+				7036E68725731AD1006E9A3C /* CareKitFHIR in Frameworks */,
+				70308840258040D300FFABB6 /* ParseCareKit in Frameworks */,
+				7036E68B25731AD1006E9A3C /* CareKitUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,9 +182,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				709B98242556DCA100507778 /* CareKit in Frameworks */,
-				709B98262556DCA100507778 /* CareKitUI in Frameworks */,
-				7036E66F257315DE006E9A3C /* ParseCareKit in Frameworks */,
+				70308845258040E900FFABB6 /* ParseCareKit in Frameworks */,
+				7036E69C25731C12006E9A3C /* CareKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,6 +239,7 @@
 		91AD922824A4C42B00925D4D /* OCKWatchSample */ = {
 			isa = PBXGroup;
 			children = (
+				7036E6A3257321A1006E9A3C /* OCKWatchSample.entitlements */,
 				91AD922924A4C42B00925D4D /* Interface.storyboard */,
 				91AD922C24A4C42D00925D4D /* Assets.xcassets */,
 				91AD922E24A4C42D00925D4D /* Info.plist */,
@@ -231,6 +250,7 @@
 		91AD923724A4C42D00925D4D /* OCKWatchSample Extension */ = {
 			isa = PBXGroup;
 			children = (
+				7036E6A225732179006E9A3C /* OCKWatchSample Extension.entitlements */,
 				91AD923824A4C42D00925D4D /* HostingController.swift */,
 				91AD923A24A4C42D00925D4D /* ContentView.swift */,
 				91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */,
@@ -284,7 +304,15 @@
 				03580E3E23CFA2E400A57818 /* OCKSample.entitlements */,
 				E72B2C09226939E3009A9438 /* AppDelegate.swift */,
 				03F060092331946600CCE09B /* SceneDelegate.swift */,
+				7036E4BE256DA089006E9A3C /* LoginViewModel.swift */,
+				70BD2B1E254B44DB0030B424 /* LoginView.swift */,
+				7036E63F25717F85006E9A3C /* Constants.swift */,
 				E7440E4E229477F7007AD30A /* CareViewController.swift */,
+				7036E4C3256E0A48006E9A3C /* CareSwiftUIView.swift */,
+				7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */,
+				7036E4CD256E9A0C006E9A3C /* ContactSwiftUIView.swift */,
+				7036E4C8256E1A6F006E9A3C /* ProfileView.swift */,
+				7036E516256F2413006E9A3C /* ProfileViewModel.swift */,
 				70077596252228E900EC0EDA /* ParseObjects.swift */,
 				E7C37848228F887800E982D8 /* TipView.swift */,
 				71A79C8A2294FBA1002B96D3 /* Supporting Files */,
@@ -345,9 +373,8 @@
 			);
 			name = "OCKWatchSample Extension";
 			packageProductDependencies = (
-				709B98232556DCA100507778 /* CareKit */,
-				709B98252556DCA100507778 /* CareKitUI */,
-				7036E66E257315DE006E9A3C /* ParseCareKit */,
+				7036E69B25731C12006E9A3C /* CareKit */,
+				70308844258040E900FFABB6 /* ParseCareKit */,
 			);
 			productName = "OCKWatchSample Extension";
 			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
@@ -370,9 +397,10 @@
 			);
 			name = OCKSample;
 			packageProductDependencies = (
-				709B981A2556DC8D00507778 /* CareKitUI */,
-				709B981C2556DC8D00507778 /* CareKit */,
-				7036E669257315B9006E9A3C /* ParseCareKit */,
+				7036E68625731AD1006E9A3C /* CareKitFHIR */,
+				7036E68825731AD1006E9A3C /* CareKit */,
+				7036E68A25731AD1006E9A3C /* CareKitUI */,
+				7030883F258040D300FFABB6 /* ParseCareKit */,
 			);
 			productName = CareKitDemoApp;
 			productReference = E72B2C06226939E3009A9438 /* OCKSample.app */;
@@ -413,8 +441,8 @@
 			);
 			mainGroup = E72B2BFD226939E3009A9438;
 			packageReferences = (
-				709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */,
-				7036E668257315B9006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */,
+				7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */,
+				7030883E258040D300FFABB6 /* XCRemoteSwiftPackageReference "ParseCareKit" */,
 			);
 			productRefGroup = E72B2C07226939E3009A9438 /* Products */;
 			projectDirPath = "";
@@ -500,11 +528,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				E7440E4F229477F7007AD30A /* CareViewController.swift in Sources */,
+				7036E64025717F85006E9A3C /* Constants.swift in Sources */,
+				7036E4CE256E9A0C006E9A3C /* ContactSwiftUIView.swift in Sources */,
+				70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */,
 				E72B2C0A226939E3009A9438 /* AppDelegate.swift in Sources */,
+				7036E4C4256E0A48006E9A3C /* CareSwiftUIView.swift in Sources */,
+				7036E4D3256EBE35006E9A3C /* MainSwiftUIView.swift in Sources */,
 				707CC718254DA91900116728 /* OCKLocalization.swift in Sources */,
 				E7C37849228F887800E982D8 /* TipView.swift in Sources */,
 				70077597252228E900EC0EDA /* ParseObjects.swift in Sources */,
 				03F0600A2331946600CCE09B /* SceneDelegate.swift in Sources */,
+				7036E4C9256E1A6F006E9A3C /* ProfileView.swift in Sources */,
+				7036E4BF256DA089006E9A3C /* LoginViewModel.swift in Sources */,
+				7036E517256F2413006E9A3C /* ProfileViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,6 +779,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OCKWatchSample/OCKWatchSample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -765,6 +802,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = OCKWatchSample/OCKWatchSample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K26KDKYY38;
@@ -784,6 +822,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
@@ -813,6 +852,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = K26KDKYY38;
@@ -981,7 +1021,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7036E668257315B9006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
+		7030883E258040D300FFABB6 /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
@@ -989,7 +1029,7 @@
 				kind = branch;
 			};
 		};
-		709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */ = {
+		7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
 			requirement = {
@@ -1000,35 +1040,35 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7036E669257315B9006E9A3C /* ParseCareKit */ = {
+		7030883F258040D300FFABB6 /* ParseCareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7036E668257315B9006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			package = 7030883E258040D300FFABB6 /* XCRemoteSwiftPackageReference "ParseCareKit" */;
 			productName = ParseCareKit;
 		};
-		7036E66E257315DE006E9A3C /* ParseCareKit */ = {
+		70308844258040E900FFABB6 /* ParseCareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7036E668257315B9006E9A3C /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			package = 7030883E258040D300FFABB6 /* XCRemoteSwiftPackageReference "ParseCareKit" */;
 			productName = ParseCareKit;
 		};
-		709B981A2556DC8D00507778 /* CareKitUI */ = {
+		7036E68625731AD1006E9A3C /* CareKitFHIR */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKitUI;
+			package = 7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitFHIR;
 		};
-		709B981C2556DC8D00507778 /* CareKit */ = {
+		7036E68825731AD1006E9A3C /* CareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
 		};
-		709B98232556DCA100507778 /* CareKit */ = {
+		7036E68A25731AD1006E9A3C /* CareKitUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKit;
-		};
-		709B98252556DCA100507778 /* CareKitUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 709B98192556DC8D00507778 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitUI;
+		};
+		7036E69B25731C12006E9A3C /* CareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7036E68525731AD1006E9A3C /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -47,20 +47,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var parse: ParseRemoteSynchronizationManager!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
-    private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager!
+    private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager?
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         //Parse-server setup
         ParseCareKitUtility.setupServer()
-
+        
         //Clear items out of the Keychain on app first run. Used for debugging
-        if UserDefaults.standard.object(forKey: "firstRun") == nil {
+        if UserDefaults.group.object(forKey: "firstRun") == nil {
             try? User.logout()
             //This is no longer the first run
-            UserDefaults.standard.setValue("firstRun", forKey: "firstRun")
-            UserDefaults.standard.synchronize()
+            UserDefaults.group.setValue("firstRun", forKey: "firstRun")
+            UserDefaults.group.synchronize()
         }
         
         //Set default ACL for all Parse Classes
@@ -73,7 +73,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(error.localizedDescription)
         }
 
-        setupRemotes()
         return true
     }
 
@@ -83,11 +82,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
     
-    func setupRemotes() {
+    func setupRemotes(uuid: UUID? = nil) {
         do {
             
-            if syncWithCloud{
-                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: false)
+            if syncWithCloud {
+                guard let uuid = uuid else {
+                    print("Error in setupRemotes, uuid is nil")
+                    return
+                }
+                parse = try ParseRemoteSynchronizationManager(uuid: uuid, auto: false)
                 coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
@@ -141,7 +144,7 @@ extension OCKStore {
                              carePlanUUID: nil, schedule: nauseaSchedule)
         nausea.impactsAdherence = false
         nausea.instructions = "Tap the button below anytime you experience nausea."
-
+        
         let kegelElement = OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 2))
         let kegelSchedule = OCKSchedule(composing: [kegelElement])
         var kegels = OCKTask(id: "kegels", title: "Kegel Exercises", carePlanUUID: nil, schedule: kegelSchedule)
@@ -154,7 +157,8 @@ extension OCKStore {
         stretch.impactsAdherence = true
 
         addTasks([nausea, doxylamine, kegels, stretch], callbackQueue: .main, completion: nil)
-
+        
+        
         var contact1 = OCKContact(id: "jane", givenName: "Jane",
                                   familyName: "Daniels", carePlanUUID: nil)
         contact1.asset = "JaneDaniels"
@@ -247,6 +251,13 @@ extension AppDelegate: ParseRemoteSynchronizationDelegate {
 protocol SessionDelegate: WCSessionDelegate {}
 
 private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
+    
+    let store: OCKStore
+    
+    init(store: OCKStore) {
+        self.store = store
+    }
+    
     func sessionDidBecomeInactive(_ session: WCSession) {
         print("sessionDidBecomeInactive")
     }
@@ -255,26 +266,51 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
         print("sessionDidDeactivate")
     }
     
-    let store: OCKStore
-    
-    init(store: OCKStore) {
-        self.store = store
-    }
-    
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("New session state: \(activationState)")
         
         if activationState == .activated {
             DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
             }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
+    }
+    
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        
+        if let _ = message[Constants.parseUserKey] as? String {
+            print("Received message from Apple Watch requesting ParseUser, sending now")
+            var returnMessage = [String: Any]()
+            
+            DispatchQueue.main.async {
+                do {
+                    
+                    //Prepare data for watchOS
+                    let encoded = try ParseCareKitUtility.encoder().encode(User.current)
+                    
+                    returnMessage[Constants.parseUserKey] = encoded
+                    returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.group.object(forKey: Constants.parseRemoteClockIDKey)
+                    replyHandler(returnMessage)
+                    
+                } catch {
+                    print("Error encoding data for watchOS.")
+                }
+            }
+
+        } else {
+            
+            print("watchOS requested iPhone sync with Parse server.")
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+            }
+        }
+        
     }
 }
 
@@ -300,7 +336,7 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
         
         if activationState == .activated {
             DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: "requestSync")))
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
             }
         }
     }

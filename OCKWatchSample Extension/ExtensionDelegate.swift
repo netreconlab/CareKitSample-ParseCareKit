@@ -15,7 +15,7 @@ import WatchConnectivity
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
     private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
-    private var store: OCKStore!
+    var store: OCKStore!
     private var parse: ParseRemoteSynchronizationManager!
     private var sessionDelegate:SessionDelegate!
     private(set) var storeManager: OCKSynchronizedStoreManager!
@@ -24,14 +24,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         
         //Parse-server setup
         ParseCareKitUtility.setupServer()
-
-        //Clear items out of the Keychain on app first run. Used for debugging
-        if UserDefaults.standard.object(forKey: "firstRun") == nil {
-            try? User.logout()
-            //This is no longer the first run
-            UserDefaults.standard.setValue("firstRun", forKey: "firstRun")
-            UserDefaults.standard.synchronize()
-        }
 
         //Set default ACL for all Parse Classes
         var defaultACL = ParseACL()
@@ -42,43 +34,43 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         } catch {
             print(error.localizedDescription)
         }
-
-        self.setupRemotes()
+        
+        //Clear items out of the Keychain on app first run. Used for debugging
+        if UserDefaults.group.object(forKey: "firstRun") == nil {
+            try? User.logout()
+            //This is no longer the first run
+            UserDefaults.group.setValue("firstRun", forKey: "firstRun")
+            UserDefaults.group.synchronize()
+        }
         
         //If the user isn't logged in, log them in
-        if User.current == nil {
-            
-            var newUser = User()
-            newUser.username = "ParseCareKit"
-            newUser.password = "ThisIsAStrongPass1!"
-            
-            User.login(username: newUser.username!, password: newUser.password!) { result in
-                    
-                switch result {
-                
-                case .success(let user):
-                    print("Parse login successful \(user)")
-                    self.store.synchronize { error in
-                        print(error?.localizedDescription ?? "Successful sync with Cloud!")
-                    }
-                case .failure(let error):
-                    print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                    print("Parse error: \(String(describing: error))")
-                }
-            }
-        } else {
+        if User.current != nil {
+            self.setupRemotes(uuid: UserDefaults.group.object(forKey: Constants.parseRemoteClockIDKey) as? String) //Setup for getting info
             print("User is already signed in...")
             store.synchronize{ error in
                 print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
+                }
             }
+        } else {
+            self.setupRemotes(uuid: nil) //Setup for getting info
         }
         
     }
 
-    func setupRemotes() {
+    func setupRemotes(uuid: String? = nil) {
         do {
             if syncWithCloud{
-                parse = try ParseRemoteSynchronizationManager(uuid: UUID(uuidString: "3B5FD9DA-C278-4582-90DC-101C08E7FC98")!, auto: true)
+                guard let uuid = uuid,
+                      let remotUUID = UUID(uuidString: uuid) else {
+                    print("Couldn't get remote clock UUID from User defaults")
+                    sessionDelegate = CloudSyncSessionDelegate(store: nil)
+                    WCSession.default.delegate = sessionDelegate
+                    WCSession.default.activate()
+                    return
+                }
+                parse = try ParseRemoteSynchronizationManager(uuid: remotUUID, auto: true)
                 store = OCKStore(name: "WatchParseStore", remote: parse)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
                 
@@ -140,6 +132,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
 
+    func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
+        guard let uuid = UserDefaults.group.object(forKey: "remoteClockUUID") as? String else {
+            return nil
+        }
+        
+        return UUID(uuidString: uuid)
+    }
 }
 
 extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate{
@@ -164,45 +163,73 @@ extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchr
         let conflictPolicy = OCKMergeConflictResolutionPolicy.keepRemote
         completion(conflictPolicy)
     }
-    
-    func storeUpdatedOutcome(_ outcome: OCKOutcome) {
-        storeManager.store.updateAnyOutcome(outcome, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    func storeUpdatedCarePlan(_ carePlan: OCKCarePlan) {
-        storeManager.store.updateAnyCarePlan(carePlan, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    func storeUpdatedContact(_ contact: OCKContact) {
-        storeManager.store.updateAnyContact(contact, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    func storeUpdatedPatient(_ patient: OCKPatient) {
-        storeManager.store.updateAnyPatient(patient, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    func storeUpdatedTask(_ task: OCKTask) {
-        storeManager.store.updateAnyTask(task, callbackQueue: .global(qos: .background), completion: nil)
-    }
-    
-    
 }
 
 protocol SessionDelegate: WCSessionDelegate {}
 
 private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
-    let store: OCKStore
+    var store: OCKStore?
     
-    init(store: OCKStore) {
+    init(store: OCKStore?) {
         self.store = store
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         print("New session state: \(activationState)")
+        
+        switch activationState {
+        case .activated:
+            
+            //If user isn't logged in, request login from iPhone
+            if User.current == nil {
+                DispatchQueue.main.async {
+                    WCSession.default.sendMessage([Constants.parseUserKey: Constants.parseUserKey], replyHandler: { reply in
+                        
+                        guard let data = reply[Constants.parseUserKey] as? Data,
+                              let userFromIphone = try? ParseCareKitUtility.decoder().decode(User.self, from: data),
+                              let username = userFromIphone.username,
+                              let password = userFromIphone.password,
+                              let uuidString = reply[Constants.parseRemoteClockIDKey] as? String else {
+                            print("Error: data missing in iPhone message")
+                            return
+                        }
+                        
+                        //Save remoteUUID for later
+                        UserDefaults.group.setValue(uuidString, forKey: Constants.parseRemoteClockIDKey)
+                        UserDefaults.group.synchronize()
+                        
+                        User.login(username: username, password: password) { result in
+                                
+                            switch result {
+                            
+                            case .success(let user):
+                                print("Parse login successful \(user)")
+                                let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
+                                watchDelegate.setupRemotes(uuid: uuidString)
+                                watchDelegate.store.synchronize { error in
+                                    print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                                }
+                                
+                                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
+                                
+                            case .failure(let error):
+                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+                                print("Parse error: \(String(describing: error))")
+                            }
+                        }
+                    }) { error in
+                        print(error)
+                    }
+                }
+                
+            }
+        default:
+            print("")
+        }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        store.synchronize{ error in
+        store?.synchronize{ error in
             print(error?.localizedDescription ?? "Successful sync with Cloud!")
         }
     }
@@ -234,4 +261,16 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
             replyHandler(reply)
         }
     }
+}
+
+enum Constants {
+    static let group = "group.netrecon.ParseCarekitSample"
+    static let parseUserKey = "requestParseUser"
+    static let parseRemoteClockIDKey = "requestRemoteClockID"
+    static let requestSync = "requestSync"
+    static let userLoggedIn = "userLoggedIn"
+}
+
+extension UserDefaults {
+    static let group = UserDefaults(suiteName: Constants.group)!
 }
