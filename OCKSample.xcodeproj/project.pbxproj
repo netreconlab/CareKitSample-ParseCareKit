@@ -14,6 +14,7 @@
 		70308840258040D300FFABB6 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7030883F258040D300FFABB6 /* ParseCareKit */; };
 		70308845258040E900FFABB6 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70308844258040E900FFABB6 /* ParseCareKit */; };
 		70308886258273D400FFABB6 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70308885258273D400FFABB6 /* Login.swift */; };
+		7030889A2582995200FFABB6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703088992582995200FFABB6 /* Constants.swift */; };
 		7036E4BF256DA089006E9A3C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4BE256DA089006E9A3C /* Login.swift */; };
 		7036E4C4256E0A48006E9A3C /* CareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C3256E0A48006E9A3C /* CareView.swift */; };
 		7036E4C9256E1A6F006E9A3C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C8256E1A6F006E9A3C /* ProfileView.swift */; };
@@ -122,6 +123,7 @@
 		51F6343923D2877B00FE576E /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		70077596252228E900EC0EDA /* ParseObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjects.swift; sourceTree = "<group>"; };
 		70308885258273D400FFABB6 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		703088992582995200FFABB6 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7036E4BE256DA089006E9A3C /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		7036E4C3256E0A48006E9A3C /* CareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareView.swift; sourceTree = "<group>"; };
 		7036E4C8256E1A6F006E9A3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -301,10 +303,11 @@
 			children = (
 				91AD924224A4C42E00925D4D /* Assets.xcassets */,
 				91AD923A24A4C42D00925D4D /* CareView.swift */,
-				70308885258273D400FFABB6 /* Login.swift */,
+				703088992582995200FFABB6 /* Constants.swift */,
 				91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */,
 				91AD923824A4C42D00925D4D /* HostingController.swift */,
 				91AD924724A4C42E00925D4D /* Info.plist */,
+				70308885258273D400FFABB6 /* Login.swift */,
 				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
 				91AD924024A4C42D00925D4D /* NotificationView.swift */,
 				7036E6A225732179006E9A3C /* OCKWatchSample Extension.entitlements */,
@@ -564,6 +567,7 @@
 				91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */,
 				91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */,
 				70308886258273D400FFABB6 /* Login.swift in Sources */,
+				7030889A2582995200FFABB6 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

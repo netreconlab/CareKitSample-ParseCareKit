@@ -13,6 +13,7 @@ import WatchKit
 import WatchConnectivity
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
+
     let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
     var store: OCKStore!
@@ -140,7 +141,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 }
 
-extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate {
+extension ExtensionDelegate: ParseRemoteSynchronizationDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         print("Implement... You need to have your push notifications certs setup to use this.")
     }
@@ -271,14 +272,6 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
             replyHandler(reply)
         }
     }
-}
-
-enum Constants {
-    static let group = "group.netrecon.ParseCarekitSample"
-    static let parseUserKey = "requestParseUser"
-    static let parseRemoteClockIDKey = "requestRemoteClockID"
-    static let requestSync = "requestSync"
-    static let userLoggedIn = "userLoggedIn"
 }
 
 extension UserDefaults {
