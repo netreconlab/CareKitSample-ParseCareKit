@@ -80,7 +80,6 @@ class Profile: ObservableObject {
             }
             
             if patientHasBeenUpdated {
-                patientToUpdate.notes = [.init(author: "me", title: "them", content: "they")]
                 appDelegate.synchronizedStoreManager?.store.updateAnyPatient(patientToUpdate, callbackQueue: .main) { result in
                     switch result {
                     
