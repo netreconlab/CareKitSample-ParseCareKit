@@ -1,5 +1,5 @@
 //
-//  MainSwiftUIView.swift
+//  MainView.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 11/25/20.
