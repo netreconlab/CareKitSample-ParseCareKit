@@ -11,7 +11,7 @@ import UIKit
 import CareKit
 import CareKitStore
 
-struct ContactSwiftUIView: UIViewControllerRepresentable {
+struct ContactView: UIViewControllerRepresentable {
     
     let manager: OCKSynchronizedStoreManager
     
@@ -26,9 +26,9 @@ struct ContactSwiftUIView: UIViewControllerRepresentable {
     }
 }
 
-struct ContactSwiftUIView_Previews: PreviewProvider {
+struct ContactView_Previews: PreviewProvider {
     
     static var previews: some View {
-        ContactSwiftUIView(manager: OCKSynchronizedStoreManager(wrapping: OCKStore(name: "test")))
+        ContactView(manager: OCKSynchronizedStoreManager(wrapping: OCKStore(name: "test")))
     }
 }

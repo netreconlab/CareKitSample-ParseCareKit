@@ -1,5 +1,5 @@
 //
-//  ProfileViewModel.swift
+//  Profile.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 11/25/20.
@@ -13,7 +13,7 @@ import SwiftUI
 import ParseCareKit
 import UIKit
 
-class ProfileViewModel: ObservableObject {
+class Profile: ObservableObject {
     
     @Published var patient: OCKPatient? = nil
     

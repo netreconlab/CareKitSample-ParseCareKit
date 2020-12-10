@@ -13,7 +13,7 @@ import WatchKit
 import WatchConnectivity
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
-    private let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
+    let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
     var store: OCKStore!
     private var parse: ParseRemoteSynchronizationManager!
@@ -46,17 +46,16 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         //If the user isn't logged in, log them in
         if User.current != nil {
             self.setupRemotes(uuid: UserDefaults.group.object(forKey: Constants.parseRemoteClockIDKey) as? String) //Setup for getting info
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
+            }
             print("User is already signed in...")
             store.synchronize{ error in
                 print(error?.localizedDescription ?? "Successful sync with Cloud!")
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-                }
             }
         } else {
-            self.setupRemotes(uuid: nil) //Setup for getting info
+            setupRemotes(uuid: nil) //Setup for getting info
         }
-        
     }
 
     func setupRemotes(uuid: String? = nil) {
@@ -141,7 +140,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 }
 
-extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate{
+extension ExtensionDelegate: OCKRemoteSynchronizationDelegate, ParseRemoteSynchronizationDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         print("Implement... You need to have your push notifications certs setup to use this.")
     }
@@ -208,6 +207,17 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                                 watchDelegate.setupRemotes(uuid: uuidString)
                                 watchDelegate.store.synchronize { error in
                                     print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                                }
+                                
+                                //Setup installation to receive push notifications
+                                Installation.current?.save { result in
+                                    switch result {
+                                    
+                                    case .success(_):
+                                        print("Parse Installation saved, can now receive push notificaitons.")
+                                    case .failure(let error):
+                                        print("Error saving Parse Installation saved: \(error.localizedDescription)")
+                                    }
                                 }
                                 
                                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))

@@ -11,7 +11,7 @@ import ParseSwift
 import CareKit
 import CareKitStore
 
-class LoginViewModel: ObservableObject {
+class Login: ObservableObject {
 
     private(set) var isLoggedIn = false {
         willSet {
@@ -23,7 +23,7 @@ class LoginViewModel: ObservableObject {
             objectWillChange.send() //Publishes a notification to subscribers whenever this value changes
         }
     }
-    private var profileModel: ProfileViewModel?
+    private var profileModel: Profile?
     
     //MARK: User intentional behavier
     
@@ -43,7 +43,7 @@ class LoginViewModel: ObservableObject {
             case .success(let user):
                 print("Parse signup successful: \(user)")
                 
-                self.profileModel = ProfileViewModel()
+                self.profileModel = Profile()
                 self.profileModel?.savePatientAfterSignUp(firstName, last: lastName) { result in
                     switch result {
                     
@@ -97,7 +97,7 @@ class LoginViewModel: ObservableObject {
             case .success(let user):
                 print("Parse login successful: \(user)")
                     
-                self.profileModel = ProfileViewModel()
+                self.profileModel = Profile()
                 self.profileModel?.setupRemoteAfterLoginButtonTapped { result in
                     switch result {
                     

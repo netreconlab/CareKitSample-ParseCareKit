@@ -15,7 +15,7 @@ import UIKit
 struct LoginView: View {
     
     //Anything is @ is a wrapper that subscribes and refreshes the view when a change occurs. List to the last lecture in Section 2 for an explanation
-    @ObservedObject private var viewModel = LoginViewModel()
+    @ObservedObject private var login = Login()
     @State private var usersname = ""
     @State private var password = ""
     @State var firstName: String = ""
@@ -25,8 +25,8 @@ struct LoginView: View {
     
     var body: some View {
         
-        if viewModel.isLoggedIn {
-            MainSwiftUIView()
+        if login.isLoggedIn {
+            MainView()
         } else {
 
             VStack() {
@@ -89,9 +89,9 @@ struct LoginView: View {
                 Button(action: {
                     
                     if signupLoginSegmentValue == 1 {
-                        viewModel.signup(username: usersname, password: password, firstName: firstName, lastName: lastName)
+                        login.signup(username: usersname, password: password, firstName: firstName, lastName: lastName)
                     }else {
-                        viewModel.login(username: usersname, password: password)
+                        login.login(username: usersname, password: password)
                     }
 
                 }, label: {
@@ -114,7 +114,7 @@ struct LoginView: View {
                 .cornerRadius(15)
                 
                 //If error occurs show it on the screen
-                if let error = viewModel.loginError {
+                if let error = login.loginError {
                     Text("Error: \(error.message)")
                         .foregroundColor(.red)
                 }

@@ -13,12 +13,13 @@
 		7007759B252229C900EC0EDA /* ParseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* ParseObjects.swift */; };
 		70308840258040D300FFABB6 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7030883F258040D300FFABB6 /* ParseCareKit */; };
 		70308845258040E900FFABB6 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70308844258040E900FFABB6 /* ParseCareKit */; };
-		7036E4BF256DA089006E9A3C /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4BE256DA089006E9A3C /* LoginViewModel.swift */; };
-		7036E4C4256E0A48006E9A3C /* CareSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C3256E0A48006E9A3C /* CareSwiftUIView.swift */; };
+		70308886258273D400FFABB6 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70308885258273D400FFABB6 /* Login.swift */; };
+		7036E4BF256DA089006E9A3C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4BE256DA089006E9A3C /* Login.swift */; };
+		7036E4C4256E0A48006E9A3C /* CareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C3256E0A48006E9A3C /* CareView.swift */; };
 		7036E4C9256E1A6F006E9A3C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C8256E1A6F006E9A3C /* ProfileView.swift */; };
-		7036E4CE256E9A0C006E9A3C /* ContactSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4CD256E9A0C006E9A3C /* ContactSwiftUIView.swift */; };
-		7036E4D3256EBE35006E9A3C /* MainSwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */; };
-		7036E517256F2413006E9A3C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E516256F2413006E9A3C /* ProfileViewModel.swift */; };
+		7036E4CE256E9A0C006E9A3C /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4CD256E9A0C006E9A3C /* ContactView.swift */; };
+		7036E4D3256EBE35006E9A3C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4D2256EBE35006E9A3C /* MainView.swift */; };
+		7036E517256F2413006E9A3C /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E516256F2413006E9A3C /* Profile.swift */; };
 		7036E64025717F85006E9A3C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E63F25717F85006E9A3C /* Constants.swift */; };
 		7036E68725731AD1006E9A3C /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E68625731AD1006E9A3C /* CareKitFHIR */; };
 		7036E68925731AD1006E9A3C /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7036E68825731AD1006E9A3C /* CareKit */; };
@@ -37,7 +38,7 @@
 		91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922C24A4C42D00925D4D /* Assets.xcassets */; };
 		91AD923424A4C42D00925D4D /* OCKWatchSample Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		91AD923924A4C42D00925D4D /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923824A4C42D00925D4D /* HostingController.swift */; };
-		91AD923B24A4C42D00925D4D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923A24A4C42D00925D4D /* ContentView.swift */; };
+		91AD923B24A4C42D00925D4D /* CareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923A24A4C42D00925D4D /* CareView.swift */; };
 		91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */; };
 		91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923E24A4C42D00925D4D /* NotificationController.swift */; };
 		91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD924024A4C42D00925D4D /* NotificationView.swift */; };
@@ -120,12 +121,13 @@
 		5173CB8B23C3A846007655A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51F6343923D2877B00FE576E /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
 		70077596252228E900EC0EDA /* ParseObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjects.swift; sourceTree = "<group>"; };
-		7036E4BE256DA089006E9A3C /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		7036E4C3256E0A48006E9A3C /* CareSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareSwiftUIView.swift; sourceTree = "<group>"; };
+		70308885258273D400FFABB6 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		7036E4BE256DA089006E9A3C /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		7036E4C3256E0A48006E9A3C /* CareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareView.swift; sourceTree = "<group>"; };
 		7036E4C8256E1A6F006E9A3C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		7036E4CD256E9A0C006E9A3C /* ContactSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSwiftUIView.swift; sourceTree = "<group>"; };
-		7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSwiftUIView.swift; sourceTree = "<group>"; };
-		7036E516256F2413006E9A3C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		7036E4CD256E9A0C006E9A3C /* ContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactView.swift; sourceTree = "<group>"; };
+		7036E4D2256EBE35006E9A3C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		7036E516256F2413006E9A3C /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		7036E63F25717F85006E9A3C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7036E6A225732179006E9A3C /* OCKWatchSample Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OCKWatchSample Extension.entitlements"; sourceTree = "<group>"; };
 		7036E6A3257321A1006E9A3C /* OCKWatchSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OCKWatchSample.entitlements; sourceTree = "<group>"; };
@@ -141,7 +143,7 @@
 		91AD922E24A4C42D00925D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "OCKWatchSample Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91AD923824A4C42D00925D4D /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
-		91AD923A24A4C42D00925D4D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		91AD923A24A4C42D00925D4D /* CareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareView.swift; sourceTree = "<group>"; };
 		91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		91AD923E24A4C42D00925D4D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		91AD924024A4C42D00925D4D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
@@ -214,6 +216,53 @@
 			path = OCKSampleUITests;
 			sourceTree = "<group>";
 		};
+		703088772582727500FFABB6 /* MainTabs */ = {
+			isa = PBXGroup;
+			children = (
+				70308878258272CD00FFABB6 /* Care */,
+				7036E4D2256EBE35006E9A3C /* MainView.swift */,
+				7030887D258272F400FFABB6 /* Contact */,
+				7030887C258272E700FFABB6 /* Profile */,
+			);
+			path = MainTabs;
+			sourceTree = "<group>";
+		};
+		70308878258272CD00FFABB6 /* Care */ = {
+			isa = PBXGroup;
+			children = (
+				E7440E4E229477F7007AD30A /* CareViewController.swift */,
+				7036E4C3256E0A48006E9A3C /* CareView.swift */,
+				E7C37848228F887800E982D8 /* TipView.swift */,
+			);
+			path = Care;
+			sourceTree = "<group>";
+		};
+		7030887C258272E700FFABB6 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				7036E4C8256E1A6F006E9A3C /* ProfileView.swift */,
+				7036E516256F2413006E9A3C /* Profile.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		7030887D258272F400FFABB6 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				7036E4CD256E9A0C006E9A3C /* ContactView.swift */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
+		7030887E2582731300FFABB6 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				7036E4BE256DA089006E9A3C /* Login.swift */,
+				70BD2B1E254B44DB0030B424 /* LoginView.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		707CC70E254DA91900116728 /* Localization */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,17 +299,18 @@
 		91AD923724A4C42D00925D4D /* OCKWatchSample Extension */ = {
 			isa = PBXGroup;
 			children = (
-				7036E6A225732179006E9A3C /* OCKWatchSample Extension.entitlements */,
-				91AD923824A4C42D00925D4D /* HostingController.swift */,
-				91AD923A24A4C42D00925D4D /* ContentView.swift */,
+				91AD924224A4C42E00925D4D /* Assets.xcassets */,
+				91AD923A24A4C42D00925D4D /* CareView.swift */,
+				70308885258273D400FFABB6 /* Login.swift */,
 				91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */,
+				91AD923824A4C42D00925D4D /* HostingController.swift */,
+				91AD924724A4C42E00925D4D /* Info.plist */,
 				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
 				91AD924024A4C42D00925D4D /* NotificationView.swift */,
-				91AD924224A4C42E00925D4D /* Assets.xcassets */,
-				91AD924724A4C42E00925D4D /* Info.plist */,
+				7036E6A225732179006E9A3C /* OCKWatchSample Extension.entitlements */,
 				91AD929B24A52D4200925D4D /* ParseCareKit.plist */,
-				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
 				91AD924424A4C42E00925D4D /* Preview Content */,
+				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
 			);
 			path = "OCKWatchSample Extension";
 			sourceTree = "<group>";
@@ -303,18 +353,11 @@
 			children = (
 				03580E3E23CFA2E400A57818 /* OCKSample.entitlements */,
 				E72B2C09226939E3009A9438 /* AppDelegate.swift */,
-				03F060092331946600CCE09B /* SceneDelegate.swift */,
-				7036E4BE256DA089006E9A3C /* LoginViewModel.swift */,
-				70BD2B1E254B44DB0030B424 /* LoginView.swift */,
 				7036E63F25717F85006E9A3C /* Constants.swift */,
-				E7440E4E229477F7007AD30A /* CareViewController.swift */,
-				7036E4C3256E0A48006E9A3C /* CareSwiftUIView.swift */,
-				7036E4D2256EBE35006E9A3C /* MainSwiftUIView.swift */,
-				7036E4CD256E9A0C006E9A3C /* ContactSwiftUIView.swift */,
-				7036E4C8256E1A6F006E9A3C /* ProfileView.swift */,
-				7036E516256F2413006E9A3C /* ProfileViewModel.swift */,
 				70077596252228E900EC0EDA /* ParseObjects.swift */,
-				E7C37848228F887800E982D8 /* TipView.swift */,
+				03F060092331946600CCE09B /* SceneDelegate.swift */,
+				7030887E2582731300FFABB6 /* Login */,
+				703088772582727500FFABB6 /* MainTabs */,
 				71A79C8A2294FBA1002B96D3 /* Supporting Files */,
 			);
 			path = OCKSample;
@@ -513,13 +556,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91AD923B24A4C42D00925D4D /* ContentView.swift in Sources */,
+				91AD923B24A4C42D00925D4D /* CareView.swift in Sources */,
 				91AD923924A4C42D00925D4D /* HostingController.swift in Sources */,
 				707CC719254DA91900116728 /* OCKLocalization.swift in Sources */,
 				7007759B252229C900EC0EDA /* ParseObjects.swift in Sources */,
 				91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */,
 				91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */,
 				91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */,
+				70308886258273D400FFABB6 /* Login.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,18 +573,18 @@
 			files = (
 				E7440E4F229477F7007AD30A /* CareViewController.swift in Sources */,
 				7036E64025717F85006E9A3C /* Constants.swift in Sources */,
-				7036E4CE256E9A0C006E9A3C /* ContactSwiftUIView.swift in Sources */,
+				7036E4CE256E9A0C006E9A3C /* ContactView.swift in Sources */,
 				70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */,
 				E72B2C0A226939E3009A9438 /* AppDelegate.swift in Sources */,
-				7036E4C4256E0A48006E9A3C /* CareSwiftUIView.swift in Sources */,
-				7036E4D3256EBE35006E9A3C /* MainSwiftUIView.swift in Sources */,
+				7036E4C4256E0A48006E9A3C /* CareView.swift in Sources */,
+				7036E4D3256EBE35006E9A3C /* MainView.swift in Sources */,
 				707CC718254DA91900116728 /* OCKLocalization.swift in Sources */,
 				E7C37849228F887800E982D8 /* TipView.swift in Sources */,
 				70077597252228E900EC0EDA /* ParseObjects.swift in Sources */,
 				03F0600A2331946600CCE09B /* SceneDelegate.swift in Sources */,
 				7036E4C9256E1A6F006E9A3C /* ProfileView.swift in Sources */,
-				7036E4BF256DA089006E9A3C /* LoginViewModel.swift in Sources */,
-				7036E517256F2413006E9A3C /* ProfileViewModel.swift in Sources */,
+				7036E4BF256DA089006E9A3C /* Login.swift in Sources */,
+				7036E517256F2413006E9A3C /* Profile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
