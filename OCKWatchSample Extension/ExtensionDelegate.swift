@@ -180,9 +180,9 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
         switch activationState {
         case .activated:
             
-            //If user isn't logged in, request login from iPhone
-            if User.current == nil {
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                //If user isn't logged in, request login from iPhone
+                if User.current == nil {
                     WCSession.default.sendMessage([Constants.parseUserKey: Constants.parseUserKey], replyHandler: { reply in
                         
                         guard let data = reply[Constants.parseUserKey] as? Data,
@@ -232,7 +232,6 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                         print(error)
                     }
                 }
-                
             }
         default:
             print("")
