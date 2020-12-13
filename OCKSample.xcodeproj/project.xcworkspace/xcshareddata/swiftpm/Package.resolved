@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
           "branch": "fixEncodingArrays",
-          "revision": "564b35ceca326d1bef0e713fd50e8bf77ab5ab70",
+          "revision": "e2f8a813ea554c29483c4ec394dd2391b153fa5f",
           "version": null
         }
       }

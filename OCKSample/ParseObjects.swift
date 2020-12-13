@@ -22,7 +22,11 @@ struct User: ParseUser {
     
     var updatedAt: Date?
     
-    var ACL: ParseACL? = try? ParseACL.defaultACL()
+    var ACL: ParseACL?
+    
+    init() {
+        ACL = try? ParseACL.defaultACL()
+    }
 }
 
 struct Installation: ParseInstallation {
@@ -55,4 +59,8 @@ struct Installation: ParseInstallation {
     var updatedAt: Date?
     
     var ACL: ParseACL?
+    
+    init() {
+        ACL = try? ParseACL.defaultACL()
+    }
 }
