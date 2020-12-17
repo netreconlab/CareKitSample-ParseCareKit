@@ -1,0 +1,27 @@
+name: ci
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+env:
+  CI_XCODE_VER: '/Applications/Xcode_12.2.app/Contents/Developer'
+
+jobs:
+  ios:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build-Test
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme OCKSample -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max test | xcpretty
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
+
+  watchos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build-Test
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme OCKWatchSample -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max | xcpretty
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
