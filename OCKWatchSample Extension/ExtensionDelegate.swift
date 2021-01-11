@@ -70,7 +70,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     WCSession.default.activate()
                     return
                 }
-                parse = try ParseRemoteSynchronizationManager(uuid: remotUUID, auto: true)
+                parse = try ParseRemoteSynchronizationManager(uuid: remotUUID, auto: true, subscribeToServerUpdates: true)
                 store = OCKStore(name: "WatchParseStore", remote: parse)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
                 
@@ -143,20 +143,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
 extension ExtensionDelegate: ParseRemoteSynchronizationDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
-        print("Implement... You need to have your push notifications certs setup to use this.")
+        store?.synchronize{ error in
+            print(error?.localizedDescription ?? "Successful sync with Cloud!")
+        }
     }
     
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
-        print("Implement")
-    }
-    
-    func successfullyPushedDataToCloud(){
-        DispatchQueue.main.async {
-            WCSession.default.sendMessage(["needToSyncNotification": "needToSyncNotification"], replyHandler: nil){
-                error in
-                print(error.localizedDescription)
-            }
-        }
+        print("Synchronization completed: \(progress)")
     }
     
     func chooseConflictResolutionPolicy(_ conflict: OCKMergeConflictDescription, completion: @escaping (OCKMergeConflictResolutionPolicy) -> Void) {
@@ -235,12 +228,6 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
             }
         default:
             print("")
-        }
-    }
-    
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        store?.synchronize{ error in
-            print(error?.localizedDescription ?? "Successful sync with Cloud!")
         }
     }
 }
