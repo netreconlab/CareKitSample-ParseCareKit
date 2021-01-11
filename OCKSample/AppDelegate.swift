@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("Error in setupRemotes, uuid is nil")
                     return
                 }
-                parse = try ParseRemoteSynchronizationManager(uuid: uuid, auto: false)
+                parse = try ParseRemoteSynchronizationManager(uuid: uuid, auto: false, subscribeToServerUpdates: true)
                 coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
@@ -226,19 +226,15 @@ extension OCKHealthKitPassthroughStore {
 
 extension AppDelegate: ParseRemoteSynchronizationDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
-        print("Implement")
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+        }
     }
     
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
-        print("Implement")
-    }
-    
-    func successfullyPushedDataToCloud(){
         DispatchQueue.main.async {
-            WCSession.default.sendMessage(["needToSyncNotification": "needToSyncNotification"], replyHandler: nil){
-                error in
-                print(error.localizedDescription)
-            }
+            let progressPercentage = Int(progress * 100.0)
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.progressUpdate), userInfo: [Constants.progressUpdate: progressPercentage]))
         }
     }
     
@@ -292,7 +288,10 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                 do {
                     
                     //Prepare data for watchOS
-                    let encoded = try ParseCareKitUtility.encoder().encode(User.current)
+                    guard let user = User.current else {
+                        return
+                    }
+                    let encoded = try ParseCareKitUtility.encoder().encode(user, skipKeys: .none)
                     
                     returnMessage[Constants.parseUserKey] = encoded
                     returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey)
@@ -303,14 +302,7 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                 }
             }
 
-        } else {
-            
-            print("watchOS requested iPhone sync with Parse server.")
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-            }
         }
-        
     }
 }
 

@@ -45,8 +45,31 @@ class CareViewController: OCKDailyPageViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(synchronizeWithRemote))
 
         NotificationCenter.default.addObserver(self, selector: #selector(synchronizeWithRemote), name: Notification.Name(rawValue: Constants.requestSync), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSynchronizationProgress(_:)), name: Notification.Name(rawValue: Constants.progressUpdate), object: nil)
     }
 
+    @objc private func updateSynchronizationProgress(_ notification: Notification) {
+        guard let receivedInfo = notification.userInfo as? [String: Any],
+            let progress = receivedInfo[Constants.progressUpdate] as? Int else{
+            return
+        }
+        
+        switch progress {
+        case 0, 100:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)", style: .plain, target: self, action: #selector(synchronizeWithRemote))
+            if progress == 100 {
+                // Let the user see 100
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.synchronizeWithRemote))
+                    self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
+                }
+            }
+        default:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)", style: .plain, target: self, action: #selector(synchronizeWithRemote))
+            navigationItem.rightBarButtonItem?.tintColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1): #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) }
+        }
+    }
+    
     @objc private func synchronizeWithRemote() {
         
         if alreadySyncing {
@@ -55,7 +78,6 @@ class CareViewController: OCKDailyPageViewController {
             alreadySyncing = true
         }
 
-        navigationItem.rightBarButtonItem?.tintColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1): #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) }
         appDelegate.coreDataStore.synchronize { error in
             
             DispatchQueue.main.async {
@@ -63,7 +85,6 @@ class CareViewController: OCKDailyPageViewController {
                 if error != nil {
                     self.navigationItem.rightBarButtonItem?.tintColor = .red
                 } else {
-                    self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
                     if self.appDelegate.firstLogin {
                         self.reload()
                         self.appDelegate.firstLogin = false

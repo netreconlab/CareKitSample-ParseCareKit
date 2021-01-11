@@ -6,7 +6,7 @@
         "repositoryURL": "https://github.com/carekit-apple/CareKit.git",
         "state": {
           "branch": "main",
-          "revision": "4936c622d55d876ccf43d7a4f4fa6acdf4db6747",
+          "revision": "56796e8c7915b5813a47f54d746219a29685cb81",
           "version": null
         }
       },
@@ -24,7 +24,7 @@
         "repositoryURL": "https://github.com/parse-community/Parse-Swift",
         "state": {
           "branch": "main",
-          "revision": "e2dde15dc6d9655498521edba6d676d49de71d51",
+          "revision": "806e0269f62730234fe3ca7ed5c2f865f2a6f374",
           "version": null
         }
       },
@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
           "branch": "main",
-          "revision": "7cce16663e2ea5f2719af6195e40ba687acba74c",
+          "revision": "78318d5f7d41e93b899fbb50eee70de787c41e19",
           "version": null
         }
       }
