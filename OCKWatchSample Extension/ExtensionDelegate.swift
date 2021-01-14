@@ -148,6 +148,10 @@ extension ExtensionDelegate: ParseRemoteSynchronizationDelegate {
         }
     }
     
+    func successfullyPushedDataToCloud() {
+        print("Finished pusshing data.")
+    }
+    
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
         print("Synchronization completed: \(progress)")
     }
