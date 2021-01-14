@@ -23,8 +23,8 @@
         "package": "ParseSwift",
         "repositoryURL": "https://github.com/parse-community/Parse-Swift",
         "state": {
-          "branch": "currentFix",
-          "revision": "8db0ab8d5516e73a2178216e7e59be60e78649f0",
+          "branch": "main",
+          "revision": "84f923141b0994dc50bb924cc8fbcb6fad228158",
           "version": null
         }
       },
@@ -32,8 +32,8 @@
         "package": "ParseCareKit",
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
-          "branch": null,
-          "revision": "93b4921c70ce7b09ef24dd4208f5c9c151e70fee",
+          "branch": "main",
+          "revision": "1fba540e7ad8a4c986e8832902f915c22afccd9f",
           "version": null
         }
       }
