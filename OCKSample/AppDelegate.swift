@@ -231,6 +231,12 @@ extension AppDelegate: ParseRemoteSynchronizationDelegate {
         }
     }
     
+    func successfullyPushedDataToCloud() {
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+        }
+    }
+    
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
         DispatchQueue.main.async {
             let progressPercentage = Int(progress * 100.0)
