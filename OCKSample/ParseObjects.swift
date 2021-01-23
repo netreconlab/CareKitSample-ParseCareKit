@@ -10,6 +10,8 @@ import Foundation
 import ParseSwift
 
 struct User: ParseUser {
+    var authData: [String : [String : String]?]?
+    
     var username: String?
     
     var email: String?

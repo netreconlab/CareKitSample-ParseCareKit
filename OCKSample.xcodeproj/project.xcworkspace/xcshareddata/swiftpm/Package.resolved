@@ -5,8 +5,8 @@
         "package": "CareKit",
         "repositoryURL": "https://github.com/carekit-apple/CareKit.git",
         "state": {
-          "branch": "main",
-          "revision": "f892a5e0036b044e7e0309ae05912e29f5cdce8d",
+          "branch": null,
+          "revision": "56796e8c7915b5813a47f54d746219a29685cb81",
           "version": null
         }
       },
@@ -15,17 +15,17 @@
         "repositoryURL": "https://github.com/apple/FHIRModels.git",
         "state": {
           "branch": null,
-          "revision": "1d34af2339e49ed5d9dd2d084f5f4f42cf4a7927",
-          "version": "0.3.1"
+          "revision": "c91e5bb74397136f79656bebdfda76a523d3e88c",
+          "version": "0.3.2"
         }
       },
       {
         "package": "ParseSwift",
         "repositoryURL": "https://github.com/parse-community/Parse-Swift",
         "state": {
-          "branch": "main",
-          "revision": "84f923141b0994dc50bb924cc8fbcb6fad228158",
-          "version": null
+          "branch": null,
+          "revision": "cb26d0f877187d1027902c44940201835304ad22",
+          "version": "1.0.1"
         }
       },
       {
@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
           "branch": "main",
-          "revision": "1fba540e7ad8a4c986e8832902f915c22afccd9f",
+          "revision": "4ba6b04832a8e4579ee4c6fe266dcc8a8e25a1b3",
           "version": null
         }
       }

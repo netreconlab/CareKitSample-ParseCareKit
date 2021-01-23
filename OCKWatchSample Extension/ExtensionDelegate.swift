@@ -180,12 +180,9 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
             DispatchQueue.main.async {
                 //If user isn't logged in, request login from iPhone
                 if User.current == nil {
-                    WCSession.default.sendMessage([Constants.parseUserKey: Constants.parseUserKey], replyHandler: { reply in
+                    WCSession.default.sendMessage([Constants.parseUserSessionTokenKey: Constants.parseUserSessionTokenKey], replyHandler: { reply in
                         
-                        guard let data = reply[Constants.parseUserKey] as? Data,
-                              let userFromIphone = try? ParseCareKitUtility.decoder().decode(User.self, from: data),
-                              let username = userFromIphone.username,
-                              let password = userFromIphone.password,
+                        guard let sessionToken = reply[Constants.parseUserSessionTokenKey] as? String,
                               let uuidString = reply[Constants.parseRemoteClockIDKey] as? String else {
                             print("Error: data missing in iPhone message")
                             return
@@ -195,7 +192,7 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                         UserDefaults.standard.setValue(uuidString, forKey: Constants.parseRemoteClockIDKey)
                         UserDefaults.standard.synchronize()
                         
-                        User.login(username: username, password: password) { result in
+                        User().become(sessionToken: sessionToken) { result in
                                 
                             switch result {
                             

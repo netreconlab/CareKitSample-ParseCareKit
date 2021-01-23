@@ -286,26 +286,19 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         
-        if let _ = message[Constants.parseUserKey] as? String {
+        if let _ = message[Constants.parseUserSessionTokenKey] as? String {
             print("Received message from Apple Watch requesting ParseUser, sending now")
             var returnMessage = [String: Any]()
             
             DispatchQueue.main.async {
-                do {
-                    
-                    //Prepare data for watchOS
-                    guard let user = User.current else {
-                        return
-                    }
-                    let encoded = try ParseCareKitUtility.encoder().encode(user, skipKeys: .none)
-                    
-                    returnMessage[Constants.parseUserKey] = encoded
-                    returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey)
-                    replyHandler(returnMessage)
-                    
-                } catch {
-                    print("Error encoding data for watchOS.")
+                //Prepare data for watchOS
+                guard let sessionToken = User.current?.sessionToken else {
+                    return
                 }
+                
+                returnMessage[Constants.parseUserSessionTokenKey] = sessionToken
+                returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey)
+                replyHandler(returnMessage)
             }
 
         }
