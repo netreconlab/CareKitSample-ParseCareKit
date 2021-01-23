@@ -113,6 +113,28 @@ struct LoginView: View {
                 .background(Color(.green))
                 .cornerRadius(15)
                 
+                Button(action: {
+                    
+                    login.loginAnonymously()
+
+                }, label: {
+                    
+                    if signupLoginSegmentValue == 1 {
+                        Text("Login Anonymously")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(width: 300, height: 50)
+                    } else {
+                        Text("Login Anonymously")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding()
+                            .frame(width: 300, height: 50)
+                    }
+                })
+                .background(Color(.lightGray))
+                .cornerRadius(15)
                 //If error occurs show it on the screen
                 if let error = login.loginError {
                     Text("Error: \(error.message)")
