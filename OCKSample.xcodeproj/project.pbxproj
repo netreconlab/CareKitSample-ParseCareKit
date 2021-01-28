@@ -26,13 +26,13 @@
 		707CC717254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC718254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		707CC719254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
-		709FDC0B25BBDD5900FF2F0F /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 709FDC0A25BBDD5900FF2F0F /* ParseCareKit */; };
-		709FDC1C25BBDEF400FF2F0F /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 709FDC1B25BBDEF400FF2F0F /* ParseCareKit */; };
+		70A7940725C344280003F0FF /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7940625C344280003F0FF /* CareKitFHIR */; };
+		70A7940925C344280003F0FF /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7940825C344280003F0FF /* CareKit */; };
+		70A7940B25C344280003F0FF /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7940A25C344280003F0FF /* CareKitUI */; };
+		70A7941125C3445D0003F0FF /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7941025C3445D0003F0FF /* ParseCareKit */; };
+		70A7941925C344790003F0FF /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7941825C344790003F0FF /* CareKit */; };
+		70A7941B25C344790003F0FF /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7941A25C344790003F0FF /* ParseCareKit */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
-		70F2BAE625C23BC100168C88 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 70F2BAE525C23BC100168C88 /* CareKitFHIR */; };
-		70F2BAE825C23BC100168C88 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70F2BAE725C23BC100168C88 /* CareKit */; };
-		70F2BAEA25C23BC100168C88 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 70F2BAE925C23BC100168C88 /* CareKitUI */; };
-		70F2BAEF25C23BD400168C88 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70F2BAEE25C23BD400168C88 /* CareKit */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
 		91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922924A4C42B00925D4D /* Interface.storyboard */; };
@@ -166,10 +166,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70F2BAE825C23BC100168C88 /* CareKit in Frameworks */,
-				709FDC0B25BBDD5900FF2F0F /* ParseCareKit in Frameworks */,
-				70F2BAEA25C23BC100168C88 /* CareKitUI in Frameworks */,
-				70F2BAE625C23BC100168C88 /* CareKitFHIR in Frameworks */,
+				70A7940925C344280003F0FF /* CareKit in Frameworks */,
+				70A7940725C344280003F0FF /* CareKitFHIR in Frameworks */,
+				70A7941125C3445D0003F0FF /* ParseCareKit in Frameworks */,
+				70A7940B25C344280003F0FF /* CareKitUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,8 +184,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70F2BAEF25C23BD400168C88 /* CareKit in Frameworks */,
-				709FDC1C25BBDEF400FF2F0F /* ParseCareKit in Frameworks */,
+				70A7941B25C344790003F0FF /* ParseCareKit in Frameworks */,
+				70A7941925C344790003F0FF /* CareKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,8 +415,8 @@
 			);
 			name = "OCKWatchSample Extension";
 			packageProductDependencies = (
-				709FDC1B25BBDEF400FF2F0F /* ParseCareKit */,
-				70F2BAEE25C23BD400168C88 /* CareKit */,
+				70A7941825C344790003F0FF /* CareKit */,
+				70A7941A25C344790003F0FF /* ParseCareKit */,
 			);
 			productName = "OCKWatchSample Extension";
 			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
@@ -439,10 +439,10 @@
 			);
 			name = OCKSample;
 			packageProductDependencies = (
-				709FDC0A25BBDD5900FF2F0F /* ParseCareKit */,
-				70F2BAE525C23BC100168C88 /* CareKitFHIR */,
-				70F2BAE725C23BC100168C88 /* CareKit */,
-				70F2BAE925C23BC100168C88 /* CareKitUI */,
+				70A7940625C344280003F0FF /* CareKitFHIR */,
+				70A7940825C344280003F0FF /* CareKit */,
+				70A7940A25C344280003F0FF /* CareKitUI */,
+				70A7941025C3445D0003F0FF /* ParseCareKit */,
 			);
 			productName = CareKitDemoApp;
 			productReference = E72B2C06226939E3009A9438 /* OCKSample.app */;
@@ -483,8 +483,8 @@
 			);
 			mainGroup = E72B2BFD226939E3009A9438;
 			packageReferences = (
-				709FDC0925BBDD5900FF2F0F /* XCRemoteSwiftPackageReference "ParseCareKit" */,
-				70F2BAE425C23BC100168C88 /* XCRemoteSwiftPackageReference "CareKit" */,
+				70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */,
+				70A7940F25C3445D0003F0FF /* XCRemoteSwiftPackageReference "ParseCareKit" */,
 			);
 			productRefGroup = E72B2C07226939E3009A9438 /* Products */;
 			projectDirPath = "";
@@ -1065,7 +1065,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		709FDC0925BBDD5900FF2F0F /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
+		70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
+			requirement = {
+				kind = revision;
+				revision = 7dfcdef4de7e91449e86ac963043b44188a6ba31;
+			};
+		};
+		70A7940F25C3445D0003F0FF /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
@@ -1073,46 +1081,38 @@
 				kind = branch;
 			};
 		};
-		70F2BAE425C23BC100168C88 /* XCRemoteSwiftPackageReference "CareKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/cbaker6/CareKit.git";
-			requirement = {
-				kind = revision;
-				revision = d4fca9a3a61d8d3fb693329254a138613dbb9837;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		709FDC0A25BBDD5900FF2F0F /* ParseCareKit */ = {
+		70A7940625C344280003F0FF /* CareKitFHIR */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 709FDC0925BBDD5900FF2F0F /* XCRemoteSwiftPackageReference "ParseCareKit" */;
-			productName = ParseCareKit;
-		};
-		709FDC1B25BBDEF400FF2F0F /* ParseCareKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 709FDC0925BBDD5900FF2F0F /* XCRemoteSwiftPackageReference "ParseCareKit" */;
-			productName = ParseCareKit;
-		};
-		70F2BAE525C23BC100168C88 /* CareKitFHIR */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 70F2BAE425C23BC100168C88 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitFHIR;
 		};
-		70F2BAE725C23BC100168C88 /* CareKit */ = {
+		70A7940825C344280003F0FF /* CareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70F2BAE425C23BC100168C88 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
 		};
-		70F2BAE925C23BC100168C88 /* CareKitUI */ = {
+		70A7940A25C344280003F0FF /* CareKitUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70F2BAE425C23BC100168C88 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitUI;
 		};
-		70F2BAEE25C23BD400168C88 /* CareKit */ = {
+		70A7941025C3445D0003F0FF /* ParseCareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70F2BAE425C23BC100168C88 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 70A7940F25C3445D0003F0FF /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			productName = ParseCareKit;
+		};
+		70A7941825C344790003F0FF /* CareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
+		};
+		70A7941A25C344790003F0FF /* ParseCareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70A7940F25C3445D0003F0FF /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			productName = ParseCareKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

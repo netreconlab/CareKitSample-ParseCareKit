@@ -3,10 +3,10 @@
     "pins": [
       {
         "package": "CareKit",
-        "repositoryURL": "https://github.com/cbaker6/CareKit.git",
+        "repositoryURL": "https://github.com/carekit-apple/CareKit.git",
         "state": {
           "branch": null,
-          "revision": "d4fca9a3a61d8d3fb693329254a138613dbb9837",
+          "revision": "7dfcdef4de7e91449e86ac963043b44188a6ba31",
           "version": null
         }
       },
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/apple/FHIRModels.git",
         "state": {
           "branch": null,
-          "revision": "1d34af2339e49ed5d9dd2d084f5f4f42cf4a7927",
-          "version": "0.3.1"
+          "revision": "c91e5bb74397136f79656bebdfda76a523d3e88c",
+          "version": "0.3.2"
         }
       },
       {
@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
           "branch": "main",
-          "revision": "14eed9271d03a429e010c76f2bae4d9e759a6e81",
+          "revision": "b62950e6a4e5696d24cb1a6fa1ccf721fbeaa88f",
           "version": null
         }
       }
