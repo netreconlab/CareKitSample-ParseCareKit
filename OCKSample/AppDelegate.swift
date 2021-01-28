@@ -104,8 +104,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WCSession.default.activate()
             
             let coordinator = OCKStoreCoordinator()
-            //coordinator.attach(eventStore: healthKitStore)
             coordinator.attach(store: coreDataStore)
+            coordinator.attach(eventStore: healthKitStore)
             synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
         } catch {
             print("Error setting up remote: \(error.localizedDescription)")
@@ -204,7 +204,7 @@ extension OCKHealthKitPassthroughStore {
         let schedule = OCKSchedule.dailyAtTime(
             hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
             duration: .hours(12), targetValues: [OCKOutcomeValue(2000.0, units: "Steps")])
-/*
+
         let steps = OCKHealthKitTask(
             id: "steps",
             title: "Steps",
@@ -220,7 +220,7 @@ extension OCKHealthKitPassthroughStore {
             case .success: print("Added tasks into HealthKitPassthroughStore!")
             case .failure(let error): print("Error: \(error)")
             }
-        }*/
+        }
     }
 }
 
