@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/apple/FHIRModels.git",
         "state": {
           "branch": null,
-          "revision": "c91e5bb74397136f79656bebdfda76a523d3e88c",
-          "version": "0.3.2"
+          "revision": "1d34af2339e49ed5d9dd2d084f5f4f42cf4a7927",
+          "version": "0.3.1"
         }
       },
       {
