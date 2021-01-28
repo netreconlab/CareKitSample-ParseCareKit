@@ -91,11 +91,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     return
                 }
                 parse = try ParseRemoteSynchronizationManager(uuid: uuid, auto: false, subscribeToServerUpdates: true)
-                coreDataStore = OCKStore(name: "ParseStore", type: .onDisk, remote: parse)
+                coreDataStore = OCKStore(name: "ParseStore", type: .onDisk(), remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
             }else{
-                coreDataStore = OCKStore(name: "WatchStore", type: .onDisk, remote: watch)
+                coreDataStore = OCKStore(name: "WatchStore", type: .onDisk(), remote: watch)
                 watch.delegate = self
                 sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
             }
@@ -104,7 +104,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WCSession.default.activate()
             
             let coordinator = OCKStoreCoordinator()
-            coordinator.attach(eventStore: healthKitStore)
+            //coordinator.attach(eventStore: healthKitStore)
             coordinator.attach(store: coreDataStore)
             synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
         } catch {
@@ -204,7 +204,7 @@ extension OCKHealthKitPassthroughStore {
         let schedule = OCKSchedule.dailyAtTime(
             hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
             duration: .hours(12), targetValues: [OCKOutcomeValue(2000.0, units: "Steps")])
-
+/*
         let steps = OCKHealthKitTask(
             id: "steps",
             title: "Steps",
@@ -220,7 +220,7 @@ extension OCKHealthKitPassthroughStore {
             case .success: print("Added tasks into HealthKitPassthroughStore!")
             case .failure(let error): print("Error: \(error)")
             }
-        }
+        }*/
     }
 }
 
