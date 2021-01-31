@@ -3,7 +3,7 @@
 //  OCKSample
 //
 //  Created by Corey Baker on 11/25/20.
-//  Copyright © 2020 Apple. All rights reserved.
+//  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 // This was built using tutorial: https://www.hackingwithswift.com/books/ios-swiftui/creating-tabs-with-tabview-and-tabitem
 
 import SwiftUI

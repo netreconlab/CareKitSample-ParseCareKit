@@ -3,7 +3,7 @@
 //  OCKSample
 //
 //  Created by Corey Baker on 11/24/20.
-//  Copyright © 2020 Apple. All rights reserved.
+//  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
 
 // This file embeds a UIKit View Controller inside of a SwiftUI view. I used this tutorial to figure this out https://developer.apple.com/tutorials/swiftui/interfacing-with-uikit

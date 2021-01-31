@@ -3,7 +3,7 @@
 //  OCKSample
 //
 //  Created by Corey Baker on 10/29/20.
-//  Copyright © 2020 Apple. All rights reserved.
+//  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
 
 // This is a variation of the tutorial found here: https://www.iosapptemplates.com/blog/swiftui/login-screen-swiftui

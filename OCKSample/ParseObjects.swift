@@ -3,7 +3,7 @@
 //  OCKSample
 //
 //  Created by Corey Baker on 9/28/20.
-//  Copyright © 2020 Apple. All rights reserved.
+//  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
 
 import Foundation
