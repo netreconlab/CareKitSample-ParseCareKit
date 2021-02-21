@@ -20,17 +20,17 @@
 		7036E4D3256EBE35006E9A3C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4D2256EBE35006E9A3C /* MainView.swift */; };
 		7036E517256F2413006E9A3C /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E516256F2413006E9A3C /* Profile.swift */; };
 		7036E64025717F85006E9A3C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E63F25717F85006E9A3C /* Constants.swift */; };
+		705B22AB25E232DC00C472AC /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 705B22AA25E232DC00C472AC /* CareKitFHIR */; };
+		705B22AD25E232DC00C472AC /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 705B22AC25E232DC00C472AC /* CareKit */; };
+		705B22AF25E232DC00C472AC /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 705B22AE25E232DC00C472AC /* CareKitUI */; };
+		705B22B425E232E700C472AC /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 705B22B325E232E700C472AC /* CareKit */; };
 		707CC714254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
 		707CC715254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
 		707CC716254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC717254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC718254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		707CC719254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
-		70A7940725C344280003F0FF /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7940625C344280003F0FF /* CareKitFHIR */; };
-		70A7940925C344280003F0FF /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7940825C344280003F0FF /* CareKit */; };
-		70A7940B25C344280003F0FF /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7940A25C344280003F0FF /* CareKitUI */; };
 		70A7941125C3445D0003F0FF /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7941025C3445D0003F0FF /* ParseCareKit */; };
-		70A7941925C344790003F0FF /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7941825C344790003F0FF /* CareKit */; };
 		70A7941B25C344790003F0FF /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A7941A25C344790003F0FF /* ParseCareKit */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
@@ -166,10 +166,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70A7940925C344280003F0FF /* CareKit in Frameworks */,
-				70A7940725C344280003F0FF /* CareKitFHIR in Frameworks */,
+				705B22AD25E232DC00C472AC /* CareKit in Frameworks */,
 				70A7941125C3445D0003F0FF /* ParseCareKit in Frameworks */,
-				70A7940B25C344280003F0FF /* CareKitUI in Frameworks */,
+				705B22AF25E232DC00C472AC /* CareKitUI in Frameworks */,
+				705B22AB25E232DC00C472AC /* CareKitFHIR in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,8 +184,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				705B22B425E232E700C472AC /* CareKit in Frameworks */,
 				70A7941B25C344790003F0FF /* ParseCareKit in Frameworks */,
-				70A7941925C344790003F0FF /* CareKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,8 +415,8 @@
 			);
 			name = "OCKWatchSample Extension";
 			packageProductDependencies = (
-				70A7941825C344790003F0FF /* CareKit */,
 				70A7941A25C344790003F0FF /* ParseCareKit */,
+				705B22B325E232E700C472AC /* CareKit */,
 			);
 			productName = "OCKWatchSample Extension";
 			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
@@ -439,10 +439,10 @@
 			);
 			name = OCKSample;
 			packageProductDependencies = (
-				70A7940625C344280003F0FF /* CareKitFHIR */,
-				70A7940825C344280003F0FF /* CareKit */,
-				70A7940A25C344280003F0FF /* CareKitUI */,
 				70A7941025C3445D0003F0FF /* ParseCareKit */,
+				705B22AA25E232DC00C472AC /* CareKitFHIR */,
+				705B22AC25E232DC00C472AC /* CareKit */,
+				705B22AE25E232DC00C472AC /* CareKitUI */,
 			);
 			productName = CareKitDemoApp;
 			productReference = E72B2C06226939E3009A9438 /* OCKSample.app */;
@@ -483,8 +483,8 @@
 			);
 			mainGroup = E72B2BFD226939E3009A9438;
 			packageReferences = (
-				70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */,
 				70A7940F25C3445D0003F0FF /* XCRemoteSwiftPackageReference "ParseCareKit" */,
+				705B22A925E232DC00C472AC /* XCRemoteSwiftPackageReference "CareKit" */,
 			);
 			productRefGroup = E72B2C07226939E3009A9438 /* Products */;
 			projectDirPath = "";
@@ -1065,12 +1065,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */ = {
+		705B22A925E232DC00C472AC /* XCRemoteSwiftPackageReference "CareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
+			repositoryURL = "https://github.com/cbaker6/CareKit.git";
 			requirement = {
 				kind = revision;
-				revision = 4d9200e0b2ad68e6d2c8502f10971200bccf8863;
+				revision = 803dd2f46c7042c91820437ea5b64b0837cde12b;
 			};
 		};
 		70A7940F25C3445D0003F0FF /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
@@ -1078,36 +1078,36 @@
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				kind = revision;
-				revision = e1e73ea25592340f3ff85edaa5ff713eeffd16ad;
+				revision = 6f8ae8caae21ccf574382e9eb5ae2e722621aca4;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		70A7940625C344280003F0FF /* CareKitFHIR */ = {
+		705B22AA25E232DC00C472AC /* CareKitFHIR */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 705B22A925E232DC00C472AC /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitFHIR;
 		};
-		70A7940825C344280003F0FF /* CareKit */ = {
+		705B22AC25E232DC00C472AC /* CareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 705B22A925E232DC00C472AC /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
 		};
-		70A7940A25C344280003F0FF /* CareKitUI */ = {
+		705B22AE25E232DC00C472AC /* CareKitUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 705B22A925E232DC00C472AC /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitUI;
+		};
+		705B22B325E232E700C472AC /* CareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 705B22A925E232DC00C472AC /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKit;
 		};
 		70A7941025C3445D0003F0FF /* ParseCareKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 70A7940F25C3445D0003F0FF /* XCRemoteSwiftPackageReference "ParseCareKit" */;
 			productName = ParseCareKit;
-		};
-		70A7941825C344790003F0FF /* CareKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 70A7940525C344280003F0FF /* XCRemoteSwiftPackageReference "CareKit" */;
-			productName = CareKit;
 		};
 		70A7941A25C344790003F0FF /* ParseCareKit */ = {
 			isa = XCSwiftPackageProductDependency;

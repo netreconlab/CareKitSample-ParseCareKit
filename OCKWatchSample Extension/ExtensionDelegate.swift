@@ -156,9 +156,12 @@ extension ExtensionDelegate: ParseRemoteSynchronizationDelegate {
         print("Synchronization completed: \(progress)")
     }
     
-    func chooseConflictResolutionPolicy(_ conflict: OCKMergeConflictDescription, completion: @escaping (OCKMergeConflictResolutionPolicy) -> Void) {
-        let conflictPolicy = OCKMergeConflictResolutionPolicy.keepRemote
-        completion(conflictPolicy)
+    func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
+        if let first = conflicts.first {
+            completion(.success(first))
+        } else {
+            completion(.failure(.remoteSynchronizationFailed(reason: "Error, non selected for conflict")))
+        }
     }
 }
 

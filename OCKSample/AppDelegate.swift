@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
     var firstLogin = false
     var coreDataStore: OCKStore!
-    let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
+    var healthKitStore: OCKHealthKitPassthroughStore!
     var parse: ParseRemoteSynchronizationManager!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
@@ -103,6 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
             
+            healthKitStore = OCKHealthKitPassthroughStore(store: coreDataStore)
             let coordinator = OCKStoreCoordinator()
             coordinator.attach(store: coreDataStore)
             coordinator.attach(eventStore: healthKitStore)
@@ -225,6 +226,7 @@ extension OCKHealthKitPassthroughStore {
 }
 
 extension AppDelegate: ParseRemoteSynchronizationDelegate {
+
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         DispatchQueue.main.async {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
@@ -244,9 +246,12 @@ extension AppDelegate: ParseRemoteSynchronizationDelegate {
         }
     }
     
-    func chooseConflictResolutionPolicy(_ conflict: OCKMergeConflictDescription, completion: @escaping (OCKMergeConflictResolutionPolicy) -> Void) {
-        let conflictPolicy = OCKMergeConflictResolutionPolicy.keepRemote
-        completion(conflictPolicy)
+    func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
+        if let first = conflicts.first {
+            completion(.success(first))
+        } else {
+            completion(.failure(.remoteSynchronizationFailed(reason: "Error, non selected for conflict")))
+        }
     }
 }
 
