@@ -72,7 +72,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         return
                     }
                     self.appDelegate.setupRemotes(uuid: uuid)
-                    self.appDelegate.healthKitStore.populateSampleData()
                     self.appDelegate.parse.automaticallySynchronizes = true
                     self.window?.rootViewController = UIHostingController(rootView: MainView()) //Wraps a SwiftUI view in UIKit view
 

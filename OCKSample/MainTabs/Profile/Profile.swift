@@ -210,7 +210,6 @@ class Profile: ObservableObject {
                 
                 DispatchQueue.main.async {
                     self.appDelegate.setupRemotes(uuid: uuid)
-                    self.appDelegate.healthKitStore.populateSampleData() //HealthKit data lives in a seperate store and doesn't sync to Cloud
                     self.appDelegate.parse.automaticallySynchronizes = true
                     self.appDelegate.firstLogin = true
                     
