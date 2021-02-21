@@ -59,6 +59,17 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         }
     }
 
+    func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
+        DispatchQueue.main.async {
+            guard var currentInstallation = Installation.current else {
+                return
+            }
+            currentInstallation.setDeviceToken(deviceToken)
+            currentInstallation.channels = ["global"]
+            currentInstallation.save { _ in }
+        }
+    }
+
     func setupRemotes(uuid: String? = nil) {
         do {
             if syncWithCloud{
@@ -205,17 +216,6 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                                 watchDelegate.setupRemotes(uuid: uuidString)
                                 watchDelegate.store.synchronize { error in
                                     print(error?.localizedDescription ?? "Successful sync with Cloud!")
-                                }
-                                
-                                //Setup installation to receive push notifications
-                                Installation.current?.save { result in
-                                    switch result {
-                                    
-                                    case .success(_):
-                                        print("Parse Installation saved, can now receive push notificaitons.")
-                                    case .failure(let error):
-                                        print("Error saving Parse Installation saved: \(error.localizedDescription)")
-                                    }
                                 }
                                 
                                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))

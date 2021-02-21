@@ -131,6 +131,7 @@
 		7036E4D2256EBE35006E9A3C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7036E516256F2413006E9A3C /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		7036E63F25717F85006E9A3C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		705B22BE25E2C1A700C472AC /* OCKWatchSample Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OCKWatchSample Extension.entitlements"; sourceTree = "<group>"; };
 		707CC710254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		707CC712254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		707CC713254DA91900116728 /* OCKLocalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCKLocalization.swift; sourceTree = "<group>"; };
@@ -298,6 +299,7 @@
 		91AD923724A4C42D00925D4D /* OCKWatchSample Extension */ = {
 			isa = PBXGroup;
 			children = (
+				705B22BE25E2C1A700C472AC /* OCKWatchSample Extension.entitlements */,
 				91AD924224A4C42E00925D4D /* Assets.xcassets */,
 				91AD923A24A4C42D00925D4D /* CareView.swift */,
 				703088992582995200FFABB6 /* Constants.swift */,
@@ -866,7 +868,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
@@ -896,7 +898,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
 				DEVELOPMENT_TEAM = K26KDKYY38;
