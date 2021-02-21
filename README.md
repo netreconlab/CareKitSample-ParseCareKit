@@ -11,8 +11,6 @@ ParseCareKit synchronizes the following entities to Parse tables/classes using [
 
 - [x] OCKTask <-> Task
 - [x] OCKOutcome <-> Outcome
-- [x] OCKOutcomeValue <-> OutcomeValue
-- [x] OCKNote <-> Note
 - [x] OCKRevisionRecord.KnowledgeVector <-> Clock
 - [x] OCKPatient <-> Patient
 - [x] OCKCarePlan <-> CarePlan
