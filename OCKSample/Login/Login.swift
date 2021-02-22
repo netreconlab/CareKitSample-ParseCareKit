@@ -49,17 +49,7 @@ class Login: ObservableObject {
                     
                     case .success(_):
                         self.isLoggedIn = true //Notify the SwiftUI view that the user is correctly logged in and to transition screens
-                        
-                        //Setup installation to receive push notifications
-                        Installation.current?.save { result in
-                            switch result {
-                            
-                            case .success(_):
-                                print("Parse Installation saved, can now receive push notificaitons.")
-                            case .failure(let error):
-                                print("Error saving Parse Installation saved: \(error.localizedDescription)")
-                            }
-                        }
+
                     case .failure(let error):
                         print("Error saving the patient after signup: \(error)")
                     }

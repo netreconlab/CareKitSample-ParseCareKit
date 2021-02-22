@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
     var firstLogin = false
     var coreDataStore: OCKStore!
-    let healthKitStore = OCKHealthKitPassthroughStore(name: "SampleAppHealthKitPassthroughStore", type: .inMemory)
+    var healthKitStore: OCKHealthKitPassthroughStore!
     var parse: ParseRemoteSynchronizationManager!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
@@ -81,7 +81,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
-    
+
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        DispatchQueue.main.async {
+            guard var currentInstallation = Installation.current else {
+                return
+            }
+            currentInstallation.setDeviceToken(deviceToken)
+            currentInstallation.channels = ["global"]
+            currentInstallation.save { _ in }
+        }
+    }
+
     func setupRemotes(uuid: UUID? = nil) {
         do {
             
@@ -103,6 +115,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
             
+            healthKitStore = OCKHealthKitPassthroughStore(store: coreDataStore)
             let coordinator = OCKStoreCoordinator()
             coordinator.attach(store: coreDataStore)
             coordinator.attach(eventStore: healthKitStore)
@@ -114,6 +127,74 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension OCKStore {
+
+    func addTasksIfNotPresent(_ tasks: [OCKTask]) {
+        let tasksToAdd = tasks
+        let taskIdsToAdd = tasksToAdd.compactMap { $0.id }
+
+        //Prepare query to see if tasks are already added
+        var query = OCKTaskQuery(for: Date())
+        query.ids = taskIdsToAdd
+
+        fetchTasks(query: query) { result in
+            
+            if case let .success(foundTasks) = result {
+                
+                var tasksNotInStore = [OCKTask]()
+                
+                //Check results to see if there's a missing task
+                tasksToAdd.forEach { potentialTask in
+                    if foundTasks.first(where: { $0.id == potentialTask.id }) == nil {
+                        tasksNotInStore.append(potentialTask)
+                    }
+                }
+                
+                //Only add if there's a new task
+                if tasksNotInStore.count > 0 {
+                    self.addTasks(tasksNotInStore) { result in
+                        switch result {
+                        case .success: print("Added tasks into OCKStore!")
+                        case .failure(let error): print("Error: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func addContactsIfNotPresent(_ contacts: [OCKContact]) {
+        let contactsToAdd = contacts
+        let taskIdsToAdd = contactsToAdd.compactMap { $0.id }
+
+        //Prepare query to see if contacts are already added
+        var query = OCKContactQuery(for: Date())
+        query.ids = taskIdsToAdd
+
+        fetchContacts(query: query) { result in
+            
+            if case let .success(foundContacts) = result {
+                
+                var contactsNotInStore = [OCKContact]()
+                
+                //Check results to see if there's a missing task
+                contactsToAdd.forEach { potential in
+                    if foundContacts.first(where: { $0.id == potential.id }) == nil {
+                        contactsNotInStore.append(potential)
+                    }
+                }
+                
+                //Only add if there's a new task
+                if contactsNotInStore.count > 0 {
+                    self.addContacts(contactsNotInStore) { result in
+                        switch result {
+                        case .success: print("Added contacts into OCKStore!")
+                        case .failure(let error): print("Error: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     // Adds tasks and contacts into the store
     func populateSampleData() {
@@ -156,7 +237,7 @@ extension OCKStore {
         var stretch = OCKTask(id: "stretch", title: "Stretch", carePlanUUID: nil, schedule: stretchSchedule)
         stretch.impactsAdherence = true
 
-        addTasks([nausea, doxylamine, kegels, stretch], callbackQueue: .main, completion: nil)
+        addTasksIfNotPresent([nausea, doxylamine, kegels, stretch])
         
         
         var contact1 = OCKContact(id: "jane", givenName: "Jane",
@@ -193,11 +274,45 @@ extension OCKStore {
             return address
         }()
 
-        addContacts([contact1, contact2])
+        addContactsIfNotPresent([contact1, contact2])
     }
 }
 
 extension OCKHealthKitPassthroughStore {
+
+    func addTasksIfNotPresent(_ tasks: [OCKHealthKitTask]) {
+        let tasksToAdd = tasks
+        let taskIdsToAdd = tasksToAdd.compactMap { $0.id }
+
+        //Prepare query to see if tasks are already added
+        var query = OCKTaskQuery(for: Date())
+        query.ids = taskIdsToAdd
+
+        fetchTasks(query: query) { result in
+            
+            if case let .success(foundTasks) = result {
+                
+                var tasksNotInStore = [OCKHealthKitTask]()
+                
+                //Check results to see if there's a missing task
+                tasksToAdd.forEach { potentialTask in
+                    if foundTasks.first(where: { $0.id == potentialTask.id }) == nil {
+                        tasksNotInStore.append(potentialTask)
+                    }
+                }
+                
+                //Only add if there's a new task
+                if tasksNotInStore.count > 0 {
+                    self.addTasks(tasksNotInStore) { result in
+                        switch result {
+                        case .success: print("Added tasks into HealthKitPassthroughStore!")
+                        case .failure(let error): print("Error: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     func populateSampleData() {
 
@@ -215,16 +330,12 @@ extension OCKHealthKitPassthroughStore {
                 quantityType: .cumulative,
                 unit: .count()))
 
-        addTasks([steps]) { result in
-            switch result {
-            case .success: print("Added tasks into HealthKitPassthroughStore!")
-            case .failure(let error): print("Error: \(error)")
-            }
-        }
+        addTasksIfNotPresent([steps])
     }
 }
 
 extension AppDelegate: ParseRemoteSynchronizationDelegate {
+
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         DispatchQueue.main.async {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
@@ -244,9 +355,12 @@ extension AppDelegate: ParseRemoteSynchronizationDelegate {
         }
     }
     
-    func chooseConflictResolutionPolicy(_ conflict: OCKMergeConflictDescription, completion: @escaping (OCKMergeConflictResolutionPolicy) -> Void) {
-        let conflictPolicy = OCKMergeConflictResolutionPolicy.keepRemote
-        completion(conflictPolicy)
+    func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
+        if let first = conflicts.first {
+            completion(.success(first))
+        } else {
+            completion(.failure(.remoteSynchronizationFailed(reason: "Error, non selected for conflict")))
+        }
     }
 }
 
