@@ -57,13 +57,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Clear items out of the Keychain on app first run. Used for debugging
         if UserDefaults.standard.object(forKey: "firstRun") == nil {
+            try? coreDataStore.delete() //Delete data in local OCKStore database
+            try? healthKitStore.reset()
             try? User.logout()
             //This is no longer the first run
             UserDefaults.standard.setValue(String("firstRun"), forKey: "firstRun")
             UserDefaults.standard.synchronize()
         }
         
-        //Set default ACL for all Parse Classes
+        //Set default ACL for all ParseObjects
         var defaultACL = ParseACL()
         defaultACL.publicRead = false
         defaultACL.publicWrite = false
