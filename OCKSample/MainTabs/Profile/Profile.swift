@@ -242,5 +242,8 @@ class Profile: ObservableObject {
         try User.logout()
         UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
         UserDefaults.standard.synchronize()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        try appDelegate.healthKitStore.reset()
+        try appDelegate.coreDataStore.delete() //Delete data in local OCKStore database
     }
 }
