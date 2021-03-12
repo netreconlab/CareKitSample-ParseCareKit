@@ -10,6 +10,7 @@ An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s 
 ParseCareKit synchronizes the following entities to Parse tables/classes using [Parse-Swift](https://github.com/parse-community/Parse-Swift):
 
 - [x] OCKTask <-> Task
+- [x] OCKHealthKitTask <-> HealthKitTask 
 - [x] OCKOutcome <-> Outcome
 - [x] OCKRevisionRecord.KnowledgeVector <-> Clock
 - [x] OCKPatient <-> Patient
