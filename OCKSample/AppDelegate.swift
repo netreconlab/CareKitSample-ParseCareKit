@@ -63,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.synchronize()
         }
         
-        //Set default ACL for all Parse Classes
+        //Set default ACL for all ParseObjects
         var defaultACL = ParseACL()
         defaultACL.publicRead = false
         defaultACL.publicWrite = false

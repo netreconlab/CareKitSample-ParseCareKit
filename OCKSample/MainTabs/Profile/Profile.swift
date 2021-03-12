@@ -240,8 +240,10 @@ class Profile: ObservableObject {
     //Normally, you've seen do {} catch{} which catches the error, same concept...
     func logout() throws {
         try User.logout()
-        try appDelegate.coreDataStore.delete() //Delete data in local OCKStore database
         UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
         UserDefaults.standard.synchronize()
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        try appDelegate.healthKitStore.reset()
+        try appDelegate.coreDataStore.delete() //Delete data in local OCKStore database
     }
 }

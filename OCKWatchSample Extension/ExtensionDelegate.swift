@@ -26,7 +26,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         //Parse-server setup
         ParseCareKitUtility.setupServer()
 
-        //Set default ACL for all Parse Classes
+        //Set default ACL for all ParseObjects
         var defaultACL = ParseACL()
         defaultACL.publicRead = false
         defaultACL.publicWrite = false
