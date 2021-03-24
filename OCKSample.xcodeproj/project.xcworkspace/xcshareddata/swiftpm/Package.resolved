@@ -3,10 +3,10 @@
     "pins": [
       {
         "package": "CareKit",
-        "repositoryURL": "https://github.com/carekit-apple/CareKit.git",
+        "repositoryURL": "https://github.com/gavirawson-apple/CareKit.git",
         "state": {
           "branch": null,
-          "revision": "6e7efbe17c6a4112c54abb7bf9c6387a0d2b132f",
+          "revision": "833fe88e7e96884a52ed173ed4a2a7875a49974d",
           "version": null
         }
       },
@@ -32,8 +32,8 @@
         "package": "ParseCareKit",
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
-          "branch": null,
-          "revision": "0ceea651543ce712da9c2cec17a42d6dbae5e935",
+          "branch": "minorUpdates",
+          "revision": "6c922c3a75cccfa0f517d60059bc9d1b2c5acf77",
           "version": null
         }
       }
