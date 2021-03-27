@@ -44,7 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var firstLogin = false
     var coreDataStore: OCKStore!
     var healthKitStore: OCKHealthKitPassthroughStore!
-    var parse: ParseRemoteSynchronizationManager!
+    var parse: ParseRemote!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager?
@@ -102,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("Error in setupRemotes, uuid is nil")
                     return
                 }
-                parse = try ParseRemoteSynchronizationManager(uuid: uuid, auto: false, subscribeToServerUpdates: true)
+                parse = try ParseRemote(uuid: uuid, auto: false, subscribeToServerUpdates: true)
                 coreDataStore = OCKStore(name: "ParseStore", type: .onDisk(), remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
@@ -334,7 +334,7 @@ extension OCKHealthKitPassthroughStore {
     }
 }
 
-extension AppDelegate: ParseRemoteSynchronizationDelegate {
+extension AppDelegate: ParseRemoteDelegate {
 
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         DispatchQueue.main.async {
