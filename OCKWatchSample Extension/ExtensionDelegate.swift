@@ -17,7 +17,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Phone
     private lazy var phone = OCKWatchConnectivityPeer()
     var store: OCKStore!
-    private var parse: ParseRemoteSynchronizationManager!
+    private var parse: ParseRemote!
     private var sessionDelegate:SessionDelegate!
     private(set) var storeManager: OCKSynchronizedStoreManager!
     
@@ -81,7 +81,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                     WCSession.default.activate()
                     return
                 }
-                parse = try ParseRemoteSynchronizationManager(uuid: remotUUID, auto: true, subscribeToServerUpdates: true)
+                parse = try ParseRemote(uuid: remotUUID, auto: true, subscribeToServerUpdates: true)
                 store = OCKStore(name: "WatchParseStore", remote: parse)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
                 
@@ -152,7 +152,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 }
 
-extension ExtensionDelegate: ParseRemoteSynchronizationDelegate {
+extension ExtensionDelegate: ParseRemoteDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         store?.synchronize{ error in
             print(error?.localizedDescription ?? "Successful sync with Cloud!")
