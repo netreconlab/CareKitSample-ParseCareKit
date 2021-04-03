@@ -215,7 +215,16 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                                 watchDelegate.store.synchronize { error in
                                     print(error?.localizedDescription ?? "Successful sync with Cloud!")
                                 }
-                                
+                                //Setup installation to receive push notifications
+                                Installation.current?.save() { result in
+                                    switch result {
+                                    
+                                    case .success(_):
+                                        print("Parse Installation saved, can now receive push notificaitons.")
+                                    case .failure(let error):
+                                        print("Error saving Parse Installation saved: \(error.localizedDescription)")
+                                    }
+                                }
                                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
                                 
                             case .failure(let error):
