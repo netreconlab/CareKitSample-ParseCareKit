@@ -16,7 +16,7 @@ import UIKit
 class Profile: ObservableObject {
     
     @Published var patient: OCKPatient? = nil
-    
+    @Published var isLoggedOut = false
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate //Importing UIKit gives us access here to get the OCKStore and ParseRemote
     
     init() {
@@ -99,6 +99,7 @@ class Profile: ObservableObject {
             
             guard let remoteUUID = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
                 print("Error: The user currently isn't logged in")
+                isLoggedOut = true
                 return
             }
             
@@ -240,6 +241,7 @@ class Profile: ObservableObject {
     //Normally, you've seen do {} catch{} which catches the error, same concept...
     func logout() throws {
         try User.logout()
+        isLoggedOut = true
         UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
         UserDefaults.standard.synchronize()
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

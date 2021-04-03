@@ -66,8 +66,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
                 } else {
                     print("User is already signed in...")
-                    let profile = Profile()
-                    guard let uuid = profile.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
+                    appDelegate.profile = Profile()
+                    guard let uuid = appDelegate.profile.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
                         print("Error in SceneDelage, no uuid saved.")
                         return
                     }

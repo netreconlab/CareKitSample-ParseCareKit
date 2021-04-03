@@ -60,14 +60,12 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 
     func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
-        DispatchQueue.main.async {
-            guard var currentInstallation = Installation.current else {
-                return
-            }
-            currentInstallation.setDeviceToken(deviceToken)
-            currentInstallation.channels = ["global"]
-            currentInstallation.save { _ in }
+        guard var currentInstallation = Installation.current else {
+            return
         }
+        currentInstallation.setDeviceToken(deviceToken)
+        currentInstallation.channels = ["global"]
+        currentInstallation.save { _ in }
     }
 
     func setupRemotes(uuid: String? = nil) {

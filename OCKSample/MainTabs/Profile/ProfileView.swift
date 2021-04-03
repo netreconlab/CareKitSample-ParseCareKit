@@ -14,8 +14,7 @@ import CareKit
 struct ProfileView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject private var profileViewModel = Profile()
-    @State private var isLoggedOut = false
+    @ObservedObject var profileViewModel: Profile
     @State var firstName = ""
     @State var lastName = ""
     @State var birthday = Calendar.current.date(byAdding: .year, value: -20, to: Date())!
@@ -62,7 +61,6 @@ struct ProfileView: View {
                 Button(action: {
                     do {
                         try profileViewModel.logout()
-                        isLoggedOut = true
                         presentationMode.wrappedValue.dismiss()
                     } catch {
                         print("Error logging out: \(error)")
@@ -78,7 +76,7 @@ struct ProfileView: View {
                 })
                 .background(Color(.red))
                 .cornerRadius(15)
-                .fullScreenCover(isPresented: $isLoggedOut, content: {
+                .fullScreenCover(isPresented: $profileViewModel.isLoggedOut, content: {
                     LoginView()
                 })
             } else {
@@ -86,14 +84,13 @@ struct ProfileView: View {
                 Button(action: {
                     do {
                         try profileViewModel.logout()
-                        isLoggedOut = true
                         presentationMode.wrappedValue.dismiss()
                     } catch {
                         print("Error logging out: \(error)")
                     }
                     
                 }, label: {
-                    
+
                     Text("Log Out")
                         .font(.headline)
                         .foregroundColor(.white)
@@ -102,7 +99,7 @@ struct ProfileView: View {
                 })
                 .background(Color(.red))
                 .cornerRadius(15)
-                .sheet(isPresented: $isLoggedOut, content: {
+                .sheet(isPresented: $profileViewModel.isLoggedOut, content: {
                     LoginView()
                 })
             }
@@ -124,6 +121,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(profileViewModel: Profile())
     }
 }
