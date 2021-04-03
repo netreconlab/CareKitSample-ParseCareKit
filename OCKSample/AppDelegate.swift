@@ -45,13 +45,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var coreDataStore: OCKStore!
     var healthKitStore: OCKHealthKitPassthroughStore!
     var parse: ParseRemote!
+    var profile: Profile!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager?
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
+
         //Parse-server setup
         ParseCareKitUtility.setupServer()
         
@@ -84,14 +85,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        DispatchQueue.main.async {
-            guard var currentInstallation = Installation.current else {
-                return
-            }
-            currentInstallation.setDeviceToken(deviceToken)
-            currentInstallation.channels = ["global"]
-            currentInstallation.save { _ in }
+        guard var currentInstallation = Installation.current else {
+            return
         }
+        currentInstallation.setDeviceToken(deviceToken)
+        currentInstallation.channels = ["global"]
+        currentInstallation.save { _ in }
     }
 
     func setupRemotes(uuid: UUID? = nil) {

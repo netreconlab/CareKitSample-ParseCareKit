@@ -14,7 +14,7 @@ import CareKit
 struct ProfileView: View {
     
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject private var profileViewModel = Profile()
+    @ObservedObject var profileViewModel: Profile
     @State private var isLoggedOut = false
     @State var firstName = ""
     @State var lastName = ""
@@ -124,6 +124,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(profileViewModel: Profile())
     }
 }
