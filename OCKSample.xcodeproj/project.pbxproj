@@ -11,8 +11,6 @@
 		5173CB8A23C3A846007655A0 /* OCKSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5173CB8923C3A846007655A0 /* OCKSampleUITests.swift */; };
 		70077597252228E900EC0EDA /* ParseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* ParseObjects.swift */; };
 		7007759B252229C900EC0EDA /* ParseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* ParseObjects.swift */; };
-		7019B402260FA42E004E4A3A /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7019B401260FA42E004E4A3A /* ParseCareKit */; };
-		7019B40C260FA441004E4A3A /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7019B40B260FA441004E4A3A /* ParseCareKit */; };
 		70308886258273D400FFABB6 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70308885258273D400FFABB6 /* Login.swift */; };
 		7030889A2582995200FFABB6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703088992582995200FFABB6 /* Constants.swift */; };
 		7036E4BF256DA089006E9A3C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4BE256DA089006E9A3C /* Login.swift */; };
@@ -32,6 +30,8 @@
 		707CC717254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC718254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		707CC719254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
+		70A943B9262534C10015AEA6 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A943B8262534C10015AEA6 /* ParseCareKit */; };
+		70A943BE262534DA0015AEA6 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70A943BD262534DA0015AEA6 /* ParseCareKit */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
@@ -168,8 +168,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7043A8692612913B005DDFFA /* CareKit in Frameworks */,
-				7019B402260FA42E004E4A3A /* ParseCareKit in Frameworks */,
 				7043A86B2612913B005DDFFA /* CareKitUI in Frameworks */,
+				70A943B9262534C10015AEA6 /* ParseCareKit in Frameworks */,
 				7043A8672612913B005DDFFA /* CareKitFHIR in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,8 +185,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70A943BE262534DA0015AEA6 /* ParseCareKit in Frameworks */,
 				7043A87026129147005DDFFA /* CareKit in Frameworks */,
-				7019B40C260FA441004E4A3A /* ParseCareKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,8 +417,8 @@
 			);
 			name = "OCKWatchSample Extension";
 			packageProductDependencies = (
-				7019B40B260FA441004E4A3A /* ParseCareKit */,
 				7043A86F26129147005DDFFA /* CareKit */,
+				70A943BD262534DA0015AEA6 /* ParseCareKit */,
 			);
 			productName = "OCKWatchSample Extension";
 			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
@@ -441,10 +441,10 @@
 			);
 			name = OCKSample;
 			packageProductDependencies = (
-				7019B401260FA42E004E4A3A /* ParseCareKit */,
 				7043A8662612913B005DDFFA /* CareKitFHIR */,
 				7043A8682612913B005DDFFA /* CareKit */,
 				7043A86A2612913B005DDFFA /* CareKitUI */,
+				70A943B8262534C10015AEA6 /* ParseCareKit */,
 			);
 			productName = CareKitDemoApp;
 			productReference = E72B2C06226939E3009A9438 /* OCKSample.app */;
@@ -485,8 +485,8 @@
 			);
 			mainGroup = E72B2BFD226939E3009A9438;
 			packageReferences = (
-				7019B400260FA42E004E4A3A /* XCRemoteSwiftPackageReference "ParseCareKit" */,
 				7043A8652612913B005DDFFA /* XCRemoteSwiftPackageReference "CareKit" */,
+				70A943B7262534C10015AEA6 /* XCRemoteSwiftPackageReference "ParseCareKit" */,
 			);
 			productRefGroup = E72B2C07226939E3009A9438 /* Products */;
 			projectDirPath = "";
@@ -1067,35 +1067,25 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		7019B400260FA42E004E4A3A /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
-			requirement = {
-				kind = revision;
-				revision = e893ce0830239b06986fffce9ee97aa2c5d83e3a;
-			};
-		};
 		7043A8652612913B005DDFFA /* XCRemoteSwiftPackageReference "CareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/carekit-apple/CareKit.git";
 			requirement = {
 				kind = revision;
-				revision = 905a59117c0f63cdeb01db8eddc5e89a30e94eb5;
+				revision = 716e47f741495abb08099ac7456c4b21c5066a66;
+			};
+		};
+		70A943B7262534C10015AEA6 /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
+			requirement = {
+				kind = revision;
+				revision = 484944e91d8edfd9a27b5dcecd45cd9879154f32;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7019B401260FA42E004E4A3A /* ParseCareKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7019B400260FA42E004E4A3A /* XCRemoteSwiftPackageReference "ParseCareKit" */;
-			productName = ParseCareKit;
-		};
-		7019B40B260FA441004E4A3A /* ParseCareKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7019B400260FA42E004E4A3A /* XCRemoteSwiftPackageReference "ParseCareKit" */;
-			productName = ParseCareKit;
-		};
 		7043A8662612913B005DDFFA /* CareKitFHIR */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7043A8652612913B005DDFFA /* XCRemoteSwiftPackageReference "CareKit" */;
@@ -1115,6 +1105,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7043A8652612913B005DDFFA /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
+		};
+		70A943B8262534C10015AEA6 /* ParseCareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70A943B7262534C10015AEA6 /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			productName = ParseCareKit;
+		};
+		70A943BD262534DA0015AEA6 /* ParseCareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70A943B7262534C10015AEA6 /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			productName = ParseCareKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
