@@ -15,6 +15,8 @@ struct User: ParseUser {
     var username: String?
     
     var email: String?
+
+    var emailVerified: Bool?
     
     var password: String?
     
