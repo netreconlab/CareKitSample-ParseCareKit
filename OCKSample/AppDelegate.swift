@@ -214,6 +214,7 @@ extension OCKStore {
         var doxylamine = OCKTask(id: "doxylamine", title: "Take Doxylamine",
                                  carePlanUUID: nil, schedule: schedule)
         doxylamine.instructions = "Take 25mg of doxylamine when you experience nausea."
+        doxylamine.asset = "pills.fill"
 
         let nauseaSchedule = OCKSchedule(composing: [
             OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 1),
@@ -224,6 +225,7 @@ extension OCKStore {
                              carePlanUUID: nil, schedule: nauseaSchedule)
         nausea.impactsAdherence = false
         nausea.instructions = "Tap the button below anytime you experience nausea."
+        nausea.asset = "bed.double"
         
         let kegelElement = OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 2))
         let kegelSchedule = OCKSchedule(composing: [kegelElement])
@@ -235,6 +237,7 @@ extension OCKStore {
         let stretchSchedule = OCKSchedule(composing: [stretchElement])
         var stretch = OCKTask(id: "stretch", title: "Stretch", carePlanUUID: nil, schedule: stretchSchedule)
         stretch.impactsAdherence = true
+        stretch.asset = "figure.walk"
 
         addTasksIfNotPresent([nausea, doxylamine, kegels, stretch])
         
@@ -319,7 +322,7 @@ extension OCKHealthKitPassthroughStore {
             hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
             duration: .hours(12), targetValues: [OCKOutcomeValue(2000.0, units: "Steps")])
 
-        let steps = OCKHealthKitTask(
+        var steps = OCKHealthKitTask(
             id: "steps",
             title: "Steps",
             carePlanUUID: nil,
@@ -328,7 +331,7 @@ extension OCKHealthKitPassthroughStore {
                 quantityIdentifier: .stepCount,
                 quantityType: .cumulative,
                 unit: .count()))
-
+        steps.asset = "figure.walk"
         addTasksIfNotPresent([steps])
     }
 }

@@ -111,12 +111,11 @@ class CareViewController: OCKDailyPageViewController {
             case .failure(let error): print("Error: \(error)")
             case .success(let tasks):
 
-                // Add a non-CareKit view into the list
-                let tipTitle = "Benefits of exercising"
-                let tipText = "Learn how activity can promote a healthy pregnancy."
-
                 // Only show the tip view on the current date
                 if Calendar.current.isDate(date, inSameDayAs: Date()) {
+                    // Add a non-CareKit view into the list
+                    let tipTitle = "Benefits of exercising"
+                    let tipText = "Learn how activity can promote a healthy pregnancy."
                     let tipView = TipView()
                     tipView.headerView.titleLabel.text = tipTitle
                     tipView.headerView.detailLabel.text = tipText
