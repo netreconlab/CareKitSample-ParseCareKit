@@ -8,7 +8,9 @@
 		<string>E036A0C5-6829-4B40-9B3B-3E05F6DF32B2</string>
 		<key>Server</key>
 		<string>http://localhost:1337/parse</string>
-		<key>EnableLocalDataStore</key>
+		<key>LiveQueryServer</key>
+		<string></string>
+		<key>UseTransactionsInternally</key>
 		<false/>
 	</dict>
 </dict>
