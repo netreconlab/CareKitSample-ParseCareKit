@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Parse-server setup
-        ParseCareKitUtility.setupServer { (_, completionHandler) in
+        PCKUtility.setupServer { (_, completionHandler) in
             completionHandler(.performDefaultHandling, nil)
         }
 

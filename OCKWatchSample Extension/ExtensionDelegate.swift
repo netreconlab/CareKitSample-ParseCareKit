@@ -24,7 +24,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidFinishLaunching() {
         
         //Parse-server setup
-        ParseCareKitUtility.setupServer()
+        PCKUtility.setupServer()
 
         //Set default ACL for all ParseObjects
         var defaultACL = ParseACL()
