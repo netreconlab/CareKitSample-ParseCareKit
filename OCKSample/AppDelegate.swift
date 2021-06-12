@@ -53,9 +53,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        //Parse-server setup
-        ParseCareKitUtility.setupServer()
-        
+        // Parse-server setup
+        ParseCareKitUtility.setupServer { (_, completionHandler) in
+            completionHandler(.performDefaultHandling, nil)
+        }
+
         //Clear items out of the Keychain on app first run. Used for debugging
         if UserDefaults.standard.object(forKey: "firstRun") == nil {
             try? User.logout()
