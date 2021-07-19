@@ -27,13 +27,13 @@ You can setup your parse-server locally to test using [parse-hipaa](https://gith
 3.  `docker-compose up` - this will take a couple of minutes to setup as it needs to initialize postgres, but as soon as you see `parse-server running on port 1337.`, it's ready to go. See [here](https://github.com/netreconlab/parse-hipaa#getting-started) for details
 4. If you would like to use mongo instead of postgres, in step 3, type `docker-compose -f docker-compose.mongo.yml up` instead of `docker-compose up`
 
-## Fork this repo to get the modified OCKSample app. 
+## Fork this repo to get the modified OCKSample app
 
 1. Fork [CareKitSample-ParseCareKit](https://github.com/netreconlab/ParseCareKit)
 2. Open `OCKSample.xcodeproj` in Xcode
 3. You may need to configure your "Team" and "Bundle Identifier" in "Signing and Capabilities"
 4. Run the app and data will synchronize with parse-hipaa via http://localhost:1337/parse automatically
-5. You can edit Parse server setup in the ParseCareKit.plist file under "Supporting Filles" in the Xcode browser
+5. You can edit Parse server setup in the ParseCareKit.plist file under "Supporting Files" in the Xcode browser
 
 ## View your data in Parse Dashboard
 Parse Dashboard is the easiest way to view your data in the Cloud (or local machine in this example) and comes with [parse-hipaa](https://github.com/netreconlab/parse-hipaa). To access:
