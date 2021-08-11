@@ -12,6 +12,7 @@
 		70077597252228E900EC0EDA /* ParseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* ParseObjects.swift */; };
 		7007759B252229C900EC0EDA /* ParseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* ParseObjects.swift */; };
 		70252C9226C444FD00E37064 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70252C9126C444FD00E37064 /* ParseCareKit */; };
+		70252C9426C4496000E37064 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70252C9326C4496000E37064 /* ParseCareKit */; };
 		70308886258273D400FFABB6 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70308885258273D400FFABB6 /* Login.swift */; };
 		7030889A2582995200FFABB6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703088992582995200FFABB6 /* Constants.swift */; };
 		7036E4BF256DA089006E9A3C /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4BE256DA089006E9A3C /* Login.swift */; };
@@ -184,6 +185,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70252C9426C4496000E37064 /* ParseCareKit in Frameworks */,
 				7043A87026129147005DDFFA /* CareKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -416,6 +418,7 @@
 			name = "OCKWatchSample Extension";
 			packageProductDependencies = (
 				7043A86F26129147005DDFFA /* CareKit */,
+				70252C9326C4496000E37064 /* ParseCareKit */,
 			);
 			productName = "OCKWatchSample Extension";
 			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
@@ -1084,6 +1087,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		70252C9126C444FD00E37064 /* ParseCareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70252C9026C444FD00E37064 /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			productName = ParseCareKit;
+		};
+		70252C9326C4496000E37064 /* ParseCareKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 70252C9026C444FD00E37064 /* XCRemoteSwiftPackageReference "ParseCareKit" */;
 			productName = ParseCareKit;
