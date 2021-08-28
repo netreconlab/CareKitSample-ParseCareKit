@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/parse-community/Parse-Swift",
         "state": {
           "branch": null,
-          "revision": "38caf2e01c2adaf458825ff341d86979ff6b7243",
-          "version": "1.9.4"
+          "revision": "38bbd0150f86af8b30bb6f813dfdc324c0e592c1",
+          "version": "1.9.5"
         }
       },
       {
@@ -33,7 +33,7 @@
         "repositoryURL": "https://github.com/netreconlab/ParseCareKit.git",
         "state": {
           "branch": null,
-          "revision": "119aed83980c3509e1cb1f57a0fca168775fe582",
+          "revision": "ef7577ca242b72f0d0a40d78dc23c701057ff049",
           "version": null
         }
       }
