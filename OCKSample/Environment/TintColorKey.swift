@@ -19,8 +19,6 @@ struct TintColorKey: EnvironmentKey {
 extension EnvironmentValues {
 
     var tintColor: UIColor {
-        get {
-            self[TintColorKey.self]
-        }
+        self[TintColorKey.self]
     }
 }

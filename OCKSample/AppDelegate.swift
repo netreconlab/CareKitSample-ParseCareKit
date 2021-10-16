@@ -40,15 +40,15 @@ import os.log
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    
-    let syncWithCloud = true //True to sync with ParseServer, False to Sync with iOS Watch
+
+    let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
     var firstLogin = false
     var coreDataStore: OCKStore!
     var healthKitStore: OCKHealthKitPassthroughStore!
     var parse: ParseRemote!
     var profile: ProfileViewModel!
     private let watch = OCKWatchConnectivityPeer()
-    private var sessionDelegate:SessionDelegate!
+    private var sessionDelegate: SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager?
 
     func application(_ application: UIApplication,
@@ -59,15 +59,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             completionHandler(.performDefaultHandling, nil)
         }
 
-        //Clear items out of the Keychain on app first run. Used for debugging
+        // Clear items out of the Keychain on app first run. Used for debugging
         if UserDefaults.standard.object(forKey: "firstRun") == nil {
             try? User.logout()
-            //This is no longer the first run
+            // This is no longer the first run
             UserDefaults.standard.setValue(String("firstRun"), forKey: "firstRun")
             UserDefaults.standard.synchronize()
         }
-        
-        //Set default ACL for all ParseObjects
+
+        // Set default ACL for all ParseObjects
         var defaultACL = ParseACL()
         defaultACL.publicRead = false
         defaultACL.publicWrite = false
@@ -98,7 +98,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func setupRemotes(uuid: UUID? = nil) {
         do {
-            
+
             if syncWithCloud {
                 guard let uuid = uuid else {
                     Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
@@ -108,15 +108,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 coreDataStore = OCKStore(name: "ParseStore", type: .onDisk(), remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
-            }else{
+            } else {
                 coreDataStore = OCKStore(name: "WatchStore", type: .onDisk(), remote: watch)
                 watch.delegate = self
                 sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
             }
-            
+
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
-            
+
             healthKitStore = OCKHealthKitPassthroughStore(store: coreDataStore)
             let coordinator = OCKStoreCoordinator()
             coordinator.attach(store: coreDataStore)
@@ -134,24 +134,24 @@ extension OCKStore {
         let tasksToAdd = tasks
         let taskIdsToAdd = tasksToAdd.compactMap { $0.id }
 
-        //Prepare query to see if tasks are already added
+        // Prepare query to see if tasks are already added
         var query = OCKTaskQuery(for: Date())
         query.ids = taskIdsToAdd
 
         fetchTasks(query: query) { result in
-            
+
             if case let .success(foundTasks) = result {
-                
+
                 var tasksNotInStore = [OCKTask]()
-                
-                //Check results to see if there's a missing task
+
+                // Check results to see if there's a missing task
                 tasksToAdd.forEach { potentialTask in
                     if foundTasks.first(where: { $0.id == potentialTask.id }) == nil {
                         tasksNotInStore.append(potentialTask)
                     }
                 }
-                
-                //Only add if there's a new task
+
+                // Only add if there's a new task
                 if tasksNotInStore.count > 0 {
                     self.addTasks(tasksNotInStore) { result in
                         switch result {
@@ -168,24 +168,24 @@ extension OCKStore {
         let contactsToAdd = contacts
         let taskIdsToAdd = contactsToAdd.compactMap { $0.id }
 
-        //Prepare query to see if contacts are already added
+        // Prepare query to see if contacts are already added
         var query = OCKContactQuery(for: Date())
         query.ids = taskIdsToAdd
 
         fetchContacts(query: query) { result in
-            
+
             if case let .success(foundContacts) = result {
-                
+
                 var contactsNotInStore = [OCKContact]()
-                
-                //Check results to see if there's a missing task
+
+                // Check results to see if there's a missing task
                 contactsToAdd.forEach { potential in
                     if foundContacts.first(where: { $0.id == potential.id }) == nil {
                         contactsNotInStore.append(potential)
                     }
                 }
-                
-                //Only add if there's a new task
+
+                // Only add if there's a new task
                 if contactsNotInStore.count > 0 {
                     self.addContacts(contactsNotInStore) { result in
                         switch result {
@@ -229,13 +229,13 @@ extension OCKStore {
         nausea.impactsAdherence = false
         nausea.instructions = "Tap the button below anytime you experience nausea."
         nausea.asset = "bed.double"
-        
+
         let kegelElement = OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 2))
         let kegelSchedule = OCKSchedule(composing: [kegelElement])
         var kegels = OCKTask(id: TaskID.kegels, title: "Kegel Exercises", carePlanUUID: nil, schedule: kegelSchedule)
         kegels.impactsAdherence = true
         kegels.instructions = "Perform kegel exercies"
-        
+
         let stretchElement = OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 1))
         let stretchSchedule = OCKSchedule(composing: [stretchElement])
         var stretch = OCKTask(id: "stretch", title: "Stretch", carePlanUUID: nil, schedule: stretchSchedule)
@@ -243,8 +243,7 @@ extension OCKStore {
         stretch.asset = "figure.walk"
 
         addTasksIfNotPresent([nausea, doxylamine, kegels, stretch])
-        
-        
+
         var contact1 = OCKContact(id: "jane", givenName: "Jane",
                                   familyName: "Daniels", carePlanUUID: nil)
         contact1.asset = "JaneDaniels"
@@ -289,24 +288,24 @@ extension OCKHealthKitPassthroughStore {
         let tasksToAdd = tasks
         let taskIdsToAdd = tasksToAdd.compactMap { $0.id }
 
-        //Prepare query to see if tasks are already added
+        // Prepare query to see if tasks are already added
         var query = OCKTaskQuery(for: Date())
         query.ids = taskIdsToAdd
 
         fetchTasks(query: query) { result in
-            
+
             if case let .success(foundTasks) = result {
-                
+
                 var tasksNotInStore = [OCKHealthKitTask]()
-                
-                //Check results to see if there's a missing task
+
+                // Check results to see if there's a missing task
                 tasksToAdd.forEach { potentialTask in
                     if foundTasks.first(where: { $0.id == potentialTask.id }) == nil {
                         tasksNotInStore.append(potentialTask)
                     }
                 }
-                
-                //Only add if there's a new task
+
+                // Only add if there's a new task
                 if tasksNotInStore.count > 0 {
                     self.addTasks(tasksNotInStore) { result in
                         switch result {
@@ -346,20 +345,21 @@ extension AppDelegate: ParseRemoteDelegate {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
     }
-    
+
     func successfullyPushedDataToCloud() {
         DispatchQueue.main.async {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
     }
-    
+
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
         DispatchQueue.main.async {
             let progressPercentage = Int(progress * 100.0)
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.progressUpdate), userInfo: [Constants.progressUpdate: progressPercentage]))
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.progressUpdate),
+                                                  userInfo: [Constants.progressUpdate: progressPercentage]))
         }
     }
-    
+
     func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
 
         // https://github.com/carekit-apple/CareKit/issues/567
@@ -380,7 +380,7 @@ extension AppDelegate: ParseRemoteDelegate {
             completion(.success(.outcome(added)))
             return
         }
-        
+
         if let first = conflicts.first {
             completion(.success(first))
         } else {
@@ -392,50 +392,55 @@ extension AppDelegate: ParseRemoteDelegate {
 protocol SessionDelegate: WCSessionDelegate {}
 
 private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
-    
+
     let store: OCKStore
-    
+
     init(store: OCKStore) {
         self.store = store
     }
-    
+
     func sessionDidBecomeInactive(_ session: WCSession) {
         Logger.appDelegate.info("sessionDidBecomeInactive")
     }
-    
+
     func sessionDidDeactivate(_ session: WCSession) {
         Logger.appDelegate.info("sessionDidDeactivate")
     }
-    
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+
+    func session(_ session: WCSession,
+                 activationDidCompleteWith activationState: WCSessionActivationState,
+                 error: Error?) {
         Logger.appDelegate.info("New session state: \(activationState.rawValue)")
-        
+
         if activationState == .activated {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
             }
         }
     }
-    
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+
+    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
         DispatchQueue.main.async {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
     }
-    
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        
-        if let _ = message[Constants.parseUserSessionTokenKey] as? String {
+
+    func session(_ session: WCSession,
+                 didReceiveMessage message: [String: Any],
+                 replyHandler: @escaping ([String: Any]) -> Void) {
+
+        if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
             Logger.watch.info("Received message from Apple Watch requesting ParseUser, sending now")
             var returnMessage = [String: Any]()
-            
+
             DispatchQueue.main.async {
-                //Prepare data for watchOS
+                // Prepare data for watchOS
                 guard let sessionToken = User.current?.sessionToken else {
                     return
                 }
-                
+
                 returnMessage[Constants.parseUserSessionTokenKey] = sessionToken
+                // swiftlint:disable:next line_length
                 returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey)
                 replyHandler(returnMessage)
             }
@@ -447,34 +452,38 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
 private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
     let remote: OCKWatchConnectivityPeer
     let store: OCKStore
-    
+
     init(remote: OCKWatchConnectivityPeer, store: OCKStore) {
         self.remote = remote
         self.store = store
     }
-    
+
     func sessionDidBecomeInactive(_ session: WCSession) {
         Logger.appDelegate.info("sessionDidBecomeInactive")
     }
-    
+
     func sessionDidDeactivate(_ session: WCSession) {
         Logger.appDelegate.info("sessionDidDeactivate")
     }
-    
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+
+    func session(_ session: WCSession,
+                 activationDidCompleteWith activationState: WCSessionActivationState,
+                 error: Error?) {
         Logger.appDelegate.info("New session state: \(activationState.rawValue)")
-        
+
         if activationState == .activated {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
             }
         }
     }
-    
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        
+
+    func session(_ session: WCSession,
+                 didReceiveMessage message: [String: Any],
+                 replyHandler: @escaping ([String: Any]) -> Void) {
+
         Logger.appDelegate.info("Received message from Apple Watch")
-        remote.reply(to: message, store: store){ reply in
+        remote.reply(to: message, store: store) { reply in
             replyHandler(reply)
         }
     }

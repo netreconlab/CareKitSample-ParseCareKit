@@ -33,6 +33,7 @@
 		91693818271B5E1600A634ED /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E63F25717F85006E9A3C /* Constants.swift */; };
 		9169381B271B64E100A634ED /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Styler.swift */; };
 		9169381D271B650700A634ED /* ColorStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyler.swift */; };
+		91693820271B80EA00A634ED /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 9169381F271B80EA00A634ED /* CONTRIBUTING.md */; };
 		918FDEAF271B3F8F0045A0EF /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 918FDEAE271B3F8F0045A0EF /* ParseCareKit */; };
 		918FDEB1271B3F9B0045A0EF /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 918FDEB0271B3F9B0045A0EF /* ParseCareKit */; };
 		918FDEB5271B40590045A0EF /* Installation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEB4271B40590045A0EF /* Installation.swift */; };
@@ -147,6 +148,7 @@
 		70BD2B1E254B44DB0030B424 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9169381A271B64E100A634ED /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		9169381C271B650700A634ED /* ColorStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyler.swift; sourceTree = "<group>"; };
+		9169381F271B80EA00A634ED /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		918FDEB4271B40590045A0EF /* Installation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Installation.swift; sourceTree = "<group>"; };
 		918FDEB6271B41FF0045A0EF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		918FDEBB271B4E4A0045A0EF /* Calendar+Dates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Dates.swift"; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 			isa = PBXGroup;
 			children = (
 				91AD922324A461D200925D4D /* README.md */,
+				9169381F271B80EA00A634ED /* CONTRIBUTING.md */,
 				0520468223C3C1F2004F0F36 /* OCKSample.xctestplan */,
 				E72B2C08226939E3009A9438 /* OCKSample */,
 				5173CB8823C3A846007655A0 /* OCKSampleUITests */,
@@ -497,6 +500,7 @@
 				51431FA123D166AE006A7CFD /* Frameworks */,
 				51431FA223D166AE006A7CFD /* Embed Frameworks */,
 				91AD924C24A4C42E00925D4D /* Embed Watch Content */,
+				9169381E271B6E2100A634ED /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -601,12 +605,34 @@
 				E7C4CA0B22809AD500ECC3D7 /* Assets.xcassets in Resources */,
 				91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */,
 				91AD922424A461D200925D4D /* README.md in Resources */,
+				91693820271B80EA00A634ED /* CONTRIBUTING.md in Resources */,
 				E72B2C14226939E4009A9438 /* LaunchScreen.storyboard in Resources */,
 				707CC716254DA91900116728 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9169381E271B6E2100A634ED /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which swiftlint >/dev/null; then\n    swiftlint --fix && swiftlint --strict\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5173CB8323C3A846007655A0 /* Sources */ = {

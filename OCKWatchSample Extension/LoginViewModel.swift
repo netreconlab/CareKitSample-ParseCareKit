@@ -10,21 +10,24 @@ import SwiftUI
 import CareKit
 
 class LoginViewModel: ObservableObject {
-    
+    // swiftlint:disable:next force_cast
     private let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
-    
+
     var syncWithCloud: Bool {
         return watchDelegate.syncWithCloud
     }
-    
+
     @Published var isLoggedIn = false
-    
+
     init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(loginChanged(_:)), name: Notification.Name(rawValue: Constants.userLoggedIn), object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(loginChanged(_:)),
+                                               name: Notification.Name(rawValue: Constants.userLoggedIn),
+                                               object: nil)
     }
-    
+
     @objc private func loginChanged(_ notification: Notification) {
         isLoggedIn = true
     }
-    
+
 }

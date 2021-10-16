@@ -37,42 +37,56 @@ import CareKitUI
 import os.log
 
 class CareViewController: OCKDailyPageViewController {
-
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    // swiftlint:disable:next force_cast
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var alreadySyncing = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(synchronizeWithRemote))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
+                                                            target: self,
+                                                            action: #selector(synchronizeWithRemote))
 
-        NotificationCenter.default.addObserver(self, selector: #selector(synchronizeWithRemote), name: Notification.Name(rawValue: Constants.requestSync), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateSynchronizationProgress(_:)), name: Notification.Name(rawValue: Constants.progressUpdate), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(synchronizeWithRemote),
+                                               name: Notification.Name(rawValue: Constants.requestSync),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateSynchronizationProgress(_:)),
+                                               name: Notification.Name(rawValue: Constants.progressUpdate),
+                                               object: nil)
     }
 
     @objc private func updateSynchronizationProgress(_ notification: Notification) {
         guard let receivedInfo = notification.userInfo as? [String: Any],
-            let progress = receivedInfo[Constants.progressUpdate] as? Int else{
+            let progress = receivedInfo[Constants.progressUpdate] as? Int else {
             return
         }
-        
+
         switch progress {
         case 0, 100:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)", style: .plain, target: self, action: #selector(synchronizeWithRemote))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
+                                                                style: .plain, target: self,
+                                                                action: #selector(synchronizeWithRemote))
             if progress == 100 {
                 // Let the user see 100
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.synchronizeWithRemote))
+                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
+                                                                             target: self,
+                                                                             // swiftlint:disable:next line_length
+                                                                             action: #selector(self.synchronizeWithRemote))
                     self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
                 }
             }
         default:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)", style: .plain, target: self, action: #selector(synchronizeWithRemote))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
+                                                                style: .plain, target: self,
+                                                                action: #selector(synchronizeWithRemote))
             navigationItem.rightBarButtonItem?.tintColor = TintColorKey.defaultValue
         }
     }
-    
+
     @objc private func synchronizeWithRemote() {
-        
+
         if alreadySyncing {
             return
         } else {
@@ -80,7 +94,7 @@ class CareViewController: OCKDailyPageViewController {
         }
 
         appDelegate.coreDataStore.synchronize { error in
-            
+
             DispatchQueue.main.async {
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"
                 Logger.appDelegate.info("\(errorString)")
@@ -117,7 +131,7 @@ class CareViewController: OCKDailyPageViewController {
                 listViewController.appendView(tipView, animated: false)
             }
         }
-        
+
         Task {
             let tasks = await self.fetchTasks(on: date)
             tasks.compactMap {
@@ -134,7 +148,7 @@ class CareViewController: OCKDailyPageViewController {
             }
         }
     }
-    
+
     private func taskViewController(for task: OCKAnyTask,
                                     on date: Date) -> [UIViewController]? {
         switch task.id {
@@ -178,7 +192,7 @@ class CareViewController: OCKDailyPageViewController {
                 return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) : #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1)
             }
             let nauseaGradientEnd = UIColor { traitCollection -> UIColor in
-                return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) 
+                return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1)
             }
 
             // Create a plot comparing nausea to medication adherence.
@@ -217,12 +231,12 @@ class CareViewController: OCKDailyPageViewController {
                                                             storeManager: self.storeManager)
             cards.append(nauseaCard)
             return cards
-        
+
         default:
             return nil
         }
     }
-    
+
     private func fetchTasks(on date: Date) async -> [OCKAnyTask] {
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true

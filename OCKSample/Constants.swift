@@ -17,9 +17,11 @@ extension AppError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .couldntCast:
-            return NSLocalizedString("OCKSampleError: Couldn't cast to required type.", comment: "Casting error")
+            return NSLocalizedString("OCKSampleError: Couldn't cast to required type.",
+                                     comment: "Casting error")
         case .valueNotFoundInUserInfo:
-            return NSLocalizedString("OCKSampleError: Couldn't find the required value in userInfo.", comment: "Value not found error")
+            return NSLocalizedString("OCKSampleError: Couldn't find the required value in userInfo.",
+                                     comment: "Value not found error")
         }
     }
 }

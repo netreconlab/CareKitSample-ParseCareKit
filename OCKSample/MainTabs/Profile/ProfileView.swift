@@ -13,34 +13,35 @@ import CareKit
 import os.log
 
 struct ProfileView: View {
-    
+
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var profileViewModel: ProfileViewModel
     @State var firstName = ""
     @State var lastName = ""
     @State var birthday = Calendar.current.date(byAdding: .year, value: -20, to: Date())!
-    
+
     var body: some View {
-        
+
         VStack {
             VStack(alignment: .leading) {
                 TextField("First Name", text: $firstName)
                     .padding()
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
-            
+
                 TextField("Last Name", text: $lastName)
                     .padding()
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
-                
+
                 DatePicker("Birthday", selection: $birthday, displayedComponents: [DatePickerComponents.date])
                     .padding()
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
             }
-            
-            //Notice that "action" is a closure (which is essentially a function as argument like we discussed in class)
+
+            // Notice that "action" is a closure (which is essentially
+            // a function as argument like we discussed in class)
             Button(action: {
 
                 Task {
@@ -52,7 +53,7 @@ struct ProfileView: View {
                 }
 
             }, label: {
-                
+
                 Text("Save Profile")
                     .font(.headline)
                     .foregroundColor(.white)
@@ -61,10 +62,11 @@ struct ProfileView: View {
             })
             .background(Color(.green))
             .cornerRadius(15)
-            
+
             if #available(iOS 14.0, *) {
-                
-                //Notice that "action" is a closure (which is essentially a function as argument like we discussed in class)
+
+                // Notice that "action" is a closure (which is essentially
+                // a function as argument like we discussed in class)
                 Button(action: {
                     do {
                         try profileViewModel.logout()
@@ -72,9 +74,9 @@ struct ProfileView: View {
                     } catch {
                         Logger.appDelegate.error("Error logging out: \(error.localizedDescription)")
                     }
-                    
+
                 }, label: {
-                    
+
                     Text("Log Out")
                         .font(.headline)
                         .foregroundColor(.white)
@@ -95,7 +97,7 @@ struct ProfileView: View {
                     } catch {
                         Logger.appDelegate.error("Error logging out: \(error.localizedDescription)")
                     }
-                    
+
                 }, label: {
 
                     Text("Log Out")
@@ -114,11 +116,11 @@ struct ProfileView: View {
             if let currentFirstName = patient?.name.givenName {
                 firstName = currentFirstName
             }
-            
+
             if let currentLastName = patient?.name.familyName {
                 lastName = currentLastName
             }
-            
+
             if let currentBirthday = patient?.birthday {
                 birthday = currentBirthday
             }

@@ -34,7 +34,8 @@ import Foundation
 /// A hook for the free function `loc` to access the framework bundle for localizations
 public class OCKLocalization {
 
-    /// An `NSLocalizedString` wrapper that searches for overrides in a main bundle before falling back to the framework provided strings
+    /// An `NSLocalizedString` wrapper that searches for overrides in a main
+    /// bundle before falling back to the framework provided strings
     public static func localized(
         _ key: String,
         tableName: String? = nil,
