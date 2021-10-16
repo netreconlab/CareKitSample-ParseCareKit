@@ -34,44 +34,59 @@ import CareKit
 import CareKitStore
 import SwiftUI
 import CareKitUI
+import os.log
 
 class CareViewController: OCKDailyPageViewController {
-
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    // swiftlint:disable:next force_cast
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var alreadySyncing = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(synchronizeWithRemote))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
+                                                            target: self,
+                                                            action: #selector(synchronizeWithRemote))
 
-        NotificationCenter.default.addObserver(self, selector: #selector(synchronizeWithRemote), name: Notification.Name(rawValue: Constants.requestSync), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(updateSynchronizationProgress(_:)), name: Notification.Name(rawValue: Constants.progressUpdate), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(synchronizeWithRemote),
+                                               name: Notification.Name(rawValue: Constants.requestSync),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateSynchronizationProgress(_:)),
+                                               name: Notification.Name(rawValue: Constants.progressUpdate),
+                                               object: nil)
     }
 
     @objc private func updateSynchronizationProgress(_ notification: Notification) {
         guard let receivedInfo = notification.userInfo as? [String: Any],
-            let progress = receivedInfo[Constants.progressUpdate] as? Int else{
+            let progress = receivedInfo[Constants.progressUpdate] as? Int else {
             return
         }
-        
+
         switch progress {
         case 0, 100:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)", style: .plain, target: self, action: #selector(synchronizeWithRemote))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
+                                                                style: .plain, target: self,
+                                                                action: #selector(synchronizeWithRemote))
             if progress == 100 {
                 // Let the user see 100
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.synchronizeWithRemote))
+                    self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
+                                                                             target: self,
+                                                                             // swiftlint:disable:next line_length
+                                                                             action: #selector(self.synchronizeWithRemote))
                     self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
                 }
             }
         default:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)", style: .plain, target: self, action: #selector(synchronizeWithRemote))
-            navigationItem.rightBarButtonItem?.tintColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1): #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) }
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
+                                                                style: .plain, target: self,
+                                                                action: #selector(synchronizeWithRemote))
+            navigationItem.rightBarButtonItem?.tintColor = TintColorKey.defaultValue
         }
     }
-    
+
     @objc private func synchronizeWithRemote() {
-        
+
         if alreadySyncing {
             return
         } else {
@@ -79,9 +94,10 @@ class CareViewController: OCKDailyPageViewController {
         }
 
         appDelegate.coreDataStore.synchronize { error in
-            
+
             DispatchQueue.main.async {
-                print(error?.localizedDescription ?? "Successful sync with remote!")
+                let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+                Logger.appDelegate.info("\(errorString)")
                 if error != nil {
                     self.navigationItem.rightBarButtonItem?.tintColor = .red
                 } else {
@@ -100,114 +116,138 @@ class CareViewController: OCKDailyPageViewController {
     override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
                                           prepare listViewController: OCKListViewController, for date: Date) {
 
-        let identifiers = ["doxylamine", "nausea", "stretch", "kegels", "steps", "heartRate"]
-        var query = OCKTaskQuery(for: date)
-        query.ids = identifiers
-        query.excludesTasksWithNoEvents = true
+        let isCurrentDay = Calendar.current.isDate(date, inSameDayAs: Date())
 
-        storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
-            
-            switch result {
-            case .failure(let error): print("Error: \(error)")
-            case .success(let tasks):
+        // Only show the tip view on the current date
+        if isCurrentDay {
+            if Calendar.current.isDate(date, inSameDayAs: Date()) {
+                // Add a non-CareKit view into the list
+                let tipTitle = "Benefits of exercising"
+                let tipText = "Learn how activity can promote a healthy pregnancy."
+                let tipView = TipView()
+                tipView.headerView.titleLabel.text = tipTitle
+                tipView.headerView.detailLabel.text = tipText
+                tipView.imageView.image = UIImage(named: "exercise.jpg")
+                listViewController.appendView(tipView, animated: false)
+            }
+        }
 
-                // Only show the tip view on the current date
-                if Calendar.current.isDate(date, inSameDayAs: Date()) {
-                    // Add a non-CareKit view into the list
-                    let tipTitle = "Benefits of exercising"
-                    let tipText = "Learn how activity can promote a healthy pregnancy."
-                    let tipView = TipView()
-                    tipView.headerView.titleLabel.text = tipTitle
-                    tipView.headerView.detailLabel.text = tipText
-                    tipView.imageView.image = UIImage(named: "exercise.jpg")
-                    listViewController.appendView(tipView, animated: false)
+        Task {
+            let tasks = await self.fetchTasks(on: date)
+            tasks.compactMap {
+                let cards = self.taskViewController(for: $0, on: date)
+                cards?.forEach {
+                    $0.view.isUserInteractionEnabled = isCurrentDay
+                    $0.view.alpha = !isCurrentDay ? 0.4 : 1.0
                 }
-
-                if #available(iOS 14, *), let walkTask = tasks.first(where: { $0.id == "steps" }) {
-
-                    let view = NumericProgressTaskView(
-                        task: walkTask,
-                        eventQuery: OCKEventQuery(for: date),
-                        storeManager: self.storeManager)
-                        .padding([.vertical], 10)
-
-                    listViewController.appendViewController(view.formattedHostingController(), animated: false)
-                }
-                
-                if let stretchTask = tasks.first(where: { $0.id == "stretch" }) {
-                    let stretchCard = OCKInstructionsTaskViewController(task: stretchTask, eventQuery: .init(for: date),
-                                                                 storeManager: self.storeManager)
-                    listViewController.appendViewController(stretchCard, animated: false)
-                }
-
-                // Since the kegel task is only scheduled every other day, there will be cases
-                // where it is not contained in the tasks array returned from the query.
-                if let kegelsTask = tasks.first(where: { $0.id == "kegels" }) {
-                    let kegelsCard = OCKSimpleTaskViewController(task: kegelsTask, eventQuery: .init(for: date),
-                                                                 storeManager: self.storeManager)
-                    listViewController.appendViewController(kegelsCard, animated: false)
-                }
-
-                // Create a card for the doxylamine task if there are events for it on this day.
-                if let doxylamineTask = tasks.first(where: { $0.id == "doxylamine" }) {
-
-                    let doxylamineCard = OCKChecklistTaskViewController(
-                        task: doxylamineTask,
-                        eventQuery: .init(for: date),
-                        storeManager: self.storeManager)
-
-                    listViewController.appendViewController(doxylamineCard, animated: false)
-                }
-
-                // Create a card for the nausea task if there are events for it on this day.
-                // Its OCKSchedule was defined to have daily events, so this task should be
-                // found in `tasks` every day after the task start date.
-                if let nauseaTask = tasks.first(where: { $0.id == "nausea" }) {
-
-                    // dynamic gradient colors
-                    let nauseaGradientStart = UIColor { traitCollection -> UIColor in
-                        return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) : #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1)
-                    }
-                    let nauseaGradientEnd = UIColor { traitCollection -> UIColor in
-                        return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) : #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1)
-                    }
-
-                    // Create a plot comparing nausea to medication adherence.
-                    let nauseaDataSeries = OCKDataSeriesConfiguration(
-                        taskID: "nausea",
-                        legendTitle: "Nausea",
-                        gradientStartColor: nauseaGradientStart,
-                        gradientEndColor: nauseaGradientEnd,
-                        markerSize: 10,
-                        eventAggregator: OCKEventAggregator.countOutcomeValues)
-
-                    let doxylamineDataSeries = OCKDataSeriesConfiguration(
-                        taskID: "doxylamine",
-                        legendTitle: "Doxylamine",
-                        gradientStartColor: .systemGray2,
-                        gradientEndColor: .systemGray,
-                        markerSize: 10,
-                        eventAggregator: OCKEventAggregator.countOutcomeValues)
-
-                    let insightsCard = OCKCartesianChartViewController(
-                        plotType: .bar,
-                        selectedDate: date,
-                        configurations: [nauseaDataSeries, doxylamineDataSeries],
-                        storeManager: self.storeManager)
-
-                    insightsCard.chartView.headerView.titleLabel.text = "Nausea & Doxylamine Intake"
-                    insightsCard.chartView.headerView.detailLabel.text = "This Week"
-                    insightsCard.chartView.headerView.accessibilityLabel = "Nausea & Doxylamine Intake, This Week"
-                    listViewController.appendViewController(insightsCard, animated: false)
-
-                    // Also create a card that displays a single event.
-                    // The event query passed into the initializer specifies that only
-                    // today's log entries should be displayed by this log task view controller.
-                    let nauseaCard = OCKButtonLogTaskViewController(task: nauseaTask, eventQuery: .init(for: date),
-                                                                    storeManager: self.storeManager)
-                    listViewController.appendViewController(nauseaCard, animated: false)
+                return cards
+            }.forEach { (cards: [UIViewController]) in
+                cards.forEach {
+                    listViewController.appendViewController($0, animated: false)
                 }
             }
+        }
+    }
+
+    private func taskViewController(for task: OCKAnyTask,
+                                    on date: Date) -> [UIViewController]? {
+        switch task.id {
+        case TaskID.steps:
+            if #available(iOS 14, *) {
+                let view = NumericProgressTaskView(
+                    task: task,
+                    eventQuery: OCKEventQuery(for: date),
+                    storeManager: self.storeManager)
+                    .padding([.vertical], 20)
+                    .careKitStyle(Styler())
+
+                return [view.formattedHostingController()]
+            } else {
+                return nil
+            }
+        case TaskID.stretch:
+            return [OCKInstructionsTaskViewController(task: task,
+                                                     eventQuery: .init(for: date),
+                                                     storeManager: self.storeManager)]
+
+        case TaskID.kegels:
+            // Since the kegel task is only scheduled every other day, there will be cases
+            // where it is not contained in the tasks array returned from the query.
+            return [OCKSimpleTaskViewController(task: task,
+                                               eventQuery: .init(for: date),
+                                               storeManager: self.storeManager)]
+
+        // Create a card for the doxylamine task if there are events for it on this day.
+        case TaskID.doxylamine:
+
+            return [OCKChecklistTaskViewController(
+                task: task,
+                eventQuery: .init(for: date),
+                storeManager: self.storeManager)]
+
+        case TaskID.nausea:
+            var cards = [UIViewController]()
+            // dynamic gradient colors
+            let nauseaGradientStart = UIColor { traitCollection -> UIColor in
+                return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) : #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1)
+            }
+            let nauseaGradientEnd = UIColor { traitCollection -> UIColor in
+                return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1)
+            }
+
+            // Create a plot comparing nausea to medication adherence.
+            let nauseaDataSeries = OCKDataSeriesConfiguration(
+                taskID: "nausea",
+                legendTitle: "Nausea",
+                gradientStartColor: nauseaGradientStart,
+                gradientEndColor: nauseaGradientEnd,
+                markerSize: 10,
+                eventAggregator: OCKEventAggregator.countOutcomeValues)
+
+            let doxylamineDataSeries = OCKDataSeriesConfiguration(
+                taskID: "doxylamine",
+                legendTitle: "Doxylamine",
+                gradientStartColor: .systemGray2,
+                gradientEndColor: .systemGray,
+                markerSize: 10,
+                eventAggregator: OCKEventAggregator.countOutcomeValues)
+
+            let insightsCard = OCKCartesianChartViewController(
+                plotType: .bar,
+                selectedDate: date,
+                configurations: [nauseaDataSeries, doxylamineDataSeries],
+                storeManager: self.storeManager)
+
+            insightsCard.chartView.headerView.titleLabel.text = "Nausea & Doxylamine Intake"
+            insightsCard.chartView.headerView.detailLabel.text = "This Week"
+            insightsCard.chartView.headerView.accessibilityLabel = "Nausea & Doxylamine Intake, This Week"
+            cards.append(insightsCard)
+
+            // Also create a card that displays a single event.
+            // The event query passed into the initializer specifies that only
+            // today's log entries should be displayed by this log task view controller.
+            let nauseaCard = OCKButtonLogTaskViewController(task: task,
+                                                            eventQuery: .init(for: date),
+                                                            storeManager: self.storeManager)
+            cards.append(nauseaCard)
+            return cards
+
+        default:
+            return nil
+        }
+    }
+
+    private func fetchTasks(on date: Date) async -> [OCKAnyTask] {
+        var query = OCKTaskQuery(for: date)
+        query.excludesTasksWithNoEvents = true
+        do {
+            let tasks = try await appDelegate.synchronizedStoreManager?.store.fetchAnyTasks(query: query)
+            let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
+                tasks?.first(where: { $0.id == orderedTaskID }) }
+            return orderedTasks
+        } catch {
+            Logger.feed.error("\(error.localizedDescription, privacy: .public)")
+            return []
         }
     }
 }

@@ -17,9 +17,11 @@ extension AppError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .couldntCast:
-            return NSLocalizedString("OCKSampleError: Couldn't cast to required type.", comment: "Casting error")
+            return NSLocalizedString("OCKSampleError: Couldn't cast to required type.",
+                                     comment: "Casting error")
         case .valueNotFoundInUserInfo:
-            return NSLocalizedString("OCKSampleError: Couldn't find the required value in userInfo.", comment: "Value not found error")
+            return NSLocalizedString("OCKSampleError: Couldn't find the required value in userInfo.",
+                                     comment: "Value not found error")
         }
     }
 }
@@ -29,5 +31,18 @@ enum Constants {
     static let parseRemoteClockIDKey = "requestRemoteClockID"
     static let requestSync = "requestSync"
     static let progressUpdate = "progressUpdate"
+    static let userLoggedIn = "userLoggedIn"
 }
 
+enum TaskID {
+    static let doxylamine = "doxylamine"
+    static let nausea = "nausea"
+    static let stretch = "stretch"
+    static let kegels = "kegels"
+    static let steps = "steps"
+
+    static var ordered: [String] {
+        [Self.steps, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
+    }
+
+}

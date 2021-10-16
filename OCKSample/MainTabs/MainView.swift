@@ -4,6 +4,7 @@
 //
 //  Created by Corey Baker on 11/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
+// swiftlint:disable:next line_length
 // This was built using tutorial: https://www.hackingwithswift.com/books/ios-swiftui/creating-tabs-with-tabview-and-tabitem
 
 import SwiftUI
@@ -12,41 +13,19 @@ import CareKitStore
 import CareKitUI
 import UIKit
 
-//This file is the SwiftUI equivalent to UITabBarController in setupTabBarController() in SceneDelegate.swift
-
-struct StoreManagerKey: EnvironmentKey {
-    
-    static var defaultValue: OCKSynchronizedStoreManager? {
-        let extensionDelegate = UIApplication.shared.delegate as! AppDelegate
-        return extensionDelegate.synchronizedStoreManager
-    }
-}
-
-extension EnvironmentValues {
-    
-    var storeManager: OCKSynchronizedStoreManager? {
-        get {
-            self[StoreManagerKey.self]
-        }
-        
-        set{
-            self[StoreManagerKey.self] = newValue
-        }
-    }
-}
-
+// This file is the SwiftUI equivalent to UITabBarController in setupTabBarController() in SceneDelegate.swift
 
 struct MainView: View {
-    
+
     @Environment(\.storeManager) private var storeManager
+    @Environment(\.tintColor) private var tintColor
     @State private var selectedTab = 0
-    @State private var tintColor = UIColor { $0.userInterfaceStyle == .light ?  #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) }
-    @ObservedObject var profile = Profile()
-    
+    @ObservedObject var profile = ProfileViewModel()
+
     var body: some View {
-        
+
         TabView(selection: $selectedTab) {
-            
+
             CareView()
                 .tabItem {
                     if selectedTab == 0 {
@@ -58,9 +37,8 @@ struct MainView: View {
                     }
                 }
                 .tag(0)
-                
-            
-            ContactView(manager: storeManager!)
+
+            ContactView(manager: storeManager)
                 .tabItem {
                     if selectedTab == 1 {
                         Image("phone.bubble.left.fill")
@@ -71,7 +49,7 @@ struct MainView: View {
                     }
                 }
                 .tag(1)
-            
+
             ProfileView(profileViewModel: profile)
                 .tabItem {
                     if selectedTab == 2 {

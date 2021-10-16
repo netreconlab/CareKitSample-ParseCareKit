@@ -31,12 +31,14 @@
 import CareKit
 import UIKit
 import CareKitStore
-import SwiftUI //Need to add this, currently not in your code
+import SwiftUI // Need to add this, currently not in your code
+import os.log
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    // swiftlint:disable:next force_cast
+    var appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
@@ -47,33 +49,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             window = UIWindow(windowScene: windowScene)
             window?.rootViewController = permissionViewController
-            window?.tintColor = UIColor { $0.userInterfaceStyle == .light ?  #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) }
+            window?.tintColor = TintColorKey.defaultValue
             window?.makeKeyAndVisible()
 
-            //When syncing directly with watchOS, we don't care about login and need to setup remotes
+            // When syncing directly with watchOS, we don't care about login and need to setup remotes
             if !self.appDelegate.syncWithCloud {
                 self.appDelegate.setupRemotes()
                 self.appDelegate.coreDataStore.populateSampleData()
                 self.appDelegate.healthKitStore.populateSampleData()
                 self.setupTabBarController()
             } else {
-                
-                //If the user isn't logged in, log them in
-                if User.current == nil {
 
-                    //Note that if you have a SwiftUI based app, SceneDelegate technically isn't needed anymore, but we will keep it for now
-                    self.window?.rootViewController = UIHostingController(rootView: LoginView()) //Wraps a SwiftUI view in UIKit view
+                // If the user isn't logged in, log them in
+                if User.current == nil {
+                    // swiftlint:disable:next line_length
+                    // Note that if you have a SwiftUI based app, SceneDelegate technically isn't needed anymore, but we will keep it for now
+                    // swiftlint:disable:next line_length
+                    self.window?.rootViewController = UIHostingController(rootView: LoginView()) // Wraps a SwiftUI view in UIKit view
 
                 } else {
-                    print("User is already signed in...")
-                    appDelegate.profile = Profile()
+                    Logger.appDelegate.info("User is already signed in...")
+                    appDelegate.profile = ProfileViewModel()
                     guard let uuid = appDelegate.profile.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
-                        print("Error in SceneDelage, no uuid saved.")
+                        Logger.appDelegate.info("Error in SceneDelage, no uuid saved.")
                         return
                     }
                     self.appDelegate.setupRemotes(uuid: uuid)
                     self.appDelegate.parse.automaticallySynchronizes = true
-                    self.window?.rootViewController = UIHostingController(rootView: MainView()) //Wraps a SwiftUI view in UIKit view
+                    // swiftlint:disable:next line_length
+                    self.window?.rootViewController = UIHostingController(rootView: MainView()) // Wraps a SwiftUI view in UIKit view
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
@@ -82,17 +86,24 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
         }
     }
-    
+
     func setupTabBarController() {
-        
-        let manager = self.appDelegate.synchronizedStoreManager!
+
+        guard let manager = StoreManagerKey.defaultValue else {
+            Logger.sceneDelegate.error("Couldn't unwrap storeManager")
+            return
+        }
         let care = CareViewController(storeManager: manager)
-        care.tabBarItem = UITabBarItem(title: "Patient Care", image: .init(imageLiteralResourceName: "carecard"), selectedImage: .init(imageLiteralResourceName: "carecard-filled"))
+        care.tabBarItem = UITabBarItem(title: "Patient Care",
+                                       image: .init(imageLiteralResourceName: "carecard"),
+                                       selectedImage: .init(imageLiteralResourceName: "carecard-filled"))
         let careViewController = UINavigationController(rootViewController: care)
-        
+
         let contacts = OCKContactsListViewController(storeManager: manager)
         contacts.title = "Contacts"
-        contacts.tabBarItem = UITabBarItem(title: "Contacts", image: .init(imageLiteralResourceName: "connect"), selectedImage: .init(imageLiteralResourceName: "connect-filled"))
+        contacts.tabBarItem = UITabBarItem(title: "Contacts",
+                                           image: .init(imageLiteralResourceName: "connect"),
+                                           selectedImage: .init(imageLiteralResourceName: "connect-filled"))
         let contactViewController = UINavigationController(rootViewController: contacts)
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [careViewController, contactViewController]
@@ -101,7 +112,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
                 if error != nil {
-                    print(error!.localizedDescription)
+                    Logger.appDelegate.error("\(error!.localizedDescription)")
                 }
             }
         }

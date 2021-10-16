@@ -5,23 +5,27 @@ on:
   pull_request:
     branches: [ main ]
 env:
-  CI_XCODE_VER: '/Applications/Xcode_12.2.app/Contents/Developer'
+            CI_XCODE_13: '/Applications/Xcode_13.0.app/Contents/Developer'
 
 jobs:
-  ios:
-    runs-on: macos-latest
+  test:
+    runs-on: macos-11
+    strategy:
+      matrix:
+        destination: ['platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max test', 'platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max']
+        scheme: ['OCKSample', 'OCKWatchSample']
+        exclude:
+        - destination: 'platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max test'
+          scheme: 'OCKWatchSample'
+        - destination: 'platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max'
+          scheme: 'OCKSample'
+        - destination: 'platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max'
+          scheme: 'OCKWatchSample'
     steps:
     - uses: actions/checkout@v2
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme OCKSample -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max test | xcpretty
-    - name: Send codecov
-      run: bash <(curl https://codecov.io/bash)
-
-  watchos:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme OCKWatchSample -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme ${{ matrix.scheme }} -destination ${{ matrix.destination }} | xcpretty
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
