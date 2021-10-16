@@ -10,14 +10,23 @@ import Foundation
 import ParseSwift
 import CareKit
 import CareKitStore
+import WatchConnectivity
 import os.log
 
 @MainActor
 class LoginViewModel: ObservableObject {
 
-    // Publishes a notification to subscribers whenever this value changes
-    @Published private(set) var isLoggedIn = false
-    // Publishes a notification to subscribers whenever this value changes
+    @Published private(set) var isLoggedIn = false {
+        willSet {
+            // Publishes a notification to subscribers whenever this value changes
+            objectWillChange.send()
+            let message = Utility.getUserSessionForWatch()
+            WCSession.default.sendMessage(message,
+                                          replyHandler: nil,
+                                          errorHandler: nil)
+        }
+    }
+
     @Published private(set) var loginError: ParseError?
     private var profileModel: ProfileViewModel?
 
