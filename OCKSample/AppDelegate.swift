@@ -36,6 +36,7 @@ import HealthKit
 import ParseCareKit
 import ParseSwift
 import WatchConnectivity
+import os.log
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -45,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var coreDataStore: OCKStore!
     var healthKitStore: OCKHealthKitPassthroughStore!
     var parse: ParseRemote!
-    var profile: Profile!
+    var profile: ProfileViewModel!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate:SessionDelegate!
     private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager?
@@ -73,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
         } catch {
-            print(error.localizedDescription)
+            Logger.appDelegate.error("\(error.localizedDescription)")
         }
 
         return true
@@ -100,7 +101,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if syncWithCloud {
                 guard let uuid = uuid else {
-                    print("Error in setupRemotes, uuid is nil")
+                    Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
                     return
                 }
                 parse = try ParseRemote(uuid: uuid, auto: false, subscribeToServerUpdates: true)
@@ -122,7 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             coordinator.attach(eventStore: healthKitStore)
             synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
         } catch {
-            print("Error setting up remote: \(error.localizedDescription)")
+            Logger.appDelegate.error("Error setting up remote: \(error.localizedDescription)")
         }
     }
 }
@@ -154,8 +155,8 @@ extension OCKStore {
                 if tasksNotInStore.count > 0 {
                     self.addTasks(tasksNotInStore) { result in
                         switch result {
-                        case .success: print("Added tasks into OCKStore!")
-                        case .failure(let error): print("Error: \(error)")
+                        case .success: Logger.appDelegate.info("Added tasks into OCKStore!")
+                        case .failure(let error): Logger.appDelegate.error("\(error.localizedDescription)")
                         }
                     }
                 }
@@ -188,8 +189,8 @@ extension OCKStore {
                 if contactsNotInStore.count > 0 {
                     self.addContacts(contactsNotInStore) { result in
                         switch result {
-                        case .success: print("Added contacts into OCKStore!")
-                        case .failure(let error): print("Error: \(error)")
+                        case .success: Logger.appDelegate.info("Added contacts into OCKStore!")
+                        case .failure(let error): Logger.appDelegate.error("\(error.localizedDescription)")
                         }
                     }
                 }
@@ -309,8 +310,8 @@ extension OCKHealthKitPassthroughStore {
                 if tasksNotInStore.count > 0 {
                     self.addTasks(tasksNotInStore) { result in
                         switch result {
-                        case .success: print("Added tasks into HealthKitPassthroughStore!")
-                        case .failure(let error): print("Error: \(error)")
+                        case .success: Logger.appDelegate.info("Added tasks into HealthKitPassthroughStore!")
+                        case .failure(let error): Logger.appDelegate.error("\(error.localizedDescription)")
                         }
                     }
                 }
@@ -399,15 +400,15 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        print("sessionDidBecomeInactive")
+        Logger.appDelegate.info("sessionDidBecomeInactive")
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
-        print("sessionDidDeactivate")
+        Logger.appDelegate.info("sessionDidDeactivate")
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("New session state: \(activationState)")
+        Logger.appDelegate.info("New session state: \(activationState.rawValue)")
         
         if activationState == .activated {
             DispatchQueue.main.async {
@@ -425,7 +426,7 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         
         if let _ = message[Constants.parseUserSessionTokenKey] as? String {
-            print("Received message from Apple Watch requesting ParseUser, sending now")
+            Logger.watch.info("Received message from Apple Watch requesting ParseUser, sending now")
             var returnMessage = [String: Any]()
             
             DispatchQueue.main.async {
@@ -453,15 +454,15 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        print("sessionDidBecomeInactive")
+        Logger.appDelegate.info("sessionDidBecomeInactive")
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
-        print("sessionDidDeactivate")
+        Logger.appDelegate.info("sessionDidDeactivate")
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("New session state: \(activationState)")
+        Logger.appDelegate.info("New session state: \(activationState.rawValue)")
         
         if activationState == .activated {
             DispatchQueue.main.async {
@@ -472,7 +473,7 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         
-        print("Received message from Apple Watch")
+        Logger.appDelegate.info("Received message from Apple Watch")
         remote.reply(to: message, store: store){ reply in
             replyHandler(reply)
         }

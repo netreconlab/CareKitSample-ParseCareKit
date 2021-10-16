@@ -10,13 +10,17 @@ import SwiftUI
 import UIKit
 import CareKit
 import CareKitStore
+import os.log
 
 struct ContactView: UIViewControllerRepresentable {
     
-    let manager: OCKSynchronizedStoreManager
+    let manager: OCKSynchronizedStoreManager?
     
     func makeUIViewController(context: Context) -> some UIViewController {
-        
+        guard let manager = StoreManagerKey.defaultValue else {
+            Logger.contact.error("Couldn't unwrap storeManager")
+            return UINavigationController()
+        }
         let contacts = OCKContactsListViewController(storeManager: manager)
         return UINavigationController(rootViewController: contacts)
     }

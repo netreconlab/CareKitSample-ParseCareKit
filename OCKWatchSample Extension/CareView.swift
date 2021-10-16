@@ -11,21 +11,22 @@ import SwiftUI
 
 struct CareView: View {
 
-    @ObservedObject var login = Login()
+    @Environment(\.storeManager) private var storeManager
+    @ObservedObject var login = LoginViewModel()
     
     var body: some View {
         
         ScrollView {
             
             if login.isLoggedIn || !login.syncWithCloud {
-
-                InstructionsTaskView(taskID: "stretch", eventQuery: OCKEventQuery(for: Date()), storeManager: login.storeManager)
-                
-                SimpleTaskView(taskID: "kegels", eventQuery: OCKEventQuery(for: Date()), storeManager: login.storeManager){ controller in
+                if let storeManager = storeManager {
+                    InstructionsTaskView(taskID: "stretch", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager)
                     
-                    .init(title: Text(controller.viewModel?.title ?? ""), detail: nil, isComplete: controller.viewModel?.isComplete ?? false, action: controller.viewModel?.action ?? {})
+                    SimpleTaskView(taskID: "kegels", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager){ controller in
+                        
+                        .init(title: Text(controller.viewModel?.title ?? ""), detail: nil, isComplete: controller.viewModel?.isComplete ?? false, action: controller.viewModel?.action ?? {})
+                    }
                 }
-                
             } else {
                 Text("Please open the OCKSample app on your iPhone and login")
                     .multilineTextAlignment(.center)

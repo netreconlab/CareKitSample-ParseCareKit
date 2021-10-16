@@ -15,7 +15,7 @@ import UIKit
 struct LoginView: View {
     
     //Anything is @ is a wrapper that subscribes and refreshes the view when a change occurs. List to the last lecture in Section 2 for an explanation
-    @ObservedObject private var login = Login()
+    @ObservedObject private var login = LoginViewModel()
     @State private var usersname = ""
     @State private var password = ""
     @State var firstName: String = ""
@@ -89,9 +89,13 @@ struct LoginView: View {
                 Button(action: {
                     
                     if signupLoginSegmentValue == 1 {
-                        login.signup(username: usersname, password: password, firstName: firstName, lastName: lastName)
-                    }else {
-                        login.login(username: usersname, password: password)
+                        Task {
+                            await login.signup(username: usersname, password: password, firstName: firstName, lastName: lastName)
+                        }
+                    } else {
+                        Task {
+                            await login.login(username: usersname, password: password)
+                        }
                     }
 
                 }, label: {
@@ -114,9 +118,9 @@ struct LoginView: View {
                 .cornerRadius(15)
                 
                 Button(action: {
-                    
-                    login.loginAnonymously()
-
+                    Task {
+                        await login.loginAnonymously()
+                    }
                 }, label: {
                     
                     if signupLoginSegmentValue == 1 {

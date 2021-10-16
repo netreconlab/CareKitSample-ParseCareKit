@@ -11,7 +11,7 @@
 import SwiftUI
 import UIKit
 import CareKit
-
+import os.log
 
 struct CareView: UIViewControllerRepresentable {
     
@@ -20,9 +20,13 @@ struct CareView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> some UIViewController {
         
         //The code below is setupTabBarController from SceneDelegate.swift
-        let manager = self.appDelegate.synchronizedStoreManager!
+        guard let manager = StoreManagerKey.defaultValue else {
+            Logger.feed.error("Couldn't unwrap storeManager")
+            return UINavigationController()
+        }
         let care = CareViewController(storeManager: manager)
         let careViewController = UINavigationController(rootViewController: care)
+        careViewController.navigationBar.backgroundColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1): #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) }
         
         return careViewController
     }

@@ -9,13 +9,9 @@
 import SwiftUI
 import CareKit
 
-class Login: ObservableObject {
+class LoginViewModel: ObservableObject {
     
     private let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
-    
-    var storeManager: OCKSynchronizedStoreManager {
-        return watchDelegate.storeManager
-    }
     
     var syncWithCloud: Bool {
         return watchDelegate.syncWithCloud

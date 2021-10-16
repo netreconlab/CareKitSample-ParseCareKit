@@ -34,6 +34,7 @@ import CareKit
 import CareKitStore
 import SwiftUI
 import CareKitUI
+import os.log
 
 class CareViewController: OCKDailyPageViewController {
 
@@ -66,7 +67,7 @@ class CareViewController: OCKDailyPageViewController {
             }
         default:
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)", style: .plain, target: self, action: #selector(synchronizeWithRemote))
-            navigationItem.rightBarButtonItem?.tintColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1): #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) }
+            navigationItem.rightBarButtonItem?.tintColor = TintColorKey.defaultValue
         }
     }
     
@@ -81,7 +82,8 @@ class CareViewController: OCKDailyPageViewController {
         appDelegate.coreDataStore.synchronize { error in
             
             DispatchQueue.main.async {
-                print(error?.localizedDescription ?? "Successful sync with remote!")
+                let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+                Logger.appDelegate.info("\(errorString)")
                 if error != nil {
                     self.navigationItem.rightBarButtonItem?.tintColor = .red
                 } else {
@@ -108,7 +110,7 @@ class CareViewController: OCKDailyPageViewController {
         storeManager.store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
             
             switch result {
-            case .failure(let error): print("Error: \(error)")
+            case .failure(let error): Logger.appDelegate.error("\(error.localizedDescription)")
             case .success(let tasks):
 
                 // Only show the tip view on the current date

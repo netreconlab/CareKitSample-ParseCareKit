@@ -32,6 +32,7 @@ import CareKit
 import UIKit
 import CareKitStore
 import SwiftUI //Need to add this, currently not in your code
+import os.log
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -47,7 +48,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             window = UIWindow(windowScene: windowScene)
             window?.rootViewController = permissionViewController
-            window?.tintColor = UIColor { $0.userInterfaceStyle == .light ?  #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) }
+            window?.tintColor = TintColorKey.defaultValue
             window?.makeKeyAndVisible()
 
             //When syncing directly with watchOS, we don't care about login and need to setup remotes
@@ -65,10 +66,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     self.window?.rootViewController = UIHostingController(rootView: LoginView()) //Wraps a SwiftUI view in UIKit view
 
                 } else {
-                    print("User is already signed in...")
-                    appDelegate.profile = Profile()
+                    Logger.appDelegate.info("User is already signed in...")
+                    appDelegate.profile = ProfileViewModel()
                     guard let uuid = appDelegate.profile.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
-                        print("Error in SceneDelage, no uuid saved.")
+                        Logger.appDelegate.info("Error in SceneDelage, no uuid saved.")
                         return
                     }
                     self.appDelegate.setupRemotes(uuid: uuid)
@@ -85,7 +86,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func setupTabBarController() {
         
-        let manager = self.appDelegate.synchronizedStoreManager!
+        guard let manager = StoreManagerKey.defaultValue else {
+            Logger.sceneDelegate.error("Couldn't unwrap storeManager")
+            return
+        }
         let care = CareViewController(storeManager: manager)
         care.tabBarItem = UITabBarItem(title: "Patient Care", image: .init(imageLiteralResourceName: "carecard"), selectedImage: .init(imageLiteralResourceName: "carecard-filled"))
         let careViewController = UINavigationController(rootViewController: care)
@@ -101,7 +105,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
                 if error != nil {
-                    print(error!.localizedDescription)
+                    Logger.appDelegate.error("\(error!.localizedDescription)")
                 }
             }
         }

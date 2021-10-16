@@ -14,34 +14,12 @@ import UIKit
 
 //This file is the SwiftUI equivalent to UITabBarController in setupTabBarController() in SceneDelegate.swift
 
-struct StoreManagerKey: EnvironmentKey {
-    
-    static var defaultValue: OCKSynchronizedStoreManager? {
-        let extensionDelegate = UIApplication.shared.delegate as! AppDelegate
-        return extensionDelegate.synchronizedStoreManager
-    }
-}
-
-extension EnvironmentValues {
-    
-    var storeManager: OCKSynchronizedStoreManager? {
-        get {
-            self[StoreManagerKey.self]
-        }
-        
-        set{
-            self[StoreManagerKey.self] = newValue
-        }
-    }
-}
-
-
 struct MainView: View {
     
     @Environment(\.storeManager) private var storeManager
+    @Environment(\.tintColor) private var tintColor
     @State private var selectedTab = 0
-    @State private var tintColor = UIColor { $0.userInterfaceStyle == .light ?  #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) }
-    @ObservedObject var profile = Profile()
+    @ObservedObject var profile = ProfileViewModel()
     
     var body: some View {
         
@@ -58,9 +36,8 @@ struct MainView: View {
                     }
                 }
                 .tag(0)
-                
-            
-            ContactView(manager: storeManager!)
+
+            ContactView(manager: storeManager)
                 .tabItem {
                     if selectedTab == 1 {
                         Image("phone.bubble.left.fill")

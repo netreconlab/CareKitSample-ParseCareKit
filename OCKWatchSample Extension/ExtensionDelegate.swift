@@ -11,6 +11,7 @@ import ParseCareKit
 import ParseSwift
 import WatchKit
 import WatchConnectivity
+import os.log
 
 class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
@@ -33,7 +34,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         do {
             _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
         } catch {
-            print(error.localizedDescription)
+            Logger.extensionDelegate.error("\(error.localizedDescription)")
         }
         
         //Clear items out of the Keychain on app first run. Used for debugging
@@ -50,9 +51,10 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
             }
-            print("User is already signed in...")
+            Logger.extensionDelegate.info("User is already signed in...")
             store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                let errorString = error?.localizedDescription ?? "Successful sync with Cloud!"
+                Logger.extensionDelegate.info("\(errorString)")
             }
         } else {
             setupRemotes(uuid: nil) //Setup for getting info
@@ -73,11 +75,11 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             if syncWithCloud{
                 guard let uuid = uuid,
                       let remotUUID = UUID(uuidString: uuid) else {
-                    print("Couldn't get remote clock UUID from User defaults")
-                    sessionDelegate = CloudSyncSessionDelegate(store: nil)
-                    WCSession.default.delegate = sessionDelegate
-                    WCSession.default.activate()
-                    return
+                          Logger.extensionDelegate.error("Couldn't get remote clock UUID from User defaults")
+                          sessionDelegate = CloudSyncSessionDelegate(store: nil)
+                          WCSession.default.delegate = sessionDelegate
+                          WCSession.default.activate()
+                          return
                 }
                 parse = try ParseRemote(uuid: remotUUID, auto: true, subscribeToServerUpdates: true)
                 store = OCKStore(name: "WatchParseStore", remote: parse)
@@ -97,7 +99,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             WCSession.default.activate()
 
         } catch {
-            print("Error setting up remote: \(error.localizedDescription)")
+            Logger.extensionDelegate.error("Error setting up remote: \(error.localizedDescription)")
         }
         
     }
@@ -153,16 +155,17 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 extension ExtensionDelegate: ParseRemoteDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         store?.synchronize{ error in
-            print(error?.localizedDescription ?? "Successful sync with Cloud!")
+            let errorString = error?.localizedDescription ?? "Successful sync with Cloud!"
+            Logger.extensionDelegate.info("\(errorString)")
         }
     }
     
     func successfullyPushedDataToCloud() {
-        print("Finished pusshing data.")
+        Logger.extensionDelegate.info("Finished pusshing data.")
     }
     
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
-        print("Synchronization completed: \(progress)")
+        Logger.extensionDelegate.info("Synchronization completed: \(progress)")
     }
     
     func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
@@ -204,7 +207,7 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("New session state: \(activationState)")
+        Logger.extensionDelegate.info("New session state: \(activationState.rawValue)")
         
         switch activationState {
         case .activated:
@@ -216,7 +219,7 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                         
                         guard let sessionToken = reply[Constants.parseUserSessionTokenKey] as? String,
                               let uuidString = reply[Constants.parseRemoteClockIDKey] as? String else {
-                            print("Error: data missing in iPhone message")
+                                  Logger.extensionDelegate.error("Error: data missing in iPhone message")
                             return
                         }
                         
@@ -229,36 +232,37 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                             switch result {
                             
                             case .success(let user):
-                                print("Parse login successful \(user)")
+                                Logger.extensionDelegate.info("Parse login successful \(user)")
                                 let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
                                 watchDelegate.setupRemotes(uuid: uuidString)
                                 watchDelegate.store.synchronize { error in
-                                    print(error?.localizedDescription ?? "Successful sync with Cloud!")
+                                    let errorString = error?.localizedDescription ?? "Successful sync with Cloud!"
+                                    Logger.extensionDelegate.info("\(errorString)")
                                 }
                                 //Setup installation to receive push notifications
                                 Installation.current?.save() { result in
                                     switch result {
                                     
                                     case .success(_):
-                                        print("Parse Installation saved, can now receive push notificaitons.")
+                                        Logger.extensionDelegate.info("Parse Installation saved, can now receive push notificaitons.")
                                     case .failure(let error):
-                                        print("Error saving Parse Installation saved: \(error.localizedDescription)")
+                                        Logger.extensionDelegate.error("Error saving Parse Installation saved: \(error.localizedDescription)")
                                     }
                                 }
                                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
                                 
                             case .failure(let error):
-                                print("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                                print("Parse error: \(String(describing: error))")
+                                Logger.extensionDelegate.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+                                Logger.extensionDelegate.error("Parse error: \(String(describing: error))")
                             }
                         }
                     }) { error in
-                        print(error)
+                        Logger.extensionDelegate.error("\(error.localizedDescription)")
                     }
                 }
             }
         default:
-            print("")
+            Logger.extensionDelegate.error("Wrong state: \(activationState.rawValue)")
         }
     }
 }
@@ -273,18 +277,19 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate{
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        print("New session state: \(activationState)")
+        Logger.extensionDelegate.info("New session state: \(activationState.rawValue)")
         
         if activationState == .activated {
             store.synchronize{ error in
-                print(error?.localizedDescription ?? "Successful sync with iPhone!")
+                let errorString = error?.localizedDescription ?? "Successful sync with iPhone!"
+                Logger.extensionDelegate.info("\(errorString)")
             }
         }
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         
-        print("Received message from iPhone")
+        Logger.extensionDelegate.info("Received message from iPhone")
         remote.reply(to: message, store: store){ reply in
             replyHandler(reply)
         }
