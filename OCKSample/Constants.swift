@@ -29,5 +29,18 @@ enum Constants {
     static let parseRemoteClockIDKey = "requestRemoteClockID"
     static let requestSync = "requestSync"
     static let progressUpdate = "progressUpdate"
+    static let userLoggedIn = "userLoggedIn"
 }
 
+enum TaskID {
+    static let doxylamine = "doxylamine"
+    static let nausea = "nausea"
+    static let stretch = "stretch"
+    static let kegels = "kegels"
+    static let steps = "steps"
+
+    static var ordered: [String] {
+        [Self.steps, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
+    }
+
+}

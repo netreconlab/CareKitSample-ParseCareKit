@@ -17,11 +17,7 @@ class LoginViewModel: ObservableObject {
         return watchDelegate.syncWithCloud
     }
     
-    var isLoggedIn = false {
-        willSet {
-            objectWillChange.send()
-        }
-    }
+    @Published var isLoggedIn = false
     
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(loginChanged(_:)), name: Notification.Name(rawValue: Constants.userLoggedIn), object: nil)

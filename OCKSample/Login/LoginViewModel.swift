@@ -15,16 +15,8 @@ import os.log
 @MainActor
 class LoginViewModel: ObservableObject {
 
-    private(set) var isLoggedIn = false {
-        willSet {
-            objectWillChange.send() //Publishes a notification to subscribers whenever this value changes
-        }
-    }
-    private(set) var loginError: ParseError? = nil {
-        willSet {
-            objectWillChange.send() //Publishes a notification to subscribers whenever this value changes
-        }
-    }
+    private(set) var isLoggedIn = false // Publishes a notification to subscribers whenever this value changes
+    private(set) var loginError: ParseError? = nil // Publishes a notification to subscribers whenever this value changes
     private var profileModel: ProfileViewModel?
     
     //MARK: User intentional behavier

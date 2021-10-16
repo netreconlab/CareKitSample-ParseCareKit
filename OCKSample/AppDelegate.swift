@@ -214,7 +214,7 @@ extension OCKStore {
                                interval: DateComponents(day: 2))
         ])
 
-        var doxylamine = OCKTask(id: "doxylamine", title: "Take Doxylamine",
+        var doxylamine = OCKTask(id: TaskID.doxylamine, title: "Take Doxylamine",
                                  carePlanUUID: nil, schedule: schedule)
         doxylamine.instructions = "Take 25mg of doxylamine when you experience nausea."
         doxylamine.asset = "pills.fill"
@@ -224,7 +224,7 @@ extension OCKStore {
                                text: "Anytime throughout the day", targetValues: [], duration: .allDay)
             ])
 
-        var nausea = OCKTask(id: "nausea", title: "Track your nausea",
+        var nausea = OCKTask(id: TaskID.nausea, title: "Track your nausea",
                              carePlanUUID: nil, schedule: nauseaSchedule)
         nausea.impactsAdherence = false
         nausea.instructions = "Tap the button below anytime you experience nausea."
@@ -232,7 +232,7 @@ extension OCKStore {
         
         let kegelElement = OCKScheduleElement(start: beforeBreakfast, end: nil, interval: DateComponents(day: 2))
         let kegelSchedule = OCKSchedule(composing: [kegelElement])
-        var kegels = OCKTask(id: "kegels", title: "Kegel Exercises", carePlanUUID: nil, schedule: kegelSchedule)
+        var kegels = OCKTask(id: TaskID.kegels, title: "Kegel Exercises", carePlanUUID: nil, schedule: kegelSchedule)
         kegels.impactsAdherence = true
         kegels.instructions = "Perform kegel exercies"
         
@@ -326,7 +326,7 @@ extension OCKHealthKitPassthroughStore {
             duration: .hours(12), targetValues: [OCKOutcomeValue(2000.0, units: "Steps")])
 
         var steps = OCKHealthKitTask(
-            id: "steps",
+            id: TaskID.steps,
             title: "Steps",
             carePlanUUID: nil,
             schedule: schedule,
