@@ -19,13 +19,11 @@ struct CareView: View {
         ScrollView {
             
             if login.isLoggedIn || !login.syncWithCloud {
-                if let storeManager = storeManager {
-                    InstructionsTaskView(taskID: "stretch", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager)
+                InstructionsTaskView(taskID: "stretch", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager)
+                
+                SimpleTaskView(taskID: "kegels", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager){ controller in
                     
-                    SimpleTaskView(taskID: "kegels", eventQuery: OCKEventQuery(for: Date()), storeManager: storeManager){ controller in
-                        
-                        .init(title: Text(controller.viewModel?.title ?? ""), detail: nil, isComplete: controller.viewModel?.isComplete ?? false, action: controller.viewModel?.action ?? {})
-                    }
+                    .init(title: Text(controller.viewModel?.title ?? ""), detail: nil, isComplete: controller.viewModel?.isComplete ?? false, action: controller.viewModel?.action ?? {})
                 }
             } else {
                 Text("Please open the OCKSample app on your iPhone and login")
