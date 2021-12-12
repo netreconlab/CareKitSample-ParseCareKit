@@ -25,6 +25,7 @@
 		707CC717254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC718254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		707CC719254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
+		708542F9276687F90029E888 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51F6343923D2877B00FE576E /* HealthKit.framework */; };
 		70C8A751275AB2B0007AA121 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70C8A750275AB2B0007AA121 /* CareKit */; };
 		70C8A753275AB2B0007AA121 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 70C8A752275AB2B0007AA121 /* CareKitFHIR */; };
 		70C8A755275AB2B0007AA121 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 70C8A754275AB2B0007AA121 /* CareKitUI */; };
@@ -192,6 +193,7 @@
 				70C8A753275AB2B0007AA121 /* CareKitFHIR in Frameworks */,
 				70C8A755275AB2B0007AA121 /* CareKitUI in Frameworks */,
 				918FDEAF271B3F8F0045A0EF /* ParseCareKit in Frameworks */,
+				708542F9276687F90029E888 /* HealthKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1184,7 +1186,7 @@
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				kind = revision;
-				revision = 77c40ab08d86107f86a68898232bc5fde0b8f5c5;
+				revision = 4f0aebb92353092a9f3fc97e451186011de40aa6;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
