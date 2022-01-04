@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 6/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
-import CareKit
+import CareKitUI
 import CareKitStore
 import SwiftUI
 
@@ -15,7 +15,8 @@ struct CareView: View {
     @ObservedObject var login = LoginViewModel()
 
     var body: some View {
-
+        EmptyView()
+        /*
         ScrollView {
 
             if login.isLoggedIn || !login.syncWithCloud {
@@ -49,8 +50,8 @@ struct CareView: View {
                     .resizable()
                     .frame(width: 50, height: 50.0)
             }
-
         }.accentColor(Color(#colorLiteral(red: 0.8310135007, green: 0.8244097233, blue: 0.8242591023, alpha: 1)))
+         */
     }
 
 }
