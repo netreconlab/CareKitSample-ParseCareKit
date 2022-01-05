@@ -5,43 +5,38 @@
 //  Created by Corey Baker on 6/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
-import CareKitUI
+import CareKit
 import CareKitStore
 import SwiftUI
+import os.log
 
 struct CareView: View {
 
     @Environment(\.storeManager) private var storeManager
-    @ObservedObject var login = LoginViewModel()
+    @StateObject var login = LoginViewModel()
+    @StateObject var viewModel = CareViewModel()
+    // swiftlint:disable:next force_cast
+    let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
 
     var body: some View {
-        EmptyView()
-        /*
+
         ScrollView {
 
-            if login.isLoggedIn || !login.syncWithCloud {
-                if let storeManager = storeManager {
+            if User.current != nil || !login.syncWithCloud {
+
+                if viewModel.isOnboarded {
                     InstructionsTaskView(taskID: TaskID.stretch,
                                          eventQuery: OCKEventQuery(for: Date()),
-                                         storeManager: storeManager)
-
-                    SimpleTaskView(taskID: TaskID.kegels,
-                                   eventQuery: OCKEventQuery(for: Date()),
-                                   storeManager: storeManager) { controller in
-
-                        .init(title: Text(controller.viewModel?.title ?? ""),
-                              detail: nil,
-                              isComplete: controller.viewModel?.isComplete ?? false,
-                              action: controller.viewModel?.action ?? {})
-                    }
+                                         storeManager: watchDelegate.storeManager)
                 } else {
-                    Text("Please restart watchOS app to start syncing")
+                    Text("Please open the OCKSample app on your iPhone and complete onboarding")
                         .multilineTextAlignment(.center)
                         .padding()
-                    Image(systemName: "apps.iphone")
+                    Image(systemName: "doc.text")
                         .resizable()
                         .frame(width: 50, height: 50.0)
                 }
+
             } else {
                 Text("Please open the OCKSample app on your iPhone and login")
                     .multilineTextAlignment(.center)
@@ -50,10 +45,23 @@ struct CareView: View {
                     .resizable()
                     .frame(width: 50, height: 50.0)
             }
-        }.accentColor(Color(#colorLiteral(red: 0.8310135007, green: 0.8244097233, blue: 0.8242591023, alpha: 1)))
-         */
-    }
 
+        }
+        .onAppear(perform: {
+            guard watchDelegate.store != nil else {
+                return
+            }
+            watchDelegate.store.synchronize { error in
+                let errorString = error?.localizedDescription ?? "Successful sync with iPhone!"
+                Logger.feed.info("\(errorString)")
+                if !self.viewModel.isOnboarded {
+                    Task {
+                        await self.viewModel.checkIfOnboardingIsComplete()
+                    }
+                }
+            }
+        })
+    }
 }
 
 struct ContentView_Previews: PreviewProvider {

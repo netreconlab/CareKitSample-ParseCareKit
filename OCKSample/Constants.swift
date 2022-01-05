@@ -32,6 +32,7 @@ enum Constants {
     static let requestSync = "requestSync"
     static let progressUpdate = "progressUpdate"
     static let userLoggedIn = "userLoggedIn"
+    static let storeIsInitialized = "storeIsInitialized"
 }
 
 enum TaskID {
