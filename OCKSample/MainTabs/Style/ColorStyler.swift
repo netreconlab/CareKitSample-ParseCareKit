@@ -11,6 +11,9 @@ import CareKitUI
 import UIKit
 
 struct ColorStyler: OCKColorStyler {
+    var label: UIColor {
+        FontColorKey.defaultValue
+    }
     var tertiaryCustomFill: UIColor {
         TintColorKey.defaultValue
     }
