@@ -29,8 +29,4 @@ struct User: ParseUser {
     var ACL: ParseACL?
 
     var score: Double?
-
-    init() {
-        ACL = try? ParseACL.defaultACL()
-    }
 }

@@ -15,6 +15,7 @@ struct CareView: View {
     @Environment(\.storeManager) private var storeManager
     @StateObject var login = LoginViewModel()
     @StateObject var viewModel = CareViewModel()
+    @StateObject var userStatus = UserStatus()
     // swiftlint:disable:next force_cast
     let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
 
@@ -22,20 +23,11 @@ struct CareView: View {
 
         ScrollView {
 
-            if User.current != nil || !login.syncWithCloud {
+            if !userStatus.isLoggedOut || !login.syncWithCloud {
 
-                if viewModel.isOnboarded {
-                    InstructionsTaskView(taskID: TaskID.stretch,
-                                         eventQuery: OCKEventQuery(for: Date()),
-                                         storeManager: watchDelegate.storeManager)
-                } else {
-                    Text("Please open the OCKSample app on your iPhone and complete onboarding")
-                        .multilineTextAlignment(.center)
-                        .padding()
-                    Image(systemName: "doc.text")
-                        .resizable()
-                        .frame(width: 50, height: 50.0)
-                }
+                InstructionsTaskView(taskID: TaskID.stretch,
+                                     eventQuery: OCKEventQuery(for: Date()),
+                                     storeManager: storeManager)
 
             } else {
                 Text("Please open the OCKSample app on your iPhone and login")
@@ -54,11 +46,6 @@ struct CareView: View {
             watchDelegate.store.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with iPhone!"
                 Logger.feed.info("\(errorString)")
-                if !self.viewModel.isOnboarded {
-                    Task {
-                        await self.viewModel.checkIfOnboardingIsComplete()
-                    }
-                }
             }
         })
     }

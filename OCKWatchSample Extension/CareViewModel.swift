@@ -15,33 +15,26 @@ import os.log
 
 @MainActor
 class CareViewModel: ObservableObject {
-    @Published var isOnboarded = false
     @Published var update = false
     private var cancellables: Set<AnyCancellable> = []
 
     init() {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadViewModel),
-                                               name: Notification.Name(rawValue: Constants.storeIsInitialized),
+                                               name: Notification.Name(rawValue: Constants.storeInitialized),
                                                object: nil)
-        Task {
-            await checkIfOnboardingIsComplete()
-        }
     }
 
     // MARK: Helpers
 
     private func observeTask(_ task: OCKTask) {
 
-        StoreManagerKey.defaultValue?.publisher(forEventsBelongingToTask: task,
-                                                categories: [OCKStoreNotificationCategory.add,
-                                                             OCKStoreNotificationCategory.update,
-                                                             OCKStoreNotificationCategory.delete])
+        StoreManagerKey.defaultValue.publisher(forEventsBelongingToTask: task,
+                                               categories: [OCKStoreNotificationCategory.add,
+                                                            OCKStoreNotificationCategory.update,
+                                                            OCKStoreNotificationCategory.delete])
             .sink { [weak self] in
-                guard let current = self else { return }
-                Logger.feed.info("Onboarding updated: \($0, privacy: .private)")
-                Task {
-                    await current.checkIfOnboardingIsComplete()
-                }
+                guard self != nil else { return }
+                Logger.feed.info("Task updated: \($0, privacy: .private)")
             }
             .store(in: &cancellables)
     }
@@ -51,12 +44,5 @@ class CareViewModel: ObservableObject {
     }
 
     @objc private func reloadViewModel() {
-        Task {
-            await checkIfOnboardingIsComplete()
-        }
-    }
-
-    func checkIfOnboardingIsComplete() async {
-        self.isOnboarded = true
     }
 }

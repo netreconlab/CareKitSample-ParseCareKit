@@ -42,7 +42,6 @@ struct Installation: ParseInstallation {
 
     var score: Double?
 
-    init() {
-        ACL = try? ParseACL.defaultACL()
-    }
+    // Custom:
+    var user: User?
 }

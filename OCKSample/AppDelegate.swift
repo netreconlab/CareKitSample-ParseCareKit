@@ -42,14 +42,16 @@ import os.log
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
-    var firstLogin = false
+    var isFirstAppOpen = true
+    var isFirstLogin = false
     var coreDataStore: OCKStore!
     var healthKitStore: OCKHealthKitPassthroughStore!
+    var profileViewModel = ProfileViewModel()
     var parse: ParseRemote!
     var profile: ProfileViewModel!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate: SessionDelegate!
-    private(set) var synchronizedStoreManager: OCKSynchronizedStoreManager?
+    private(set) var storeManager: OCKSynchronizedStoreManager?
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -58,25 +60,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PCKUtility.setupServer { (_, completionHandler) in
             completionHandler(.performDefaultHandling, nil)
         }
-
-        // Clear items out of the Keychain on app first run. Used for debugging
-        if UserDefaults.standard.object(forKey: "firstRun") == nil {
-            try? User.logout()
-            // This is no longer the first run
-            UserDefaults.standard.setValue(String("firstRun"), forKey: "firstRun")
-            UserDefaults.standard.synchronize()
-        }
-
-        // Set default ACL for all ParseObjects
-        var defaultACL = ParseACL()
-        defaultACL.publicRead = false
-        defaultACL.publicWrite = false
-        do {
-            _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
-        } catch {
-            Logger.appDelegate.error("\(error.localizedDescription)")
-        }
-
         return true
     }
 
@@ -89,11 +72,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         guard var currentInstallation = Installation.current else {
+            Logger.appDelegate.debug("""
+                Attempted to update installation with deviceToken,
+                but no current installation is available
+            """)
             return
         }
         currentInstallation.setDeviceToken(deviceToken)
-        currentInstallation.channels = ["global"]
-        currentInstallation.save { _ in }
+        let installation = currentInstallation
+        Task {
+            do {
+                let updatedInstallation = try await installation.save()
+                Logger.appDelegate.info("""
+                    Updated installation with deviceToken: \(updatedInstallation, privacy: .private)
+                """)
+            } catch {
+                Logger.appDelegate.error("""
+                    Could not update installation with deviceToken: \(error.localizedDescription)
+                """)
+            }
+        }
+    }
+
+    func resetAppToInitialState() {
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeDeinitialized)))
+        do {
+            try healthKitStore.reset()
+        } catch {
+            Logger.appDelegate.error("Error deleting HealthKit Store: \(error.localizedDescription)")
+        }
+        do {
+            try coreDataStore.delete() // Delete data in local OCKStore database
+        } catch {
+            Logger.appDelegate.error("Error deleting OCKStore: \(error.localizedDescription)")
+        }
+        isFirstAppOpen = true
+        isFirstLogin = false
+        storeManager = nil
+        healthKitStore = nil
+        parse = nil
+        coreDataStore = nil
     }
 
     func setupRemotes(uuid: UUID? = nil) {
@@ -104,8 +122,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
                     return
                 }
-                parse = try ParseRemote(uuid: uuid, auto: false, subscribeToServerUpdates: true)
-                coreDataStore = OCKStore(name: "ParseStore", type: .onDisk(), remote: parse)
+                parse = try ParseRemote(uuid: uuid,
+                                        auto: false,
+                                        subscribeToServerUpdates: true,
+                                        defaultACL: try? ParseACL.defaultACL())
+                coreDataStore = OCKStore(name: "ParseStore",
+                                         type: .onDisk(),
+                                         remote: parse)
                 parse?.parseRemoteDelegate = self
                 sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
             } else {
@@ -121,7 +144,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let coordinator = OCKStoreCoordinator()
             coordinator.attach(store: coreDataStore)
             coordinator.attach(eventStore: healthKitStore)
-            synchronizedStoreManager = OCKSynchronizedStoreManager(wrapping: coordinator)
+            storeManager = OCKSynchronizedStoreManager(wrapping: coordinator)
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
         } catch {
             Logger.appDelegate.error("Error setting up remote: \(error.localizedDescription)")
         }
@@ -137,17 +161,17 @@ extension AppDelegate: ParseRemoteDelegate {
     }
 
     func successfullyPushedDataToCloud() {
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+        if self.isFirstAppOpen {
+            self.isFirstLogin = false
+            self.isFirstAppOpen = false
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.reloadView)))
         }
     }
 
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
-        DispatchQueue.main.async {
-            let progressPercentage = Int(progress * 100.0)
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.progressUpdate),
-                                                  userInfo: [Constants.progressUpdate: progressPercentage]))
-        }
+        let progressPercentage = Int(progress * 100.0)
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.progressUpdate),
+                                              userInfo: [Constants.progressUpdate: progressPercentage]))
     }
 
     func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
@@ -203,16 +227,12 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
         Logger.appDelegate.info("New session state: \(activationState.rawValue)")
 
         if activationState == .activated {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-            }
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
     }
 
     func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-        }
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
     }
 
     func session(_ session: WCSession,
@@ -221,17 +241,10 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
 
         if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
             Logger.watch.info("Received message from Apple Watch requesting ParseUser, sending now")
-            var returnMessage = [String: Any]()
 
             DispatchQueue.main.async {
                 // Prepare data for watchOS
-                guard let sessionToken = User.current?.sessionToken else {
-                    return
-                }
-
-                returnMessage[Constants.parseUserSessionTokenKey] = sessionToken
-                // swiftlint:disable:next line_length
-                returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey)
+                let returnMessage = Utility.getUserSessionForWatch()
                 replyHandler(returnMessage)
             }
 
@@ -262,9 +275,7 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
         Logger.appDelegate.info("New session state: \(activationState.rawValue)")
 
         if activationState == .activated {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-            }
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
     }
 

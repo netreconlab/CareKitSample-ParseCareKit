@@ -13,7 +13,7 @@ import os.log
 
 extension OCKHealthKitPassthroughStore {
 
-    func addTasksIfNotPresent(_ tasks: [OCKHealthKitTask]) {
+    func addTasksIfNotPresent(_ tasks: [OCKHealthKitTask]) async throws {
         let tasksToAdd = tasks
         let taskIdsToAdd = tasksToAdd.compactMap { $0.id }
 
@@ -21,33 +21,28 @@ extension OCKHealthKitPassthroughStore {
         var query = OCKTaskQuery(for: Date())
         query.ids = taskIdsToAdd
 
-        fetchTasks(query: query) { result in
+        let foundTasks = try await fetchTasks(query: query)
+        var tasksNotInStore = [OCKHealthKitTask]()
 
-            if case let .success(foundTasks) = result {
+        // Check results to see if there's a missing task
+        tasksToAdd.forEach { potentialTask in
+            if foundTasks.first(where: { $0.id == potentialTask.id }) == nil {
+                tasksNotInStore.append(potentialTask)
+            }
+        }
 
-                var tasksNotInStore = [OCKHealthKitTask]()
-
-                // Check results to see if there's a missing task
-                tasksToAdd.forEach { potentialTask in
-                    if foundTasks.first(where: { $0.id == potentialTask.id }) == nil {
-                        tasksNotInStore.append(potentialTask)
-                    }
-                }
-
-                // Only add if there's a new task
-                if tasksNotInStore.count > 0 {
-                    self.addTasks(tasksNotInStore) { result in
-                        switch result {
-                        case .success: Logger.appDelegate.info("Added tasks into HealthKitPassthroughStore!")
-                        case .failure(let error): Logger.appDelegate.error("\(error.localizedDescription)")
-                        }
-                    }
-                }
+        // Only add if there's a new task
+        if tasksNotInStore.count > 0 {
+            do {
+                _ = try await addTasks(tasksNotInStore)
+                Logger.ockHealthKitPassthroughStore.info("Added tasks into HealthKitPassthroughStore!")
+            } catch {
+                Logger.ockHealthKitPassthroughStore.error("Error adding HealthKitTasks: \(error.localizedDescription)")
             }
         }
     }
 
-    func populateSampleData() {
+    func populateSampleData() async throws {
 
         let schedule = OCKSchedule.dailyAtTime(
             hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
@@ -63,6 +58,6 @@ extension OCKHealthKitPassthroughStore {
                 quantityType: .cumulative,
                 unit: .count()))
         steps.asset = "figure.walk"
-        addTasksIfNotPresent([steps])
+        try await addTasksIfNotPresent([steps])
     }
 }

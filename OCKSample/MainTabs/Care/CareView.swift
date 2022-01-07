@@ -11,28 +11,46 @@
 import SwiftUI
 import UIKit
 import CareKit
+import CareKitStore
 import os.log
 
 struct CareView: UIViewControllerRepresentable {
-    // swiftlint:disable:next force_cast
-    var appDelegate = UIApplication.shared.delegate as! AppDelegate
+
+    @ObservedObject var viewModel = CareViewModel()
 
     func makeUIViewController(context: Context) -> some UIViewController {
 
-        // The code below is setupTabBarController from SceneDelegate.swift
-        guard let manager = StoreManagerKey.defaultValue else {
-            Logger.feed.error("Couldn't unwrap storeManager")
-            return UINavigationController()
-        }
-        let care = CareViewController(storeManager: manager)
-        let careViewController = UINavigationController(rootViewController: care)
+        let view = createCareView()
+        let careViewController = UINavigationController(rootViewController: view)
         careViewController.navigationBar.backgroundColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1): #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) }
 
         return careViewController
     }
 
+    @MainActor
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+        // swiftlint:disable:next force_cast
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
+        if appDelegate.isFirstLogin && appDelegate.isFirstAppOpen {
+            guard let navigationController = uiViewController as? UINavigationController,
+                    let currentCareView = navigationController.viewControllers.first as? OCKDailyPageViewController,
+                  appDelegate.storeManager !== currentCareView.storeManager  else {
+                return
+            }
+            // Replace current view controller
+            let viewController = createCareView()
+            navigationController.viewControllers = [viewController]
+        }
+    }
+
+    // MARK: Helpers
+    func createCareView() -> UIViewController {
+        guard let manager = StoreManagerKey.defaultValue else {
+            Logger.feed.error("Couldn't unwrap storeManager")
+            return OCKDailyPageViewController(storeManager: .init(wrapping: OCKStore(name: "")))
+        }
+        return CareViewController(storeManager: manager)
     }
 }
 

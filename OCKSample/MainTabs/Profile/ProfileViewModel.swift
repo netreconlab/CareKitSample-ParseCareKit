@@ -13,27 +13,62 @@ import SwiftUI
 import ParseCareKit
 import UIKit
 import os.log
+import Combine
 
+@MainActor
 class ProfileViewModel: ObservableObject {
 
     @Published var patient: OCKPatient?
-    @Published var isLoggedOut = false
-    // swiftlint:disable:next force_cast
-    private var appDelegate = UIApplication.shared.delegate as! AppDelegate
+    @Published var isLoggedOut = false {
+        willSet {
+            if newValue {
+                error = nil
+                patient = nil
+                clearSubscriptions()
+            }
+        }
+    }
+    @Published public internal(set) var error: Error?
+    private(set) var storeManager: OCKSynchronizedStoreManager?
+    private var cancellables: Set<AnyCancellable> = []
 
     init() {
+        reloadViewModel()
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadViewModel),
+                                               name: Notification.Name(rawValue: Constants.reloadView),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(replaceStore),
+                                               name: Notification.Name(rawValue: Constants.storeInitialized),
+                                               object: nil)
+    }
+
+    // MARK: Helpers
+
+    @objc private func reloadViewModel() {
         Task {
-            // Find this patient
-            self.patient = await findCurrentProfile()
+            _ = await findAndObserveCurrentProfile()
         }
     }
 
-    @MainActor
-    private func findCurrentProfile() async -> OCKPatient? {
+    @objc private func replaceStore() {
+        guard let currentStore = StoreManagerKey.defaultValue else { return }
+        storeManager = currentStore
+        reloadViewModel()
+    }
+
+    func refreshViewIfNeeded() {
+        if cancellables.count == 0 {
+            reloadViewModel()
+        }
+    }
+
+    private func findAndObserveCurrentProfile() async {
 
         guard let uuid = getRemoteClockUUIDAfterLoginFromLocalStorage() else {
-            return nil
+            return
         }
+
+        clearSubscriptions()
 
         // Build query to search for OCKPatient
         // swiftlint:disable:next line_length
@@ -41,17 +76,73 @@ class ProfileViewModel: ObservableObject {
         queryForCurrentPatient.ids = [uuid.uuidString] // Search for the current logged in user
 
         do {
-            // swiftlint:disable:next line_length
-            let foundPatient = try await self.appDelegate.synchronizedStoreManager?.store.fetchAnyPatients(query: queryForCurrentPatient)
+            let foundPatient = try await self.storeManager?.store.fetchAnyPatients(query: queryForCurrentPatient)
             guard let currentPatient = foundPatient?.first as? OCKPatient else {
-                return nil
+                // swiftlint:disable:next line_length
+                Logger.profile.error("Error: Couldn't find patient with id \"\(uuid)\". It's possible they have never been saved.")
+                return
             }
-            return currentPatient
+            self.observePatient(currentPatient)
         } catch {
             // swiftlint:disable:next line_length
             Logger.profile.error("Error: Couldn't find patient with id \"\(uuid)\". It's possible they have never been saved. Query error: \(error.localizedDescription)")
+        }
+    }
+
+    private func observePatient(_ patient: OCKPatient) {
+
+        storeManager?.publisher(forPatient: patient, categories: [.add, .update, .delete])
+            .sink { [weak self] in
+                self?.patient = $0 as? OCKPatient
+            }
+            .store(in: &cancellables)
+    }
+
+    private func clearSubscriptions() {
+        cancellables = []
+    }
+
+    func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
+        guard let uuid = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
             return nil
         }
+
+        return UUID(uuidString: uuid)
+    }
+
+    static func getRemoteClockUUIDAfterLoginFromCloud() async throws -> UUID {
+
+        let query = PCKPatient.query()
+        let patient = try await query.first()
+        guard let uuid = patient.userInfo?[Constants.parseRemoteClockIDKey],
+              let remoteClockId = UUID(uuidString: uuid) else {
+            throw AppError.valueNotFoundInUserInfo
+        }
+        return remoteClockId
+    }
+
+    static func setupRemoteAfterLoginButtonTapped() async throws {
+
+        let remoteUUID = try await Self.getRemoteClockUUIDAfterLoginFromCloud()
+
+        // Save remote ID to local
+        UserDefaults.standard.setValue(remoteUUID.uuidString, forKey: Constants.parseRemoteClockIDKey)
+        UserDefaults.standard.synchronize()
+
+        do {
+            try LoginViewModel.setDefaultACL()
+        } catch {
+            Logger.profile.error("Couldn't set defaultACL: \(error.localizedDescription)")
+        }
+
+        // Importing UIKit gives us access here to get the OCKStore and ParseRemote
+        // swiftlint:disable:next force_cast
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.setupRemotes(uuid: remoteUUID)
+        appDelegate.parse.automaticallySynchronizes = true
+
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+        return
     }
 
     // MARK: User intentions
@@ -79,7 +170,7 @@ class ProfileViewModel: ObservableObject {
             }
 
             if patientHasBeenUpdated {
-                let updated = try await appDelegate.synchronizedStoreManager?.store.updateAnyPatient(patientToUpdate)
+                let updated = try await storeManager?.store.updateAnyPatient(patientToUpdate)
                 Logger.profile.info("Successfully updated patient")
                 guard let updatedPatient = updated as? OCKPatient else {
                     return
@@ -99,7 +190,7 @@ class ProfileViewModel: ObservableObject {
             newPatient.birthday = birth
 
             // This is new patient that has never been saved before
-            let new = try await appDelegate.synchronizedStoreManager?.store.addAnyPatient(newPatient)
+            let new = try await storeManager?.store.addAnyPatient(newPatient)
             Logger.profile.info("Succesffully saved new patient")
             guard let newPatient = new as? OCKPatient else {
                 return
@@ -108,85 +199,63 @@ class ProfileViewModel: ObservableObject {
         }
     }
 
-    @MainActor
-    func savePatientAfterSignUp(_ first: String, last: String) async throws -> OCKPatient {
+    static func savePatientAfterSignUp(_ first: String, last: String) async throws -> OCKPatient {
 
         let remoteUUID = UUID()
 
-        // Because of the app delegate access above, we can place the initial data in the database
-        self.appDelegate.setupRemotes(uuid: remoteUUID)
-        self.appDelegate.coreDataStore.populateSampleData()
-        self.appDelegate.healthKitStore.populateSampleData()
-        self.appDelegate.parse.automaticallySynchronizes = true
-        self.appDelegate.firstLogin = true
-
-        // Post notification to sync
-        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-
-        // Save remote ID to local
+        // Save remote ID locally
         UserDefaults.standard.setValue(remoteUUID.uuidString, forKey: Constants.parseRemoteClockIDKey)
         UserDefaults.standard.synchronize()
 
-        var newPatient = OCKPatient(id: remoteUUID.uuidString, givenName: first, familyName: last)
-        newPatient.userInfo = [Constants.parseRemoteClockIDKey: remoteUUID.uuidString] // Save the remoteId String
+        do {
+            try LoginViewModel.setDefaultACL()
+        } catch {
+            Logger.profile.error("Couldn't set defaultACL: \(error.localizedDescription)")
+        }
 
-        let savedPatient = try await appDelegate.synchronizedStoreManager?.store.addAnyPatient(newPatient)
+        // swiftlint:disable:next force_cast
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.setupRemotes(uuid: remoteUUID)
+
+        guard let storeManager = appDelegate.storeManager else {
+            throw AppError.couldntBeUnwrapped
+        }
+
+        let newPatient = OCKPatient(remoteUUID: remoteUUID,
+                                    id: remoteUUID.uuidString,
+                                    givenName: first,
+                                    familyName: last)
+
+        let savedPatient = try await storeManager.store.addAnyPatient(newPatient)
         guard let patient = savedPatient as? OCKPatient else {
             throw AppError.couldntCast
         }
-        self.patient = patient
 
+        try await appDelegate.coreDataStore.populateSampleData()
+        try await appDelegate.healthKitStore.populateSampleData()
+        appDelegate.parse.automaticallySynchronizes = true
+
+        // Post notification to sync
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         Logger.profile.info("Successfully added a new Patient")
         return patient
-    }
-
-    func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
-        guard let uuid = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
-            return nil
-        }
-
-        return UUID(uuidString: uuid)
-    }
-
-    func getRemoteClockUUIDAfterLoginFromCloud() async throws -> UUID {
-
-        let query = PCKPatient.query()
-        let patient = try await query.first()
-        guard let uuid = patient.userInfo?[Constants.parseRemoteClockIDKey],
-              let remoteClockId = UUID(uuidString: uuid) else {
-            throw AppError.valueNotFoundInUserInfo
-        }
-        return remoteClockId
-    }
-
-    @MainActor
-    func setupRemoteAfterLoginButtonTapped() async throws -> UUID {
-
-        let uuid = try await getRemoteClockUUIDAfterLoginFromCloud()
-
-        self.appDelegate.setupRemotes(uuid: uuid)
-        self.appDelegate.parse.automaticallySynchronizes = true
-        self.appDelegate.firstLogin = true
-
-        // Save remote ID to local
-        UserDefaults.standard.setValue(uuid.uuidString, forKey: Constants.parseRemoteClockIDKey)
-        UserDefaults.standard.synchronize()
-
-        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-        return uuid
     }
 
     // You may not have seen "throws" before, but it's simple,
     // this throws an error if one occurs, if not it behaves as normal
     // Normally, you've seen do {} catch{} which catches the error, same concept...
-    func logout() throws {
-        try User.logout()
-        isLoggedOut = true
+    func logout() async {
+        do {
+            try await User.logout()
+        } catch {
+            Logger.profile.error("Error logging out: \(error.localizedDescription)")
+        }
         UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
         UserDefaults.standard.synchronize()
+
         // swiftlint:disable:next force_cast
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        try appDelegate.healthKitStore.reset()
-        try appDelegate.coreDataStore.delete() // Delete data in local OCKStore database
+        appDelegate.resetAppToInitialState()
+        isLoggedOut = true
     }
 }

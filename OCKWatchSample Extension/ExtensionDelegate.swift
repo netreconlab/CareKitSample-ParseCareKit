@@ -49,9 +49,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         if User.current != nil {
             // swiftlint:disable:next line_length
             self.setupRemotes(uuid: UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String) // Setup for getting info
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-            }
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
             Logger.extensionDelegate.info("User is already signed in...")
             store.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with Cloud!"
@@ -98,6 +96,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
 
         } catch {
             Logger.extensionDelegate.error("Error setting up remote: \(error.localizedDescription)")
@@ -215,7 +214,6 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     func session(_ session: WCSession,
                  activationDidCompleteWith activationState: WCSessionActivationState,
                  error: Error?) {
-        Logger.extensionDelegate.info("New session state: \(activationState.rawValue)")
 
         switch activationState {
         case .activated:
@@ -226,58 +224,29 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
                     // swiftlint:disable:next line_length
                     WCSession.default.sendMessage([Constants.parseUserSessionTokenKey: Constants.parseUserSessionTokenKey],
                                                   replyHandler: { reply in
-
-                        guard let sessionToken = reply[Constants.parseUserSessionTokenKey] as? String,
-                              let uuidString = reply[Constants.parseRemoteClockIDKey] as? String else {
-                                  Logger.extensionDelegate.error("Error: data missing in iPhone message")
-                            return
-                        }
-
-                        // Save remoteUUID for later
-                        UserDefaults.standard.setValue(uuidString, forKey: Constants.parseRemoteClockIDKey)
-                        UserDefaults.standard.synchronize()
-
-                        User().become(sessionToken: sessionToken) { result in
-
-                            switch result {
-
-                            case .success(let user):
-                                Logger.extensionDelegate.info("Parse login successful \(user)")
-                                // swiftlint:disable:next force_cast
-                                let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
-                                watchDelegate.setupRemotes(uuid: uuidString)
-                                watchDelegate.store.synchronize { error in
-                                    let errorString = error?.localizedDescription ?? "Successful sync with Cloud!"
-                                    Logger.extensionDelegate.info("\(errorString)")
-                                }
-                                // Setup installation to receive push notifications
-                                Installation.current?.save { result in
-                                    switch result {
-
-                                    case .success:
-                                        // swiftlint:disable:next line_length
-                                        Logger.extensionDelegate.info("Parse Installation saved, can now receive push notificaitons.")
-                                    case .failure(let error):
-                                        // swiftlint:disable:next line_length
-                                        Logger.extensionDelegate.error("Error saving Parse Installation saved: \(error.localizedDescription)")
-                                    }
-                                }
-                                // swiftlint:disable:next line_length
-                                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-
-                            case .failure(let error):
-                                // swiftlint:disable:next line_length
-                                Logger.extensionDelegate.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-                                Logger.extensionDelegate.error("Parse error: \(String(describing: error))")
-                            }
+                        Task {
+                            await LoginViewModel.loginFromiPhoneMessage(reply)
                         }
                     }) { error in // swiftlint:disable:this multiple_closures_with_trailing_closure
-                        Logger.extensionDelegate.error("\(error.localizedDescription)")
+                        Logger.watch.error("(error)")
                     }
                 }
             }
         default:
-            Logger.extensionDelegate.error("Wrong state: \(activationState.rawValue)")
+            Logger.watch.info("None supported session state: \(activationState.rawValue)")
+        }
+    }
+
+    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+        if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
+            Task {
+                await LoginViewModel.loginFromiPhoneMessage(message)
+            }
+        } else if (message[Constants.requestSync] as? String) != nil {
+            store?.synchronize { error in
+                let errorString = error?.localizedDescription ?? "Successful sync with Cloud!"
+                Logger.watch.info("\(errorString)")
+            }
         }
     }
 }

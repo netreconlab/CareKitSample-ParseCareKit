@@ -15,7 +15,8 @@ import os.log
 struct ProfileView: View {
 
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var profileViewModel: ProfileViewModel
+    @Environment(\.userProfileViewModel) var viewModel
+    @EnvironmentObject var status: UserStatus
     @State var firstName = ""
     @State var lastName = ""
     @State var birthday = Calendar.current.date(byAdding: .year, value: -20, to: Date())!
@@ -46,7 +47,9 @@ struct ProfileView: View {
 
                 Task {
                     do {
-                        try await profileViewModel.saveProfile(firstName, last: lastName, birth: birthday)
+                        try await viewModel.saveProfile(firstName,
+                                                        last: lastName,
+                                                        birth: birthday)
                     } catch {
                         Logger.profile.error("Error saving profile: \(error.localizedDescription)")
                     }
@@ -63,56 +66,24 @@ struct ProfileView: View {
             .background(Color(.green))
             .cornerRadius(15)
 
-            if #available(iOS 14.0, *) {
+            // Notice that "action" is a closure (which is essentially
+            // a function as argument like we discussed in class)
+            Button(action: {
+                Task {
+                    await viewModel.logout()
+                }
 
-                // Notice that "action" is a closure (which is essentially
-                // a function as argument like we discussed in class)
-                Button(action: {
-                    do {
-                        try profileViewModel.logout()
-                        presentationMode.wrappedValue.dismiss()
-                    } catch {
-                        Logger.appDelegate.error("Error logging out: \(error.localizedDescription)")
-                    }
+            }, label: {
 
-                }, label: {
-
-                    Text("Log Out")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(width: 300, height: 50)
-                })
-                .background(Color(.red))
-                .cornerRadius(15)
-                .fullScreenCover(isPresented: $profileViewModel.isLoggedOut, content: {
-                    LoginView()
-                })
-            } else {
-                // Fallback on earlier versions
-                Button(action: {
-                    do {
-                        try profileViewModel.logout()
-                        presentationMode.wrappedValue.dismiss()
-                    } catch {
-                        Logger.appDelegate.error("Error logging out: \(error.localizedDescription)")
-                    }
-
-                }, label: {
-
-                    Text("Log Out")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(width: 300, height: 50)
-                })
-                .background(Color(.red))
-                .cornerRadius(15)
-                .sheet(isPresented: $profileViewModel.isLoggedOut, content: {
-                    LoginView()
-                })
-            }
-        }.onReceive(profileViewModel.$patient, perform: { patient in
+                Text("Log Out")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(width: 300, height: 50)
+            })
+            .background(Color(.red))
+            .cornerRadius(15)
+        }.onReceive(viewModel.$patient, perform: { patient in
             if let currentFirstName = patient?.name.givenName {
                 firstName = currentFirstName
             }
@@ -124,12 +95,18 @@ struct ProfileView: View {
             if let currentBirthday = patient?.birthday {
                 birthday = currentBirthday
             }
+        }).onReceive(viewModel.$isLoggedOut, perform: { value in
+            if self.status.isLoggedOut != value {
+                self.status.check()
+            }
+        }).onAppear(perform: {
+            viewModel.refreshViewIfNeeded()
         })
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(profileViewModel: ProfileViewModel())
+        ProfileView()
     }
 }

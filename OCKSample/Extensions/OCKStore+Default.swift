@@ -16,76 +16,64 @@ import ParseCareKit
 
 extension OCKStore {
 
-    func addTasksIfNotPresent(_ tasks: [OCKTask]) {
-        let tasksToAdd = tasks
-        let taskIdsToAdd = tasksToAdd.compactMap { $0.id }
+    func addTasksIfNotPresent(_ tasks: [OCKTask]) async throws {
+        let taskIdsToAdd = tasks.compactMap { $0.id }
 
         // Prepare query to see if tasks are already added
         var query = OCKTaskQuery(for: Date())
         query.ids = taskIdsToAdd
 
-        fetchTasks(query: query) { result in
+        let foundTasks = try await fetchTasks(query: query)
+        var tasksNotInStore = [OCKTask]()
 
-            if case let .success(foundTasks) = result {
+        // Check results to see if there's a missing task
+        tasks.forEach { potentialTask in
+            if foundTasks.first(where: { $0.id == potentialTask.id }) == nil {
+                tasksNotInStore.append(potentialTask)
+            }
+        }
 
-                var tasksNotInStore = [OCKTask]()
-
-                // Check results to see if there's a missing task
-                tasksToAdd.forEach { potentialTask in
-                    if foundTasks.first(where: { $0.id == potentialTask.id }) == nil {
-                        tasksNotInStore.append(potentialTask)
-                    }
-                }
-
-                // Only add if there's a new task
-                if tasksNotInStore.count > 0 {
-                    self.addTasks(tasksNotInStore) { result in
-                        switch result {
-                        case .success: Logger.appDelegate.info("Added tasks into OCKStore!")
-                        case .failure(let error): Logger.appDelegate.error("\(error.localizedDescription)")
-                        }
-                    }
-                }
+        // Only add if there's a new task
+        if tasksNotInStore.count > 0 {
+            do {
+                _ = try await addTasks(tasksNotInStore)
+                Logger.ockStore.info("Added tasks into OCKStore!")
+            } catch {
+                Logger.ockStore.error("Error adding tasks: \(error.localizedDescription)")
             }
         }
     }
 
-    func addContactsIfNotPresent(_ contacts: [OCKContact]) {
-        let contactsToAdd = contacts
-        let taskIdsToAdd = contactsToAdd.compactMap { $0.id }
+    func addContactsIfNotPresent(_ contacts: [OCKContact]) async throws {
+        let contactIdsToAdd = contacts.compactMap { $0.id }
 
         // Prepare query to see if contacts are already added
         var query = OCKContactQuery(for: Date())
-        query.ids = taskIdsToAdd
+        query.ids = contactIdsToAdd
 
-        fetchContacts(query: query) { result in
+        let foundContacts = try await fetchContacts(query: query)
+        var contactsNotInStore = [OCKContact]()
 
-            if case let .success(foundContacts) = result {
+        // Check results to see if there's a missing task
+        contacts.forEach { potential in
+            if foundContacts.first(where: { $0.id == potential.id }) == nil {
+                contactsNotInStore.append(potential)
+            }
+        }
 
-                var contactsNotInStore = [OCKContact]()
-
-                // Check results to see if there's a missing task
-                contactsToAdd.forEach { potential in
-                    if foundContacts.first(where: { $0.id == potential.id }) == nil {
-                        contactsNotInStore.append(potential)
-                    }
-                }
-
-                // Only add if there's a new task
-                if contactsNotInStore.count > 0 {
-                    self.addContacts(contactsNotInStore) { result in
-                        switch result {
-                        case .success: Logger.appDelegate.info("Added contacts into OCKStore!")
-                        case .failure(let error): Logger.appDelegate.error("\(error.localizedDescription)")
-                        }
-                    }
-                }
+        // Only add if there's a new task
+        if contactsNotInStore.count > 0 {
+            do {
+                _ = try await addContacts(contactsNotInStore)
+                Logger.ockStore.info("Added contacts into OCKStore!")
+            } catch {
+                Logger.ockStore.error("Error adding contacts: \(error.localizedDescription)")
             }
         }
     }
 
     // Adds tasks and contacts into the store
-    func populateSampleData() {
+    func populateSampleData() async throws {
 
         let thisMorning = Calendar.current.startOfDay(for: Date())
         let aFewDaysAgo = Calendar.current.date(byAdding: .day, value: -4, to: thisMorning)!
@@ -128,7 +116,7 @@ extension OCKStore {
         stretch.impactsAdherence = true
         stretch.asset = "figure.walk"
 
-        addTasksIfNotPresent([nausea, doxylamine, kegels, stretch])
+        try await addTasksIfNotPresent([nausea, doxylamine, kegels, stretch])
 
         var contact1 = OCKContact(id: "jane", givenName: "Jane",
                                   familyName: "Daniels", carePlanUUID: nil)
@@ -164,6 +152,6 @@ extension OCKStore {
             return address
         }()
 
-        addContactsIfNotPresent([contact1, contact2])
+        try await addContactsIfNotPresent([contact1, contact2])
     }
 }

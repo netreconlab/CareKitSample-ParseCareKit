@@ -12,7 +12,7 @@ import CareKit
 
 struct StoreManagerKey: EnvironmentKey {
 
-    static var defaultValue: OCKSynchronizedStoreManager? {
+    static var defaultValue: OCKSynchronizedStoreManager {
         // swiftlint:disable:next force_cast
         let extensionDelegate = WKExtension.shared().delegate as! ExtensionDelegate
         return extensionDelegate.storeManager
@@ -21,7 +21,7 @@ struct StoreManagerKey: EnvironmentKey {
 
 extension EnvironmentValues {
 
-    var storeManager: OCKSynchronizedStoreManager? {
+    var storeManager: OCKSynchronizedStoreManager {
         get {
             self[StoreManagerKey.self]
         }
