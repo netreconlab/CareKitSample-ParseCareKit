@@ -49,7 +49,7 @@ struct MainView: View {
                         .navigationBarTitle("CareView")
                         .navigationBarHidden(true)
 
-                    ContactView(manager: storeManager)
+                    ContactView()
                         .tabItem {
                             if selectedTab == 1 {
                                 Image("phone.bubble.left.fill")
@@ -82,6 +82,7 @@ struct MainView: View {
         .environmentObject(userStatus)
         .statusBar(hidden: true)
         .accentColor(Color(tintColor))
+        .careKitStyle(Styler())
     }
 }
 

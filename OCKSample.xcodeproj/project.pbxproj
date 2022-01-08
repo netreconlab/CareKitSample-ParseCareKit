@@ -176,7 +176,7 @@
 		70F03AA027860AB700E5AFB4 /* OCKOutcome+default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKOutcome+default.swift"; sourceTree = "<group>"; };
 		70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Parse.swift"; sourceTree = "<group>"; };
 		70F03AA727860E7700E5AFB4 /* FontColorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontColorKey.swift; sourceTree = "<group>"; };
-		70F03AB52788C80500E5AFB4 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserStatus.swift; path = OCKSample/Login/UserStatus.swift; sourceTree = SOURCE_ROOT; };
+		70F03AB52788C80500E5AFB4 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserStatus.swift; path = OCKSample/ViewModels/UserStatus.swift; sourceTree = SOURCE_ROOT; };
 		70F03AB72788C82C00E5AFB4 /* ProfileViewModelKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModelKey.swift; sourceTree = "<group>"; };
 		70F03ABA2789071400E5AFB4 /* CareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareViewModel.swift; sourceTree = "<group>"; };
 		9169381A271B64E100A634ED /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
@@ -329,6 +329,14 @@
 			path = Localization;
 			sourceTree = "<group>";
 		};
+		70A98D5B278A0B7B009B58F2 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				70F03AB52788C80500E5AFB4 /* UserStatus.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		71A79C8A2294FBA1002B96D3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,13 +358,13 @@
 			path = Style;
 			sourceTree = "<group>";
 		};
-		918FDEB3271B402F0045A0EF /* ParseObjects */ = {
+		918FDEB3271B402F0045A0EF /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				918FDEB4271B40590045A0EF /* Installation.swift */,
 				70077596252228E900EC0EDA /* User.swift */,
 			);
-			path = ParseObjects;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		918FDEBA271B4DF60045A0EF /* Extensions */ = {
@@ -382,7 +390,6 @@
 				70F03AA727860E7700E5AFB4 /* FontColorKey.swift */,
 				70F03AB72788C82C00E5AFB4 /* ProfileViewModelKey.swift */,
 				918FDEC2271B4E950045A0EF /* TintColorKey.swift */,
-				70F03AB52788C80500E5AFB4 /* UserStatus.swift */,
 			);
 			path = Environment;
 			sourceTree = "<group>";
@@ -436,15 +443,15 @@
 		E72B2BFD226939E3009A9438 = {
 			isa = PBXGroup;
 			children = (
-				91AD922324A461D200925D4D /* README.md */,
 				9169381F271B80EA00A634ED /* CONTRIBUTING.md */,
+				91AD922324A461D200925D4D /* README.md */,
 				0520468223C3C1F2004F0F36 /* OCKSample.xctestplan */,
+				51431F9723D166AE006A7CFD /* Frameworks */,
 				E72B2C08226939E3009A9438 /* OCKSample */,
 				5173CB8823C3A846007655A0 /* OCKSampleUITests */,
 				91AD922824A4C42B00925D4D /* OCKWatchSample */,
 				91AD923724A4C42D00925D4D /* OCKWatchSample Extension */,
 				E72B2C07226939E3009A9438 /* Products */,
-				51431F9723D166AE006A7CFD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -471,8 +478,9 @@
 				918FDEBA271B4DF60045A0EF /* Extensions */,
 				7030887E2582731300FFABB6 /* Login */,
 				703088772582727500FFABB6 /* MainTabs */,
-				918FDEB3271B402F0045A0EF /* ParseObjects */,
+				918FDEB3271B402F0045A0EF /* Models */,
 				71A79C8A2294FBA1002B96D3 /* Supporting Files */,
+				70A98D5B278A0B7B009B58F2 /* ViewModels */,
 			);
 			path = OCKSample;
 			sourceTree = "<group>";
