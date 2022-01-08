@@ -11,6 +11,7 @@ import CareKit
 import ParseSwift
 import os.log
 
+@MainActor
 class LoginViewModel: ObservableObject {
     // swiftlint:disable:next force_cast
     private let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
@@ -19,17 +20,19 @@ class LoginViewModel: ObservableObject {
         return watchDelegate.syncWithCloud
     }
 
-    @Published var isLoggedIn = false
+    @Published var isLoggedOut = true
 
     init() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(loginChanged(_:)),
+                                               selector: #selector(userLoggedIn(_:)),
                                                name: Notification.Name(rawValue: Constants.userLoggedIn),
                                                object: nil)
     }
 
-    @objc private func loginChanged(_ notification: Notification) {
-        isLoggedIn = true
+    @objc private func userLoggedIn(_ notification: Notification) {
+        DispatchQueue.main.async {
+            self.isLoggedOut = false
+        }
     }
 
     class func setDefaultACL() throws {
@@ -61,9 +64,9 @@ class LoginViewModel: ObservableObject {
             }
 
             // swiftlint:disable:next force_cast
-            let watchDelegate = await WKExtension.shared().delegate as! ExtensionDelegate
-            await watchDelegate.setupRemotes(uuid: uuidString)
-            await watchDelegate.store.synchronize { error in
+            let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
+            watchDelegate.setupRemotes(uuid: uuidString)
+            watchDelegate.store.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with Cloud!"
                 Logger.watch.info("\(errorString)")
             }

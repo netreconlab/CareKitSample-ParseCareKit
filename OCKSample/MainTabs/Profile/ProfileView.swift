@@ -16,7 +16,7 @@ struct ProfileView: View {
 
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.userProfileViewModel) var viewModel
-    @EnvironmentObject var status: UserStatus
+    @EnvironmentObject var userStatus: UserStatus
     @State var firstName = ""
     @State var lastName = ""
     @State var birthday = Calendar.current.date(byAdding: .year, value: -20, to: Date())!
@@ -96,8 +96,8 @@ struct ProfileView: View {
                 birthday = currentBirthday
             }
         }).onReceive(viewModel.$isLoggedOut, perform: { value in
-            if self.status.isLoggedOut != value {
-                self.status.check()
+            if self.userStatus.isLoggedOut != value {
+                self.userStatus.check()
             }
         }).onAppear(perform: {
             viewModel.refreshViewIfNeeded()

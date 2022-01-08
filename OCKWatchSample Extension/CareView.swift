@@ -13,7 +13,7 @@ import os.log
 struct CareView: View {
 
     @Environment(\.storeManager) private var storeManager
-    @StateObject var login = LoginViewModel()
+    @StateObject var loginViewModel = LoginViewModel()
     @StateObject var viewModel = CareViewModel()
     @StateObject var userStatus = UserStatus()
     // swiftlint:disable:next force_cast
@@ -23,11 +23,11 @@ struct CareView: View {
 
         ScrollView {
 
-            if !userStatus.isLoggedOut || !login.syncWithCloud {
+            if !userStatus.isLoggedOut || !loginViewModel.syncWithCloud {
 
                 InstructionsTaskView(taskID: TaskID.stretch,
                                      eventQuery: OCKEventQuery(for: Date()),
-                                     storeManager: storeManager)
+                                     storeManager: watchDelegate.storeManager)
 
             } else {
                 Text("Please open the OCKSample app on your iPhone and login")
@@ -46,6 +46,11 @@ struct CareView: View {
             watchDelegate.store.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with iPhone!"
                 Logger.feed.info("\(errorString)")
+            }
+        })
+        .onReceive(loginViewModel.$isLoggedOut, perform: { value in
+            if self.userStatus.isLoggedOut != value {
+                self.userStatus.check()
             }
         })
     }

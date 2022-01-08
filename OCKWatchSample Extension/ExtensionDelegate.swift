@@ -27,24 +27,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         // Parse-server setup
         PCKUtility.setupServer()
 
-        // Set default ACL for all ParseObjects
-        var defaultACL = ParseACL()
-        defaultACL.publicRead = false
-        defaultACL.publicWrite = false
-        do {
-            _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
-        } catch {
-            Logger.extensionDelegate.error("\(error.localizedDescription)")
-        }
-
-        // Clear items out of the Keychain on app first run. Used for debugging
-        if UserDefaults.standard.object(forKey: "firstRun") == nil {
-            try? User.logout()
-            // This is no longer the first run
-            UserDefaults.standard.setValue("firstRun", forKey: "firstRun")
-            UserDefaults.standard.synchronize()
-        }
-
         // If the user isn't logged in, log them in
         if User.current != nil {
             // swiftlint:disable:next line_length
@@ -62,11 +44,27 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
         guard var currentInstallation = Installation.current else {
+            Logger.appDelegate.debug("""
+                Attempted to update installation with deviceToken,
+                but no current installation is available
+            """)
             return
         }
         currentInstallation.setDeviceToken(deviceToken)
-        currentInstallation.channels = ["global"]
-        currentInstallation.save { _ in }
+        currentInstallation.channels = [InstallationChannel.global.rawValue]
+        let installation = currentInstallation
+        Task {
+            do {
+                let updatedInstallation = try await installation.save()
+                Logger.appDelegate.info("""
+                    Updated installation with deviceToken: \(updatedInstallation, privacy: .private)
+                """)
+            } catch {
+                Logger.appDelegate.error("""
+                    Could not update installation with deviceToken: \(error.localizedDescription)
+                """)
+            }
+        }
     }
 
     func setupRemotes(uuid: String? = nil) {

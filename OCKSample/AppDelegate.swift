@@ -155,9 +155,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 extension AppDelegate: ParseRemoteDelegate {
 
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-        }
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
     }
 
     func successfullyPushedDataToCloud() {

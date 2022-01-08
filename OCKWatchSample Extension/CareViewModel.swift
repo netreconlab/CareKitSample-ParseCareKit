@@ -28,10 +28,10 @@ class CareViewModel: ObservableObject {
 
     private func observeTask(_ task: OCKTask) {
 
-        StoreManagerKey.defaultValue.publisher(forEventsBelongingToTask: task,
-                                               categories: [OCKStoreNotificationCategory.add,
-                                                            OCKStoreNotificationCategory.update,
-                                                            OCKStoreNotificationCategory.delete])
+        StoreManagerKey.defaultValue?.publisher(forEventsBelongingToTask: task,
+                                                categories: [OCKStoreNotificationCategory.add,
+                                                             OCKStoreNotificationCategory.update,
+                                                             OCKStoreNotificationCategory.delete])
             .sink { [weak self] in
                 guard self != nil else { return }
                 Logger.feed.info("Task updated: \($0, privacy: .private)")
