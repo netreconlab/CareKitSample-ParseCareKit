@@ -44,11 +44,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
 
-        let permissionViewController = UIViewController()
-        permissionViewController.view.backgroundColor = .white
         if let windowScene = scene as? UIWindowScene {
             window = UIWindow(windowScene: windowScene)
-            window?.rootViewController = permissionViewController
             window?.tintColor = TintColorKey.defaultValue
             window?.makeKeyAndVisible()
 
