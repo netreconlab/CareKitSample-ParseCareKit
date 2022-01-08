@@ -25,11 +25,32 @@
 		707CC717254DA91900116728 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
 		707CC718254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		707CC719254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
-		70C8A751275AB2B0007AA121 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70C8A750275AB2B0007AA121 /* CareKit */; };
-		70C8A753275AB2B0007AA121 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 70C8A752275AB2B0007AA121 /* CareKitFHIR */; };
-		70C8A755275AB2B0007AA121 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 70C8A754275AB2B0007AA121 /* CareKitUI */; };
-		70C8A757275AB2CA007AA121 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70C8A756275AB2CA007AA121 /* CareKit */; };
+		708542F9276687F90029E888 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51F6343923D2877B00FE576E /* HealthKit.framework */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
+		70F03A842784C67C00E5AFB4 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70F03A832784C67C00E5AFB4 /* CareKit */; };
+		70F03A862784C67C00E5AFB4 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 70F03A852784C67C00E5AFB4 /* CareKitFHIR */; };
+		70F03A882784C67C00E5AFB4 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 70F03A872784C67C00E5AFB4 /* CareKitUI */; };
+		70F03A8A2784C6B500E5AFB4 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70F03A892784C6B500E5AFB4 /* CareKit */; };
+		70F03A912786073300E5AFB4 /* CareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A902786073300E5AFB4 /* CareViewModel.swift */; };
+		70F03A932786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A922786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift */; };
+		70F03A952786093B00E5AFB4 /* OCKHealthKitPassthroughStore+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A942786093B00E5AFB4 /* OCKHealthKitPassthroughStore+Default.swift */; };
+		70F03A972786098F00E5AFB4 /* OCKStore+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A962786098F00E5AFB4 /* OCKStore+Default.swift */; };
+		70F03A9927860A0800E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A9827860A0800E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift */; };
+		70F03A9B27860A2000E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A922786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift */; };
+		70F03A9C27860A2000E5AFB4 /* OCKStore+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A962786098F00E5AFB4 /* OCKStore+Default.swift */; };
+		70F03A9D27860A5600E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A9827860A0800E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift */; };
+		70F03A9F27860A8800E5AFB4 /* OCKOutcomeValue+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A9E27860A8800E5AFB4 /* OCKOutcomeValue+Identifiable.swift */; };
+		70F03AA127860AB700E5AFB4 /* OCKOutcome+default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AA027860AB700E5AFB4 /* OCKOutcome+default.swift */; };
+		70F03AA327860AFF00E5AFB4 /* OCKPatient+Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */; };
+		70F03AA427860B2500E5AFB4 /* OCKOutcome+default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AA027860AB700E5AFB4 /* OCKOutcome+default.swift */; };
+		70F03AA527860B2500E5AFB4 /* OCKOutcomeValue+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A9E27860A8800E5AFB4 /* OCKOutcomeValue+Identifiable.swift */; };
+		70F03AA627860B2500E5AFB4 /* OCKPatient+Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */; };
+		70F03AA827860E7700E5AFB4 /* FontColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AA727860E7700E5AFB4 /* FontColorKey.swift */; };
+		70F03AB42788C76700E5AFB4 /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
+		70F03AB62788C80500E5AFB4 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AB52788C80500E5AFB4 /* UserStatus.swift */; };
+		70F03AB82788C82C00E5AFB4 /* ProfileViewModelKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AB72788C82C00E5AFB4 /* ProfileViewModelKey.swift */; };
+		70F03AB92788D02A00E5AFB4 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AB52788C80500E5AFB4 /* UserStatus.swift */; };
+		70F03ABB2789071400E5AFB4 /* CareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03ABA2789071400E5AFB4 /* CareViewModel.swift */; };
 		91693818271B5E1600A634ED /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E63F25717F85006E9A3C /* Constants.swift */; };
 		9169381B271B64E100A634ED /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Styler.swift */; };
 		9169381D271B650700A634ED /* ColorStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyler.swift */; };
@@ -58,7 +79,6 @@
 		91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD924224A4C42E00925D4D /* Assets.xcassets */; };
 		91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD924524A4C42E00925D4D /* Preview Assets.xcassets */; };
 		91AD924B24A4C42E00925D4D /* OCKWatchSample.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 91AD922724A4C42B00925D4D /* OCKWatchSample.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		91AD929C24A52D4200925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD929B24A52D4200925D4D /* ParseCareKit.plist */; };
 		E72B2C0A226939E3009A9438 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72B2C09226939E3009A9438 /* AppDelegate.swift */; };
 		E72B2C14226939E4009A9438 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E72B2C12226939E4009A9438 /* LaunchScreen.storyboard */; };
 		E7440E4F229477F7007AD30A /* CareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7440E4E229477F7007AD30A /* CareViewController.swift */; };
@@ -147,6 +167,18 @@
 		707CC712254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		707CC713254DA91900116728 /* OCKLocalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCKLocalization.swift; sourceTree = "<group>"; };
 		70BD2B1E254B44DB0030B424 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		70F03A902786073300E5AFB4 /* CareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareViewModel.swift; sourceTree = "<group>"; };
+		70F03A922786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKAnyEvent+CustomStringConvertable.swift"; sourceTree = "<group>"; };
+		70F03A942786093B00E5AFB4 /* OCKHealthKitPassthroughStore+Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKHealthKitPassthroughStore+Default.swift"; sourceTree = "<group>"; };
+		70F03A962786098F00E5AFB4 /* OCKStore+Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKStore+Default.swift"; sourceTree = "<group>"; };
+		70F03A9827860A0800E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKSynchronizedStoreManager+Publishers.swift"; sourceTree = "<group>"; };
+		70F03A9E27860A8800E5AFB4 /* OCKOutcomeValue+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKOutcomeValue+Identifiable.swift"; sourceTree = "<group>"; };
+		70F03AA027860AB700E5AFB4 /* OCKOutcome+default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKOutcome+default.swift"; sourceTree = "<group>"; };
+		70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Parse.swift"; sourceTree = "<group>"; };
+		70F03AA727860E7700E5AFB4 /* FontColorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontColorKey.swift; sourceTree = "<group>"; };
+		70F03AB52788C80500E5AFB4 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserStatus.swift; path = OCKSample/Login/UserStatus.swift; sourceTree = SOURCE_ROOT; };
+		70F03AB72788C82C00E5AFB4 /* ProfileViewModelKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModelKey.swift; sourceTree = "<group>"; };
+		70F03ABA2789071400E5AFB4 /* CareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareViewModel.swift; sourceTree = "<group>"; };
 		9169381A271B64E100A634ED /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
 		9169381C271B650700A634ED /* ColorStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyler.swift; sourceTree = "<group>"; };
 		9169381F271B80EA00A634ED /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
@@ -173,7 +205,6 @@
 		91AD924524A4C42E00925D4D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		91AD924724A4C42E00925D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
-		91AD929B24A52D4200925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = ParseCareKit.plist; path = "OCKSample/Supporting Files/ParseCareKit.plist"; sourceTree = SOURCE_ROOT; };
 		E72B2C06226939E3009A9438 /* OCKSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCKSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E72B2C09226939E3009A9438 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E72B2C13226939E4009A9438 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -188,10 +219,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70C8A751275AB2B0007AA121 /* CareKit in Frameworks */,
-				70C8A753275AB2B0007AA121 /* CareKitFHIR in Frameworks */,
-				70C8A755275AB2B0007AA121 /* CareKitUI in Frameworks */,
+				70F03A842784C67C00E5AFB4 /* CareKit in Frameworks */,
 				918FDEAF271B3F8F0045A0EF /* ParseCareKit in Frameworks */,
+				70F03A882784C67C00E5AFB4 /* CareKitUI in Frameworks */,
+				708542F9276687F90029E888 /* HealthKit.framework in Frameworks */,
+				70F03A862784C67C00E5AFB4 /* CareKitFHIR in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,7 +238,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70C8A757275AB2CA007AA121 /* CareKit in Frameworks */,
+				70F03A8A2784C6B500E5AFB4 /* CareKit in Frameworks */,
 				918FDEB1271B3F9B0045A0EF /* ParseCareKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,7 +273,7 @@
 		703088772582727500FFABB6 /* MainTabs */ = {
 			isa = PBXGroup;
 			children = (
-				91693819271B64CB00A634ED /* Styler */,
+				91693819271B64CB00A634ED /* Style */,
 				70308878258272CD00FFABB6 /* Care */,
 				7036E4D2256EBE35006E9A3C /* MainView.swift */,
 				7030887D258272F400FFABB6 /* Contact */,
@@ -255,6 +287,7 @@
 			children = (
 				E7440E4E229477F7007AD30A /* CareViewController.swift */,
 				7036E4C3256E0A48006E9A3C /* CareView.swift */,
+				70F03ABA2789071400E5AFB4 /* CareViewModel.swift */,
 				E7C37848228F887800E982D8 /* TipView.swift */,
 			);
 			path = Care;
@@ -308,29 +341,36 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		91693819271B64CB00A634ED /* Styler */ = {
+		91693819271B64CB00A634ED /* Style */ = {
 			isa = PBXGroup;
 			children = (
 				9169381A271B64E100A634ED /* Styler.swift */,
 				9169381C271B650700A634ED /* ColorStyler.swift */,
 			);
-			path = Styler;
+			path = Style;
 			sourceTree = "<group>";
 		};
-		918FDEB3271B402F0045A0EF /* Parse */ = {
+		918FDEB3271B402F0045A0EF /* ParseObjects */ = {
 			isa = PBXGroup;
 			children = (
-				70077596252228E900EC0EDA /* User.swift */,
 				918FDEB4271B40590045A0EF /* Installation.swift */,
+				70077596252228E900EC0EDA /* User.swift */,
 			);
-			path = Parse;
+			path = ParseObjects;
 			sourceTree = "<group>";
 		};
 		918FDEBA271B4DF60045A0EF /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				918FDEB6271B41FF0045A0EF /* Logger.swift */,
 				918FDEBB271B4E4A0045A0EF /* Calendar+Dates.swift */,
+				918FDEB6271B41FF0045A0EF /* Logger.swift */,
+				70F03A922786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift */,
+				70F03A942786093B00E5AFB4 /* OCKHealthKitPassthroughStore+Default.swift */,
+				70F03A962786098F00E5AFB4 /* OCKStore+Default.swift */,
+				70F03A9827860A0800E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift */,
+				70F03A9E27860A8800E5AFB4 /* OCKOutcomeValue+Identifiable.swift */,
+				70F03AA027860AB700E5AFB4 /* OCKOutcome+default.swift */,
+				70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -339,7 +379,10 @@
 			isa = PBXGroup;
 			children = (
 				918FDEC4271B4EA70045A0EF /* StoreManagerKey.swift */,
+				70F03AA727860E7700E5AFB4 /* FontColorKey.swift */,
+				70F03AB72788C82C00E5AFB4 /* ProfileViewModelKey.swift */,
 				918FDEC2271B4E950045A0EF /* TintColorKey.swift */,
+				70F03AB52788C80500E5AFB4 /* UserStatus.swift */,
 			);
 			path = Environment;
 			sourceTree = "<group>";
@@ -368,8 +411,8 @@
 				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
 				705B22BE25E2C1A700C472AC /* OCKWatchSample Extension.entitlements */,
 				91AD924724A4C42E00925D4D /* Info.plist */,
-				91AD929B24A52D4200925D4D /* ParseCareKit.plist */,
 				91AD923A24A4C42D00925D4D /* CareView.swift */,
+				70F03A902786073300E5AFB4 /* CareViewModel.swift */,
 				91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */,
 				91AD923824A4C42D00925D4D /* HostingController.swift */,
 				70308885258273D400FFABB6 /* LoginViewModel.swift */,
@@ -428,7 +471,7 @@
 				918FDEBA271B4DF60045A0EF /* Extensions */,
 				7030887E2582731300FFABB6 /* Login */,
 				703088772582727500FFABB6 /* MainTabs */,
-				918FDEB3271B402F0045A0EF /* Parse */,
+				918FDEB3271B402F0045A0EF /* ParseObjects */,
 				71A79C8A2294FBA1002B96D3 /* Supporting Files */,
 			);
 			path = OCKSample;
@@ -488,7 +531,7 @@
 			name = "OCKWatchSample Extension";
 			packageProductDependencies = (
 				918FDEB0271B3F9B0045A0EF /* ParseCareKit */,
-				70C8A756275AB2CA007AA121 /* CareKit */,
+				70F03A892784C6B500E5AFB4 /* CareKit */,
 			);
 			productName = "OCKWatchSample Extension";
 			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
@@ -513,9 +556,9 @@
 			name = OCKSample;
 			packageProductDependencies = (
 				918FDEAE271B3F8F0045A0EF /* ParseCareKit */,
-				70C8A750275AB2B0007AA121 /* CareKit */,
-				70C8A752275AB2B0007AA121 /* CareKitFHIR */,
-				70C8A754275AB2B0007AA121 /* CareKitUI */,
+				70F03A832784C67C00E5AFB4 /* CareKit */,
+				70F03A852784C67C00E5AFB4 /* CareKitFHIR */,
+				70F03A872784C67C00E5AFB4 /* CareKitUI */,
 			);
 			productName = CareKitDemoApp;
 			productReference = E72B2C06226939E3009A9438 /* OCKSample.app */;
@@ -537,6 +580,7 @@
 					};
 					91AD922624A4C42B00925D4D = {
 						CreatedOnToolsVersion = 12.0;
+						LastSwiftMigration = 1320;
 					};
 					91AD923224A4C42D00925D4D = {
 						CreatedOnToolsVersion = 12.0;
@@ -557,7 +601,7 @@
 			mainGroup = E72B2BFD226939E3009A9438;
 			packageReferences = (
 				918FDEAD271B3F8F0045A0EF /* XCRemoteSwiftPackageReference "ParseCareKit" */,
-				70C8A74F275AB2B0007AA121 /* XCRemoteSwiftPackageReference "CareKit" */,
+				70F03A822784C67C00E5AFB4 /* XCRemoteSwiftPackageReference "CareKit" */,
 			);
 			productRefGroup = E72B2C07226939E3009A9438 /* Products */;
 			projectDirPath = "";
@@ -592,9 +636,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70F03AB42788C76700E5AFB4 /* ParseCareKit.plist in Resources */,
 				91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */,
 				707CC715254DA91900116728 /* Localizable.strings in Resources */,
-				91AD929C24A52D4200925D4D /* ParseCareKit.plist in Resources */,
 				707CC717254DA91900116728 /* Localizable.stringsdict in Resources */,
 				91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */,
 			);
@@ -652,13 +696,21 @@
 			files = (
 				918FDEB8271B49060045A0EF /* Logger.swift in Sources */,
 				91AD923B24A4C42D00925D4D /* CareView.swift in Sources */,
+				70F03AA427860B2500E5AFB4 /* OCKOutcome+default.swift in Sources */,
 				91693818271B5E1600A634ED /* Constants.swift in Sources */,
 				91AD923924A4C42D00925D4D /* HostingController.swift in Sources */,
+				70F03AA627860B2500E5AFB4 /* OCKPatient+Parse.swift in Sources */,
+				70F03AB92788D02A00E5AFB4 /* UserStatus.swift in Sources */,
 				707CC719254DA91900116728 /* OCKLocalization.swift in Sources */,
 				7007759B252229C900EC0EDA /* User.swift in Sources */,
+				70F03A9B27860A2000E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift in Sources */,
+				70F03A912786073300E5AFB4 /* CareViewModel.swift in Sources */,
 				918FDEC8271B54540045A0EF /* StoreManagerKey.swift in Sources */,
 				918FDEB9271B493A0045A0EF /* Installation.swift in Sources */,
+				70F03A9D27860A5600E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift in Sources */,
+				70F03AA527860B2500E5AFB4 /* OCKOutcomeValue+Identifiable.swift in Sources */,
 				91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */,
+				70F03A9C27860A2000E5AFB4 /* OCKStore+Default.swift in Sources */,
 				91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */,
 				91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */,
 				70308886258273D400FFABB6 /* LoginViewModel.swift in Sources */,
@@ -671,24 +723,35 @@
 			files = (
 				E7440E4F229477F7007AD30A /* CareViewController.swift in Sources */,
 				918FDEB5271B40590045A0EF /* Installation.swift in Sources */,
+				70F03AB62788C80500E5AFB4 /* UserStatus.swift in Sources */,
 				7036E64025717F85006E9A3C /* Constants.swift in Sources */,
 				918FDEBC271B4E4A0045A0EF /* Calendar+Dates.swift in Sources */,
+				70F03AA127860AB700E5AFB4 /* OCKOutcome+default.swift in Sources */,
 				7036E4CE256E9A0C006E9A3C /* ContactView.swift in Sources */,
+				70F03A972786098F00E5AFB4 /* OCKStore+Default.swift in Sources */,
 				70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */,
+				70F03AA827860E7700E5AFB4 /* FontColorKey.swift in Sources */,
 				9169381B271B64E100A634ED /* Styler.swift in Sources */,
 				9169381D271B650700A634ED /* ColorStyler.swift in Sources */,
 				E72B2C0A226939E3009A9438 /* AppDelegate.swift in Sources */,
 				7036E4C4256E0A48006E9A3C /* CareView.swift in Sources */,
+				70F03A932786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift in Sources */,
 				918FDEC3271B4E950045A0EF /* TintColorKey.swift in Sources */,
+				70F03AA327860AFF00E5AFB4 /* OCKPatient+Parse.swift in Sources */,
 				918FDEB7271B41FF0045A0EF /* Logger.swift in Sources */,
+				70F03A9F27860A8800E5AFB4 /* OCKOutcomeValue+Identifiable.swift in Sources */,
 				7036E4D3256EBE35006E9A3C /* MainView.swift in Sources */,
 				918FDEC5271B4EA70045A0EF /* StoreManagerKey.swift in Sources */,
 				91693822271B897200A634ED /* Utility.swift in Sources */,
 				707CC718254DA91900116728 /* OCKLocalization.swift in Sources */,
 				E7C37849228F887800E982D8 /* TipView.swift in Sources */,
 				70077597252228E900EC0EDA /* User.swift in Sources */,
+				70F03A9927860A0800E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift in Sources */,
+				70F03AB82788C82C00E5AFB4 /* ProfileViewModelKey.swift in Sources */,
 				03F0600A2331946600CCE09B /* SceneDelegate.swift in Sources */,
+				70F03ABB2789071400E5AFB4 /* CareViewModel.swift in Sources */,
 				7036E4C9256E1A6F006E9A3C /* ProfileView.swift in Sources */,
+				70F03A952786093B00E5AFB4 /* OCKHealthKitPassthroughStore+Default.swift in Sources */,
 				7036E4BF256DA089006E9A3C /* LoginViewModel.swift in Sources */,
 				7036E517256F2413006E9A3C /* ProfileViewModel.swift in Sources */,
 			);
@@ -929,6 +992,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -936,10 +1000,16 @@
 				DEVELOPMENT_TEAM = K26KDKYY38;
 				IBSC_MODULE = OCKWatchSample_Extension;
 				INFOPLIST_FILE = OCKWatchSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 8.0;
@@ -952,12 +1022,18 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K26KDKYY38;
 				IBSC_MODULE = OCKWatchSample_Extension;
 				INFOPLIST_FILE = OCKWatchSample/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -1171,9 +1247,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		70C8A74F275AB2B0007AA121 /* XCRemoteSwiftPackageReference "CareKit" */ = {
+		70F03A822784C67C00E5AFB4 /* XCRemoteSwiftPackageReference "CareKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/cbaker6/CareKit.git";
+			repositoryURL = "https://github.com/carekit-apple/CareKit";
 			requirement = {
 				kind = revision;
 				revision = a612482e4ba4f28d4c75129c0a9b70ca23098bd6;
@@ -1184,30 +1260,30 @@
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				kind = revision;
-				revision = 73bff85afe23ad6b2276a3106ef9e5e214f2a91e;
+				revision = 64f4748f277999a2b4c5af1490d1270a49a1879f;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		70C8A750275AB2B0007AA121 /* CareKit */ = {
+		70F03A832784C67C00E5AFB4 /* CareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70C8A74F275AB2B0007AA121 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 70F03A822784C67C00E5AFB4 /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
 		};
-		70C8A752275AB2B0007AA121 /* CareKitFHIR */ = {
+		70F03A852784C67C00E5AFB4 /* CareKitFHIR */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70C8A74F275AB2B0007AA121 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 70F03A822784C67C00E5AFB4 /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitFHIR;
 		};
-		70C8A754275AB2B0007AA121 /* CareKitUI */ = {
+		70F03A872784C67C00E5AFB4 /* CareKitUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70C8A74F275AB2B0007AA121 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 70F03A822784C67C00E5AFB4 /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKitUI;
 		};
-		70C8A756275AB2CA007AA121 /* CareKit */ = {
+		70F03A892784C6B500E5AFB4 /* CareKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 70C8A74F275AB2B0007AA121 /* XCRemoteSwiftPackageReference "CareKit" */;
+			package = 70F03A822784C67C00E5AFB4 /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
 		};
 		918FDEAE271B3F8F0045A0EF /* ParseCareKit */ = {

@@ -15,7 +15,7 @@ struct StoreManagerKey: EnvironmentKey {
     static var defaultValue: OCKSynchronizedStoreManager? {
         // swiftlint:disable:next force_cast
         let extensionDelegate = UIApplication.shared.delegate as! AppDelegate
-        return extensionDelegate.synchronizedStoreManager
+        return extensionDelegate.storeManager
     }
 }
 

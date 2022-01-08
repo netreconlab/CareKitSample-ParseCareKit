@@ -30,16 +30,18 @@
 
 import Foundation
 import UIKit
+import SwiftUI
+import Combine
 import CareKit
 import CareKitStore
-import SwiftUI
 import CareKitUI
 import os.log
 
 class CareViewController: OCKDailyPageViewController {
-    // swiftlint:disable:next force_cast
-    var appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var alreadySyncing = false
+
+    private var isSyncing = false
+    private var isLoading = false
+    private var cancellables: Set<AnyCancellable> = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +56,23 @@ class CareViewController: OCKDailyPageViewController {
                                                selector: #selector(updateSynchronizationProgress(_:)),
                                                name: Notification.Name(rawValue: Constants.progressUpdate),
                                                object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(shouldReload),
+                                               name: Notification.Name(rawValue: Constants.reloadView),
+                                               object: nil)
+    }
+
+    private func observeTask(_ task: OCKTask) {
+
+        storeManager.publisher(forEventsBelongingToTask: task, categories: [.add, .update, .delete])
+            .sink { [weak self] in
+                Logger.feed.info("Task updated: \($0, privacy: .private)")
+                self?.reloadView()
+            }
+            .store(in: &cancellables)
+    }
+
+    private func clearSubscriptions() {
+        cancellables = []
     }
 
     @objc private func updateSynchronizationProgress(_ notification: Notification) {
@@ -64,9 +83,11 @@ class CareViewController: OCKDailyPageViewController {
 
         switch progress {
         case 0, 100:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
-                                                                style: .plain, target: self,
-                                                                action: #selector(synchronizeWithRemote))
+            DispatchQueue.main.async {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
+                                                                         style: .plain, target: self,
+                                                                         action: #selector(self.synchronizeWithRemote))
+            }
             if progress == 100 {
                 // Let the user see 100
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -78,36 +99,57 @@ class CareViewController: OCKDailyPageViewController {
                 }
             }
         default:
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
-                                                                style: .plain, target: self,
-                                                                action: #selector(synchronizeWithRemote))
-            navigationItem.rightBarButtonItem?.tintColor = TintColorKey.defaultValue
+            DispatchQueue.main.async {
+                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
+                                                                    style: .plain, target: self,
+                                                                         action: #selector(self.synchronizeWithRemote))
+                self.navigationItem.rightBarButtonItem?.tintColor = TintColorKey.defaultValue
+            }
         }
     }
 
+    @MainActor
     @objc private func synchronizeWithRemote() {
 
-        if alreadySyncing {
+        if isSyncing {
             return
         } else {
-            alreadySyncing = true
+            isSyncing = true
         }
 
+        // swiftlint:disable:next force_cast
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.coreDataStore.synchronize { error in
 
             DispatchQueue.main.async {
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                Logger.appDelegate.info("\(errorString)")
+                Logger.feed.info("\(errorString)")
                 if error != nil {
                     self.navigationItem.rightBarButtonItem?.tintColor = .red
                 } else {
-                    if self.appDelegate.firstLogin {
-                        self.reload()
-                        self.appDelegate.firstLogin = false
+                    // swiftlint:disable:next force_cast
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    if appDelegate.isFirstAppOpen {
+                        self.reloadView()
                     }
                 }
-                self.alreadySyncing = false
+                self.isSyncing = false
             }
+        }
+    }
+
+    @objc private func shouldReload() {
+        reloadView()
+    }
+
+    private func reloadView() {
+        if isLoading {
+            return
+        } else {
+            isLoading = true
+        }
+        DispatchQueue.main.async {
+            self.reload()
         }
     }
 
@@ -115,7 +157,7 @@ class CareViewController: OCKDailyPageViewController {
     // Use this as an opportunity to rebuild the content shown to the user.
     override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
                                           prepare listViewController: OCKListViewController, for date: Date) {
-
+        self.clearSubscriptions()
         let isCurrentDay = Calendar.current.isDate(date, inSameDayAs: Date())
 
         // Only show the tip view on the current date
@@ -146,6 +188,7 @@ class CareViewController: OCKDailyPageViewController {
                     listViewController.appendViewController($0, animated: false)
                 }
             }
+            self.isLoading = false
         }
     }
 
@@ -153,18 +196,14 @@ class CareViewController: OCKDailyPageViewController {
                                     on date: Date) -> [UIViewController]? {
         switch task.id {
         case TaskID.steps:
-            if #available(iOS 14, *) {
-                let view = NumericProgressTaskView(
-                    task: task,
-                    eventQuery: OCKEventQuery(for: date),
-                    storeManager: self.storeManager)
-                    .padding([.vertical], 20)
-                    .careKitStyle(Styler())
+            let view = NumericProgressTaskView(
+                task: task,
+                eventQuery: OCKEventQuery(for: date),
+                storeManager: self.storeManager)
+                .padding([.vertical], 20)
+                .careKitStyle(Styler())
 
-                return [view.formattedHostingController()]
-            } else {
-                return nil
-            }
+            return [view.formattedHostingController()]
         case TaskID.stretch:
             return [OCKInstructionsTaskViewController(task: task,
                                                      eventQuery: .init(for: date),
@@ -241,9 +280,9 @@ class CareViewController: OCKDailyPageViewController {
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
         do {
-            let tasks = try await appDelegate.synchronizedStoreManager?.store.fetchAnyTasks(query: query)
+            let tasks = try await storeManager.store.fetchAnyTasks(query: query)
             let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
-                tasks?.first(where: { $0.id == orderedTaskID }) }
+                tasks.first(where: { $0.id == orderedTaskID }) }
             return orderedTasks
         } catch {
             Logger.feed.error("\(error.localizedDescription, privacy: .public)")

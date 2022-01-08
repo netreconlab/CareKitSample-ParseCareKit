@@ -17,51 +17,70 @@ import UIKit
 
 struct MainView: View {
 
+    @Environment(\.presentationMode) var presentationMode
     @Environment(\.storeManager) private var storeManager
     @Environment(\.tintColor) private var tintColor
+    @Environment(\.careKitStyle) private var style
+    @Environment(\.userProfileViewModel) private var profileViewModel
+    @StateObject var userStatus = UserStatus()
     @State private var selectedTab = 0
-    @ObservedObject var profile = ProfileViewModel()
 
     var body: some View {
 
-        TabView(selection: $selectedTab) {
-
-            CareView()
-                .tabItem {
-                    if selectedTab == 0 {
-                        Image("carecard-filled")
-                            .renderingMode(.template)
-                    } else {
-                        Image("carecard")
-                            .renderingMode(.template)
-                    }
+        NavigationView {
+            VStack {
+                NavigationLink(destination: LoginView(),
+                               isActive: $userStatus.isLoggedOut) {
+                   EmptyView()
                 }
-                .tag(0)
+                TabView(selection: $selectedTab) {
 
-            ContactView(manager: storeManager)
-                .tabItem {
-                    if selectedTab == 1 {
-                        Image("phone.bubble.left.fill")
-                            .renderingMode(.template)
-                    } else {
-                        Image("phone.bubble.left")
-                            .renderingMode(.template)
-                    }
-                }
-                .tag(1)
+                    CareView()
+                        .tabItem {
+                            if selectedTab == 0 {
+                                Image("carecard-filled")
+                                    .renderingMode(.template)
+                            } else {
+                                Image("carecard")
+                                    .renderingMode(.template)
+                            }
+                        }
+                        .tag(0)
+                        .navigationBarTitle("CareView")
+                        .navigationBarHidden(true)
 
-            ProfileView(profileViewModel: profile)
-                .tabItem {
-                    if selectedTab == 2 {
-                        Image("connect-filled")
-                            .renderingMode(.template)
-                    } else {
-                        Image("connect")
-                            .renderingMode(.template)
-                    }
+                    ContactView(manager: storeManager)
+                        .tabItem {
+                            if selectedTab == 1 {
+                                Image("phone.bubble.left.fill")
+                                    .renderingMode(.template)
+                            } else {
+                                Image("phone.bubble.left")
+                                    .renderingMode(.template)
+                            }
+                        }
+                        .tag(1)
+                        .navigationBarTitle("ContactView")
+                        .navigationBarHidden(true)
+
+                    ProfileView()
+                        .tabItem {
+                            if selectedTab == 2 {
+                                Image("connect-filled")
+                                    .renderingMode(.template)
+                            } else {
+                                Image("connect")
+                                    .renderingMode(.template)
+                            }
+                        }
+                        .tag(2)
+                        .navigationBarTitle("ProfileView")
+                        .navigationBarHidden(true)
                 }
-                .tag(2)
+            }
         }
+        .environmentObject(userStatus)
+        .statusBar(hidden: true)
         .accentColor(Color(tintColor))
     }
 }

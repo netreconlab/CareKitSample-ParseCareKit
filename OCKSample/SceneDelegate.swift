@@ -55,9 +55,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             // When syncing directly with watchOS, we don't care about login and need to setup remotes
             if !self.appDelegate.syncWithCloud {
                 self.appDelegate.setupRemotes()
-                self.appDelegate.coreDataStore.populateSampleData()
-                self.appDelegate.healthKitStore.populateSampleData()
-                self.setupTabBarController()
+                Task {
+                    do {
+                        try await self.appDelegate.coreDataStore.populateSampleData()
+                        try await self.appDelegate.healthKitStore.populateSampleData()
+                        self.setupTabBarController()
+                    } catch {
+                        Logger.sceneDelegate.error("""
+                            Error in SceneDelage, couldn't populate
+                            data stores: \(error.localizedDescription)
+                        """)
+                    }
+                }
             } else {
 
                 // If the user isn't logged in, log them in
@@ -65,7 +74,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     // swiftlint:disable:next line_length
                     // Note that if you have a SwiftUI based app, SceneDelegate technically isn't needed anymore, but we will keep it for now
                     // swiftlint:disable:next line_length
-                    self.window?.rootViewController = UIHostingController(rootView: LoginView()) // Wraps a SwiftUI view in UIKit view
+                    self.window?.rootViewController = UIHostingController(rootView: MainView()) // Wraps a SwiftUI view in UIKit view
 
                 } else {
                     Logger.appDelegate.info("User is already signed in...")

@@ -21,4 +21,7 @@ extension Logger {
     static let profile = Logger(subsystem: subsystem, category: "Profile")
     static let insights = Logger(subsystem: subsystem, category: "Insights")
     static let sceneDelegate = Logger(subsystem: subsystem, category: "SceneDelegate")
+    static let ockStore = Logger(subsystem: subsystem, category: "OCKStore+Extension")
+    static let ockHealthKitPassthroughStore = Logger(subsystem: subsystem,
+                                                     category: "OCKHealthKitPassthroughStore+Extension")
 }
