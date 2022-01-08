@@ -46,7 +46,7 @@ struct MainView: View {
                             }
                         }
                         .tag(0)
-                        .navigationBarTitle("CareView")
+                        .navigationBarTitle("")
                         .navigationBarHidden(true)
 
                     ContactView()
@@ -60,7 +60,7 @@ struct MainView: View {
                             }
                         }
                         .tag(1)
-                        .navigationBarTitle("ContactView")
+                        .navigationBarTitle("")
                         .navigationBarHidden(true)
 
                     ProfileView()
@@ -74,7 +74,7 @@ struct MainView: View {
                             }
                         }
                         .tag(2)
-                        .navigationBarTitle("ProfileView")
+                        .navigationBarTitle("")
                         .navigationBarHidden(true)
                 }
             }
