@@ -11,10 +11,15 @@ import CareKitUI
 import UIKit
 
 struct ColorStyler: OCKColorStyler {
+    #if iOS
     var label: UIColor {
         FontColorKey.defaultValue
+    }
+    var quaternaryCustomFill: UIColor {
+        .orange
     }
     var tertiaryCustomFill: UIColor {
         TintColorKey.defaultValue
     }
+    #endif
 }

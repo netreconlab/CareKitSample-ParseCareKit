@@ -46,11 +46,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         if let windowScene = scene as? UIWindowScene {
             window = UIWindow(windowScene: windowScene)
-            window?.tintColor = TintColorKey.defaultValue
             window?.makeKeyAndVisible()
 
             // When syncing directly with watchOS, we don't care about login and need to setup remotes
             if !self.appDelegate.syncWithCloud {
+                window?.tintColor = TintColorKey.defaultValue
                 self.appDelegate.setupRemotes()
                 Task {
                     do {

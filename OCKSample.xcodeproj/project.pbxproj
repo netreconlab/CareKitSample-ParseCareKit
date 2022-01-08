@@ -26,6 +26,9 @@
 		707CC718254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		707CC719254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		708542F9276687F90029E888 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51F6343923D2877B00FE576E /* HealthKit.framework */; };
+		70A98D62278A2683009B58F2 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Styler.swift */; };
+		70A98D63278A268B009B58F2 /* ColorStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyler.swift */; };
+		70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC2271B4E950045A0EF /* TintColorKey.swift */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
 		70F03A842784C67C00E5AFB4 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70F03A832784C67C00E5AFB4 /* CareKit */; };
 		70F03A862784C67C00E5AFB4 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 70F03A852784C67C00E5AFB4 /* CareKitFHIR */; };
@@ -337,6 +340,23 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		70A98D64278A2722009B58F2 /* Care */ = {
+			isa = PBXGroup;
+			children = (
+				91AD923A24A4C42D00925D4D /* CareView.swift */,
+				70F03A902786073300E5AFB4 /* CareViewModel.swift */,
+			);
+			path = Care;
+			sourceTree = "<group>";
+		};
+		70A98D65278A273E009B58F2 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				70308885258273D400FFABB6 /* LoginViewModel.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		71A79C8A2294FBA1002B96D3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,15 +438,14 @@
 				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
 				705B22BE25E2C1A700C472AC /* OCKWatchSample Extension.entitlements */,
 				91AD924724A4C42E00925D4D /* Info.plist */,
-				91AD923A24A4C42D00925D4D /* CareView.swift */,
-				70F03A902786073300E5AFB4 /* CareViewModel.swift */,
 				91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */,
 				91AD923824A4C42D00925D4D /* HostingController.swift */,
-				70308885258273D400FFABB6 /* LoginViewModel.swift */,
 				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
 				91AD924024A4C42D00925D4D /* NotificationView.swift */,
 				91AD924224A4C42E00925D4D /* Assets.xcassets */,
+				70A98D64278A2722009B58F2 /* Care */,
 				918FDEC6271B542C0045A0EF /* Environment */,
+				70A98D65278A273E009B58F2 /* Login */,
 				91AD924424A4C42E00925D4D /* Preview Content */,
 			);
 			path = "OCKWatchSample Extension";
@@ -702,9 +721,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70A98D63278A268B009B58F2 /* ColorStyler.swift in Sources */,
 				918FDEB8271B49060045A0EF /* Logger.swift in Sources */,
 				91AD923B24A4C42D00925D4D /* CareView.swift in Sources */,
 				70F03AA427860B2500E5AFB4 /* OCKOutcome+default.swift in Sources */,
+				70A98D62278A2683009B58F2 /* Styler.swift in Sources */,
 				91693818271B5E1600A634ED /* Constants.swift in Sources */,
 				91AD923924A4C42D00925D4D /* HostingController.swift in Sources */,
 				70F03AA627860B2500E5AFB4 /* OCKPatient+Parse.swift in Sources */,
@@ -713,6 +734,7 @@
 				7007759B252229C900EC0EDA /* User.swift in Sources */,
 				70F03A9B27860A2000E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift in Sources */,
 				70F03A912786073300E5AFB4 /* CareViewModel.swift in Sources */,
+				70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */,
 				918FDEC8271B54540045A0EF /* StoreManagerKey.swift in Sources */,
 				918FDEB9271B493A0045A0EF /* Installation.swift in Sources */,
 				70F03A9D27860A5600E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift in Sources */,
