@@ -41,6 +41,14 @@ class LoginViewModel: ObservableObject {
 
         if StoreManagerKey.defaultValue != nil {
             profileViewModel.refreshViewIfNeeded()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+
+                    if error != nil {
+                        Logger.login.error("Error requesting HealthKit permissions: \(error!.localizedDescription)")
+                    }
+                }
+            }
         } else {
             Logger.login.info("Parse login anonymous error: StoreManager should not be nil")
         }
