@@ -15,9 +15,6 @@ struct ColorStyler: OCKColorStyler {
     var label: UIColor {
         FontColorKey.defaultValue
     }
-    var quaternaryCustomFill: UIColor {
-        .orange
-    }
     var tertiaryCustomFill: UIColor {
         TintColorKey.defaultValue
     }
