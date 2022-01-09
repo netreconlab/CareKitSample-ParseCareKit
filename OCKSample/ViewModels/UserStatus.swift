@@ -16,6 +16,10 @@ class UserStatus: ObservableObject {
         check()
     }
 
+    init(isLoggedOut: Bool) {
+        self.isLoggedOut = isLoggedOut
+    }
+
     func check() {
         if User.current != nil {
             isLoggedOut = false
