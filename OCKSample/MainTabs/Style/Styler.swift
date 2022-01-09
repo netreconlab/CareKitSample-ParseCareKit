@@ -13,4 +13,13 @@ struct Styler: OCKStyler {
     var color: OCKColorStyler {
         ColorStyler()
     }
+    var dimension: OCKDimensionStyler {
+        OCKDimensionStyle()
+    }
+    var animation: OCKAnimationStyler {
+        OCKAnimationStyle()
+    }
+    var appearance: OCKAppearanceStyler {
+        OCKAppearanceStyle()
+    }
 }

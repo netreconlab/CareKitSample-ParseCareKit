@@ -179,6 +179,9 @@ class CareViewController: OCKDailyPageViewController {
             tasks.compactMap {
                 let cards = self.taskViewController(for: $0, on: date)
                 cards?.forEach {
+                    if let carekitView = $0.view as? OCKView {
+                        carekitView.customStyle = Styler()
+                    }
                     $0.view.isUserInteractionEnabled = isCurrentDay
                     $0.view.alpha = !isCurrentDay ? 0.4 : 1.0
                 }

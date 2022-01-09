@@ -37,59 +37,53 @@ import os.log
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    // swiftlint:disable:next force_cast
-    var appDelegate = UIApplication.shared.delegate as! AppDelegate
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
 
-        let permissionViewController = UIViewController()
-        permissionViewController.view.backgroundColor = .white
         if let windowScene = scene as? UIWindowScene {
             window = UIWindow(windowScene: windowScene)
-            window?.rootViewController = permissionViewController
-            window?.tintColor = TintColorKey.defaultValue
             window?.makeKeyAndVisible()
+            // swiftlint:disable:next force_cast
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
 
-            // When syncing directly with watchOS, we don't care about login and need to setup remotes
-            if !self.appDelegate.syncWithCloud {
-                self.appDelegate.setupRemotes()
-                Task {
-                    do {
-                        try await self.appDelegate.coreDataStore.populateSampleData()
-                        try await self.appDelegate.healthKitStore.populateSampleData()
-                        self.setupTabBarController()
-                    } catch {
-                        Logger.sceneDelegate.error("""
-                            Error in SceneDelage, couldn't populate
-                            data stores: \(error.localizedDescription)
-                        """)
-                    }
-                }
-            } else {
-
-                // If the user isn't logged in, log them in
-                if User.current == nil {
-                    // swiftlint:disable:next line_length
-                    // Note that if you have a SwiftUI based app, SceneDelegate technically isn't needed anymore, but we will keep it for now
-                    // swiftlint:disable:next line_length
-                    self.window?.rootViewController = UIHostingController(rootView: MainView()) // Wraps a SwiftUI view in UIKit view
-
-                } else {
+            if appDelegate.syncWithCloud {
+                if User.current != nil {
+                    // swiftlint:disable:next force_cast
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     Logger.appDelegate.info("User is already signed in...")
                     appDelegate.profile = ProfileViewModel()
                     guard let uuid = appDelegate.profile.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
                         Logger.appDelegate.info("Error in SceneDelage, no uuid saved.")
                         return
                     }
-                    self.appDelegate.setupRemotes(uuid: uuid)
-                    self.appDelegate.parse.automaticallySynchronizes = true
-                    // swiftlint:disable:next line_length
-                    self.window?.rootViewController = UIHostingController(rootView: MainView()) // Wraps a SwiftUI view in UIKit view
-
+                    appDelegate.setupRemotes(uuid: uuid)
+                    appDelegate.parse.automaticallySynchronizes = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+                    }
+                }
+
+                // swiftlint:disable:next line_length
+                // Note that if you have a SwiftUI based app, SceneDelegate technically isn't needed anymore, but we will keep it for now
+                // swiftlint:disable:next line_length
+                self.window?.rootViewController = UIHostingController(rootView: MainView()) // Wraps a SwiftUI view in UIKit view
+            } else {
+
+                // When syncing directly with watchOS, we don't care about login and need to setup remotes
+                window?.tintColor = TintColorKey.defaultValue
+                appDelegate.setupRemotes()
+                Task {
+                    do {
+                        try await appDelegate.coreDataStore.populateSampleData()
+                        try await appDelegate.healthKitStore.populateSampleData()
+                        self.setupTabBarController()
+                    } catch {
+                        Logger.sceneDelegate.error("""
+                            Error in SceneDelage, couldn't populate
+                            data stores: \(error.localizedDescription)
+                        """)
                     }
                 }
             }
@@ -118,7 +112,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         tabBarController.viewControllers = [careViewController, contactViewController]
         self.window?.rootViewController = tabBarController
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+            // swiftlint:disable:next force_cast
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
                 if error != nil {
                     Logger.appDelegate.error("\(error!.localizedDescription)")

@@ -46,10 +46,10 @@ struct MainView: View {
                             }
                         }
                         .tag(0)
-                        .navigationBarTitle("CareView")
+                        .navigationBarTitle("")
                         .navigationBarHidden(true)
 
-                    ContactView(manager: storeManager)
+                    ContactView()
                         .tabItem {
                             if selectedTab == 1 {
                                 Image("phone.bubble.left.fill")
@@ -60,7 +60,7 @@ struct MainView: View {
                             }
                         }
                         .tag(1)
-                        .navigationBarTitle("ContactView")
+                        .navigationBarTitle("")
                         .navigationBarHidden(true)
 
                     ProfileView()
@@ -74,7 +74,7 @@ struct MainView: View {
                             }
                         }
                         .tag(2)
-                        .navigationBarTitle("ProfileView")
+                        .navigationBarTitle("")
                         .navigationBarHidden(true)
                 }
             }
@@ -82,6 +82,7 @@ struct MainView: View {
         .environmentObject(userStatus)
         .statusBar(hidden: true)
         .accentColor(Color(tintColor))
+        .careKitStyle(Styler())
     }
 }
 

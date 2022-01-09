@@ -14,8 +14,6 @@ import os.log
 
 struct ContactView: UIViewControllerRepresentable {
 
-    let manager: OCKSynchronizedStoreManager?
-
     func makeUIViewController(context: Context) -> some UIViewController {
         guard let manager = StoreManagerKey.defaultValue else {
             Logger.contact.error("Couldn't unwrap storeManager")
@@ -33,6 +31,6 @@ struct ContactView: UIViewControllerRepresentable {
 struct ContactView_Previews: PreviewProvider {
 
     static var previews: some View {
-        ContactView(manager: OCKSynchronizedStoreManager(wrapping: OCKStore(name: "test")))
+        ContactView()
     }
 }

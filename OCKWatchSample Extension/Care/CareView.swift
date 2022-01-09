@@ -12,6 +12,7 @@ import os.log
 
 struct CareView: View {
 
+    @Environment(\.tintColor) private var tintColor
     @Environment(\.storeManager) private var storeManager
     @StateObject var loginViewModel = LoginViewModel()
     @StateObject var viewModel = CareViewModel()
@@ -39,6 +40,8 @@ struct CareView: View {
             }
 
         }
+        .accentColor(Color(tintColor))
+        .careKitStyle(Styler())
         .onAppear(perform: {
             guard watchDelegate.store != nil else {
                 return
