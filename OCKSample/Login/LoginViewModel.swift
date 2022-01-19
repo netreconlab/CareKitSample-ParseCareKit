@@ -35,6 +35,25 @@ class LoginViewModel: ObservableObject {
 
     private func finishCompletingSignIn(_ careKitPatient: OCKPatient? = nil) async throws {
 
+        if let careKitUser = careKitPatient {
+            guard var user = User.current,
+                let userType = careKitUser.userType,
+                let remoteUUID = careKitUser.remoteClockUUID else {
+                return
+            }
+            user.lastTypeSelected = userType.rawValue
+            if user.userTypeUUIDs != nil {
+                user.userTypeUUIDs?[userType.rawValue] = remoteUUID
+            } else {
+                user.userTypeUUIDs = [userType.rawValue: remoteUUID]
+            }
+            do {
+                _ = try await user.save()
+            } catch {
+                Logger.login.info("Couldn't save updated user: \(error.localizedDescription)")
+            }
+        }
+
         // swiftlint:disable:next force_cast
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.isFirstLogin = true
@@ -99,7 +118,8 @@ class LoginViewModel: ObservableObject {
      - parameter username: The username the user is signing in with.
      - parameter password: The password the user is signing in with.
     */
-    func signup(username: String,
+    func signup(_ type: UserType,
+                username: String,
                 password: String,
                 firstName: String,
                 lastName: String) async {
@@ -111,7 +131,8 @@ class LoginViewModel: ObservableObject {
             newUser.password = password
             let user = try await newUser.signup()
             Logger.login.info("Parse signup successful: \(user)")
-            let patient = try await ProfileViewModel.savePatientAfterSignUp(firstName,
+            let patient = try await ProfileViewModel.savePatientAfterSignUp(type,
+                                                                            first: firstName,
                                                                             last: lastName)
             try? await finishCompletingSignIn(patient)
 
@@ -173,7 +194,8 @@ class LoginViewModel: ObservableObject {
             let user = try await User.anonymous.login()
             Logger.login.info("Parse login anonymous successful: \(user)")
             // Only allow annonymous users to be patients.
-            let patient = try await ProfileViewModel.savePatientAfterSignUp("Anonymous",
+            let patient = try await ProfileViewModel.savePatientAfterSignUp(.patient,
+                                                                            first: "Anonymous",
                                                                             last: "Login")
             try? await finishCompletingSignIn(patient)
 

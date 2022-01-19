@@ -40,8 +40,17 @@ struct Installation: ParseInstallation {
 
     var ACL: ParseACL?
 
-    var score: Double?
+    var originalData: Data?
 
     // Custom:
     var user: User?
+
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.user,
+                                     original: object) {
+            updated.user = object.user
+        }
+        return updated
+    }
 }

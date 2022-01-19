@@ -60,6 +60,7 @@ enum Constants {
     static let userLoggedIn = "userLoggedIn"
     static let storeInitialized = "storeInitialized"
     static let storeDeinitialized = "storeDeinitialized"
+    static let userTypeKey = "userType"
 }
 
 enum TaskID {
@@ -71,6 +72,17 @@ enum TaskID {
 
     static var ordered: [String] {
         [Self.steps, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
+    }
+}
+
+enum UserType: String, Codable {
+    case patient                           = "Patient"
+    case none                              = "None"
+
+    // Return all types as an array, make sure to maintain order above
+    func allTypesAsArray() -> [String] {
+        return [UserType.patient.rawValue,
+                UserType.none.rawValue]
     }
 }
 

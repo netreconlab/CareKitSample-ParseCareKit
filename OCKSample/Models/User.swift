@@ -28,5 +28,23 @@ struct User: ParseUser {
 
     var ACL: ParseACL?
 
-    var score: Double?
+    var originalData: Data?
+
+    // Custom
+    var lastTypeSelected: String?
+
+    var userTypeUUIDs: [String: UUID]?
+
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
+        if updated.shouldRestoreKey(\.lastTypeSelected,
+                                     original: object) {
+            updated.lastTypeSelected = object.lastTypeSelected
+        }
+        if updated.shouldRestoreKey(\.userTypeUUIDs,
+                                     original: object) {
+            updated.userTypeUUIDs = object.userTypeUUIDs
+        }
+        return updated
+    }
 }

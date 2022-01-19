@@ -27,6 +27,30 @@ extension OCKPatient {
         }
     }
 
+    /**
+    The user type of this Patient.
+    */
+    var userType: UserType? {
+        get {
+            guard let typeString = userInfo?[Constants.userTypeKey],
+                let type = UserType(rawValue: typeString) else {
+                return nil
+            }
+            return type
+        }
+        set {
+            guard let type = newValue else {
+                userInfo?.removeValue(forKey: Constants.userTypeKey)
+                return
+            }
+            if userInfo != nil {
+                userInfo?[Constants.userTypeKey] = type.rawValue
+            } else {
+                userInfo = [Constants.userTypeKey: type.rawValue]
+            }
+        }
+    }
+
     /// Initialize a patient with an id, a first name, and a last name.
     ///
     /// - Parameters:
