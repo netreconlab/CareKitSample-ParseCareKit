@@ -88,7 +88,8 @@ struct LoginView: View {
 
                 if signupLoginSegmentValue == 1 {
                     Task {
-                        await viewModel.signup(username: usersname,
+                        await viewModel.signup(.patient,
+                                               username: usersname,
                                                password: password,
                                                firstName: firstName,
                                                lastName: lastName)

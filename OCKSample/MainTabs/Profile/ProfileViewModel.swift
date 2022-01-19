@@ -112,13 +112,11 @@ class ProfileViewModel: ObservableObject {
 
     static func getRemoteClockUUIDAfterLoginFromCloud() async throws -> UUID {
 
-        let query = PCKPatient.query()
-        let patient = try await query.first()
-        guard let uuid = patient.userInfo?[Constants.parseRemoteClockIDKey],
-              let remoteClockId = UUID(uuidString: uuid) else {
-            throw AppError.valueNotFoundInUserInfo
-        }
-        return remoteClockId
+        guard let lastUserTypeSelected = User.current?.lastTypeSelected,
+              let remoteClockUUID = User.current?.userTypeUUIDs?[lastUserTypeSelected] else {
+                  throw AppError.remoteClockIDNotAvailable
+              }
+        return remoteClockUUID
     }
 
     static func setupRemoteAfterLoginButtonTapped() async throws {
@@ -199,7 +197,7 @@ class ProfileViewModel: ObservableObject {
         }
     }
 
-    static func savePatientAfterSignUp(_ first: String, last: String) async throws -> OCKPatient {
+    static func savePatientAfterSignUp(_ type: UserType, first: String, last: String) async throws -> OCKPatient {
 
         let remoteUUID = UUID()
 
@@ -221,11 +219,11 @@ class ProfileViewModel: ObservableObject {
             throw AppError.couldntBeUnwrapped
         }
 
-        let newPatient = OCKPatient(remoteUUID: remoteUUID,
+        var newPatient = OCKPatient(remoteUUID: remoteUUID,
                                     id: remoteUUID.uuidString,
                                     givenName: first,
                                     familyName: last)
-
+        newPatient.userType = type
         let savedPatient = try await storeManager.store.addAnyPatient(newPatient)
         guard let patient = savedPatient as? OCKPatient else {
             throw AppError.couldntCast
