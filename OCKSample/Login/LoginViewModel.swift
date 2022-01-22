@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import ParseCareKit
 import ParseSwift
 import CareKit
 import CareKitStore
@@ -105,6 +106,10 @@ class LoginViewModel: ObservableObject {
                 lastName: String) async {
 
         do {
+            guard try PCKUtility.isServerAvailable() else {
+                Logger.login.error("Server health is not \"ok\"")
+                return
+            }
             var newUser = User()
             // Set any properties you want saved on the user befor logging in.
             newUser.username = username
@@ -143,6 +148,10 @@ class LoginViewModel: ObservableObject {
     func login(username: String, password: String) async {
 
         do {
+            guard try PCKUtility.isServerAvailable() else {
+                Logger.login.error("Server health is not \"ok\"")
+                return
+            }
             let user = try await User.login(username: username, password: password)
             Logger.login.info("Parse login successful: \(user, privacy: .private)")
 
@@ -171,6 +180,10 @@ class LoginViewModel: ObservableObject {
     func loginAnonymously() async {
 
         do {
+            guard try PCKUtility.isServerAvailable() else {
+                Logger.login.error("Server health is not \"ok\"")
+                return
+            }
             let user = try await User.anonymous.login()
             Logger.login.info("Parse login anonymous successful: \(user)")
             // Only allow annonymous users to be patients.
