@@ -29,6 +29,7 @@
 		70A98D62278A2683009B58F2 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Styler.swift */; };
 		70A98D63278A268B009B58F2 /* ColorStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyler.swift */; };
 		70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC2271B4E950045A0EF /* TintColorKey.swift */; };
+		70C0D474279BA492003DA141 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91693821271B897200A634ED /* Utility.swift */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
 		70F03A842784C67C00E5AFB4 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 70F03A832784C67C00E5AFB4 /* CareKit */; };
 		70F03A862784C67C00E5AFB4 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 70F03A852784C67C00E5AFB4 /* CareKitFHIR */; };
@@ -741,6 +742,7 @@
 				70F03AA527860B2500E5AFB4 /* OCKOutcomeValue+Identifiable.swift in Sources */,
 				91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */,
 				70F03A9C27860A2000E5AFB4 /* OCKStore+Default.swift in Sources */,
+				70C0D474279BA492003DA141 /* Utility.swift in Sources */,
 				91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */,
 				91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */,
 				70308886258273D400FFABB6 /* LoginViewModel.swift in Sources */,
@@ -1290,7 +1292,7 @@
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				kind = revision;
-				revision = 65197a3e5e197a77fa80f901521db9146ca16645;
+				revision = f696adcefd539e25f6cb9cb8335d75005419f62a;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

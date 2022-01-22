@@ -76,28 +76,8 @@ class LoginViewModel: ObservableObject {
         self.isLoggedOut = false
 
         // Setup installation to receive push notifications
-        guard var currentInstallation = Installation.current else {
-            Logger.login.debug("""
-                Attempted to save installation,
-                but no current installation is available
-             """)
-            return
-        }
-        currentInstallation.channels = [InstallationChannel.global.rawValue]
-        currentInstallation.user = User.current
-        let installation = currentInstallation
         Task {
-            do {
-                let updatedInstallation = try await installation.create()
-                Logger.login.info("""
-                    Parse Installation saved, can now receive
-                    push notificaitons: \(updatedInstallation, privacy: .private)
-                """)
-            } catch {
-                Logger.login.error("""
-                    Could not update installation: \(error.localizedDescription)
-                """)
-            }
+            await Utility.updateInstallationWithDeviceToken()
         }
     }
 
