@@ -71,26 +71,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        guard var currentInstallation = Installation.current else {
-            Logger.appDelegate.debug("""
-                Attempted to update installation with deviceToken,
-                but no current installation is available
-            """)
-            return
-        }
-        currentInstallation.setDeviceToken(deviceToken)
-        let installation = currentInstallation
         Task {
-            do {
-                let updatedInstallation = try await installation.save()
-                Logger.appDelegate.info("""
-                    Updated installation with deviceToken: \(updatedInstallation, privacy: .private)
-                """)
-            } catch {
-                Logger.appDelegate.error("""
-                    Could not update installation with deviceToken: \(error.localizedDescription)
-                """)
-            }
+            await Utility.updateInstallationWithDeviceToken(deviceToken)
         }
     }
 

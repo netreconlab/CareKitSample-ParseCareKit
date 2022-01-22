@@ -72,26 +72,8 @@ class LoginViewModel: ObservableObject {
             }
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
             // Setup installation to receive push notifications
-            guard var currentInstallation = Installation.current else {
-                Logger.login.debug("""
-                    Attempted to save installation,
-                    but no current installation is available
-                """)
-                return
-            }
-            currentInstallation.channels = [InstallationChannel.global.rawValue]
-            currentInstallation.user = user
-            let installation = currentInstallation
-            do {
-                let updatedInstallation = try await installation.create()
-                Logger.login.info("""
-                    Parse Installation saved, can now receive
-                    push notificaitons: \(updatedInstallation, privacy: .private)
-                """)
-            } catch {
-                Logger.login.error("""
-                    Could not update installation: \(error.localizedDescription)
-                """)
+            Task {
+                await Utility.updateInstallationWithDeviceToken()
             }
         } catch {
             // swiftlint:disable:next line_length

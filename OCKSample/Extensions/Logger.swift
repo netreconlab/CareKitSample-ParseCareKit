@@ -14,6 +14,7 @@ extension Logger {
     static let store = Logger(subsystem: subsystem, category: "Store")
     static let appDelegate = Logger(subsystem: subsystem, category: "AppDelegate")
     static let extensionDelegate = Logger(subsystem: subsystem, category: "ExtensionDelegate")
+    static let utility = Logger(subsystem: subsystem, category: "Utility")
     static let contact = Logger(subsystem: subsystem, category: "Contact")
     static let login = Logger(subsystem: subsystem, category: "Login")
     static let feed = Logger(subsystem: subsystem, category: "Feed")
