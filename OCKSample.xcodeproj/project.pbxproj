@@ -1298,7 +1298,7 @@
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				kind = revision;
-				revision = b39debcfc8df90f213b83664099526e61e7215b9;
+				revision = 95dbbf09b1d761905ab155401c03f1182d072d6b;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
