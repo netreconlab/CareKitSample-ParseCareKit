@@ -43,7 +43,6 @@ class Utility {
             }
         } else {
             currentInstallation = keychainInstallation
-            currentInstallation.objectId = UUID().uuidString
             currentInstallation.user = User.current
             currentInstallation.channels = [InstallationChannel.global.rawValue]
             isUpdatingInstallationMutable = false
