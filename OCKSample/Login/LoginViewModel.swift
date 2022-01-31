@@ -62,6 +62,7 @@ class LoginViewModel: ObservableObject {
         if StoreManagerKey.defaultValue != nil {
             profileViewModel.refreshViewIfNeeded()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
                 appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
                     if error != nil {
@@ -70,7 +71,7 @@ class LoginViewModel: ObservableObject {
                 }
             }
         } else {
-            Logger.login.info("Parse login anonymous error: StoreManager should not be nil")
+            Logger.login.info("StoreManager should not be nil")
         }
 
         // Notify the SwiftUI view that the user is correctly logged in and to transition screens

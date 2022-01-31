@@ -263,9 +263,16 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
                  didReceiveMessage message: [String: Any],
                  replyHandler: @escaping ([String: Any]) -> Void) {
 
-        Logger.appDelegate.info("Received message from Apple Watch")
-        remote.reply(to: message, store: store) { reply in
-            replyHandler(reply)
+        if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
+            Logger.watch.info("Received message from Apple Watch requesting ParseUser, sending now")
+
+            DispatchQueue.main.async {
+                // Prepare data for watchOS
+                let returnMessage = Utility.getUserSessionForWatch()
+                replyHandler(returnMessage)
+            }
+        } else {
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
     }
 }
