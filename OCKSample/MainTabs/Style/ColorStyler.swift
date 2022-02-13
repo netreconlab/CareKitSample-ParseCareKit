@@ -11,7 +11,7 @@ import CareKitUI
 import UIKit
 
 struct ColorStyler: OCKColorStyler {
-    #if iOS
+    #if os(iOS)
     var label: UIColor {
         FontColorKey.defaultValue
     }

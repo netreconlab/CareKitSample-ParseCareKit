@@ -83,6 +83,7 @@ struct MainView: View {
         .statusBar(hidden: true)
         .accentColor(Color(tintColor))
         .careKitStyle(Styler())
+        .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 
