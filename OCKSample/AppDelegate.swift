@@ -30,13 +30,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import CareKit
 import CareKitStore
-import Contacts
-import UIKit
-import HealthKit
+import os.log
 import ParseCareKit
 import ParseSwift
+import UIKit
 import WatchConnectivity
-import os.log
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -44,15 +42,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
     var isFirstAppOpen = true
     var isFirstLogin = false
-    var coreDataStore: OCKStore!
-    var healthKitStore: OCKHealthKitPassthroughStore!
-    var profileViewModel = ProfileViewModel()
-    var parse: ParseRemote!
-    var profile: ProfileViewModel!
-    private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate: SessionDelegate!
+    private lazy var watch = OCKWatchConnectivityPeer()
+    private(set) var parseRemote: ParseRemote!
+    private(set) var profileViewModel = ProfileViewModel()
+    private(set) var store: OCKStore!
     // swiftlint:disable:next line_length
     private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: "none", type: .inMemory))
+    private(set) var healthKitStore: OCKHealthKitPassthroughStore!
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -85,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Logger.appDelegate.error("Error deleting HealthKit Store: \(error.localizedDescription)")
         }
         do {
-            try coreDataStore.delete() // Delete data in local OCKStore database
+            try store.delete() // Delete data in local OCKStore database
         } catch {
             Logger.appDelegate.error("Error deleting OCKStore: \(error.localizedDescription)")
         }
@@ -93,8 +90,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         isFirstLogin = false
         storeManager = .init(wrapping: OCKStore(name: "none", type: .inMemory))
         healthKitStore = nil
-        parse = nil
-        coreDataStore = nil
+        parseRemote = nil
+        store = nil
     }
 
     func setupRemotes(uuid: UUID? = nil) {
@@ -105,27 +102,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
                     return
                 }
-                parse = try ParseRemote(uuid: uuid,
-                                        auto: false,
-                                        subscribeToServerUpdates: true,
-                                        defaultACL: try? ParseACL.defaultACL())
-                coreDataStore = OCKStore(name: "ParseStore",
-                                         type: .onDisk(),
-                                         remote: parse)
-                parse?.parseRemoteDelegate = self
-                sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
+                parseRemote = try ParseRemote(uuid: uuid,
+                                              auto: false,
+                                              subscribeToServerUpdates: true,
+                                              defaultACL: try? ParseACL.defaultACL())
+                store = OCKStore(name: "ParseStore",
+                                 type: .onDisk(),
+                                 remote: parseRemote)
+                parseRemote?.parseRemoteDelegate = self
+                sessionDelegate = CloudSyncSessionDelegate(store: store)
             } else {
-                coreDataStore = OCKStore(name: "WatchStore", type: .onDisk(), remote: watch)
+                store = OCKStore(name: "WatchStore", type: .onDisk(), remote: watch)
                 watch.delegate = self
-                sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
+                sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: store)
             }
 
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
 
-            healthKitStore = OCKHealthKitPassthroughStore(store: coreDataStore)
+            healthKitStore = OCKHealthKitPassthroughStore(store: store)
             let coordinator = OCKStoreCoordinator()
-            coordinator.attach(store: coreDataStore)
+            coordinator.attach(store: store)
             coordinator.attach(eventStore: healthKitStore)
             storeManager = OCKSynchronizedStoreManager(wrapping: coordinator)
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))

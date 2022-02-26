@@ -64,7 +64,7 @@ class ProfileViewModel: ObservableObject {
 
     private func findAndObserveCurrentProfile() async {
 
-        guard let uuid = getRemoteClockUUIDAfterLoginFromLocalStorage() else {
+        guard let uuid = Self.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
             return
         }
 
@@ -102,7 +102,7 @@ class ProfileViewModel: ObservableObject {
         cancellables = []
     }
 
-    func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
+    static func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
         guard let uuid = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
             return nil
         }
@@ -137,7 +137,7 @@ class ProfileViewModel: ObservableObject {
         // swiftlint:disable:next force_cast
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.setupRemotes(uuid: remoteUUID)
-        appDelegate.parse.automaticallySynchronizes = true
+        appDelegate.parseRemote.automaticallySynchronizes = true
 
         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         return
@@ -226,9 +226,9 @@ class ProfileViewModel: ObservableObject {
             throw AppError.couldntCast
         }
 
-        try await appDelegate.coreDataStore.populateSampleData()
+        try await appDelegate.store.populateSampleData()
         try await appDelegate.healthKitStore.populateSampleData()
-        appDelegate.parse.automaticallySynchronizes = true
+        appDelegate.parseRemote.automaticallySynchronizes = true
 
         // Post notification to sync
         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))

@@ -54,13 +54,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     // swiftlint:disable:next force_cast
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     Logger.appDelegate.info("User is already signed in...")
-                    appDelegate.profile = ProfileViewModel()
-                    guard let uuid = appDelegate.profile.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
+                    guard let uuid = ProfileViewModel.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
                         Logger.appDelegate.info("Error in SceneDelage, no uuid saved.")
                         return
                     }
                     appDelegate.setupRemotes(uuid: uuid)
-                    appDelegate.parse.automaticallySynchronizes = true
+                    appDelegate.parseRemote.automaticallySynchronizes = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
                     }
@@ -76,7 +75,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 appDelegate.setupRemotes()
                 Task {
                     do {
-                        try await appDelegate.coreDataStore.populateSampleData()
+                        try await appDelegate.store.populateSampleData()
                         try await appDelegate.healthKitStore.populateSampleData()
                         self.setupTabBarController()
                     } catch {

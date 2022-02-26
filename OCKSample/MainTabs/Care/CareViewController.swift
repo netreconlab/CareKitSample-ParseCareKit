@@ -119,7 +119,7 @@ class CareViewController: OCKDailyPageViewController {
 
         // swiftlint:disable:next force_cast
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.coreDataStore.synchronize { error in
+        appDelegate.store.synchronize { error in
 
             DispatchQueue.main.async {
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"
