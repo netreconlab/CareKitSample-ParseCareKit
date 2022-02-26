@@ -51,11 +51,13 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func setupRemotes(uuid: String? = nil) {
         do {
             if syncWithCloud {
+                if sessionDelegate == nil {
+                    sessionDelegate = CloudSyncSessionDelegate(store: nil)
+                    WCSession.default.delegate = sessionDelegate
+                }
                 guard let uuid = uuid,
                       let remotUUID = UUID(uuidString: uuid) else {
                           Logger.extensionDelegate.error("Couldn't get remote clock UUID from User defaults")
-                          sessionDelegate = CloudSyncSessionDelegate(store: nil)
-                          WCSession.default.delegate = sessionDelegate
                           WCSession.default.activate()
                           return
                 }
@@ -64,7 +66,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
 
                 parse?.parseRemoteDelegate = self
-                sessionDelegate = CloudSyncSessionDelegate(store: store)
+                sessionDelegate.store = store
             } else {
                 store = OCKStore(name: "PhoneStore", remote: phone)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
@@ -73,7 +75,6 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 sessionDelegate = LocalSyncSessionDelegate(remote: phone, store: store)
             }
 
-            WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
 
@@ -181,7 +182,9 @@ extension ExtensionDelegate: ParseRemoteDelegate {
     }
 }
 
-protocol SessionDelegate: WCSessionDelegate {}
+protocol SessionDelegate: WCSessionDelegate {
+    var store: OCKStore? { get set }
+}
 
 private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
     var store: OCKStore?
@@ -232,7 +235,7 @@ private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
 
 private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
     let remote: OCKWatchConnectivityPeer
-    let store: OCKStore
+    var store: OCKStore?
 
     init(remote: OCKWatchConnectivityPeer, store: OCKStore) {
         self.remote = remote
@@ -245,7 +248,7 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
         Logger.extensionDelegate.info("New session state: \(activationState.rawValue)")
 
         if activationState == .activated {
-            store.synchronize { error in
+            store?.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with iPhone!"
                 Logger.extensionDelegate.info("\(errorString)")
             }
@@ -257,6 +260,10 @@ private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
                  replyHandler: @escaping ([String: Any]) -> Void) {
 
         Logger.extensionDelegate.info("Received message from iPhone")
+        guard let store = store else {
+            return
+        }
+
         remote.reply(to: message, store: store) { reply in
             replyHandler(reply)
         }
