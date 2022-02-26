@@ -67,7 +67,7 @@ class LoginViewModel: ObservableObject {
             let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
             watchDelegate.setupRemotes(uuid: uuidString)
             watchDelegate.store.synchronize { error in
-                let errorString = error?.localizedDescription ?? "Successful sync with Cloud!"
+                let errorString = error?.localizedDescription ?? "Successful sync with remote!"
                 Logger.watch.info("\(errorString)")
             }
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))

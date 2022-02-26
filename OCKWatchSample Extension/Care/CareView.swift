@@ -13,22 +13,22 @@ import os.log
 struct CareView: View {
 
     @Environment(\.tintColor) private var tintColor
+    @Environment(\.customStyle) private var style
     @Environment(\.storeManager) private var storeManager
     @StateObject var loginViewModel = LoginViewModel()
     @StateObject var viewModel = CareViewModel()
     @StateObject var userStatus = UserStatus()
-    // swiftlint:disable:next force_cast
-    let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
 
     var body: some View {
 
         ScrollView {
 
             if !userStatus.isLoggedOut || !loginViewModel.syncWithCloud {
+                let storeManager = viewModel.storeManager
 
                 InstructionsTaskView(taskID: TaskID.stretch,
                                      eventQuery: OCKEventQuery(for: Date()),
-                                     storeManager: watchDelegate.storeManager)
+                                     storeManager: storeManager)
 
             } else {
                 Text("Please open the OCKSample app on your iPhone and login")
@@ -41,15 +41,9 @@ struct CareView: View {
 
         }
         .accentColor(Color(tintColor))
-        .careKitStyle(Styler())
+        .careKitStyle(style)
         .onAppear(perform: {
-            guard watchDelegate.store != nil else {
-                return
-            }
-            watchDelegate.store.synchronize { error in
-                let errorString = error?.localizedDescription ?? "Successful sync with iPhone!"
-                Logger.feed.info("\(errorString)")
-            }
+            viewModel.synchronizeStore()
         })
         .onReceive(loginViewModel.$isLoggedOut, perform: { value in
             if self.userStatus.isLoggedOut != value {

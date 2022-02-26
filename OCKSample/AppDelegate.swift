@@ -30,13 +30,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import CareKit
 import CareKitStore
-import Contacts
-import UIKit
-import HealthKit
+import os.log
 import ParseCareKit
 import ParseSwift
+import UIKit
 import WatchConnectivity
-import os.log
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -44,20 +42,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
     var isFirstAppOpen = true
     var isFirstLogin = false
-    var coreDataStore: OCKStore!
-    var healthKitStore: OCKHealthKitPassthroughStore!
-    var profileViewModel = ProfileViewModel()
-    var parse: ParseRemote!
-    var profile: ProfileViewModel!
-    private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate: SessionDelegate!
-    private(set) var storeManager: OCKSynchronizedStoreManager?
+    private lazy var watch = OCKWatchConnectivityPeer()
+    private(set) var parseRemote: ParseRemote!
+    private(set) var profileViewModel = ProfileViewModel()
+    private(set) var store: OCKStore!
+    // swiftlint:disable:next line_length
+    private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: "none", type: .inMemory))
+    private(set) var healthKitStore: OCKHealthKitPassthroughStore!
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Parse-server setup
-        PCKUtility.setupServer { (_, completionHandler) in
+        PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
             completionHandler(.performDefaultHandling, nil)
         }
         return true
@@ -84,16 +82,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Logger.appDelegate.error("Error deleting HealthKit Store: \(error.localizedDescription)")
         }
         do {
-            try coreDataStore.delete() // Delete data in local OCKStore database
+            try store.delete() // Delete data in local OCKStore database
         } catch {
             Logger.appDelegate.error("Error deleting OCKStore: \(error.localizedDescription)")
         }
         isFirstAppOpen = true
         isFirstLogin = false
-        storeManager = nil
+        storeManager = .init(wrapping: OCKStore(name: "none", type: .inMemory))
         healthKitStore = nil
-        parse = nil
-        coreDataStore = nil
+        parseRemote = nil
+        store = nil
     }
 
     func setupRemotes(uuid: UUID? = nil) {
@@ -104,27 +102,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
                     return
                 }
-                parse = try ParseRemote(uuid: uuid,
-                                        auto: false,
-                                        subscribeToServerUpdates: true,
-                                        defaultACL: try? ParseACL.defaultACL())
-                coreDataStore = OCKStore(name: "ParseStore",
-                                         type: .onDisk(),
-                                         remote: parse)
-                parse?.parseRemoteDelegate = self
-                sessionDelegate = CloudSyncSessionDelegate(store: coreDataStore)
+                parseRemote = try ParseRemote(uuid: uuid,
+                                              auto: false,
+                                              subscribeToServerUpdates: true,
+                                              defaultACL: try? ParseACL.defaultACL())
+                store = OCKStore(name: "ParseStore",
+                                 type: .onDisk(),
+                                 remote: parseRemote)
+                parseRemote?.parseRemoteDelegate = self
+                sessionDelegate = RemoteSessionDelegate(store: store)
             } else {
-                coreDataStore = OCKStore(name: "WatchStore", type: .onDisk(), remote: watch)
+                store = OCKStore(name: "WatchStore", type: .onDisk(), remote: watch)
                 watch.delegate = self
-                sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: coreDataStore)
+                sessionDelegate = LocalSessionDelegate(remote: watch, store: store)
             }
 
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
 
-            healthKitStore = OCKHealthKitPassthroughStore(store: coreDataStore)
+            healthKitStore = OCKHealthKitPassthroughStore(store: store)
             let coordinator = OCKStoreCoordinator()
-            coordinator.attach(store: coreDataStore)
+            coordinator.attach(store: store)
             coordinator.attach(eventStore: healthKitStore)
             storeManager = OCKSynchronizedStoreManager(wrapping: coordinator)
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
@@ -179,100 +177,6 @@ extension AppDelegate: ParseRemoteDelegate {
             completion(.success(first))
         } else {
             completion(.failure(.remoteSynchronizationFailed(reason: "Error, none selected for conflict")))
-        }
-    }
-}
-
-protocol SessionDelegate: WCSessionDelegate {}
-
-private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
-
-    let store: OCKStore
-
-    init(store: OCKStore) {
-        self.store = store
-    }
-
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        Logger.appDelegate.info("sessionDidBecomeInactive")
-    }
-
-    func sessionDidDeactivate(_ session: WCSession) {
-        Logger.appDelegate.info("sessionDidDeactivate")
-    }
-
-    func session(_ session: WCSession,
-                 activationDidCompleteWith activationState: WCSessionActivationState,
-                 error: Error?) {
-        Logger.appDelegate.info("New session state: \(activationState.rawValue)")
-
-        if activationState == .activated {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-        }
-    }
-
-    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-    }
-
-    func session(_ session: WCSession,
-                 didReceiveMessage message: [String: Any],
-                 replyHandler: @escaping ([String: Any]) -> Void) {
-
-        if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
-            Logger.watch.info("Received message from Apple Watch requesting ParseUser, sending now")
-
-            DispatchQueue.main.async {
-                // Prepare data for watchOS
-                let returnMessage = Utility.getUserSessionForWatch()
-                replyHandler(returnMessage)
-            }
-
-        }
-    }
-}
-
-private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
-    let remote: OCKWatchConnectivityPeer
-    let store: OCKStore
-
-    init(remote: OCKWatchConnectivityPeer, store: OCKStore) {
-        self.remote = remote
-        self.store = store
-    }
-
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        Logger.appDelegate.info("sessionDidBecomeInactive")
-    }
-
-    func sessionDidDeactivate(_ session: WCSession) {
-        Logger.appDelegate.info("sessionDidDeactivate")
-    }
-
-    func session(_ session: WCSession,
-                 activationDidCompleteWith activationState: WCSessionActivationState,
-                 error: Error?) {
-        Logger.appDelegate.info("New session state: \(activationState.rawValue)")
-
-        if activationState == .activated {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-        }
-    }
-
-    func session(_ session: WCSession,
-                 didReceiveMessage message: [String: Any],
-                 replyHandler: @escaping ([String: Any]) -> Void) {
-
-        if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
-            Logger.watch.info("Received message from Apple Watch requesting ParseUser, sending now")
-
-            DispatchQueue.main.async {
-                // Prepare data for watchOS
-                let returnMessage = Utility.getUserSessionForWatch()
-                replyHandler(returnMessage)
-            }
-        } else {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
     }
 }

@@ -52,6 +52,7 @@ extension AppError: LocalizedError {
 }
 
 enum Constants {
+    static let parseConfigFileName = "ParseCareKit"
     static let parseUserSessionTokenKey = "requestParseSessionToken"
     static let parseRemoteClockIDKey = "requestRemoteClockID"
     static let requestSync = "requestSync"
