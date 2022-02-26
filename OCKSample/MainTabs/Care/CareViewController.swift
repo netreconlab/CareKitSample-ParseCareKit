@@ -170,6 +170,7 @@ class CareViewController: OCKDailyPageViewController {
                 tipView.headerView.titleLabel.text = tipTitle
                 tipView.headerView.detailLabel.text = tipText
                 tipView.imageView.image = UIImage(named: "exercise.jpg")
+                tipView.customStyle = Styler()
                 listViewController.appendView(tipView, animated: false)
             }
         }
