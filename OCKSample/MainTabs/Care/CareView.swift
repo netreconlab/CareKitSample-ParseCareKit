@@ -47,8 +47,8 @@ struct CareView: UIViewControllerRepresentable {
     // MARK: Helpers
     func createCareView() -> UIViewController {
         guard let manager = StoreManagerKey.defaultValue else {
-            Logger.feed.error("Couldn't unwrap storeManager")
-            return OCKDailyPageViewController(storeManager: .init(wrapping: OCKStore(name: "dummy")))
+            Logger.feed.debug("Creating temp view with store from memory")
+            return OCKDailyPageViewController(storeManager: .init(wrapping: OCKStore(name: "none", type: .inMemory)))
         }
         return CareViewController(storeManager: manager)
     }

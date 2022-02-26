@@ -214,10 +214,7 @@ class ProfileViewModel: ObservableObject {
         // swiftlint:disable:next force_cast
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.setupRemotes(uuid: remoteUUID)
-
-        guard let storeManager = appDelegate.storeManager else {
-            throw AppError.couldntBeUnwrapped
-        }
+        let storeManager = appDelegate.storeManager
 
         var newPatient = OCKPatient(remoteUUID: remoteUUID,
                                     id: remoteUUID.uuidString,

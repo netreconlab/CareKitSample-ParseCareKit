@@ -51,7 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var profile: ProfileViewModel!
     private let watch = OCKWatchConnectivityPeer()
     private var sessionDelegate: SessionDelegate!
-    private(set) var storeManager: OCKSynchronizedStoreManager?
+    // swiftlint:disable:next line_length
+    private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: "none", type: .inMemory))
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -90,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         isFirstAppOpen = true
         isFirstLogin = false
-        storeManager = nil
+        storeManager = .init(wrapping: OCKStore(name: "none", type: .inMemory))
         healthKitStore = nil
         parse = nil
         coreDataStore = nil
