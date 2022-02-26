@@ -25,7 +25,9 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     func applicationDidFinishLaunching() {
 
         // Parse-server setup
-        PCKUtility.setupServer()
+        PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
+            completionHandler(.performDefaultHandling, nil)
+        }
 
         // If the user isn't logged in, log them in
         if User.current != nil {
@@ -52,7 +54,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
         do {
             if syncWithCloud {
                 if sessionDelegate == nil {
-                    sessionDelegate = CloudSyncSessionDelegate(store: nil)
+                    sessionDelegate = RemoteSessionDelegate(store: nil)
                     WCSession.default.delegate = sessionDelegate
                 }
                 guard let uuid = uuid,
@@ -72,7 +74,7 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
 
                 phone.delegate = self
-                sessionDelegate = LocalSyncSessionDelegate(remote: phone, store: store)
+                sessionDelegate = LocalSessionDelegate(remote: phone, store: store)
             }
             WCSession.default.activate()
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
@@ -177,94 +179,6 @@ extension ExtensionDelegate: ParseRemoteDelegate {
             completion(.success(first))
         } else {
             completion(.failure(.remoteSynchronizationFailed(reason: "Error, non selected for conflict")))
-        }
-    }
-}
-
-protocol SessionDelegate: WCSessionDelegate {
-    var store: OCKStore? { get set }
-}
-
-private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
-    var store: OCKStore?
-
-    init(store: OCKStore?) {
-        self.store = store
-    }
-
-    func session(_ session: WCSession,
-                 activationDidCompleteWith activationState: WCSessionActivationState,
-                 error: Error?) {
-
-        switch activationState {
-        case .activated:
-
-            DispatchQueue.main.async {
-                // If user isn't logged in, request login from iPhone
-                if User.current == nil {
-                    // swiftlint:disable:next line_length
-                    WCSession.default.sendMessage([Constants.parseUserSessionTokenKey: Constants.parseUserSessionTokenKey],
-                                                  replyHandler: { reply in
-                        Task {
-                            await LoginViewModel.loginFromiPhoneMessage(reply)
-                        }
-                    }) { error in // swiftlint:disable:this multiple_closures_with_trailing_closure
-                        Logger.watch.error("(error)")
-                    }
-                }
-            }
-        default:
-            Logger.watch.info("None supported session state: \(activationState.rawValue)")
-        }
-    }
-
-    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-        if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
-            Task {
-                await LoginViewModel.loginFromiPhoneMessage(message)
-            }
-        } else if (message[Constants.requestSync] as? String) != nil {
-            store?.synchronize { error in
-                let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                Logger.watch.info("\(errorString)")
-            }
-        }
-    }
-}
-
-private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
-    let remote: OCKWatchConnectivityPeer
-    var store: OCKStore?
-
-    init(remote: OCKWatchConnectivityPeer, store: OCKStore) {
-        self.remote = remote
-        self.store = store
-    }
-
-    func session(_ session: WCSession,
-                 activationDidCompleteWith activationState: WCSessionActivationState,
-                 error: Error?) {
-        Logger.extensionDelegate.info("New session state: \(activationState.rawValue)")
-
-        if activationState == .activated {
-            store?.synchronize { error in
-                let errorString = error?.localizedDescription ?? "Successful sync with iPhone!"
-                Logger.extensionDelegate.info("\(errorString)")
-            }
-        }
-    }
-
-    func session(_ session: WCSession,
-                 didReceiveMessage message: [String: Any],
-                 replyHandler: @escaping ([String: Any]) -> Void) {
-
-        Logger.extensionDelegate.info("Received message from iPhone")
-        guard let store = store else {
-            return
-        }
-
-        remote.reply(to: message, store: store) { reply in
-            replyHandler(reply)
         }
     }
 }

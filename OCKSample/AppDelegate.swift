@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         // Parse-server setup
-        PCKUtility.setupServer { (_, completionHandler) in
+        PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
             completionHandler(.performDefaultHandling, nil)
         }
         return true
@@ -110,11 +110,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                  type: .onDisk(),
                                  remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
-                sessionDelegate = CloudSyncSessionDelegate(store: store)
+                sessionDelegate = RemoteSessionDelegate(store: store)
             } else {
                 store = OCKStore(name: "WatchStore", type: .onDisk(), remote: watch)
                 watch.delegate = self
-                sessionDelegate = LocalSyncSessionDelegate(remote: watch, store: store)
+                sessionDelegate = LocalSessionDelegate(remote: watch, store: store)
             }
 
             WCSession.default.delegate = sessionDelegate
@@ -177,100 +177,6 @@ extension AppDelegate: ParseRemoteDelegate {
             completion(.success(first))
         } else {
             completion(.failure(.remoteSynchronizationFailed(reason: "Error, none selected for conflict")))
-        }
-    }
-}
-
-protocol SessionDelegate: WCSessionDelegate {}
-
-private class CloudSyncSessionDelegate: NSObject, SessionDelegate {
-
-    let store: OCKStore
-
-    init(store: OCKStore) {
-        self.store = store
-    }
-
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        Logger.appDelegate.info("sessionDidBecomeInactive")
-    }
-
-    func sessionDidDeactivate(_ session: WCSession) {
-        Logger.appDelegate.info("sessionDidDeactivate")
-    }
-
-    func session(_ session: WCSession,
-                 activationDidCompleteWith activationState: WCSessionActivationState,
-                 error: Error?) {
-        Logger.appDelegate.info("New session state: \(activationState.rawValue)")
-
-        if activationState == .activated {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-        }
-    }
-
-    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-    }
-
-    func session(_ session: WCSession,
-                 didReceiveMessage message: [String: Any],
-                 replyHandler: @escaping ([String: Any]) -> Void) {
-
-        if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
-            Logger.watch.info("Received message from Apple Watch requesting ParseUser, sending now")
-
-            DispatchQueue.main.async {
-                // Prepare data for watchOS
-                let returnMessage = Utility.getUserSessionForWatch()
-                replyHandler(returnMessage)
-            }
-
-        }
-    }
-}
-
-private class LocalSyncSessionDelegate: NSObject, SessionDelegate {
-    let remote: OCKWatchConnectivityPeer
-    let store: OCKStore
-
-    init(remote: OCKWatchConnectivityPeer, store: OCKStore) {
-        self.remote = remote
-        self.store = store
-    }
-
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        Logger.appDelegate.info("sessionDidBecomeInactive")
-    }
-
-    func sessionDidDeactivate(_ session: WCSession) {
-        Logger.appDelegate.info("sessionDidDeactivate")
-    }
-
-    func session(_ session: WCSession,
-                 activationDidCompleteWith activationState: WCSessionActivationState,
-                 error: Error?) {
-        Logger.appDelegate.info("New session state: \(activationState.rawValue)")
-
-        if activationState == .activated {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-        }
-    }
-
-    func session(_ session: WCSession,
-                 didReceiveMessage message: [String: Any],
-                 replyHandler: @escaping ([String: Any]) -> Void) {
-
-        if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
-            Logger.watch.info("Received message from Apple Watch requesting ParseUser, sending now")
-
-            DispatchQueue.main.async {
-                // Prepare data for watchOS
-                let returnMessage = Utility.getUserSessionForWatch()
-                replyHandler(returnMessage)
-            }
-        } else {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
     }
 }
