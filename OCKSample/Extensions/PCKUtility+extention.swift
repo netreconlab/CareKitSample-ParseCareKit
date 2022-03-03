@@ -17,8 +17,8 @@ extension PCKUtility {
      - returns: **true** if the server is available. **false** if the server reponds with not healthy.
      - throws: `ParseError`.
      */
-    static func isServerAvailable() throws -> Bool {
-        let serverHealth = try ParseHealth.check()
+    static func isServerAvailable() async throws -> Bool {
+        let serverHealth = try await ParseHealth.check()
         guard serverHealth.contains("ok") else {
             return false
         }

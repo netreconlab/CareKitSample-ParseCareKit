@@ -107,7 +107,7 @@ class LoginViewModel: ObservableObject {
                 lastName: String) async {
 
         do {
-            guard try PCKUtility.isServerAvailable() else {
+            guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
                 return
             }
@@ -149,7 +149,7 @@ class LoginViewModel: ObservableObject {
     func login(username: String, password: String) async {
 
         do {
-            guard try PCKUtility.isServerAvailable() else {
+            guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
                 return
             }
@@ -181,7 +181,7 @@ class LoginViewModel: ObservableObject {
     func loginAnonymously() async {
 
         do {
-            guard try PCKUtility.isServerAvailable() else {
+            guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
                 return
             }
