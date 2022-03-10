@@ -118,7 +118,7 @@ class CareViewController: OCKDailyPageViewController {
         }
 
         DispatchQueue.main.async {
-            
+
             // swiftlint:disable:next force_cast
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.store.synchronize { error in

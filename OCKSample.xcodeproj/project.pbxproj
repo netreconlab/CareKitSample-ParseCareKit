@@ -28,8 +28,8 @@
 		7083A856279CA40A00B3832E /* PCKUtility+extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083A855279CA40A00B3832E /* PCKUtility+extention.swift */; };
 		7083A857279CA40F00B3832E /* PCKUtility+extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083A855279CA40A00B3832E /* PCKUtility+extention.swift */; };
 		708542F9276687F90029E888 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51F6343923D2877B00FE576E /* HealthKit.framework */; };
-		70A98D62278A2683009B58F2 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Styler.swift */; };
-		70A98D63278A268B009B58F2 /* ColorStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyler.swift */; };
+		70A98D62278A2683009B58F2 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Style.swift */; };
+		70A98D63278A268B009B58F2 /* ColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyle.swift */; };
 		70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC2271B4E950045A0EF /* TintColorKey.swift */; };
 		70C0D474279BA492003DA141 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91693821271B897200A634ED /* Utility.swift */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
@@ -67,8 +67,8 @@
 		70F921B327CAC16E00368CEC /* LocalSyncSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F921AF27CABED600368CEC /* LocalSyncSessionDelegate.swift */; };
 		9103AA5227B8C913002C921E /* FontColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AA727860E7700E5AFB4 /* FontColorKey.swift */; };
 		91693818271B5E1600A634ED /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E63F25717F85006E9A3C /* Constants.swift */; };
-		9169381B271B64E100A634ED /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Styler.swift */; };
-		9169381D271B650700A634ED /* ColorStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyler.swift */; };
+		9169381B271B64E100A634ED /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Style.swift */; };
+		9169381D271B650700A634ED /* ColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyle.swift */; };
 		91693820271B80EA00A634ED /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = 9169381F271B80EA00A634ED /* CONTRIBUTING.md */; };
 		91693822271B897200A634ED /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91693821271B897200A634ED /* Utility.swift */; };
 		918FDEAF271B3F8F0045A0EF /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 918FDEAE271B3F8F0045A0EF /* ParseCareKit */; };
@@ -199,8 +199,8 @@
 		70F921AB27CABE3000368CEC /* SessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
 		70F921AD27CABE7700368CEC /* RemoteSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSessionDelegate.swift; sourceTree = "<group>"; };
 		70F921AF27CABED600368CEC /* LocalSyncSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalSyncSessionDelegate.swift; sourceTree = "<group>"; };
-		9169381A271B64E100A634ED /* Styler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styler.swift; sourceTree = "<group>"; };
-		9169381C271B650700A634ED /* ColorStyler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyler.swift; sourceTree = "<group>"; };
+		9169381A271B64E100A634ED /* Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		9169381C271B650700A634ED /* ColorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyle.swift; sourceTree = "<group>"; };
 		9169381F271B80EA00A634ED /* CONTRIBUTING.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		91693821271B897200A634ED /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		918FDEB4271B40590045A0EF /* Installation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Installation.swift; sourceTree = "<group>"; };
@@ -293,7 +293,7 @@
 		703088772582727500FFABB6 /* MainTabs */ = {
 			isa = PBXGroup;
 			children = (
-				91693819271B64CB00A634ED /* Style */,
+				91693819271B64CB00A634ED /* Stylers */,
 				70308878258272CD00FFABB6 /* Care */,
 				7036E4D2256EBE35006E9A3C /* MainView.swift */,
 				7030887D258272F400FFABB6 /* Contact */,
@@ -396,13 +396,13 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		91693819271B64CB00A634ED /* Style */ = {
+		91693819271B64CB00A634ED /* Stylers */ = {
 			isa = PBXGroup;
 			children = (
-				9169381A271B64E100A634ED /* Styler.swift */,
-				9169381C271B650700A634ED /* ColorStyler.swift */,
+				9169381A271B64E100A634ED /* Style.swift */,
+				9169381C271B650700A634ED /* ColorStyle.swift */,
 			);
-			path = Style;
+			path = Stylers;
 			sourceTree = "<group>";
 		};
 		918FDEB3271B402F0045A0EF /* Models */ = {
@@ -752,12 +752,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				70F921B327CAC16E00368CEC /* LocalSyncSessionDelegate.swift in Sources */,
-				70A98D63278A268B009B58F2 /* ColorStyler.swift in Sources */,
+				70A98D63278A268B009B58F2 /* ColorStyle.swift in Sources */,
 				918FDEB8271B49060045A0EF /* Logger.swift in Sources */,
 				91AD923B24A4C42D00925D4D /* CareView.swift in Sources */,
 				70F03AA427860B2500E5AFB4 /* OCKOutcome+default.swift in Sources */,
 				70F921A927CA9A4000368CEC /* CustomStyleKey.swift in Sources */,
-				70A98D62278A2683009B58F2 /* Styler.swift in Sources */,
+				70A98D62278A2683009B58F2 /* Style.swift in Sources */,
 				91693818271B5E1600A634ED /* Constants.swift in Sources */,
 				70F921B227CAC16E00368CEC /* RemoteSessionDelegate.swift in Sources */,
 				7083A857279CA40F00B3832E /* PCKUtility+extention.swift in Sources */,
@@ -799,9 +799,9 @@
 				70F03A972786098F00E5AFB4 /* OCKStore+Default.swift in Sources */,
 				70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */,
 				70F03AA827860E7700E5AFB4 /* FontColorKey.swift in Sources */,
-				9169381B271B64E100A634ED /* Styler.swift in Sources */,
+				9169381B271B64E100A634ED /* Style.swift in Sources */,
 				70F921A827CA9A3A00368CEC /* CustomStyleKey.swift in Sources */,
-				9169381D271B650700A634ED /* ColorStyler.swift in Sources */,
+				9169381D271B650700A634ED /* ColorStyle.swift in Sources */,
 				E72B2C0A226939E3009A9438 /* AppDelegate.swift in Sources */,
 				7036E4C4256E0A48006E9A3C /* CareView.swift in Sources */,
 				70F921B027CABED600368CEC /* LocalSyncSessionDelegate.swift in Sources */,
