@@ -11,14 +11,14 @@ import SwiftUI
 
 struct CustomStyleKey: EnvironmentKey {
 
-    static var defaultValue: Styler {
-        Styler()
+    static var defaultValue: Style {
+        Style()
     }
 }
 
 extension EnvironmentValues {
 
-    var customStyle: Styler {
+    var customStyle: Style {
         self[CustomStyleKey.self]
     }
 }
