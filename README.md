@@ -20,7 +20,12 @@ ParseCareKit synchronizes the following entities to Parse tables/classes using [
 **Use at your own risk. There is no promise that this is HIPAA compliant and we are not responsible for any mishandling of your data**
 
 ## Setup Your Parse Server
-You can setup your parse-server locally to test using [parse-hipaa](https://github.com/netreconlab/parse-hipaa). Simply type the following to get your parse-server running with postgres locally:
+
+### Heroku
+The easiest way to setup your server is using the [one-button-click](https://github.com/netreconlab/parse-hipaa#heroku) deplyment method for [parse-hipaa](https://github.com/netreconlab/parse-hipaa).
+
+### Docker
+You can setup your [parse-hipaa](https://github.com/netreconlab/parse-hipaa) using Docker. Simply type the following to get parse-hipaa running with postgres locally:
 
 1. Fork [parse-hipaa](https://github.com/netreconlab/parse-hipaa)
 2. `cd parse-hipaa`
@@ -36,6 +41,11 @@ You can setup your parse-server locally to test using [parse-hipaa](https://gith
 5. You can edit Parse server setup in the ParseCareKit.plist file under "Supporting Files" in the Xcode browser
 
 ## View your data in Parse Dashboard
+
+### Heroku
+The easiest way to setup your dashboard is using the [one-button-click](https://github.com/netreconlab/parse-hipaa-dashboard#heroku) deplyment method for [parse-hipaa-dashboard](https://github.com/netreconlab/parse-hipaa-dashboard).
+
+### Docker
 Parse Dashboard is the easiest way to view your data in the Cloud (or local machine in this example) and comes with [parse-hipaa](https://github.com/netreconlab/parse-hipaa). To access:
 1. Open your browser and go to http://localhost:4040/dashboard
 2. Username: `parse`
