@@ -8,7 +8,6 @@
 
 import Foundation
 
-@MainActor
 class CareViewModel: ObservableObject {
     @Published var update = false
 

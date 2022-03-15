@@ -11,10 +11,8 @@ import CareKit
 import ParseSwift
 import os.log
 
-@MainActor
 class LoginViewModel: ObservableObject {
-    // swiftlint:disable:next force_cast
-    private let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
+    private let watchDelegate: ExtensionDelegate
 
     var syncWithCloud: Bool {
         return watchDelegate.syncWithCloud
@@ -23,6 +21,8 @@ class LoginViewModel: ObservableObject {
     @Published var isLoggedOut = true
 
     init() {
+        // swiftlint:disable:next force_cast
+        self.watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userLoggedIn(_:)),
                                                name: Notification.Name(rawValue: Constants.userLoggedIn),
@@ -42,6 +42,7 @@ class LoginViewModel: ObservableObject {
         _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
     }
 
+    @MainActor
     class func loginFromiPhoneMessage(_ message: [String: Any]) async {
         guard let sessionToken = message[Constants.parseUserSessionTokenKey] as? String,
               let uuidString = message[Constants.parseRemoteClockIDKey] as? String else {

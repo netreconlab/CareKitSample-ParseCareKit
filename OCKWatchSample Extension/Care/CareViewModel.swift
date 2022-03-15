@@ -13,7 +13,6 @@ import CareKitStore
 import WatchConnectivity
 import os.log
 
-@MainActor
 class CareViewModel: ObservableObject {
     @Published var update = false
     @Published var storeManager: OCKSynchronizedStoreManager

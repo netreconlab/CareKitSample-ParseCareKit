@@ -51,6 +51,12 @@ struct CareView: View {
             }
         })
     }
+    /*
+    init() {
+        self._loginViewModel = StateObject(wrappedValue: LoginViewModel())
+        self._viewModel = StateObject(wrappedValue: CareViewModel())
+        self._userStatus = StateObject(wrappedValue: UserStatus())
+    }*/
 }
 
 struct ContentView_Previews: PreviewProvider {

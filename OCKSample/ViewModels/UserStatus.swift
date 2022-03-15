@@ -8,7 +8,6 @@
 
 import Foundation
 
-@MainActor
 class UserStatus: ObservableObject {
     @Published var isLoggedOut = true
 
