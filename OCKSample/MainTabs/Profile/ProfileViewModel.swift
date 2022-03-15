@@ -15,7 +15,6 @@ import UIKit
 import os.log
 import Combine
 
-@MainActor
 class ProfileViewModel: ObservableObject {
 
     @Published var patient: OCKPatient?
@@ -119,6 +118,7 @@ class ProfileViewModel: ObservableObject {
         return remoteClockUUID
     }
 
+    @MainActor
     static func setupRemoteAfterLoginButtonTapped() async throws {
 
         let remoteUUID = try await Self.getRemoteClockUUIDAfterLoginFromCloud()
@@ -197,6 +197,7 @@ class ProfileViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     static func savePatientAfterSignUp(_ type: UserType, first: String, last: String) async throws -> OCKPatient {
 
         let remoteUUID = UUID()
@@ -239,6 +240,7 @@ class ProfileViewModel: ObservableObject {
     // You may not have seen "throws" before, but it's simple,
     // this throws an error if one occurs, if not it behaves as normal
     // Normally, you've seen do {} catch{} which catches the error, same concept...
+    @MainActor
     func logout() async {
         do {
             try await User.logout()

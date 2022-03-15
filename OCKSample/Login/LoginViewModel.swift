@@ -15,7 +15,6 @@ import CareKitStore
 import WatchConnectivity
 import os.log
 
-@MainActor
 class LoginViewModel: ObservableObject {
 
     @Published private(set) var isLoggedOut = true {
@@ -33,7 +32,7 @@ class LoginViewModel: ObservableObject {
     private let profileViewModel: ProfileViewModel = ProfileViewModelKey.defaultValue
 
     // MARK: Helpers
-
+    @MainActor
     private func finishCompletingSignIn(_ careKitPatient: OCKPatient? = nil) async throws {
 
         if let careKitUser = careKitPatient {
