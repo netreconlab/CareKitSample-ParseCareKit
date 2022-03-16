@@ -92,6 +92,7 @@ class ProfileViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     private func observePatient(_ patient: OCKPatient) {
 
         storeManager?.publisher(forPatient: patient, categories: [.add, .update, .delete])
@@ -148,7 +149,7 @@ class ProfileViewModel: ObservableObject {
     }
 
     // MARK: User intentions
-
+    @MainActor
     func saveProfile(_ first: String, last: String, birth: Date) async throws {
 
         if var patientToUpdate = patient {
