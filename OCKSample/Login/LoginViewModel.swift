@@ -105,6 +105,7 @@ class LoginViewModel: ObservableObject {
      - parameter username: The username the user is signing in with.
      - parameter password: The password the user is signing in with.
     */
+    @MainActor
     func signup(_ type: UserType,
                 username: String,
                 password: String,
@@ -151,6 +152,7 @@ class LoginViewModel: ObservableObject {
      - parameter username: The username the user is logging in with.
      - parameter password: The password the user is logging in with.
     */
+    @MainActor
     func login(username: String, password: String) async {
 
         do {
@@ -183,6 +185,7 @@ class LoginViewModel: ObservableObject {
     /**
      Logs in the user anonymously *asynchronously*.
     */
+    @MainActor
     func loginAnonymously() async {
 
         do {
