@@ -15,7 +15,7 @@ class LocalSessionDelegate: NSObject, SessionDelegate {
     let remote: OCKWatchConnectivityPeer
     var store: OCKStore?
 
-    init(remote: OCKWatchConnectivityPeer, store: OCKStore) {
+    init(remote: OCKWatchConnectivityPeer, store: OCKStore?) {
         self.remote = remote
         self.store = store
     }

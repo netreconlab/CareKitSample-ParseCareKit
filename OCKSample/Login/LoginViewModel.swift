@@ -29,7 +29,13 @@ class LoginViewModel: ObservableObject {
     }
 
     @Published private(set) var loginError: ParseError?
-    private let profileViewModel: ProfileViewModel = ProfileViewModelKey.defaultValue
+    private var profileViewModel = ProfileViewModel()
+
+    init() {
+        DispatchQueue.main.async {
+            self.profileViewModel = ProfileViewModelKey.defaultValue
+        }
+    }
 
     // MARK: Helpers
     @MainActor
