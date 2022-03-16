@@ -46,9 +46,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private lazy var watch = OCKWatchConnectivityPeer()
     private(set) var parseRemote: ParseRemote!
     private(set) var profileViewModel = ProfileViewModel()
-    private(set) var store: OCKStore!
+    private(set) var store: OCKStore?
     // swiftlint:disable:next line_length
-    private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: "none", type: .inMemory))
+    private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: "none", type: .inMemory)) {
+        willSet {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
+            }
+        }
+    }
     private(set) var healthKitStore: OCKHealthKitPassthroughStore!
 
     func application(_ application: UIApplication,
@@ -82,12 +88,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Logger.appDelegate.error("Error deleting HealthKit Store: \(error.localizedDescription)")
         }
         do {
-            try store.delete() // Delete data in local OCKStore database
+            try store?.delete() // Delete data in local OCKStore database
         } catch {
             Logger.appDelegate.error("Error deleting OCKStore: \(error.localizedDescription)")
         }
         isFirstAppOpen = true
-        isFirstLogin = false
+        isFirstLogin = true
         storeManager = .init(wrapping: OCKStore(name: "none", type: .inMemory))
         healthKitStore = nil
         parseRemote = nil
@@ -120,12 +126,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
 
-            healthKitStore = OCKHealthKitPassthroughStore(store: store)
+            guard let currentStore = store else {
+                return
+            }
+            healthKitStore = OCKHealthKitPassthroughStore(store: currentStore)
             let coordinator = OCKStoreCoordinator()
-            coordinator.attach(store: store)
+            coordinator.attach(store: currentStore)
             coordinator.attach(eventStore: healthKitStore)
             storeManager = OCKSynchronizedStoreManager(wrapping: coordinator)
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
         } catch {
             Logger.appDelegate.error("Error setting up remote: \(error.localizedDescription)")
         }

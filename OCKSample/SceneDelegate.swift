@@ -75,7 +75,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 appDelegate.setupRemotes()
                 Task {
                     do {
-                        try await appDelegate.store.populateSampleData()
+                        try await appDelegate.store?.populateSampleData()
                         try await appDelegate.healthKitStore.populateSampleData()
                         self.setupTabBarController()
                     } catch {
