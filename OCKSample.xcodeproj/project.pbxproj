@@ -1324,7 +1324,7 @@
 			repositoryURL = "https://github.com/cbaker6/CareKit.git";
 			requirement = {
 				kind = revision;
-				revision = c320c45f609ee396d80fd98ebd1544d5266f3c20;
+				revision = adca4ac261b265e4fb7ded5a88e14deaed39592c;
 			};
 		};
 		918FDEAD271B3F8F0045A0EF /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
@@ -1332,7 +1332,7 @@
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				kind = revision;
-				revision = 208a48eb2a8d22cbf304118298dcc8f54383de8c;
+				revision = d3e5d85e3087c7b65019496867ea63ca39e4ddc6;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
