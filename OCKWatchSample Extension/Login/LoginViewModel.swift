@@ -22,7 +22,7 @@ class LoginViewModel: ObservableObject {
 
     init() {
         // swiftlint:disable:next force_cast
-        self.watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
+        self.watchDelegate = WKApplication.shared().delegate as! ExtensionDelegate
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userLoggedIn(_:)),
                                                name: Notification.Name(rawValue: Constants.userLoggedIn),
@@ -65,7 +65,7 @@ class LoginViewModel: ObservableObject {
             }
 
             // swiftlint:disable:next force_cast
-            let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
+            let watchDelegate = WKApplication.shared().delegate as! ExtensionDelegate
             watchDelegate.setupRemotes(uuid: uuidString)
             watchDelegate.store.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"

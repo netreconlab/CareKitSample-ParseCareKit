@@ -85,7 +85,6 @@
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
 		91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922924A4C42B00925D4D /* Interface.storyboard */; };
 		91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922C24A4C42D00925D4D /* Assets.xcassets */; };
-		91AD923424A4C42D00925D4D /* OCKWatchSample Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		91AD923924A4C42D00925D4D /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923824A4C42D00925D4D /* HostingController.swift */; };
 		91AD923B24A4C42D00925D4D /* CareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923A24A4C42D00925D4D /* CareView.swift */; };
 		91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */; };
@@ -108,13 +107,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = E72B2C05226939E3009A9438;
 			remoteInfo = OCKSample;
-		};
-		91AD923524A4C42D00925D4D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E72B2BFE226939E3009A9438 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 91AD923224A4C42D00925D4D;
-			remoteInfo = "OCKWatchSample Extension";
 		};
 		91AD924924A4C42E00925D4D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -145,17 +137,6 @@
 				91AD924B24A4C42E00925D4D /* OCKWatchSample.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		91AD924F24A4C42E00925D4D /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				91AD923424A4C42D00925D4D /* OCKWatchSample Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -215,7 +196,6 @@
 		91AD922A24A4C42B00925D4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		91AD922C24A4C42D00925D4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91AD922E24A4C42D00925D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "OCKWatchSample Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		91AD923824A4C42D00925D4D /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
 		91AD923A24A4C42D00925D4D /* CareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareView.swift; sourceTree = "<group>"; };
 		91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
@@ -251,15 +231,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		91AD923024A4C42D00925D4D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				70202EC7280733BC00CF73FB /* CareKit in Frameworks */,
 				918FDEB1271B3F9B0045A0EF /* ParseCareKit in Frameworks */,
+				70202EC7280733BC00CF73FB /* CareKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,7 +482,6 @@
 				E72B2C06226939E3009A9438 /* OCKSample.app */,
 				5173CB8723C3A846007655A0 /* OCKSampleUITests.xctest */,
 				91AD922724A4C42B00925D4D /* OCKWatchSample.app */,
-				91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -560,39 +532,17 @@
 			buildConfigurationList = 91AD925324A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample" */;
 			buildPhases = (
 				91AD922524A4C42B00925D4D /* Resources */,
-				91AD924F24A4C42E00925D4D /* Embed App Extensions */,
 				8E2FA4969104CA618976C1EC /* Frameworks */,
+				91AD922F24A4C42D00925D4D /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				91AD923624A4C42D00925D4D /* PBXTargetDependency */,
 			);
 			name = OCKWatchSample;
 			productName = OCKWatchSample;
 			productReference = 91AD922724A4C42B00925D4D /* OCKWatchSample.app */;
-			productType = "com.apple.product-type.application.watchapp2";
-		};
-		91AD923224A4C42D00925D4D /* OCKWatchSample Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 91AD925224A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample Extension" */;
-			buildPhases = (
-				91AD922F24A4C42D00925D4D /* Sources */,
-				91AD923024A4C42D00925D4D /* Frameworks */,
-				91AD923124A4C42D00925D4D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "OCKWatchSample Extension";
-			packageProductDependencies = (
-				918FDEB0271B3F9B0045A0EF /* ParseCareKit */,
-				70202EC6280733BC00CF73FB /* CareKit */,
-			);
-			productName = "OCKWatchSample Extension";
-			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
+			productType = "com.apple.product-type.application";
 		};
 		E72B2C05226939E3009A9438 /* OCKSample */ = {
 			isa = PBXNativeTarget;
@@ -628,7 +578,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Network Reconnaissance Lab";
 				TargetAttributes = {
 					5173CB8623C3A846007655A0 = {
@@ -638,9 +588,6 @@
 					91AD922624A4C42B00925D4D = {
 						CreatedOnToolsVersion = 12.0;
 						LastSwiftMigration = 1320;
-					};
-					91AD923224A4C42D00925D4D = {
-						CreatedOnToolsVersion = 12.0;
 					};
 					E72B2C05226939E3009A9438 = {
 						CreatedOnToolsVersion = 10.2;
@@ -667,7 +614,6 @@
 				E72B2C05226939E3009A9438 /* OCKSample */,
 				5173CB8623C3A846007655A0 /* OCKSampleUITests */,
 				91AD922624A4C42B00925D4D /* OCKWatchSample */,
-				91AD923224A4C42D00925D4D /* OCKWatchSample Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -684,20 +630,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */,
-				91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		91AD923124A4C42D00925D4D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				70F03AB42788C76700E5AFB4 /* ParseCareKit.plist in Resources */,
-				91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */,
 				707CC715254DA91900116728 /* Localizable.strings in Resources */,
-				707CC717254DA91900116728 /* Localizable.stringsdict in Resources */,
+				91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */,
+				91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */,
+				70F03AB42788C76700E5AFB4 /* ParseCareKit.plist in Resources */,
 				91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */,
+				91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */,
+				707CC717254DA91900116728 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -837,11 +776,6 @@
 			isa = PBXTargetDependency;
 			target = E72B2C05226939E3009A9438 /* OCKSample */;
 			targetProxy = 5173CB8C23C3A846007655A0 /* PBXContainerItemProxy */;
-		};
-		91AD923624A4C42D00925D4D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 91AD923224A4C42D00925D4D /* OCKWatchSample Extension */;
-			targetProxy = 91AD923524A4C42D00925D4D /* PBXContainerItemProxy */;
 		};
 		91AD924A24A4C42E00925D4D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1064,19 +998,18 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = K26KDKYY38;
-				IBSC_MODULE = OCKWatchSample_Extension;
 				INFOPLIST_FILE = OCKWatchSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1094,80 +1027,20 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K26KDKYY38;
-				IBSC_MODULE = OCKWatchSample_Extension;
 				INFOPLIST_FILE = OCKWatchSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Release;
-		};
-		91AD925024A4C42E00925D4D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = K26KDKYY38;
-				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = "OCKWatchSample Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Debug;
-		};
-		91AD925124A4C42E00925D4D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = K26KDKYY38;
-				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = "OCKWatchSample Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -1277,15 +1150,6 @@
 			buildConfigurations = (
 				5173CB8E23C3A846007655A0 /* Debug */,
 				5173CB9023C3A846007655A0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		91AD925224A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				91AD925024A4C42E00925D4D /* Debug */,
-				91AD925124A4C42E00925D4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
