@@ -56,7 +56,7 @@ class LoginViewModel: ObservableObject {
             do {
                 _ = try await user.save()
             } catch {
-                Logger.login.info("Couldn't save updated user: \(error.localizedDescription)")
+                Logger.login.info("Could not save updated user: \(error.localizedDescription)")
             }
         }
 
@@ -100,7 +100,7 @@ class LoginViewModel: ObservableObject {
     /**
      Signs up the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - parameter username: The username the user is signing in with.
      - parameter password: The password the user is signing in with.
@@ -147,7 +147,7 @@ class LoginViewModel: ObservableObject {
     /**
      Logs in the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - parameter username: The username the user is logging in with.
      - parameter password: The password the user is logging in with.

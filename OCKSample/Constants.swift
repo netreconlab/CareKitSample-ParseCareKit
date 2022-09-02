@@ -29,16 +29,16 @@ extension AppError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .couldntCast:
-            return NSLocalizedString("OCKSampleError: Couldn't cast to required type.",
+            return NSLocalizedString("OCKSampleError: Could not cast to required type.",
                                      comment: "Casting error")
         case .couldntBeUnwrapped:
-            return NSLocalizedString("OCKSampleError: Couldn't unwrap a required type.",
+            return NSLocalizedString("OCKSampleError: Could not unwrap a required type.",
                                      comment: "Unwrapping error")
         case .valueNotFoundInUserInfo:
-            return NSLocalizedString("OCKSampleError: Couldn't find the required value in userInfo.",
+            return NSLocalizedString("OCKSampleError: Could not find the required value in userInfo.",
                                      comment: "Value not found error")
         case .remoteClockIDNotAvailable:
-            return NSLocalizedString("OCKSampleError: Couldn't get remote clock ID.",
+            return NSLocalizedString("OCKSampleError: Could not get remote clock ID.",
                                      comment: "Value not available error")
         case .emptyTaskEvents: return "Task events is empty"
         case let .noOutcomeValueForEvent(event, index): return "Event has no outcome value at index \(index): \(event)"

@@ -63,7 +63,7 @@ class LoginViewModel: ObservableObject {
             do {
                 try LoginViewModel.setDefaultACL()
             } catch {
-                Logger.profile.error("Couldn't set defaultACL: \(error.localizedDescription)")
+                Logger.profile.error("Could not set defaultACL: \(error.localizedDescription)")
             }
 
             guard let watchDelegate = DelegateKey.defaultValue else {

@@ -55,7 +55,7 @@ Parse Dashboard is the easiest way to view your data in the Cloud (or local mach
 Note that CareKit data is extremely sensitive and you are responsible for ensuring your parse-server meets HIPAA compliance.
 
 ## Transitioning the sample app to a production app
-If you plan on using this app as a starting point for your produciton app. Once you have your parse-hipaa server in the Cloud behind ssl, you should open `ParseCareKit.plist` in Xcode and change the value for `Server` to point to your server(s) in the Cloud. You should also open `Info.plist` in Xcode and remove `App Transport Security Settings` and any key/value pairs under it as this was only in place to allow you to test the sample app to connect to a server setup on your local machine. iOS apps don't allow non-ssl connections in production, and even if you find a way to connect to non-ssl servers, it wouldn't be HIPAA compliant.
+If you plan on using this app as a starting point for your produciton app. Once you have your parse-hipaa server in the Cloud behind ssl, you should open `ParseCareKit.plist` in Xcode and change the value for `Server` to point to your server(s) in the Cloud. You should also open `Info.plist` in Xcode and remove `App Transport Security Settings` and any key/value pairs under it as this was only in place to allow you to test the sample app to connect to a server setup on your local machine. iOS apps do not allow non-ssl connections in production, and even if you find a way to connect to non-ssl servers, it would not be HIPAA compliant.
 
 ### Extra scripts for optimized Cloud queries
 You should run the extra scripts outlined on parse-hipaa [here](https://github.com/netreconlab/parse-hipaa#running-in-production-for-parsecarekit).

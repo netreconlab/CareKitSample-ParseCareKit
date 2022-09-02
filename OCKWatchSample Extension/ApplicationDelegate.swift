@@ -29,7 +29,7 @@ class ApplicationDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             completionHandler(.performDefaultHandling, nil)
         }
 
-        // If the user isn't logged in, log them in
+        // If the user is not logged in, log them in
         if User.current != nil {
             // swiftlint:disable:next line_length
             self.setupRemotes(uuid: UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String) // Setup for getting info
@@ -59,7 +59,7 @@ class ApplicationDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 }
                 guard let uuid = uuid,
                       let remotUUID = UUID(uuidString: uuid) else {
-                          Logger.applicationDelegate.error("Couldn't get remote clock UUID from User defaults")
+                          Logger.applicationDelegate.error("Could not get remote clock UUID from User defaults")
                           WCSession.default.activate()
                           return
                 }

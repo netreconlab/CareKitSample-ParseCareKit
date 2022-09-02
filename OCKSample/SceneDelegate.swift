@@ -66,12 +66,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
 
                 // swiftlint:disable:next line_length
-                // Note that if you have a SwiftUI based app, SceneDelegate technically isn't needed anymore, but we will keep it for now
+                // Note that if you have a SwiftUI based app, SceneDelegate technically is not needed anymore, but we will keep it for now
                 // swiftlint:disable:next line_length
                 self.window?.rootViewController = UIHostingController(rootView: MainView()) // Wraps a SwiftUI view in UIKit view
             } else {
 
-                // When syncing directly with watchOS, we don't care about login and need to setup remotes
+                // When syncing directly with watchOS, we do not care about login and need to setup remotes
                 appDelegate.setupRemotes()
                 Task {
                     do {
@@ -80,7 +80,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         self.setupTabBarController()
                     } catch {
                         Logger.sceneDelegate.error("""
-                            Error in SceneDelage, couldn't populate
+                            Error in SceneDelage, could not populate
                             data stores: \(error.localizedDescription)
                         """)
                     }
@@ -92,7 +92,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func setupTabBarController() {
 
         guard let manager = StoreManagerKey.defaultValue else {
-            Logger.sceneDelegate.error("Couldn't unwrap storeManager")
+            Logger.sceneDelegate.error("Could not unwrap storeManager")
             return
         }
         let care = CareViewController(storeManager: manager)

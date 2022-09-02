@@ -82,13 +82,13 @@ class ProfileViewModel: ObservableObject {
             guard let foundPatient = try await appDelegate.store?.fetchPatients(query: queryForCurrentPatient),
                 let currentPatient = foundPatient.first else {
                 // swiftlint:disable:next line_length
-                Logger.profile.error("Error: Couldn't find patient with id \"\(uuid)\". It's possible they have never been saved.")
+                Logger.profile.error("Error: Could not find patient with id \"\(uuid)\". It's possible they have never been saved.")
                 return
             }
             self.observePatient(currentPatient)
         } catch {
             // swiftlint:disable:next line_length
-            Logger.profile.error("Error: Couldn't find patient with id \"\(uuid)\". It's possible they have never been saved. Query error: \(error.localizedDescription)")
+            Logger.profile.error("Error: Could not find patient with id \"\(uuid)\". It's possible they have never been saved. Query error: \(error.localizedDescription)")
         }
     }
 
@@ -135,7 +135,7 @@ class ProfileViewModel: ObservableObject {
         do {
             try LoginViewModel.setDefaultACL()
         } catch {
-            Logger.profile.error("Couldn't set defaultACL: \(error.localizedDescription)")
+            Logger.profile.error("Could not set defaultACL: \(error.localizedDescription)")
         }
 
         // Importing UIKit gives us access here to get the OCKStore and ParseRemote
@@ -184,7 +184,7 @@ class ProfileViewModel: ObservableObject {
         } else {
             // swiftlint:disable:next line_length
             guard let remoteUUID = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
-                Logger.profile.error("Error: The user currently isn't logged in")
+                Logger.profile.error("Error: The user currently is not logged in")
                 isLoggedOut = true
                 return
             }
@@ -214,7 +214,7 @@ class ProfileViewModel: ObservableObject {
         do {
             try LoginViewModel.setDefaultACL()
         } catch {
-            Logger.profile.error("Couldn't set defaultACL: \(error.localizedDescription)")
+            Logger.profile.error("Could not set defaultACL: \(error.localizedDescription)")
         }
 
         // swiftlint:disable:next force_cast

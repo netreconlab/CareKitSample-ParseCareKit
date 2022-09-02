@@ -16,7 +16,7 @@ struct ContactView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> some UIViewController {
         guard let manager = StoreManagerKey.defaultValue else {
-            Logger.contact.error("Couldn't unwrap storeManager")
+            Logger.contact.error("Could not unwrap storeManager")
             return UINavigationController()
         }
         let contacts = OCKContactsListViewController(storeManager: manager)
