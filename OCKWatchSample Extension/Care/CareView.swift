@@ -12,6 +12,7 @@ import os.log
 
 struct CareView: View {
 
+    @Environment(\.appDelegate) private var appDelegate
     @Environment(\.tintColor) private var tintColor
     @Environment(\.customStyle) private var style
     @Environment(\.storeManager) private var storeManager

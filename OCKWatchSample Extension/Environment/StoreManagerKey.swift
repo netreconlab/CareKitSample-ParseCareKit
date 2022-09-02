@@ -13,9 +13,10 @@ import CareKit
 struct StoreManagerKey: EnvironmentKey {
 
     static var defaultValue: OCKSynchronizedStoreManager? {
-        // swiftlint:disable:next force_cast
-        let extensionDelegate = WKApplication.shared().delegate as! ExtensionDelegate
-        return extensionDelegate.storeManager
+        guard let applicationDelegate = DelegateKey.defaultValue else {
+            return nil
+        }
+        return applicationDelegate.storeManager
     }
 }
 
