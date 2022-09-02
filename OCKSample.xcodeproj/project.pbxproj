@@ -35,7 +35,6 @@
 		70A98D62278A2683009B58F2 /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Style.swift */; };
 		70A98D63278A268B009B58F2 /* ColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyle.swift */; };
 		70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC2271B4E950045A0EF /* TintColorKey.swift */; };
-		70B360BF28BD56F2000A4E9F /* WatchAppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B360BE28BD56F2000A4E9F /* WatchAppViewModel.swift */; };
 		70C0D474279BA492003DA141 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91693821271B897200A634ED /* Utility.swift */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
 		70F03A912786073300E5AFB4 /* CareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A902786073300E5AFB4 /* CareViewModel.swift */; };
@@ -164,7 +163,6 @@
 		707CC712254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		707CC713254DA91900116728 /* OCKLocalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCKLocalization.swift; sourceTree = "<group>"; };
 		7083A855279CA40A00B3832E /* PCKUtility+extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PCKUtility+extention.swift"; sourceTree = "<group>"; };
-		70B360BE28BD56F2000A4E9F /* WatchAppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppViewModel.swift; sourceTree = "<group>"; };
 		70BD2B1E254B44DB0030B424 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		70F03A902786073300E5AFB4 /* CareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareViewModel.swift; sourceTree = "<group>"; };
 		70F03A922786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKAnyEvent+CustomStringConvertable.swift"; sourceTree = "<group>"; };
@@ -443,10 +441,9 @@
 				705B22BE25E2C1A700C472AC /* OCKWatchSample Extension.entitlements */,
 				91AD924724A4C42E00925D4D /* Info.plist */,
 				91AD923C24A4C42D00925D4D /* ApplicationDelegate.swift */,
-				91AD923824A4C42D00925D4D /* OCKWatchSampleApp.swift */,
-				70B360BE28BD56F2000A4E9F /* WatchAppViewModel.swift */,
 				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
 				91AD924024A4C42D00925D4D /* NotificationView.swift */,
+				91AD923824A4C42D00925D4D /* OCKWatchSampleApp.swift */,
 				91AD924224A4C42E00925D4D /* Assets.xcassets */,
 				70A98D64278A2722009B58F2 /* Care */,
 				918FDEC6271B542C0045A0EF /* Environment */,
@@ -723,7 +720,6 @@
 				91AD923D24A4C42D00925D4D /* ApplicationDelegate.swift in Sources */,
 				91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */,
 				70308886258273D400FFABB6 /* LoginViewModel.swift in Sources */,
-				70B360BF28BD56F2000A4E9F /* WatchAppViewModel.swift in Sources */,
 				70F921B127CAC16E00368CEC /* SessionDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

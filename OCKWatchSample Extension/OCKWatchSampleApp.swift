@@ -11,7 +11,6 @@ import SwiftUI
 
 @main
 struct OCKWatchSampleApp: App {
-    // @WKExtensionDelegateAdaptor private var applicationDelegate: ExtensionDelegate
     @WKApplicationDelegateAdaptor private var delegate: ApplicationDelegate
     @Environment(\.scenePhase) private var scenePhase
     @State var isActive = false
@@ -20,24 +19,6 @@ struct OCKWatchSampleApp: App {
             NavigationView {
                 CareView()
                     .environment(\.appDelegate, delegate)
-            }
-        }
-        .onChange(of: scenePhase) { phase in
-            switch phase {
-
-            case .background:
-                print("background")
-            case .inactive:
-                print("inactive")
-            case .active:
-                isActive.toggle()
-                print(delegate)
-            @unknown default:
-                print("Reached an unknown phase")
-            }
-            if phase == .background {
-                // Perform cleanup when all scenes within
-                // MyApp go to the background.
             }
         }
         WKNotificationScene(controller: NotificationController.self, category: "myCategory")
