@@ -38,7 +38,7 @@ class RemoteSessionDelegate: NSObject, SessionDelegate {
             #if os(watchOS)
 
             DispatchQueue.main.async {
-                // If user isn't logged in, request login from iPhone
+                // If user is not logged in, request login from iPhone
                 if User.current == nil {
                     // swiftlint:disable:next line_length
                     WCSession.default.sendMessage([Constants.parseUserSessionTokenKey: Constants.parseUserSessionTokenKey],

@@ -11,11 +11,7 @@ import SwiftUI
 
 struct ProfileViewModelKey: EnvironmentKey {
 
-    static var defaultValue: ProfileViewModel {
-        // swiftlint:disable:next force_cast
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        return appDelegate.profileViewModel
-    }
+    static var defaultValue = ProfileViewModel()
 }
 
 extension EnvironmentValues {

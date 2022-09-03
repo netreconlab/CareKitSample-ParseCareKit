@@ -13,7 +13,6 @@ extension Logger {
     private static var subsystem = Bundle.main.bundleIdentifier!
     static let store = Logger(subsystem: subsystem, category: "Store")
     static let appDelegate = Logger(subsystem: subsystem, category: "AppDelegate")
-    static let extensionDelegate = Logger(subsystem: subsystem, category: "ExtensionDelegate")
     static let remoteSessionDelegate = Logger(subsystem: subsystem, category: "RemoteSessionDelegate")
     static let localSessionDelegate = Logger(subsystem: subsystem, category: "LocalSessionDelegate")
     static let utility = Logger(subsystem: subsystem, category: "Utility")
@@ -23,7 +22,6 @@ extension Logger {
     static let watch = Logger(subsystem: subsystem, category: "Watch")
     static let profile = Logger(subsystem: subsystem, category: "Profile")
     static let insights = Logger(subsystem: subsystem, category: "Insights")
-    static let sceneDelegate = Logger(subsystem: subsystem, category: "SceneDelegate")
     static let ockStore = Logger(subsystem: subsystem, category: "OCKStore+Extension")
     static let ockHealthKitPassthroughStore = Logger(subsystem: subsystem,
                                                      category: "OCKHealthKitPassthroughStore+Extension")

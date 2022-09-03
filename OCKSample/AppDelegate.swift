@@ -36,20 +36,24 @@ import ParseSwift
 import UIKit
 import WatchConnectivity
 
-@UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
 
-    let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
+    let isSyncingWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
     var isFirstAppOpen = true
     var isFirstLogin = false
     private var sessionDelegate: SessionDelegate!
     private lazy var watch = OCKWatchConnectivityPeer()
     private(set) var parseRemote: ParseRemote!
-    private(set) var profileViewModel = ProfileViewModel()
+    @Published private(set) var profileViewModel = ProfileViewModel() {
+        willSet {
+            ProfileViewModelKey.defaultValue = newValue
+        }
+    }
     private(set) var store: OCKStore?
     // swiftlint:disable:next line_length
-    private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: "none", type: .inMemory)) {
+    @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: "none", type: .inMemory)) {
         willSet {
+            StoreManagerKey.defaultValue = newValue
             DispatchQueue.main.async {
                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
             }
@@ -70,7 +74,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+        if isSyncingWithCloud {
+            if User.current != nil {
+                Logger.appDelegate.info("User is already signed in...")
+                guard let uuid = ProfileViewModel.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
+                    Logger.appDelegate.info("Error in SceneDelage, no uuid saved.")
+                    return UISceneConfiguration(name: "Default Configuration",
+                                                sessionRole: connectingSceneSession.role)
+                }
+                setupRemotes(uuid: uuid)
+                parseRemote.automaticallySynchronizes = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+                }
+            }
+
+        } else {
+
+            // When syncing directly with watchOS, we do not care about login and need to setup remotes
+            setupRemotes()
+            Task {
+                do {
+                    try await store?.populateSampleData()
+                    try await healthKitStore.populateSampleData()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        self.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+
+                            if error != nil {
+                                Logger.appDelegate.error("\(error!.localizedDescription)")
+                            }
+                        }
+                    }
+                } catch {
+                    Logger.appDelegate.error("""
+                        Error in SceneDelage, could not populate
+                        data stores: \(error.localizedDescription)
+                    """)
+                }
+            }
+        }
+
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+    }
+
+    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
     }
 
     func application(_ application: UIApplication,
@@ -103,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setupRemotes(uuid: UUID? = nil) {
         do {
 
-            if syncWithCloud {
+            if isSyncingWithCloud {
                 guard let uuid = uuid else {
                     Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
                     return

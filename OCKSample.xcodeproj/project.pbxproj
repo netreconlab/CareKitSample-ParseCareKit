@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		03F0600A2331946600CCE09B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F060092331946600CCE09B /* SceneDelegate.swift */; };
 		5173CB8A23C3A846007655A0 /* OCKSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5173CB8923C3A846007655A0 /* OCKSampleUITests.swift */; };
 		70077597252228E900EC0EDA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* User.swift */; };
 		7007759B252229C900EC0EDA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* User.swift */; };
@@ -57,6 +56,9 @@
 		70F03AB82788C82C00E5AFB4 /* ProfileViewModelKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AB72788C82C00E5AFB4 /* ProfileViewModelKey.swift */; };
 		70F03AB92788D02A00E5AFB4 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AB52788C80500E5AFB4 /* UserStatus.swift */; };
 		70F03ABB2789071400E5AFB4 /* CareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03ABA2789071400E5AFB4 /* CareViewModel.swift */; };
+		70F0EFE628C292F50005B5A2 /* AppDelegateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE528C292F50005B5A2 /* AppDelegateKey.swift */; };
+		70F0EFE828C2EC050005B5A2 /* OCKSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE728C2EC050005B5A2 /* OCKSampleApp.swift */; };
+		70F0EFEA28C2EE6C0005B5A2 /* AppDelegateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE928C2EE6C0005B5A2 /* AppDelegateKey.swift */; };
 		70F921A827CA9A3A00368CEC /* CustomStyleKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F921A727CA9A3A00368CEC /* CustomStyleKey.swift */; };
 		70F921A927CA9A4000368CEC /* CustomStyleKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F921A727CA9A3A00368CEC /* CustomStyleKey.swift */; };
 		70F921AC27CABE3000368CEC /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F921AB27CABE3000368CEC /* SessionDelegate.swift */; };
@@ -83,12 +85,10 @@
 		918FDEC8271B54540045A0EF /* StoreManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC7271B54540045A0EF /* StoreManagerKey.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
-		91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922924A4C42B00925D4D /* Interface.storyboard */; };
 		91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922C24A4C42D00925D4D /* Assets.xcassets */; };
-		91AD923424A4C42D00925D4D /* OCKWatchSample Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		91AD923924A4C42D00925D4D /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923824A4C42D00925D4D /* HostingController.swift */; };
+		91AD923924A4C42D00925D4D /* OCKWatchSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923824A4C42D00925D4D /* OCKWatchSampleApp.swift */; };
 		91AD923B24A4C42D00925D4D /* CareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923A24A4C42D00925D4D /* CareView.swift */; };
-		91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */; };
+		91AD923D24A4C42D00925D4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923C24A4C42D00925D4D /* AppDelegate.swift */; };
 		91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD923E24A4C42D00925D4D /* NotificationController.swift */; };
 		91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AD924024A4C42D00925D4D /* NotificationView.swift */; };
 		91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD924224A4C42E00925D4D /* Assets.xcassets */; };
@@ -108,13 +108,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = E72B2C05226939E3009A9438;
 			remoteInfo = OCKSample;
-		};
-		91AD923524A4C42D00925D4D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E72B2BFE226939E3009A9438 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 91AD923224A4C42D00925D4D;
-			remoteInfo = "OCKWatchSample Extension";
 		};
 		91AD924924A4C42E00925D4D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -147,22 +140,10 @@
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		91AD924F24A4C42E00925D4D /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				91AD923424A4C42D00925D4D /* OCKWatchSample Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		03580E3E23CFA2E400A57818 /* OCKSample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OCKSample.entitlements; sourceTree = "<group>"; };
-		03F060092331946600CCE09B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0520468223C3C1F2004F0F36 /* OCKSample.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = OCKSample.xctestplan; sourceTree = "<group>"; };
 		5173CB8723C3A846007655A0 /* OCKSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OCKSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5173CB8923C3A846007655A0 /* OCKSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKSampleUITests.swift; sourceTree = "<group>"; };
@@ -195,6 +176,9 @@
 		70F03AB52788C80500E5AFB4 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserStatus.swift; path = OCKSample/ViewModels/UserStatus.swift; sourceTree = SOURCE_ROOT; };
 		70F03AB72788C82C00E5AFB4 /* ProfileViewModelKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModelKey.swift; sourceTree = "<group>"; };
 		70F03ABA2789071400E5AFB4 /* CareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareViewModel.swift; sourceTree = "<group>"; };
+		70F0EFE528C292F50005B5A2 /* AppDelegateKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateKey.swift; sourceTree = "<group>"; };
+		70F0EFE728C2EC050005B5A2 /* OCKSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKSampleApp.swift; sourceTree = "<group>"; };
+		70F0EFE928C2EE6C0005B5A2 /* AppDelegateKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateKey.swift; sourceTree = "<group>"; };
 		70F921A727CA9A3A00368CEC /* CustomStyleKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStyleKey.swift; sourceTree = "<group>"; };
 		70F921AB27CABE3000368CEC /* SessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDelegate.swift; sourceTree = "<group>"; };
 		70F921AD27CABE7700368CEC /* RemoteSessionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSessionDelegate.swift; sourceTree = "<group>"; };
@@ -212,13 +196,11 @@
 		91AD922124A45A3900925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseCareKit.plist; sourceTree = "<group>"; };
 		91AD922324A461D200925D4D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		91AD922724A4C42B00925D4D /* OCKWatchSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCKWatchSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		91AD922A24A4C42B00925D4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		91AD922C24A4C42D00925D4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		91AD922E24A4C42D00925D4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "OCKWatchSample Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		91AD923824A4C42D00925D4D /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		91AD923824A4C42D00925D4D /* OCKWatchSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKWatchSampleApp.swift; sourceTree = "<group>"; };
 		91AD923A24A4C42D00925D4D /* CareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareView.swift; sourceTree = "<group>"; };
-		91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		91AD923C24A4C42D00925D4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		91AD923E24A4C42D00925D4D /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		91AD924024A4C42D00925D4D /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
 		91AD924224A4C42E00925D4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -251,15 +233,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		91AD923024A4C42D00925D4D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				70202EC7280733BC00CF73FB /* CareKit in Frameworks */,
 				918FDEB1271B3F9B0045A0EF /* ParseCareKit in Frameworks */,
+				70202EC7280733BC00CF73FB /* CareKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,8 +409,9 @@
 		918FDEC1271B4E710045A0EF /* Environment */ = {
 			isa = PBXGroup;
 			children = (
-				70F03AA727860E7700E5AFB4 /* FontColorKey.swift */,
+				70F0EFE928C2EE6C0005B5A2 /* AppDelegateKey.swift */,
 				70F921A727CA9A3A00368CEC /* CustomStyleKey.swift */,
+				70F03AA727860E7700E5AFB4 /* FontColorKey.swift */,
 				70F03AB72788C82C00E5AFB4 /* ProfileViewModelKey.swift */,
 				918FDEC4271B4EA70045A0EF /* StoreManagerKey.swift */,
 				918FDEC2271B4E950045A0EF /* TintColorKey.swift */,
@@ -446,6 +422,7 @@
 		918FDEC6271B542C0045A0EF /* Environment */ = {
 			isa = PBXGroup;
 			children = (
+				70F0EFE528C292F50005B5A2 /* AppDelegateKey.swift */,
 				918FDEC7271B54540045A0EF /* StoreManagerKey.swift */,
 			);
 			path = Environment;
@@ -454,7 +431,6 @@
 		91AD922824A4C42B00925D4D /* OCKWatchSample */ = {
 			isa = PBXGroup;
 			children = (
-				91AD922924A4C42B00925D4D /* Interface.storyboard */,
 				91AD922C24A4C42D00925D4D /* Assets.xcassets */,
 				91AD922E24A4C42D00925D4D /* Info.plist */,
 			);
@@ -467,10 +443,10 @@
 				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
 				705B22BE25E2C1A700C472AC /* OCKWatchSample Extension.entitlements */,
 				91AD924724A4C42E00925D4D /* Info.plist */,
-				91AD923C24A4C42D00925D4D /* ExtensionDelegate.swift */,
-				91AD923824A4C42D00925D4D /* HostingController.swift */,
+				91AD923C24A4C42D00925D4D /* AppDelegate.swift */,
 				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
 				91AD924024A4C42D00925D4D /* NotificationView.swift */,
+				91AD923824A4C42D00925D4D /* OCKWatchSampleApp.swift */,
 				91AD924224A4C42E00925D4D /* Assets.xcassets */,
 				70A98D64278A2722009B58F2 /* Care */,
 				918FDEC6271B542C0045A0EF /* Environment */,
@@ -509,7 +485,6 @@
 				E72B2C06226939E3009A9438 /* OCKSample.app */,
 				5173CB8723C3A846007655A0 /* OCKSampleUITests.xctest */,
 				91AD922724A4C42B00925D4D /* OCKWatchSample.app */,
-				91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -520,9 +495,8 @@
 				03580E3E23CFA2E400A57818 /* OCKSample.entitlements */,
 				E72B2C09226939E3009A9438 /* AppDelegate.swift */,
 				7036E63F25717F85006E9A3C /* Constants.swift */,
-				03F060092331946600CCE09B /* SceneDelegate.swift */,
+				70F0EFE728C2EC050005B5A2 /* OCKSampleApp.swift */,
 				91693821271B897200A634ED /* Utility.swift */,
-				70F921AA27CABDE900368CEC /* WatchConnectivity */,
 				918FDEC1271B4E710045A0EF /* Environment */,
 				918FDEBA271B4DF60045A0EF /* Extensions */,
 				7030887E2582731300FFABB6 /* Login */,
@@ -530,6 +504,7 @@
 				918FDEB3271B402F0045A0EF /* Models */,
 				71A79C8A2294FBA1002B96D3 /* Supporting Files */,
 				70A98D5B278A0B7B009B58F2 /* ViewModels */,
+				70F921AA27CABDE900368CEC /* WatchConnectivity */,
 			);
 			path = OCKSample;
 			sourceTree = "<group>";
@@ -560,39 +535,17 @@
 			buildConfigurationList = 91AD925324A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample" */;
 			buildPhases = (
 				91AD922524A4C42B00925D4D /* Resources */,
-				91AD924F24A4C42E00925D4D /* Embed App Extensions */,
 				8E2FA4969104CA618976C1EC /* Frameworks */,
+				91AD922F24A4C42D00925D4D /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				91AD923624A4C42D00925D4D /* PBXTargetDependency */,
 			);
 			name = OCKWatchSample;
 			productName = OCKWatchSample;
 			productReference = 91AD922724A4C42B00925D4D /* OCKWatchSample.app */;
-			productType = "com.apple.product-type.application.watchapp2";
-		};
-		91AD923224A4C42D00925D4D /* OCKWatchSample Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 91AD925224A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample Extension" */;
-			buildPhases = (
-				91AD922F24A4C42D00925D4D /* Sources */,
-				91AD923024A4C42D00925D4D /* Frameworks */,
-				91AD923124A4C42D00925D4D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "OCKWatchSample Extension";
-			packageProductDependencies = (
-				918FDEB0271B3F9B0045A0EF /* ParseCareKit */,
-				70202EC6280733BC00CF73FB /* CareKit */,
-			);
-			productName = "OCKWatchSample Extension";
-			productReference = 91AD923324A4C42D00925D4D /* OCKWatchSample Extension.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
+			productType = "com.apple.product-type.application";
 		};
 		E72B2C05226939E3009A9438 /* OCKSample */ = {
 			isa = PBXNativeTarget;
@@ -628,7 +581,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1400;
 				ORGANIZATIONNAME = "Network Reconnaissance Lab";
 				TargetAttributes = {
 					5173CB8623C3A846007655A0 = {
@@ -638,9 +591,6 @@
 					91AD922624A4C42B00925D4D = {
 						CreatedOnToolsVersion = 12.0;
 						LastSwiftMigration = 1320;
-					};
-					91AD923224A4C42D00925D4D = {
-						CreatedOnToolsVersion = 12.0;
 					};
 					E72B2C05226939E3009A9438 = {
 						CreatedOnToolsVersion = 10.2;
@@ -667,7 +617,6 @@
 				E72B2C05226939E3009A9438 /* OCKSample */,
 				5173CB8623C3A846007655A0 /* OCKSampleUITests */,
 				91AD922624A4C42B00925D4D /* OCKWatchSample */,
-				91AD923224A4C42D00925D4D /* OCKWatchSample Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -684,20 +633,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */,
-				91AD922B24A4C42B00925D4D /* Interface.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		91AD923124A4C42D00925D4D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				70F03AB42788C76700E5AFB4 /* ParseCareKit.plist in Resources */,
-				91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */,
 				707CC715254DA91900116728 /* Localizable.strings in Resources */,
-				707CC717254DA91900116728 /* Localizable.stringsdict in Resources */,
+				91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */,
+				91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */,
+				70F03AB42788C76700E5AFB4 /* ParseCareKit.plist in Resources */,
 				91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */,
+				707CC717254DA91900116728 /* Localizable.stringsdict in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,6 +661,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		9169381E271B6E2100A634ED /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -761,12 +703,13 @@
 				91693818271B5E1600A634ED /* Constants.swift in Sources */,
 				70F921B227CAC16E00368CEC /* RemoteSessionDelegate.swift in Sources */,
 				7083A857279CA40F00B3832E /* PCKUtility+extention.swift in Sources */,
-				91AD923924A4C42D00925D4D /* HostingController.swift in Sources */,
+				91AD923924A4C42D00925D4D /* OCKWatchSampleApp.swift in Sources */,
 				70F03AA627860B2500E5AFB4 /* OCKPatient+Parse.swift in Sources */,
 				70F03AB92788D02A00E5AFB4 /* UserStatus.swift in Sources */,
 				9103AA5227B8C913002C921E /* FontColorKey.swift in Sources */,
 				707CC719254DA91900116728 /* OCKLocalization.swift in Sources */,
 				7007759B252229C900EC0EDA /* User.swift in Sources */,
+				70F0EFE628C292F50005B5A2 /* AppDelegateKey.swift in Sources */,
 				70F03A9B27860A2000E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift in Sources */,
 				70F03A912786073300E5AFB4 /* CareViewModel.swift in Sources */,
 				70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */,
@@ -777,7 +720,7 @@
 				91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */,
 				70F03A9C27860A2000E5AFB4 /* OCKStore+Default.swift in Sources */,
 				70C0D474279BA492003DA141 /* Utility.swift in Sources */,
-				91AD923D24A4C42D00925D4D /* ExtensionDelegate.swift in Sources */,
+				91AD923D24A4C42D00925D4D /* AppDelegate.swift in Sources */,
 				91AD924124A4C42D00925D4D /* NotificationView.swift in Sources */,
 				70308886258273D400FFABB6 /* LoginViewModel.swift in Sources */,
 				70F921B127CAC16E00368CEC /* SessionDelegate.swift in Sources */,
@@ -792,6 +735,7 @@
 				918FDEB5271B40590045A0EF /* Installation.swift in Sources */,
 				70F03AB62788C80500E5AFB4 /* UserStatus.swift in Sources */,
 				70F921AC27CABE3000368CEC /* SessionDelegate.swift in Sources */,
+				70F0EFEA28C2EE6C0005B5A2 /* AppDelegateKey.swift in Sources */,
 				7036E64025717F85006E9A3C /* Constants.swift in Sources */,
 				918FDEBC271B4E4A0045A0EF /* Calendar+Dates.swift in Sources */,
 				70F03AA127860AB700E5AFB4 /* OCKOutcome+default.swift in Sources */,
@@ -808,6 +752,7 @@
 				70F03A932786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift in Sources */,
 				918FDEC3271B4E950045A0EF /* TintColorKey.swift in Sources */,
 				70F03AA327860AFF00E5AFB4 /* OCKPatient+Parse.swift in Sources */,
+				70F0EFE828C2EC050005B5A2 /* OCKSampleApp.swift in Sources */,
 				918FDEB7271B41FF0045A0EF /* Logger.swift in Sources */,
 				70F03A9F27860A8800E5AFB4 /* OCKOutcomeValue+Identifiable.swift in Sources */,
 				7036E4D3256EBE35006E9A3C /* MainView.swift in Sources */,
@@ -818,7 +763,6 @@
 				70077597252228E900EC0EDA /* User.swift in Sources */,
 				70F03A9927860A0800E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift in Sources */,
 				70F03AB82788C82C00E5AFB4 /* ProfileViewModelKey.swift in Sources */,
-				03F0600A2331946600CCE09B /* SceneDelegate.swift in Sources */,
 				70F03ABB2789071400E5AFB4 /* CareViewModel.swift in Sources */,
 				7036E4C9256E1A6F006E9A3C /* ProfileView.swift in Sources */,
 				7083A856279CA40A00B3832E /* PCKUtility+extention.swift in Sources */,
@@ -836,11 +780,6 @@
 			isa = PBXTargetDependency;
 			target = E72B2C05226939E3009A9438 /* OCKSample */;
 			targetProxy = 5173CB8C23C3A846007655A0 /* PBXContainerItemProxy */;
-		};
-		91AD923624A4C42D00925D4D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 91AD923224A4C42D00925D4D /* OCKWatchSample Extension */;
-			targetProxy = 91AD923524A4C42D00925D4D /* PBXContainerItemProxy */;
 		};
 		91AD924A24A4C42E00925D4D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -864,14 +803,6 @@
 				707CC712254DA91900116728 /* en */,
 			);
 			name = Localizable.stringsdict;
-			sourceTree = "<group>";
-		};
-		91AD922924A4C42B00925D4D /* Interface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				91AD922A24A4C42B00925D4D /* Base */,
-			);
-			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 		E72B2C12226939E4009A9438 /* LaunchScreen.storyboard */ = {
@@ -1063,19 +994,18 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = K26KDKYY38;
-				IBSC_MODULE = OCKWatchSample_Extension;
 				INFOPLIST_FILE = OCKWatchSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1093,80 +1023,20 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K26KDKYY38;
-				IBSC_MODULE = OCKWatchSample_Extension;
 				INFOPLIST_FILE = OCKWatchSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Release;
-		};
-		91AD925024A4C42E00925D4D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = K26KDKYY38;
-				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = "OCKWatchSample Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Debug;
-		};
-		91AD925124A4C42E00925D4D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_ENTITLEMENTS = "OCKWatchSample Extension/OCKWatchSample Extension.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"OCKWatchSample Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = K26KDKYY38;
-				ENABLE_PREVIEWS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = "OCKWatchSample Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.netrecon.ParseCarekitSample.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -1280,15 +1150,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		91AD925224A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				91AD925024A4C42E00925D4D /* Debug */,
-				91AD925124A4C42E00925D4D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
 		91AD925324A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1332,7 +1193,7 @@
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				kind = revision;
-				revision = 14ef9590dbcfa11a89944d66db598816f756c115;
+				revision = 7748f5d90c1518e29090fce8cbfd12bbb55d2594;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

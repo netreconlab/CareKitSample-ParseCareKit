@@ -56,27 +56,22 @@ class LoginViewModel: ObservableObject {
             do {
                 _ = try await user.save()
             } catch {
-                Logger.login.info("Couldn't save updated user: \(error.localizedDescription)")
+                Logger.login.info("Could not save updated user: \(error.localizedDescription)")
             }
         }
 
-        // swiftlint:disable:next force_cast
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.isFirstLogin = true
+        let appDelegate = AppDelegateKey.defaultValue
+        appDelegate?.isFirstLogin = true
 
-        if StoreManagerKey.defaultValue != nil {
-            profileViewModel.refreshViewIfNeeded()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-                appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+        profileViewModel.refreshViewIfNeeded()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+            appDelegate?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
-                    if error != nil {
-                        Logger.login.error("Error requesting HealthKit permissions: \(error!.localizedDescription)")
-                    }
+                if error != nil {
+                    Logger.login.error("Error requesting HealthKit permissions: \(error!.localizedDescription)")
                 }
             }
-        } else {
-            Logger.login.info("StoreManager should not be nil")
         }
 
         // Notify the SwiftUI view that the user is correctly logged in and to transition screens
@@ -100,7 +95,7 @@ class LoginViewModel: ObservableObject {
     /**
      Signs up the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - parameter username: The username the user is signing in with.
      - parameter password: The password the user is signing in with.
@@ -147,7 +142,7 @@ class LoginViewModel: ObservableObject {
     /**
      Logs in the user *asynchronously*.
 
-     This will also enforce that the username isn't already taken.
+     This will also enforce that the username is not already taken.
 
      - parameter username: The username the user is logging in with.
      - parameter password: The password the user is logging in with.

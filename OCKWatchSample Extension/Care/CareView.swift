@@ -5,6 +5,7 @@
 //  Created by Corey Baker on 6/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
+
 import CareKit
 import CareKitStore
 import SwiftUI
@@ -12,9 +13,7 @@ import os.log
 
 struct CareView: View {
 
-    @Environment(\.tintColor) private var tintColor
     @Environment(\.customStyle) private var style
-    @Environment(\.storeManager) private var storeManager
     @StateObject var loginViewModel = LoginViewModel()
     @StateObject var viewModel = CareViewModel()
     @StateObject var userStatus = UserStatus()
@@ -23,12 +22,11 @@ struct CareView: View {
 
         ScrollView {
 
-            if !userStatus.isLoggedOut || !loginViewModel.syncWithCloud {
-                let storeManager = viewModel.storeManager
+            if !userStatus.isLoggedOut || !loginViewModel.isSyncingWithCloud {
 
                 InstructionsTaskView(taskID: TaskID.stretch,
                                      eventQuery: OCKEventQuery(for: Date()),
-                                     storeManager: storeManager)
+                                     storeManager: viewModel.storeManager)
 
             } else {
                 Text("Please open the OCKSample app on your iPhone and login")
@@ -40,7 +38,6 @@ struct CareView: View {
             }
 
         }
-        .accentColor(Color(tintColor))
         .careKitStyle(style)
         .onAppear(perform: {
             viewModel.synchronizeStore()

@@ -86,7 +86,7 @@ extension OCKSynchronizedStoreManager {
         guard let scheduleEvent = task.schedule.event(forOccurrenceIndex: outcome.taskOccurrenceIndex) else {
             fatalError("""
                 The outcome had an index of \(outcome.taskOccurrenceIndex),
-                but the task's schedule doesn't have that many events.
+                but the task's schedule does not have that many events.
             """)
         }
         return OCKAnyEvent(task: task, outcome: keepOutcome ? outcome : nil, scheduleEvent: scheduleEvent)

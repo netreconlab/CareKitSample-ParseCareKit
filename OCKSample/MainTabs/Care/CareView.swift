@@ -29,8 +29,9 @@ struct CareView: UIViewControllerRepresentable {
 
     @MainActor
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        // swiftlint:disable:next force_cast
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        guard let appDelegate = AppDelegateKey.defaultValue else {
+            return
+        }
 
         if appDelegate.isFirstLogin && appDelegate.isFirstAppOpen {
             guard let navigationController = uiViewController as? UINavigationController,
@@ -46,11 +47,7 @@ struct CareView: UIViewControllerRepresentable {
 
     // MARK: Helpers
     func createCareView() -> UIViewController {
-        guard let manager = StoreManagerKey.defaultValue else {
-            Logger.feed.debug("Creating temp view with store from memory")
-            return OCKDailyPageViewController(storeManager: .init(wrapping: OCKStore(name: "none", type: .inMemory)))
-        }
-        return CareViewController(storeManager: manager)
+        CareViewController(storeManager: StoreManagerKey.defaultValue)
     }
 }
 

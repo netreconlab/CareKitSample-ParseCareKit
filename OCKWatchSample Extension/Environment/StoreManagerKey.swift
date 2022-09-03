@@ -9,19 +9,17 @@
 import Foundation
 import SwiftUI
 import CareKit
+import CareKitStore
 
 struct StoreManagerKey: EnvironmentKey {
 
-    static var defaultValue: OCKSynchronizedStoreManager? {
-        // swiftlint:disable:next force_cast
-        let extensionDelegate = WKExtension.shared().delegate as! ExtensionDelegate
-        return extensionDelegate.storeManager
-    }
+    static var defaultValue = OCKSynchronizedStoreManager(wrapping: OCKStore(name: "none",
+                                                                             type: .inMemory))
 }
 
 extension EnvironmentValues {
 
-    var storeManager: OCKSynchronizedStoreManager? {
+    var storeManager: OCKSynchronizedStoreManager {
         get {
             self[StoreManagerKey.self]
         }

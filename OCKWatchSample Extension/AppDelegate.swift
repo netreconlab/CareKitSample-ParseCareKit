@@ -1,10 +1,11 @@
 //
-//  ExtensionDelegate.swift
+//  AppDelegate.swift
 //  OCKWatchSample Extension
 //
 //  Created by Corey Baker on 6/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
+
 import CareKit
 import CareKitStore
 import ParseCareKit
@@ -13,14 +14,21 @@ import WatchKit
 import WatchConnectivity
 import os.log
 
-class ExtensionDelegate: NSObject, WKExtensionDelegate {
+class AppDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDelegate, ObservableObject {
 
-    let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Phone
+    let isSyncingWithCloud = true // True to sync with ParseServer, False to Sync with iOS Phone
     private var parseRemote: ParseRemote!
     private var sessionDelegate: SessionDelegate!
     private lazy var phone = OCKWatchConnectivityPeer()
     private(set) var store: OCKStore!
-    private(set) var storeManager: OCKSynchronizedStoreManager!
+    @Published private(set) var storeManager: OCKSynchronizedStoreManager! {
+        willSet {
+            StoreManagerKey.defaultValue = newValue
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
+            }
+        }
+    }
 
     func applicationDidFinishLaunching() {
 
@@ -29,15 +37,15 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
             completionHandler(.performDefaultHandling, nil)
         }
 
-        // If the user isn't logged in, log them in
+        // If the user is not logged in, log them in
         if User.current != nil {
             // swiftlint:disable:next line_length
             self.setupRemotes(uuid: UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String) // Setup for getting info
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-            Logger.extensionDelegate.info("User is already signed in...")
+            Logger.appDelegate.info("User is already signed in...")
             store.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                Logger.extensionDelegate.info("\(errorString)")
+                Logger.appDelegate.info("\(errorString)")
             }
         } else {
             setupRemotes(uuid: nil) // Setup for getting info
@@ -52,35 +60,33 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
 
     func setupRemotes(uuid: String? = nil) {
         do {
-            if syncWithCloud {
+            if isSyncingWithCloud {
                 if sessionDelegate == nil {
                     sessionDelegate = RemoteSessionDelegate(store: nil)
                     WCSession.default.delegate = sessionDelegate
                 }
                 guard let uuid = uuid,
-                      let remotUUID = UUID(uuidString: uuid) else {
-                          Logger.extensionDelegate.error("Couldn't get remote clock UUID from User defaults")
+                      let remoteUUID = UUID(uuidString: uuid) else {
+                          Logger.appDelegate.error("Could not get remote clock UUID from User defaults")
                           WCSession.default.activate()
                           return
                 }
-                parseRemote = try ParseRemote(uuid: remotUUID, auto: true, subscribeToServerUpdates: true)
+                parseRemote = try ParseRemote(uuid: remoteUUID, auto: true, subscribeToServerUpdates: true)
                 store = OCKStore(name: "WatchParseStore", remote: parseRemote)
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
-
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
-            } else {
-                store = OCKStore(name: "PhoneStore", remote: phone)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
 
+            } else {
+                store = OCKStore(name: "PhoneStore", remote: phone)
                 phone.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: phone, store: store)
+                storeManager = OCKSynchronizedStoreManager(wrapping: store)
             }
             WCSession.default.activate()
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
 
         } catch {
-            Logger.extensionDelegate.error("Error setting up remote: \(error.localizedDescription)")
+            Logger.appDelegate.error("Error setting up remote: \(error.localizedDescription)")
         }
 
     }
@@ -138,20 +144,20 @@ class ExtensionDelegate: NSObject, WKExtensionDelegate {
     }
 }
 
-extension ExtensionDelegate: ParseRemoteDelegate {
+extension AppDelegate: ParseRemoteDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         store?.synchronize { error in
             let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-            Logger.extensionDelegate.info("\(errorString)")
+            Logger.appDelegate.info("\(errorString)")
         }
     }
 
     func successfullyPushedDataToCloud() {
-        Logger.extensionDelegate.info("Finished pushing data.")
+        Logger.appDelegate.info("Finished pushing data.")
     }
 
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
-        Logger.extensionDelegate.info("Synchronization completed: \(progress)")
+        Logger.appDelegate.info("Synchronization completed: \(progress)")
     }
 
     func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {

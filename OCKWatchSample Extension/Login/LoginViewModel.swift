@@ -12,17 +12,17 @@ import ParseSwift
 import os.log
 
 class LoginViewModel: ObservableObject {
-    private let watchDelegate: ExtensionDelegate
 
-    var syncWithCloud: Bool {
-        return watchDelegate.syncWithCloud
+    var isSyncingWithCloud: Bool {
+        guard let sync = AppDelegateKey.defaultValue?.isSyncingWithCloud else {
+            return false
+        }
+        return sync
     }
 
     @Published var isLoggedOut = true
 
     init() {
-        // swiftlint:disable:next force_cast
-        self.watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userLoggedIn(_:)),
                                                name: Notification.Name(rawValue: Constants.userLoggedIn),
@@ -61,17 +61,20 @@ class LoginViewModel: ObservableObject {
             do {
                 try LoginViewModel.setDefaultACL()
             } catch {
-                Logger.profile.error("Couldn't set defaultACL: \(error.localizedDescription)")
+                Logger.profile.error("Could not set defaultACL: \(error.localizedDescription)")
             }
 
-            // swiftlint:disable:next force_cast
-            let watchDelegate = WKExtension.shared().delegate as! ExtensionDelegate
+            guard let watchDelegate = AppDelegateKey.defaultValue else {
+                Logger.profile.error("ApplicationDelegate should not be nil")
+                return
+            }
             watchDelegate.setupRemotes(uuid: uuidString)
             watchDelegate.store.synchronize { error in
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"
                 Logger.watch.info("\(errorString)")
             }
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
+
             // Setup installation to receive push notifications
             Task {
                 await Utility.updateInstallationWithDeviceToken()
