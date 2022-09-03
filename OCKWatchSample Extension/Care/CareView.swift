@@ -22,7 +22,7 @@ struct CareView: View {
 
         ScrollView {
 
-            if !userStatus.isLoggedOut || !loginViewModel.syncWithCloud {
+            if !userStatus.isLoggedOut || !loginViewModel.isSyncingWithCloud {
 
                 InstructionsTaskView(taskID: TaskID.stretch,
                                      eventQuery: OCKEventQuery(for: Date()),

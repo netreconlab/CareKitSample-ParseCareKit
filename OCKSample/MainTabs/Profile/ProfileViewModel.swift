@@ -238,7 +238,9 @@ class ProfileViewModel: ObservableObject {
 
         try await appDelegate.store?.populateSampleData()
         try await appDelegate.healthKitStore.populateSampleData()
-        appDelegate.parseRemote.automaticallySynchronizes = true
+        if appDelegate.isSyncingWithCloud {
+            appDelegate.parseRemote.automaticallySynchronizes = true
+        }
 
         // Post notification to sync
         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))

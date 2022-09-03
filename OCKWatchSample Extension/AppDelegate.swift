@@ -16,7 +16,7 @@ import os.log
 
 class AppDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDelegate, ObservableObject {
 
-    let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Phone
+    let isSyncingWithCloud = true // True to sync with ParseServer, False to Sync with iOS Phone
     private var parseRemote: ParseRemote!
     private var sessionDelegate: SessionDelegate!
     private lazy var phone = OCKWatchConnectivityPeer()
@@ -42,10 +42,10 @@ class AppDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDelegate, Ob
             // swiftlint:disable:next line_length
             self.setupRemotes(uuid: UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String) // Setup for getting info
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-            Logger.applicationDelegate.info("User is already signed in...")
+            Logger.appDelegate.info("User is already signed in...")
             store.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                Logger.applicationDelegate.info("\(errorString)")
+                Logger.appDelegate.info("\(errorString)")
             }
         } else {
             setupRemotes(uuid: nil) // Setup for getting info
@@ -60,18 +60,18 @@ class AppDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDelegate, Ob
 
     func setupRemotes(uuid: String? = nil) {
         do {
-            if syncWithCloud {
+            if isSyncingWithCloud {
                 if sessionDelegate == nil {
                     sessionDelegate = RemoteSessionDelegate(store: nil)
                     WCSession.default.delegate = sessionDelegate
                 }
                 guard let uuid = uuid,
-                      let remotUUID = UUID(uuidString: uuid) else {
-                          Logger.applicationDelegate.error("Could not get remote clock UUID from User defaults")
+                      let remoteUUID = UUID(uuidString: uuid) else {
+                          Logger.appDelegate.error("Could not get remote clock UUID from User defaults")
                           WCSession.default.activate()
                           return
                 }
-                parseRemote = try ParseRemote(uuid: remotUUID, auto: true, subscribeToServerUpdates: true)
+                parseRemote = try ParseRemote(uuid: remoteUUID, auto: true, subscribeToServerUpdates: true)
                 store = OCKStore(name: "WatchParseStore", remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
@@ -79,15 +79,14 @@ class AppDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDelegate, Ob
 
             } else {
                 store = OCKStore(name: "PhoneStore", remote: phone)
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
-
                 phone.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: phone, store: store)
+                storeManager = OCKSynchronizedStoreManager(wrapping: store)
             }
             WCSession.default.activate()
 
         } catch {
-            Logger.applicationDelegate.error("Error setting up remote: \(error.localizedDescription)")
+            Logger.appDelegate.error("Error setting up remote: \(error.localizedDescription)")
         }
 
     }
@@ -149,16 +148,16 @@ extension AppDelegate: ParseRemoteDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         store?.synchronize { error in
             let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-            Logger.applicationDelegate.info("\(errorString)")
+            Logger.appDelegate.info("\(errorString)")
         }
     }
 
     func successfullyPushedDataToCloud() {
-        Logger.applicationDelegate.info("Finished pushing data.")
+        Logger.appDelegate.info("Finished pushing data.")
     }
 
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
-        Logger.applicationDelegate.info("Synchronization completed: \(progress)")
+        Logger.appDelegate.info("Synchronization completed: \(progress)")
     }
 
     func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {

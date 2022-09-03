@@ -38,7 +38,7 @@ import WatchConnectivity
 
 class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
 
-    let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
+    let isSyncingWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
     var isFirstAppOpen = true
     var isFirstLogin = false
     private var sessionDelegate: SessionDelegate!
@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
     func application(_ application: UIApplication,
                      configurationForConnecting connectingSceneSession: UISceneSession,
                      options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        if syncWithCloud {
+        if isSyncingWithCloud {
             if User.current != nil {
                 Logger.appDelegate.info("User is already signed in...")
                 guard let uuid = ProfileViewModel.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
@@ -97,9 +97,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
                 do {
                     try await store?.populateSampleData()
                     try await healthKitStore.populateSampleData()
-                    // self.setupTabBarController()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        self.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+
+                            if error != nil {
+                                Logger.appDelegate.error("\(error!.localizedDescription)")
+                            }
+                        }
+                    }
                 } catch {
-                    Logger.sceneDelegate.error("""
+                    Logger.appDelegate.error("""
                         Error in SceneDelage, could not populate
                         data stores: \(error.localizedDescription)
                     """)
@@ -143,7 +150,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
     func setupRemotes(uuid: UUID? = nil) {
         do {
 
-            if syncWithCloud {
+            if isSyncingWithCloud {
                 guard let uuid = uuid else {
                     Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
                     return

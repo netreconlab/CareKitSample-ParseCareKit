@@ -13,8 +13,8 @@ import os.log
 
 class LoginViewModel: ObservableObject {
 
-    var syncWithCloud: Bool {
-        guard let sync = AppDelegateKey.defaultValue?.syncWithCloud else {
+    var isSyncingWithCloud: Bool {
+        guard let sync = AppDelegateKey.defaultValue?.isSyncingWithCloud else {
             return false
         }
         return sync
