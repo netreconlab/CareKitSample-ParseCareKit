@@ -90,11 +90,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func setupTabBarController() {
-
-        guard let manager = StoreManagerKey.defaultValue else {
-            Logger.sceneDelegate.error("Could not unwrap storeManager")
-            return
-        }
+        let manager = StoreManagerKey.defaultValue
         let care = CareViewController(storeManager: manager)
         care.tabBarItem = UITabBarItem(title: "Patient Care",
                                        image: .init(imageLiteralResourceName: "carecard"),

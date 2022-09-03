@@ -15,26 +15,16 @@ import os.log
 
 class CareViewModel: ObservableObject {
     @Published var update = false
-    @Published var storeManager = OCKSynchronizedStoreManager(wrapping: OCKStore(name: "none", type: .inMemory)) {
+    @Published var storeManager = OCKSynchronizedStoreManager(wrapping: OCKStore(name: "none",
+                                                                                 type: .inMemory)) {
         didSet {
             synchronizeStore()
         }
     }
     private var cancellables: Set<AnyCancellable> = []
-    var watchDelegate: ApplicationDelegate? {
-        willSet {
-            guard let delegate = newValue else {
-                return
-            }
-            DispatchQueue.main.async {
-                self.storeManager = delegate.storeManager
-            }
-
-        }
-    }
 
     init() {
-        self.watchDelegate = DelegateKey.defaultValue
+        self.storeManager = StoreManagerKey.defaultValue
         NotificationCenter.default.addObserver(self, selector: #selector(reloadViewModel),
                                                name: Notification.Name(rawValue: Constants.storeInitialized),
                                                object: nil)
@@ -61,12 +51,12 @@ class CareViewModel: ObservableObject {
 
     @MainActor
     @objc private func reloadViewModel() {
-        guard let storeManager = StoreManagerKey.defaultValue,
-              self.storeManager !== storeManager else {
+        let updatedStoreManager = StoreManagerKey.defaultValue
+        guard storeManager !== updatedStoreManager else {
             return
         }
-        self.clearSubscriptions()
-        self.storeManager = storeManager
+        clearSubscriptions()
+        storeManager = updatedStoreManager
     }
 
     // MARK: Intents

@@ -12,10 +12,9 @@ import ParseSwift
 import os.log
 
 class LoginViewModel: ObservableObject {
-    private let watchDelegate: ApplicationDelegate?
 
     var syncWithCloud: Bool {
-        guard let sync = watchDelegate?.syncWithCloud else {
+        guard let sync = AppDelegateKey.defaultValue?.syncWithCloud else {
             return false
         }
         return sync
@@ -24,7 +23,6 @@ class LoginViewModel: ObservableObject {
     @Published var isLoggedOut = true
 
     init() {
-        self.watchDelegate = DelegateKey.defaultValue
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userLoggedIn(_:)),
                                                name: Notification.Name(rawValue: Constants.userLoggedIn),
@@ -66,16 +64,17 @@ class LoginViewModel: ObservableObject {
                 Logger.profile.error("Could not set defaultACL: \(error.localizedDescription)")
             }
 
-            guard let watchDelegate = DelegateKey.defaultValue else {
+            guard let watchDelegate = AppDelegateKey.defaultValue else {
                 Logger.profile.error("ApplicationDelegate should not be nil")
                 return
             }
             watchDelegate.setupRemotes(uuid: uuidString)
             watchDelegate.store.synchronize { error in
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"
                 Logger.watch.info("\(errorString)")
             }
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
+
             // Setup installation to receive push notifications
             Task {
                 await Utility.updateInstallationWithDeviceToken()

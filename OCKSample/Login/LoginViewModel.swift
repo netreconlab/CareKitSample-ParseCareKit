@@ -60,23 +60,18 @@ class LoginViewModel: ObservableObject {
             }
         }
 
-        // swiftlint:disable:next force_cast
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.isFirstLogin = true
+        let appDelegate = AppDelegateKey.defaultValue
+        appDelegate?.isFirstLogin = true
 
-        if StoreManagerKey.defaultValue != nil {
-            profileViewModel.refreshViewIfNeeded()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-                appDelegate.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+        profileViewModel.refreshViewIfNeeded()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+            appDelegate?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
-                    if error != nil {
-                        Logger.login.error("Error requesting HealthKit permissions: \(error!.localizedDescription)")
-                    }
+                if error != nil {
+                    Logger.login.error("Error requesting HealthKit permissions: \(error!.localizedDescription)")
                 }
             }
-        } else {
-            Logger.login.info("StoreManager should not be nil")
         }
 
         // Notify the SwiftUI view that the user is correctly logged in and to transition screens

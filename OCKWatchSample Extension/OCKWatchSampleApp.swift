@@ -12,15 +12,17 @@ import SwiftUI
 @main
 struct OCKWatchSampleApp: App {
     // @WKApplicationDelegateAdaptor private var delegate: ApplicationDelegate
-    @WKExtensionDelegateAdaptor private var delegate: ApplicationDelegate
+    @WKExtensionDelegateAdaptor private var delegate: AppDelegate
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.tintColor) private var tintColor
     @State var isActive = false
     @SceneBuilder var body: some Scene {
         WindowGroup {
             NavigationView {
                 CareView()
-                    .environment(\.appDelegate, delegate)
             }
+            .environment(\.appDelegate, delegate)
+            .accentColor(Color(tintColor))
         }
         WKNotificationScene(controller: NotificationController.self, category: "myCategory")
     }

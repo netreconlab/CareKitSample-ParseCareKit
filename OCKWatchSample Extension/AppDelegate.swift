@@ -1,10 +1,11 @@
 //
-//  ApplicationDelegate.swift
+//  AppDelegate.swift
 //  OCKWatchSample Extension
 //
 //  Created by Corey Baker on 6/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
+
 import CareKit
 import CareKitStore
 import ParseCareKit
@@ -13,14 +14,21 @@ import WatchKit
 import WatchConnectivity
 import os.log
 
-class ApplicationDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDelegate, ObservableObject {
+class AppDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDelegate, ObservableObject {
 
     let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Phone
     private var parseRemote: ParseRemote!
     private var sessionDelegate: SessionDelegate!
     private lazy var phone = OCKWatchConnectivityPeer()
     private(set) var store: OCKStore!
-    private(set) var storeManager: OCKSynchronizedStoreManager!
+    @Published private(set) var storeManager: OCKSynchronizedStoreManager! {
+        willSet {
+            StoreManagerKey.defaultValue = newValue
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
+            }
+        }
+    }
 
     func applicationDidFinishLaunching() {
 
@@ -65,10 +73,10 @@ class ApplicationDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDele
                 }
                 parseRemote = try ParseRemote(uuid: remotUUID, auto: true, subscribeToServerUpdates: true)
                 store = OCKStore(name: "WatchParseStore", remote: parseRemote)
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
-
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
+                storeManager = OCKSynchronizedStoreManager(wrapping: store)
+
             } else {
                 store = OCKStore(name: "PhoneStore", remote: phone)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
@@ -77,7 +85,6 @@ class ApplicationDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDele
                 sessionDelegate = LocalSessionDelegate(remote: phone, store: store)
             }
             WCSession.default.activate()
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
 
         } catch {
             Logger.applicationDelegate.error("Error setting up remote: \(error.localizedDescription)")
@@ -138,7 +145,7 @@ class ApplicationDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDele
     }
 }
 
-extension ApplicationDelegate: ParseRemoteDelegate {
+extension AppDelegate: ParseRemoteDelegate {
     func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
         store?.synchronize { error in
             let errorString = error?.localizedDescription ?? "Successful sync with remote!"

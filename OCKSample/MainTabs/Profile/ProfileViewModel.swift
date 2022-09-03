@@ -51,8 +51,11 @@ class ProfileViewModel: ObservableObject {
 
     @MainActor
     @objc private func replaceStore() {
-        guard let currentStore = StoreManagerKey.defaultValue else { return }
-        storeManager = currentStore
+        let updatedStoreManager = StoreManagerKey.defaultValue
+        guard storeManager !== updatedStoreManager else {
+            return
+        }
+        storeManager = updatedStoreManager
         reloadViewModel()
     }
 
@@ -77,9 +80,8 @@ class ProfileViewModel: ObservableObject {
         queryForCurrentPatient.ids = [uuid.uuidString] // Search for the current logged in user
 
         do {
-            // swiftlint:disable:next force_cast
-            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-            guard let foundPatient = try await appDelegate.store?.fetchPatients(query: queryForCurrentPatient),
+            guard let appDelegate = AppDelegateKey.defaultValue,
+                  let foundPatient = try await appDelegate.store?.fetchPatients(query: queryForCurrentPatient),
                 let currentPatient = foundPatient.first else {
                 // swiftlint:disable:next line_length
                 Logger.profile.error("Error: Could not find patient with id \"\(uuid)\". It's possible they have never been saved.")
@@ -139,8 +141,9 @@ class ProfileViewModel: ObservableObject {
         }
 
         // Importing UIKit gives us access here to get the OCKStore and ParseRemote
-        // swiftlint:disable:next force_cast
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        guard let appDelegate = AppDelegateKey.defaultValue else {
+            return
+        }
         appDelegate.setupRemotes(uuid: remoteUUID)
         appDelegate.parseRemote.automaticallySynchronizes = true
 
@@ -217,8 +220,9 @@ class ProfileViewModel: ObservableObject {
             Logger.profile.error("Could not set defaultACL: \(error.localizedDescription)")
         }
 
-        // swiftlint:disable:next force_cast
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        guard let appDelegate = AppDelegateKey.defaultValue else {
+            throw AppError.couldntBeUnwrapped
+        }
         appDelegate.setupRemotes(uuid: remoteUUID)
         let storeManager = appDelegate.storeManager
 
@@ -255,9 +259,7 @@ class ProfileViewModel: ObservableObject {
         UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
         UserDefaults.standard.synchronize()
 
-        // swiftlint:disable:next force_cast
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.resetAppToInitialState()
+        AppDelegateKey.defaultValue?.resetAppToInitialState()
         isLoggedOut = true
     }
 }
