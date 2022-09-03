@@ -11,7 +11,8 @@ import SwiftUI
 
 @main
 struct OCKWatchSampleApp: App {
-    @WKApplicationDelegateAdaptor private var delegate: ApplicationDelegate
+    // @WKApplicationDelegateAdaptor private var delegate: ApplicationDelegate
+    @WKExtensionDelegateAdaptor private var delegate: ApplicationDelegate
     @Environment(\.scenePhase) private var scenePhase
     @State var isActive = false
     @SceneBuilder var body: some Scene {

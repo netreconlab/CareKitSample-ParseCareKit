@@ -13,7 +13,7 @@ import WatchKit
 import WatchConnectivity
 import os.log
 
-class ApplicationDelegate: NSObject, WKApplicationDelegate, ObservableObject {
+class ApplicationDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDelegate, ObservableObject {
 
     let syncWithCloud = true // True to sync with ParseServer, False to Sync with iOS Phone
     private var parseRemote: ParseRemote!
