@@ -51,7 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
     }
     private(set) var store: OCKStore?
     // swiftlint:disable:next line_length
-    @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: "none", type: .inMemory)) {
+    @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName,
+                                                                                                     type: .inMemory)) {
         willSet {
             StoreManagerKey.defaultValue = newValue
             DispatchQueue.main.async {
@@ -141,7 +142,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
         }
         isFirstAppOpen = true
         isFirstLogin = true
-        storeManager = .init(wrapping: OCKStore(name: "none", type: .inMemory))
+        storeManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName, type: .inMemory))
         healthKitStore = nil
         parseRemote = nil
         store = nil
@@ -159,13 +160,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
                                               auto: false,
                                               subscribeToServerUpdates: true,
                                               defaultACL: try? ParseACL.defaultACL())
-                store = OCKStore(name: "ParseStore",
+                store = OCKStore(name: Constants.iOSParseCareStoreName,
                                  type: .onDisk(),
                                  remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate = RemoteSessionDelegate(store: store)
             } else {
-                store = OCKStore(name: "WatchStore", type: .onDisk(), remote: watch)
+                store = OCKStore(name: Constants.iOSLocalCareStoreName,
+                                 type: .onDisk(),
+                                 remote: watch)
                 watch.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: watch, store: store)
             }
