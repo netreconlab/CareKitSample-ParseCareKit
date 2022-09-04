@@ -72,13 +72,15 @@ class AppDelegate: NSObject, /* WKApplicationDelegate,*/ WKExtensionDelegate, Ob
                           return
                 }
                 parseRemote = try ParseRemote(uuid: remoteUUID, auto: true, subscribeToServerUpdates: true)
-                store = OCKStore(name: "WatchParseStore", remote: parseRemote)
+                store = OCKStore(name: Constants.watchOSParseCareStoreName,
+                                 remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
 
             } else {
-                store = OCKStore(name: "PhoneStore", remote: phone)
+                store = OCKStore(name: Constants.watchOSLocalCareStoreName,
+                                 remote: phone)
                 phone.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: phone, store: store)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)

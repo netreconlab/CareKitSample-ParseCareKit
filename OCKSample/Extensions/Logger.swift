@@ -10,7 +10,7 @@ import Foundation
 import os.log
 
 extension Logger {
-    private static var subsystem = Bundle.main.bundleIdentifier!
+    private static var subsystem = Bundle.main.bundleIdentifier ?? ""
     static let store = Logger(subsystem: subsystem, category: "Store")
     static let appDelegate = Logger(subsystem: subsystem, category: "AppDelegate")
     static let remoteSessionDelegate = Logger(subsystem: subsystem, category: "RemoteSessionDelegate")

@@ -396,11 +396,11 @@
 				918FDEB6271B41FF0045A0EF /* Logger.swift */,
 				70F03A922786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift */,
 				70F03A942786093B00E5AFB4 /* OCKHealthKitPassthroughStore+Default.swift */,
+				70F03AA027860AB700E5AFB4 /* OCKOutcome+default.swift */,
+				70F03A9E27860A8800E5AFB4 /* OCKOutcomeValue+Identifiable.swift */,
+				70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */,
 				70F03A962786098F00E5AFB4 /* OCKStore+Default.swift */,
 				70F03A9827860A0800E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift */,
-				70F03A9E27860A8800E5AFB4 /* OCKOutcomeValue+Identifiable.swift */,
-				70F03AA027860AB700E5AFB4 /* OCKOutcome+default.swift */,
-				70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */,
 				7083A855279CA40A00B3832E /* PCKUtility+extention.swift */,
 			);
 			path = Extensions;

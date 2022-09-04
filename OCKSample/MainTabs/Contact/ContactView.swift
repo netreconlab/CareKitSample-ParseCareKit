@@ -15,8 +15,8 @@ import os.log
 struct ContactView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> some UIViewController {
-        let contacts = OCKContactsListViewController(storeManager: StoreManagerKey.defaultValue)
-        return UINavigationController(rootViewController: contacts)
+        let contactsView = OCKContactsListViewController(storeManager: StoreManagerKey.defaultValue)
+        return UINavigationController(rootViewController: contactsView)
     }
 
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {

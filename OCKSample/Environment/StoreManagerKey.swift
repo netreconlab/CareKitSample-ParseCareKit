@@ -13,7 +13,7 @@ import CareKitStore
 
 struct StoreManagerKey: EnvironmentKey {
 
-    static var defaultValue = OCKSynchronizedStoreManager(wrapping: OCKStore(name: "none",
+    static var defaultValue = OCKSynchronizedStoreManager(wrapping: OCKStore(name: Constants.noCareStoreName,
                                                                              type: .inMemory))
 }
 

@@ -15,7 +15,7 @@ import os.log
 
 class CareViewModel: ObservableObject {
     @Published var update = false
-    @Published var storeManager = OCKSynchronizedStoreManager(wrapping: OCKStore(name: "none",
+    @Published var storeManager = OCKSynchronizedStoreManager(wrapping: OCKStore(name: Constants.noCareStoreName,
                                                                                  type: .inMemory)) {
         didSet {
             synchronizeStore()
