@@ -144,7 +144,7 @@ class CareViewController: OCKDailyPageViewController {
                 tipView.headerView.titleLabel.text = tipTitle
                 tipView.headerView.detailLabel.text = tipText
                 tipView.imageView.image = UIImage(named: "exercise.jpg")
-                tipView.customStyle = CustomStyleKey.defaultValue
+                tipView.customStyle = CustomStylerKey.defaultValue
                 listViewController.appendView(tipView, animated: false)
             }
         }
@@ -155,7 +155,7 @@ class CareViewController: OCKDailyPageViewController {
                 let cards = self.taskViewController(for: $0, on: date)
                 cards?.forEach {
                     if let carekitView = $0.view as? OCKView {
-                        carekitView.customStyle = CustomStyleKey.defaultValue
+                        carekitView.customStyle = CustomStylerKey.defaultValue
                     }
                     $0.view.isUserInteractionEnabled = isCurrentDay
                     $0.view.alpha = !isCurrentDay ? 0.4 : 1.0
@@ -179,7 +179,7 @@ class CareViewController: OCKDailyPageViewController {
                 eventQuery: OCKEventQuery(for: date),
                 storeManager: self.storeManager)
                 .padding([.vertical], 20)
-                .careKitStyle(CustomStyleKey.defaultValue)
+                .careKitStyle(CustomStylerKey.defaultValue)
 
             return [view.formattedHostingController()]
         case TaskID.stretch:
