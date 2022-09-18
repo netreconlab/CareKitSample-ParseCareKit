@@ -18,7 +18,7 @@ import Combine
 class ProfileViewModel: ObservableObject {
 
     @Published var patient: OCKPatient?
-    @Published var isLoggedOut = false {
+    /* @Published var isLoggedOut = false {
         willSet {
             if newValue {
                 error = nil
@@ -26,7 +26,7 @@ class ProfileViewModel: ObservableObject {
                 clearSubscriptions()
             }
         }
-    }
+    } */
     @Published public internal(set) var error: Error?
     private(set) var storeManager: OCKSynchronizedStoreManager?
     private var cancellables: Set<AnyCancellable> = []
@@ -188,7 +188,7 @@ class ProfileViewModel: ObservableObject {
             // swiftlint:disable:next line_length
             guard let remoteUUID = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
                 Logger.profile.error("Error: The user currently is not logged in")
-                isLoggedOut = true
+                // isLoggedOut = true
                 return
             }
 
@@ -246,22 +246,5 @@ class ProfileViewModel: ObservableObject {
         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         Logger.profile.info("Successfully added a new Patient")
         return patient
-    }
-
-    // You may not have seen "throws" before, but it's simple,
-    // this throws an error if one occurs, if not it behaves as normal
-    // Normally, you've seen do {} catch{} which catches the error, same concept...
-    @MainActor
-    func logout() async {
-        do {
-            try await User.logout()
-        } catch {
-            Logger.profile.error("Error logging out: \(error.localizedDescription)")
-        }
-        UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
-        UserDefaults.standard.synchronize()
-
-        AppDelegateKey.defaultValue?.resetAppToInitialState()
-        isLoggedOut = true
     }
 }

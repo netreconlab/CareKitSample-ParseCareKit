@@ -32,9 +32,6 @@ class LoginViewModel: ObservableObject {
     private var profileViewModel = ProfileViewModel()
 
     init() {
-        DispatchQueue.main.async {
-            self.profileViewModel = ProfileViewModelKey.defaultValue
-        }
     }
 
     // MARK: Helpers
@@ -205,5 +202,22 @@ class LoginViewModel: ObservableObject {
             }
             self.loginError = parseError
         }
+    }
+
+    // You may not have seen "throws" before, but it's simple,
+    // this throws an error if one occurs, if not it behaves as normal
+    // Normally, you've seen do {} catch{} which catches the error, same concept...
+    @MainActor
+    func logout() async {
+        do {
+            try await User.logout()
+        } catch {
+            Logger.profile.error("Error logging out: \(error.localizedDescription)")
+        }
+        UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
+        UserDefaults.standard.synchronize()
+
+        AppDelegateKey.defaultValue?.resetAppToInitialState()
+        isLoggedOut = true
     }
 }

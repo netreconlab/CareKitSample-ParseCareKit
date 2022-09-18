@@ -16,9 +16,8 @@ struct LoginView: View {
     // swiftlint:disable:next line_length
     // Anything is @ is a wrapper that subscribes and refreshes the view when a change occurs. List to the last lecture in Section 2 for an explanation
     @Environment(\.tintColor) private var tintColor
-    @Environment(\.userProfileViewModel) private var userProfileViewModel
     @EnvironmentObject var userStatus: UserStatus
-    @ObservedObject private var viewModel = LoginViewModel()
+    @ObservedObject var viewModel: LoginViewModel
     @State private var usersname = ""
     @State private var password = ""
     @State var firstName: String = ""
@@ -34,7 +33,6 @@ struct LoginView: View {
                 .font(.largeTitle) // These are modifiers of the text view
                 .foregroundColor(.white)
                 .padding([.top], 40)
-
             Image("exercise.jpg") // Change this image to something that represents your application
                 .resizable()
                 .frame(width: 150, height: 150, alignment: .center)
@@ -164,7 +162,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(viewModel: LoginViewModel())
             .environmentObject(UserStatus(isLoggedOut: false))
     }
 }

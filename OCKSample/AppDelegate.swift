@@ -44,11 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ObservableObject {
     private var sessionDelegate: SessionDelegate!
     private lazy var watch = OCKWatchConnectivityPeer()
     private(set) var parseRemote: ParseRemote!
-    @Published private(set) var profileViewModel = ProfileViewModel() {
-        willSet {
-            ProfileViewModelKey.defaultValue = newValue
-        }
-    }
     private(set) var store: OCKStore?
     // swiftlint:disable:next line_length
     @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName,
