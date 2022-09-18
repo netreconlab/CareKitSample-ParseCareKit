@@ -47,7 +47,6 @@ struct MainView: View {
                 }
             }
         }
-        .environmentObject(userStatus)
         .statusBar(hidden: true)
         .accentColor(Color(tintColor))
         .careKitStyle(Style())

@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct MainTabView: View {
-    @EnvironmentObject var userStatus: UserStatus
     @ObservedObject var loginViewModel: LoginViewModel
     @ObservedObject var profileViewModel: ProfileViewModel
     @State private var selectedTab = 0
@@ -59,11 +58,6 @@ struct MainTabView: View {
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
         }
-        .onReceive(loginViewModel.$isLoggedOut, perform: { value in
-            if self.userStatus.isLoggedOut != value {
-                self.userStatus.check()
-            }
-        })
     }
 }
 

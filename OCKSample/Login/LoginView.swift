@@ -16,7 +16,6 @@ struct LoginView: View {
     // swiftlint:disable:next line_length
     // Anything is @ is a wrapper that subscribes and refreshes the view when a change occurs. List to the last lecture in Section 2 for an explanation
     @Environment(\.tintColor) private var tintColor
-    @EnvironmentObject var userStatus: UserStatus
     @ObservedObject var viewModel: LoginViewModel
     @State private var usersname = ""
     @State private var password = ""
@@ -142,11 +141,6 @@ struct LoginView: View {
 
             Spacer()
         }
-        .onReceive(viewModel.$isLoggedOut, perform: { value in
-            if self.userStatus.isLoggedOut != value {
-                self.userStatus.check()
-            }
-        })
         .onAppear(perform: {
             UISegmentedControl.appearance().selectedSegmentTintColor = .blue
             UISegmentedControl.appearance().backgroundColor = .lightGray

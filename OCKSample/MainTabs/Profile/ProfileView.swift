@@ -17,7 +17,6 @@ struct ProfileView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: ProfileViewModel
     @ObservedObject var loginViewModel: LoginViewModel
-    @EnvironmentObject var userStatus: UserStatus
     @State var firstName = ""
     @State var lastName = ""
     @State var birthday = Calendar.current.date(byAdding: .year, value: -20, to: Date())!

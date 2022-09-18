@@ -18,15 +18,6 @@ import Combine
 class ProfileViewModel: ObservableObject {
 
     @Published var patient: OCKPatient?
-    /* @Published var isLoggedOut = false {
-        willSet {
-            if newValue {
-                error = nil
-                patient = nil
-                clearSubscriptions()
-            }
-        }
-    } */
     @Published public internal(set) var error: Error?
     private(set) var storeManager: OCKSynchronizedStoreManager?
     private var cancellables: Set<AnyCancellable> = []
@@ -188,7 +179,6 @@ class ProfileViewModel: ObservableObject {
             // swiftlint:disable:next line_length
             guard let remoteUUID = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String else {
                 Logger.profile.error("Error: The user currently is not logged in")
-                // isLoggedOut = true
                 return
             }
 
