@@ -31,16 +31,11 @@ class LoginViewModel: ObservableObject {
     @Published private(set) var loginError: ParseError?
     private var profileViewModel = ProfileViewModel()
 
-    init() {
-        DispatchQueue.main.async {
-            self.profileViewModel = ProfileViewModelKey.defaultValue
-        }
-    }
+    init() {}
 
     // MARK: Helpers
     @MainActor
     private func finishCompletingSignIn(_ careKitPatient: OCKPatient? = nil) async throws {
-
         if let careKitUser = careKitPatient {
             guard var user = User.current,
                 let userType = careKitUser.userType,
@@ -60,13 +55,10 @@ class LoginViewModel: ObservableObject {
             }
         }
 
-        let appDelegate = AppDelegateKey.defaultValue
-        appDelegate?.isFirstLogin = true
-
         profileViewModel.refreshViewIfNeeded()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-            appDelegate?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+            AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
                 if error != nil {
                     Logger.login.error("Error requesting HealthKit permissions: \(error!.localizedDescription)")
@@ -149,7 +141,6 @@ class LoginViewModel: ObservableObject {
     */
     @MainActor
     func login(username: String, password: String) async {
-
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -182,7 +173,6 @@ class LoginViewModel: ObservableObject {
     */
     @MainActor
     func loginAnonymously() async {
-
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -205,5 +195,22 @@ class LoginViewModel: ObservableObject {
             }
             self.loginError = parseError
         }
+    }
+
+    // You may not have seen "throws" before, but it's simple,
+    // this throws an error if one occurs, if not it behaves as normal
+    // Normally, you've seen do {} catch{} which catches the error, same concept...
+    @MainActor
+    func logout() async {
+        do {
+            try await User.logout()
+        } catch {
+            Logger.profile.error("Error logging out: \(error.localizedDescription)")
+        }
+        UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
+        UserDefaults.standard.synchronize()
+
+        AppDelegateKey.defaultValue?.resetAppToInitialState()
+        isLoggedOut = true
     }
 }

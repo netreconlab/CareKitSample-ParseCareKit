@@ -69,6 +69,10 @@ enum Constants {
     static let userTypeKey = "userType"
 }
 
+enum MainViewPath {
+    case login, tab
+}
+
 enum TaskID {
     static let doxylamine = "doxylamine"
     static let nausea = "nausea"

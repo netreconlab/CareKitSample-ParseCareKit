@@ -1,5 +1,5 @@
 //
-//  CustomStyleKey.swift
+//  CustomStylerKey.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 2/26/22.
@@ -9,16 +9,16 @@
 import Foundation
 import SwiftUI
 
-struct CustomStyleKey: EnvironmentKey {
+struct CustomStylerKey: EnvironmentKey {
 
-    static var defaultValue: Style {
-        Style()
+    static var defaultValue: Styler {
+        Styler()
     }
 }
 
 extension EnvironmentValues {
 
-    var customStyle: Style {
-        self[CustomStyleKey.self]
+    var customStyler: Styler {
+        self[CustomStylerKey.self]
     }
 }

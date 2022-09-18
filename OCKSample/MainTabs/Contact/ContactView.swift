@@ -15,13 +15,11 @@ import os.log
 struct ContactView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> some UIViewController {
-        let contactsView = OCKContactsListViewController(storeManager: StoreManagerKey.defaultValue)
-        return UINavigationController(rootViewController: contactsView)
+        let viewController = OCKContactsListViewController(storeManager: StoreManagerKey.defaultValue)
+        return UINavigationController(rootViewController: viewController)
     }
 
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-
-    }
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 }
 
 struct ContactView_Previews: PreviewProvider {

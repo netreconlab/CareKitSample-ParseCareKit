@@ -15,8 +15,8 @@ import os.log
 struct ProfileView: View {
 
     @Environment(\.presentationMode) var presentationMode
-    @Environment(\.userProfileViewModel) var viewModel
-    @EnvironmentObject var userStatus: UserStatus
+    @ObservedObject var viewModel: ProfileViewModel
+    @ObservedObject var loginViewModel: LoginViewModel
     @State var firstName = ""
     @State var lastName = ""
     @State var birthday = Calendar.current.date(byAdding: .year, value: -20, to: Date())!
@@ -70,7 +70,7 @@ struct ProfileView: View {
             // a function as argument like we discussed in class)
             Button(action: {
                 Task {
-                    await viewModel.logout()
+                    await loginViewModel.logout()
                 }
 
             }, label: {
@@ -95,11 +95,8 @@ struct ProfileView: View {
             if let currentBirthday = patient?.birthday {
                 birthday = currentBirthday
             }
-        }).onReceive(viewModel.$isLoggedOut, perform: { value in
-            if self.userStatus.isLoggedOut != value {
-                self.userStatus.check()
-            }
-        }).onAppear(perform: {
+        })
+        .onAppear(perform: {
             viewModel.refreshViewIfNeeded()
         })
     }
@@ -107,7 +104,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
-            .environmentObject(UserStatus(isLoggedOut: false))
+        ProfileView(viewModel: .init(), loginViewModel: .init())
     }
 }

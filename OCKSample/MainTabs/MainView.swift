@@ -4,8 +4,6 @@
 //
 //  Created by Corey Baker on 11/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
-// swiftlint:disable:next line_length
-// This was built using tutorial: https://www.hackingwithswift.com/books/ios-swiftui/creating-tabs-with-tabview-and-tabitem
 
 import SwiftUI
 import CareKit
@@ -13,77 +11,48 @@ import CareKitStore
 import CareKitUI
 import UIKit
 
-// This file is the SwiftUI equivalent to UITabBarController in setupTabBarController() in SceneDelegate.swift
-
 struct MainView: View {
 
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.storeManager) private var storeManager
     @Environment(\.tintColor) private var tintColor
     @Environment(\.careKitStyle) private var style
-    @Environment(\.userProfileViewModel) private var profileViewModel
-    @StateObject var userStatus = UserStatus()
-    @State private var selectedTab = 0
+    @StateObject private var loginViewModel = LoginViewModel()
+    @StateObject private var profileViewModel = ProfileViewModel()
+    @StateObject private var userStatus = UserStatus()
+    @State private var path = [MainViewPath]()
 
     var body: some View {
-
-        NavigationView {
-            VStack {
-                NavigationLink(destination: LoginView(),
-                               isActive: $userStatus.isLoggedOut) {
-                   EmptyView()
+        NavigationStack(path: $path) {
+            EmptyView()
+            .navigationDestination(for: MainViewPath.self) { destination in
+                switch destination {
+                case .login:
+                    LoginView(viewModel: loginViewModel)
+                case .tab:
+                    MainTabView(loginViewModel: loginViewModel,
+                                profileViewModel: profileViewModel)
                 }
-                TabView(selection: $selectedTab) {
-
-                    CareView()
-                        .tabItem {
-                            if selectedTab == 0 {
-                                Image("carecard-filled")
-                                    .renderingMode(.template)
-                            } else {
-                                Image("carecard")
-                                    .renderingMode(.template)
-                            }
-                        }
-                        .tag(0)
-                        .navigationBarTitle("")
-                        .navigationBarHidden(true)
-
-                    ContactView()
-                        .tabItem {
-                            if selectedTab == 1 {
-                                Image("phone.bubble.left.fill")
-                                    .renderingMode(.template)
-                            } else {
-                                Image("phone.bubble.left")
-                                    .renderingMode(.template)
-                            }
-                        }
-                        .tag(1)
-                        .navigationBarTitle("")
-                        .navigationBarHidden(true)
-
-                    ProfileView()
-                        .tabItem {
-                            if selectedTab == 2 {
-                                Image("connect-filled")
-                                    .renderingMode(.template)
-                            } else {
-                                Image("connect")
-                                    .renderingMode(.template)
-                            }
-                        }
-                        .tag(2)
-                        .navigationBarTitle("")
-                        .navigationBarHidden(true)
+            }
+            .onAppear {
+                path.append(.login)
+                if !userStatus.isLoggedOut {
+                    path.append(.tab)
+                } else if userStatus.isLoggedOut {
+                    path = [.login]
                 }
             }
         }
-        .environmentObject(userStatus)
         .statusBar(hidden: true)
         .accentColor(Color(tintColor))
-        .careKitStyle(Style())
-        .navigationViewStyle(StackNavigationViewStyle())
+        .careKitStyle(Styler())
+        .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
+            if !isLoggedOut {
+                path.append(.tab)
+            } else {
+                path = [.login]
+            }
+        })
     }
 }
 

@@ -5,7 +5,7 @@
 ## Build generated
 build/
 DerivedData/
-Package.resolved
+#Package.resolved
 
 ## Various settings
 .DS_Store

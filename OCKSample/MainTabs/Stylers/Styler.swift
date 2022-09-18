@@ -1,5 +1,5 @@
 //
-//  Style.swift
+//  Styler.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 10/16/21.
@@ -9,9 +9,9 @@
 import Foundation
 import CareKitUI
 
-struct Style: OCKStyler {
+struct Styler: OCKStyler {
     var color: OCKColorStyler {
-        ColorStyle()
+        ColorStyler()
     }
     var dimension: OCKDimensionStyler {
         OCKDimensionStyle()

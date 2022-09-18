@@ -16,9 +16,7 @@ struct LoginView: View {
     // swiftlint:disable:next line_length
     // Anything is @ is a wrapper that subscribes and refreshes the view when a change occurs. List to the last lecture in Section 2 for an explanation
     @Environment(\.tintColor) private var tintColor
-    @Environment(\.userProfileViewModel) private var userProfileViewModel
-    @EnvironmentObject var userStatus: UserStatus
-    @ObservedObject private var viewModel = LoginViewModel()
+    @ObservedObject var viewModel: LoginViewModel
     @State private var usersname = ""
     @State private var password = ""
     @State var firstName: String = ""
@@ -27,14 +25,11 @@ struct LoginView: View {
     @State private var presentMainScreen = false
 
     var body: some View {
-
         VStack {
-
             Text("CareKit Sample App")
                 .font(.largeTitle) // These are modifiers of the text view
                 .foregroundColor(.white)
                 .padding([.top], 40)
-
             Image("exercise.jpg") // Change this image to something that represents your application
                 .resizable()
                 .frame(width: 150, height: 150, alignment: .center)
@@ -82,10 +77,12 @@ struct LoginView: View {
 
                 }
             }.padding([.leading, .trailing], 27.5)
-            // swiftlint:disable:next line_length
-            // Notice that "action" is a closure (which is essentially a function as argument like we discussed in class)
-            Button(action: {
 
+            /*
+             Notice that "action" is a closure (which is essentially a
+             function as argument like we discussed in class)
+             */
+            Button(action: {
                 if signupLoginSegmentValue == 1 {
                     Task {
                         await viewModel.signup(.patient,
@@ -102,7 +99,6 @@ struct LoginView: View {
                 }
 
             }, label: {
-
                 if signupLoginSegmentValue == 1 {
                     Text("Sign Up")
                         .font(.headline)
@@ -125,7 +121,6 @@ struct LoginView: View {
                     await viewModel.loginAnonymously()
                 }
             }, label: {
-
                 if signupLoginSegmentValue == 0 {
                     Text("Login Anonymously")
                         .font(.headline)
@@ -141,14 +136,8 @@ struct LoginView: View {
                 Text("Error: \(error.message)")
                     .foregroundColor(.red)
             }
-
             Spacer()
         }
-        .onReceive(viewModel.$isLoggedOut, perform: { value in
-            if self.userStatus.isLoggedOut != value {
-                self.userStatus.check()
-            }
-        })
         .onAppear(perform: {
             UISegmentedControl.appearance().selectedSegmentTintColor = .blue
             UISegmentedControl.appearance().backgroundColor = .lightGray
@@ -164,7 +153,6 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
-            .environmentObject(UserStatus(isLoggedOut: false))
+        LoginView(viewModel: LoginViewModel())
     }
 }

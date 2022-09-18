@@ -13,17 +13,14 @@ import os.log
 
 struct CareView: View {
 
-    @Environment(\.customStyle) private var style
+    @Environment(\.customStyler) private var style
     @StateObject var loginViewModel = LoginViewModel()
     @StateObject var viewModel = CareViewModel()
     @StateObject var userStatus = UserStatus()
 
     var body: some View {
-
         ScrollView {
-
             if !userStatus.isLoggedOut || !loginViewModel.isSyncingWithCloud {
-
                 InstructionsTaskView(taskID: TaskID.stretch,
                                      eventQuery: OCKEventQuery(for: Date()),
                                      storeManager: viewModel.storeManager)
