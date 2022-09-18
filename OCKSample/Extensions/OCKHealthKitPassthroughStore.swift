@@ -1,5 +1,5 @@
 //
-//  OCKHealthKitPassthroughStore+Default.swift
+//  OCKHealthKitPassthroughStore.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 1/5/22.

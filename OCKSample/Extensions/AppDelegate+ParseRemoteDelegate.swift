@@ -30,7 +30,6 @@ extension AppDelegate: ParseRemoteDelegate {
     }
 
     func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
-
         // https://github.com/carekit-apple/CareKit/issues/567
         // Workaround to handle deleted and re-added outcomes.
         // Always prefer updates over deletes.

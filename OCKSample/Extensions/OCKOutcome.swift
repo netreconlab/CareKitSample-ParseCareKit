@@ -1,5 +1,5 @@
 //
-//  OCKOutcome+default.swift
+//  OCKOutcome.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 1/5/22.
