@@ -31,8 +31,7 @@ class LoginViewModel: ObservableObject {
     @Published private(set) var loginError: ParseError?
     private var profileViewModel = ProfileViewModel()
 
-    init() {
-    }
+    init() {}
 
     // MARK: Helpers
     @MainActor
@@ -57,13 +56,10 @@ class LoginViewModel: ObservableObject {
             }
         }
 
-        let appDelegate = AppDelegateKey.defaultValue
-        appDelegate?.isFirstLogin = true
-
         profileViewModel.refreshViewIfNeeded()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-            appDelegate?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+            AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
 
                 if error != nil {
                     Logger.login.error("Error requesting HealthKit permissions: \(error!.localizedDescription)")

@@ -20,7 +20,7 @@ struct CareView: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> some UIViewController {
 
-        let view = createCareView()
+        let view = CareViewController(storeManager: StoreManagerKey.defaultValue)
         let careViewController = UINavigationController(rootViewController: view)
         careViewController.navigationBar.backgroundColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1): #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) }
 
@@ -28,27 +28,7 @@ struct CareView: UIViewControllerRepresentable {
     }
 
     @MainActor
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        guard let appDelegate = AppDelegateKey.defaultValue else {
-            return
-        }
-
-        if appDelegate.isFirstLogin && appDelegate.isFirstAppOpen {
-            guard let navigationController = uiViewController as? UINavigationController,
-                    let currentCareView = navigationController.viewControllers.first as? OCKDailyPageViewController,
-                  appDelegate.storeManager !== currentCareView.storeManager  else {
-                return
-            }
-            // Replace current view controller
-            let viewController = createCareView()
-            navigationController.viewControllers = [viewController]
-        }
-    }
-
-    // MARK: Helpers
-    func createCareView() -> UIViewController {
-        CareViewController(storeManager: StoreManagerKey.defaultValue)
-    }
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 }
 
 struct CareView_Previews: PreviewProvider {
