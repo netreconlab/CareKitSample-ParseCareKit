@@ -105,6 +105,5 @@ struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView(viewModel: .init(), loginViewModel: .init())
-            .environmentObject(UserStatus(isLoggedOut: false))
     }
 }

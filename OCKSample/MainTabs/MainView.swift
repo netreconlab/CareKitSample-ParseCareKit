@@ -4,16 +4,12 @@
 //
 //  Created by Corey Baker on 11/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
-// swiftlint:disable:next line_length
-// This was built using tutorial: https://www.hackingwithswift.com/books/ios-swiftui/creating-tabs-with-tabview-and-tabitem
 
 import SwiftUI
 import CareKit
 import CareKitStore
 import CareKitUI
 import UIKit
-
-// This file is the SwiftUI equivalent to UITabBarController in setupTabBarController() in SceneDelegate.swift
 
 struct MainView: View {
 
@@ -49,7 +45,7 @@ struct MainView: View {
         }
         .statusBar(hidden: true)
         .accentColor(Color(tintColor))
-        .careKitStyle(Style())
+        .careKitStyle(Styler())
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             if !isLoggedOut {
                 path.append(.tab)

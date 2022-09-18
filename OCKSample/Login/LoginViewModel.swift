@@ -36,7 +36,6 @@ class LoginViewModel: ObservableObject {
     // MARK: Helpers
     @MainActor
     private func finishCompletingSignIn(_ careKitPatient: OCKPatient? = nil) async throws {
-
         if let careKitUser = careKitPatient {
             guard var user = User.current,
                 let userType = careKitUser.userType,
@@ -142,7 +141,6 @@ class LoginViewModel: ObservableObject {
     */
     @MainActor
     func login(username: String, password: String) async {
-
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -175,7 +173,6 @@ class LoginViewModel: ObservableObject {
     */
     @MainActor
     func loginAnonymously() async {
-
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")

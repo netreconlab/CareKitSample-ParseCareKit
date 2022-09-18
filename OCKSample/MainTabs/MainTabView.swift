@@ -5,6 +5,8 @@
 //  Created by Corey Baker on 9/18/22.
 //  Copyright © 2022 Network Reconnaissance Lab. All rights reserved.
 //
+// swiftlint:disable:next line_length
+// This was built using tutorial: https://www.hackingwithswift.com/books/ios-swiftui/creating-tabs-with-tabview-and-tabitem
 
 import SwiftUI
 
@@ -64,6 +66,5 @@ struct MainTabView: View {
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         MainTabView(loginViewModel: .init(), profileViewModel: .init())
-            .environmentObject(UserStatus(isLoggedOut: false))
     }
 }

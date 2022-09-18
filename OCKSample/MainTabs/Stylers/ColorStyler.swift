@@ -1,5 +1,5 @@
 //
-//  ColorStyle.swift
+//  ColorStyler.swift
 //  OCKSample
 //
 //  Created by Corey Baker on 10/16/21.
@@ -10,7 +10,7 @@ import Foundation
 import CareKitUI
 import UIKit
 
-struct ColorStyle: OCKColorStyler {
+struct ColorStyler: OCKColorStyler {
     #if os(iOS)
     var label: UIColor {
         FontColorKey.defaultValue

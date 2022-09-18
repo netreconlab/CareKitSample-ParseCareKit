@@ -87,7 +87,6 @@ class ProfileViewModel: ObservableObject {
 
     @MainActor
     private func observePatient(_ patient: OCKPatient) {
-
         storeManager?.publisher(forPatient: patient, categories: [.add, .update, .delete])
             .sink { [weak self] in
                 self?.patient = $0 as? OCKPatient
