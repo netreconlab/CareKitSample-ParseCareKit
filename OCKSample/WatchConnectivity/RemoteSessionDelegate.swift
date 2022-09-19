@@ -47,7 +47,7 @@ class RemoteSessionDelegate: NSObject, SessionDelegate {
                             await LoginViewModel.loginFromiPhoneMessage(reply)
                         }
                     }) { error in // swiftlint:disable:this multiple_closures_with_trailing_closure
-                        Logger.remoteSessionDelegate.error("(error)")
+                        Logger.remoteSessionDelegate.error("Could not get sessionToken from iOS: \(error)")
                     }
                 }
             }
