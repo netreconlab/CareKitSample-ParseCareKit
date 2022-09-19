@@ -18,7 +18,7 @@ enum AppError: Error {
     case remoteClockIDNotAvailable
     case emptyTaskEvents
     case invalidIndexPath(_ indexPath: IndexPath)
-    case noOutcomeValueForEvent(_ event: OCKAnyEvent, _ index: Int)
+    case noOutcomeValueForEvent(_ event: OCKAnyEvent, index: Int)
     case cannotMakeOutcomeFor(_ event: OCKAnyEvent)
     case parseError(_ error: ParseError)
     case error(_ error: Error)
