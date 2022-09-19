@@ -293,7 +293,7 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
-		703088772582727500FFABB6 /* MainTabs */ = {
+		703088772582727500FFABB6 /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				70221F2728D7809800971195 /* MainTabView.swift */,
@@ -303,7 +303,7 @@
 				7030887C258272E700FFABB6 /* Profile */,
 				91693819271B64CB00A634ED /* Stylers */,
 			);
-			path = MainTabs;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		70308878258272CD00FFABB6 /* Care */ = {
@@ -518,7 +518,7 @@
 				918FDEC1271B4E710045A0EF /* Environment */,
 				918FDEBA271B4DF60045A0EF /* Extensions */,
 				7030887E2582731300FFABB6 /* Login */,
-				703088772582727500FFABB6 /* MainTabs */,
+				703088772582727500FFABB6 /* Main */,
 				918FDEB3271B402F0045A0EF /* Models */,
 				71A79C8A2294FBA1002B96D3 /* Supporting Files */,
 				70A98D5B278A0B7B009B58F2 /* ViewModels */,
