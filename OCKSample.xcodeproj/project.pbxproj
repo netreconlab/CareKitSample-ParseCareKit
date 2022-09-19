@@ -283,6 +283,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		70221F3A28D8C2BF00971195 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
+				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
+				91AD924024A4C42D00925D4D /* NotificationView.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		703088772582727500FFABB6 /* MainTabs */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,17 +460,15 @@
 		91AD923724A4C42D00925D4D /* OCKWatchSample Extension */ = {
 			isa = PBXGroup;
 			children = (
-				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
 				705B22BE25E2C1A700C472AC /* OCKWatchSample Extension.entitlements */,
 				91AD924724A4C42E00925D4D /* Info.plist */,
 				91AD923C24A4C42D00925D4D /* AppDelegate.swift */,
-				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
-				91AD924024A4C42D00925D4D /* NotificationView.swift */,
 				91AD923824A4C42D00925D4D /* OCKWatchSampleApp.swift */,
 				91AD924224A4C42E00925D4D /* Assets.xcassets */,
 				70A98D64278A2722009B58F2 /* Care */,
 				70221F2C28D7CD7400971195 /* Extensions */,
 				70A98D65278A273E009B58F2 /* Login */,
+				70221F3A28D8C2BF00971195 /* Notifications */,
 				91AD924424A4C42E00925D4D /* Preview Content */,
 			);
 			path = "OCKWatchSample Extension";
