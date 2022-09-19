@@ -26,6 +26,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             StoreManagerKey.defaultValue = newValue
             DispatchQueue.main.async {
                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
+                self.objectWillChange.send()
             }
         }
     }

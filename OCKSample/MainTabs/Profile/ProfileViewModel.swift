@@ -23,18 +23,13 @@ class ProfileViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
 
     init() {
+        storeManager = StoreManagerKey.defaultValue
         reloadViewModel()
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadViewModel),
-                                               name: Notification.Name(rawValue: Constants.reloadView),
-                                               object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(replaceStore),
-                                               name: Notification.Name(rawValue: Constants.storeInitialized),
-                                               object: nil)
     }
 
     // MARK: Helpers
 
-    @objc private func reloadViewModel() {
+    private func reloadViewModel() {
         Task {
             _ = await findAndObserveCurrentProfile()
         }

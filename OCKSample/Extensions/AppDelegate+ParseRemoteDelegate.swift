@@ -19,7 +19,6 @@ extension AppDelegate: ParseRemoteDelegate {
     func successfullyPushedDataToCloud() {
         if self.isFirstAppOpen {
             self.isFirstAppOpen = false
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.reloadView)))
         }
     }
 
