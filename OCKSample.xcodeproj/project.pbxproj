@@ -17,6 +17,9 @@
 		70221F2828D7809800971195 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70221F2728D7809800971195 /* MainTabView.swift */; };
 		70221F2A28D7BE0600971195 /* AppDelegate+ParseRemoteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70221F2928D7BE0600971195 /* AppDelegate+ParseRemoteDelegate.swift */; };
 		70221F2F28D7CDE400971195 /* AppDelegate+ParseRemoteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70221F2D28D7CD9200971195 /* AppDelegate+ParseRemoteDelegate.swift */; };
+		70221F3428D8ABBE00971195 /* AppDelegate+UIApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70221F3328D8ABBE00971195 /* AppDelegate+UIApplicationDelegate.swift */; };
+		70221F3828D8C0CB00971195 /* AppDelegateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE928C2EE6C0005B5A2 /* AppDelegateKey.swift */; };
+		70221F3928D8C10800971195 /* StoreManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC4271B4EA70045A0EF /* StoreManagerKey.swift */; };
 		70308886258273D400FFABB6 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70308885258273D400FFABB6 /* LoginViewModel.swift */; };
 		7036E4BF256DA089006E9A3C /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4BE256DA089006E9A3C /* LoginViewModel.swift */; };
 		7036E4C4256E0A48006E9A3C /* CareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C3256E0A48006E9A3C /* CareView.swift */; };
@@ -57,7 +60,6 @@
 		70F03AB42788C76700E5AFB4 /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		70F03AB62788C80500E5AFB4 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AB52788C80500E5AFB4 /* UserStatus.swift */; };
 		70F03AB92788D02A00E5AFB4 /* UserStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AB52788C80500E5AFB4 /* UserStatus.swift */; };
-		70F0EFE628C292F50005B5A2 /* AppDelegateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE528C292F50005B5A2 /* AppDelegateKey.swift */; };
 		70F0EFE828C2EC050005B5A2 /* OCKSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE728C2EC050005B5A2 /* OCKSampleApp.swift */; };
 		70F0EFEA28C2EE6C0005B5A2 /* AppDelegateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE928C2EE6C0005B5A2 /* AppDelegateKey.swift */; };
 		70F921A827CA9A3A00368CEC /* CustomStylerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F921A727CA9A3A00368CEC /* CustomStylerKey.swift */; };
@@ -83,7 +85,6 @@
 		918FDEBC271B4E4A0045A0EF /* Calendar+Dates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEBB271B4E4A0045A0EF /* Calendar+Dates.swift */; };
 		918FDEC3271B4E950045A0EF /* TintColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC2271B4E950045A0EF /* TintColorKey.swift */; };
 		918FDEC5271B4EA70045A0EF /* StoreManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC4271B4EA70045A0EF /* StoreManagerKey.swift */; };
-		918FDEC8271B54540045A0EF /* StoreManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC7271B54540045A0EF /* StoreManagerKey.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
 		91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922C24A4C42D00925D4D /* Assets.xcassets */; };
@@ -154,6 +155,7 @@
 		70221F2728D7809800971195 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		70221F2928D7BE0600971195 /* AppDelegate+ParseRemoteDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+ParseRemoteDelegate.swift"; sourceTree = "<group>"; };
 		70221F2D28D7CD9200971195 /* AppDelegate+ParseRemoteDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+ParseRemoteDelegate.swift"; sourceTree = "<group>"; };
+		70221F3328D8ABBE00971195 /* AppDelegate+UIApplicationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppDelegate+UIApplicationDelegate.swift"; sourceTree = "<group>"; };
 		70308885258273D400FFABB6 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		7036E4BE256DA089006E9A3C /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		7036E4C3256E0A48006E9A3C /* CareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareView.swift; sourceTree = "<group>"; };
@@ -178,7 +180,6 @@
 		70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Parse.swift"; sourceTree = "<group>"; };
 		70F03AA727860E7700E5AFB4 /* FontColorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontColorKey.swift; sourceTree = "<group>"; };
 		70F03AB52788C80500E5AFB4 /* UserStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserStatus.swift; path = OCKSample/ViewModels/UserStatus.swift; sourceTree = SOURCE_ROOT; };
-		70F0EFE528C292F50005B5A2 /* AppDelegateKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateKey.swift; sourceTree = "<group>"; };
 		70F0EFE728C2EC050005B5A2 /* OCKSampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKSampleApp.swift; sourceTree = "<group>"; };
 		70F0EFE928C2EE6C0005B5A2 /* AppDelegateKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateKey.swift; sourceTree = "<group>"; };
 		70F921A727CA9A3A00368CEC /* CustomStylerKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomStylerKey.swift; sourceTree = "<group>"; };
@@ -194,7 +195,6 @@
 		918FDEBB271B4E4A0045A0EF /* Calendar+Dates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Dates.swift"; sourceTree = "<group>"; };
 		918FDEC2271B4E950045A0EF /* TintColorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColorKey.swift; sourceTree = "<group>"; };
 		918FDEC4271B4EA70045A0EF /* StoreManagerKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManagerKey.swift; sourceTree = "<group>"; };
-		918FDEC7271B54540045A0EF /* StoreManagerKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManagerKey.swift; sourceTree = "<group>"; };
 		91AD922124A45A3900925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseCareKit.plist; sourceTree = "<group>"; };
 		91AD922324A461D200925D4D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		91AD922724A4C42B00925D4D /* OCKWatchSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCKWatchSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,7 +283,17 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		703088772582727500FFABB6 /* MainTabs */ = {
+		70221F3A28D8C2BF00971195 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
+				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
+				91AD924024A4C42D00925D4D /* NotificationView.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		703088772582727500FFABB6 /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				70221F2728D7809800971195 /* MainTabView.swift */,
@@ -293,7 +303,7 @@
 				7030887C258272E700FFABB6 /* Profile */,
 				91693819271B64CB00A634ED /* Stylers */,
 			);
-			path = MainTabs;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		70308878258272CD00FFABB6 /* Care */ = {
@@ -411,6 +421,7 @@
 			isa = PBXGroup;
 			children = (
 				70221F2928D7BE0600971195 /* AppDelegate+ParseRemoteDelegate.swift */,
+				70221F3328D8ABBE00971195 /* AppDelegate+UIApplicationDelegate.swift */,
 				918FDEBB271B4E4A0045A0EF /* Calendar+Dates.swift */,
 				918FDEB6271B41FF0045A0EF /* Logger.swift */,
 				70F03A922786087800E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift */,
@@ -437,15 +448,6 @@
 			path = Environment;
 			sourceTree = "<group>";
 		};
-		918FDEC6271B542C0045A0EF /* Environment */ = {
-			isa = PBXGroup;
-			children = (
-				70F0EFE528C292F50005B5A2 /* AppDelegateKey.swift */,
-				918FDEC7271B54540045A0EF /* StoreManagerKey.swift */,
-			);
-			path = Environment;
-			sourceTree = "<group>";
-		};
 		91AD922824A4C42B00925D4D /* OCKWatchSample */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,18 +460,15 @@
 		91AD923724A4C42D00925D4D /* OCKWatchSample Extension */ = {
 			isa = PBXGroup;
 			children = (
-				91AD924824A4C42E00925D4D /* PushNotificationPayload.apns */,
 				705B22BE25E2C1A700C472AC /* OCKWatchSample Extension.entitlements */,
 				91AD924724A4C42E00925D4D /* Info.plist */,
 				91AD923C24A4C42D00925D4D /* AppDelegate.swift */,
-				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
-				91AD924024A4C42D00925D4D /* NotificationView.swift */,
 				91AD923824A4C42D00925D4D /* OCKWatchSampleApp.swift */,
-				70221F2C28D7CD7400971195 /* Extensions */,
 				91AD924224A4C42E00925D4D /* Assets.xcassets */,
 				70A98D64278A2722009B58F2 /* Care */,
-				918FDEC6271B542C0045A0EF /* Environment */,
+				70221F2C28D7CD7400971195 /* Extensions */,
 				70A98D65278A273E009B58F2 /* Login */,
+				70221F3A28D8C2BF00971195 /* Notifications */,
 				91AD924424A4C42E00925D4D /* Preview Content */,
 			);
 			path = "OCKWatchSample Extension";
@@ -519,7 +518,7 @@
 				918FDEC1271B4E710045A0EF /* Environment */,
 				918FDEBA271B4DF60045A0EF /* Extensions */,
 				7030887E2582731300FFABB6 /* Login */,
-				703088772582727500FFABB6 /* MainTabs */,
+				703088772582727500FFABB6 /* Main */,
 				918FDEB3271B402F0045A0EF /* Models */,
 				71A79C8A2294FBA1002B96D3 /* Supporting Files */,
 				70A98D5B278A0B7B009B58F2 /* ViewModels */,
@@ -713,6 +712,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70F921B327CAC16E00368CEC /* LocalSyncSessionDelegate.swift in Sources */,
+				70221F3928D8C10800971195 /* StoreManagerKey.swift in Sources */,
 				70A98D63278A268B009B58F2 /* ColorStyler.swift in Sources */,
 				918FDEB8271B49060045A0EF /* Logger.swift in Sources */,
 				91AD923B24A4C42D00925D4D /* CareView.swift in Sources */,
@@ -726,14 +726,13 @@
 				91AD923924A4C42D00925D4D /* OCKWatchSampleApp.swift in Sources */,
 				70F03AA627860B2500E5AFB4 /* OCKPatient+Parse.swift in Sources */,
 				70F03AB92788D02A00E5AFB4 /* UserStatus.swift in Sources */,
+				70221F3828D8C0CB00971195 /* AppDelegateKey.swift in Sources */,
 				9103AA5227B8C913002C921E /* FontColorKey.swift in Sources */,
 				707CC719254DA91900116728 /* OCKLocalization.swift in Sources */,
 				7007759B252229C900EC0EDA /* User.swift in Sources */,
-				70F0EFE628C292F50005B5A2 /* AppDelegateKey.swift in Sources */,
 				70F03A9B27860A2000E5AFB4 /* OCKAnyEvent+CustomStringConvertable.swift in Sources */,
 				70F03A912786073300E5AFB4 /* CareViewModel.swift in Sources */,
 				70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */,
-				918FDEC8271B54540045A0EF /* StoreManagerKey.swift in Sources */,
 				918FDEB9271B493A0045A0EF /* Installation.swift in Sources */,
 				70F03A9D27860A5600E5AFB4 /* OCKSynchronizedStoreManager+Publishers.swift in Sources */,
 				70F03AA527860B2500E5AFB4 /* OCKOutcomeValue+Identifiable.swift in Sources */,
@@ -765,6 +764,7 @@
 				70F03AA827860E7700E5AFB4 /* FontColorKey.swift in Sources */,
 				9169381B271B64E100A634ED /* Styler.swift in Sources */,
 				70F921A827CA9A3A00368CEC /* CustomStylerKey.swift in Sources */,
+				70221F3428D8ABBE00971195 /* AppDelegate+UIApplicationDelegate.swift in Sources */,
 				9169381D271B650700A634ED /* ColorStyler.swift in Sources */,
 				E72B2C0A226939E3009A9438 /* AppDelegate.swift in Sources */,
 				7036E4C4256E0A48006E9A3C /* CareView.swift in Sources */,

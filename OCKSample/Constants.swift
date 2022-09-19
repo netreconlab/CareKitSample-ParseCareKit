@@ -18,7 +18,7 @@ enum AppError: Error {
     case remoteClockIDNotAvailable
     case emptyTaskEvents
     case invalidIndexPath(_ indexPath: IndexPath)
-    case noOutcomeValueForEvent(_ event: OCKAnyEvent, _ index: Int)
+    case noOutcomeValueForEvent(_ event: OCKAnyEvent, index: Int)
     case cannotMakeOutcomeFor(_ event: OCKAnyEvent)
     case parseError(_ error: ParseError)
     case error(_ error: Error)
@@ -61,11 +61,9 @@ enum Constants {
     static let parseUserSessionTokenKey = "requestParseSessionToken"
     static let parseRemoteClockIDKey = "requestRemoteClockID"
     static let requestSync = "requestSync"
-    static let reloadView = "reloadView"
     static let progressUpdate = "progressUpdate"
     static let userLoggedIn = "userLoggedIn"
     static let storeInitialized = "storeInitialized"
-    static let storeDeinitialized = "storeDeinitialized"
     static let userTypeKey = "userType"
 }
 

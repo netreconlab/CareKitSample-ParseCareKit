@@ -26,6 +26,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             StoreManagerKey.defaultValue = newValue
             DispatchQueue.main.async {
                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
+                self.objectWillChange.send()
             }
         }
     }
@@ -134,13 +135,5 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 task.setTaskCompletedWithSnapshot(false)
             }
         }
-    }
-
-    func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
-        guard let uuid = UserDefaults.standard.object(forKey: "remoteClockUUID") as? String else {
-            return nil
-        }
-
-        return UUID(uuidString: uuid)
     }
 }
