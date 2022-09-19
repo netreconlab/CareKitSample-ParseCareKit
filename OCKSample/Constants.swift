@@ -64,7 +64,6 @@ enum Constants {
     static let progressUpdate = "progressUpdate"
     static let userLoggedIn = "userLoggedIn"
     static let storeInitialized = "storeInitialized"
-    static let storeDeinitialized = "storeDeinitialized"
     static let userTypeKey = "userType"
 }
 

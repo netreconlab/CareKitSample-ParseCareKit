@@ -63,7 +63,6 @@ class AppDelegate: UIResponder, ObservableObject {
 
     // MARK: Helpers
     func resetAppToInitialState() {
-        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeDeinitialized)))
         do {
             try healthKitStore.reset()
         } catch {
