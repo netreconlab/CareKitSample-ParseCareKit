@@ -465,10 +465,10 @@
 				91AD923E24A4C42D00925D4D /* NotificationController.swift */,
 				91AD924024A4C42D00925D4D /* NotificationView.swift */,
 				91AD923824A4C42D00925D4D /* OCKWatchSampleApp.swift */,
-				70221F2C28D7CD7400971195 /* Extensions */,
 				91AD924224A4C42E00925D4D /* Assets.xcassets */,
 				70A98D64278A2722009B58F2 /* Care */,
 				918FDEC6271B542C0045A0EF /* Environment */,
+				70221F2C28D7CD7400971195 /* Extensions */,
 				70A98D65278A273E009B58F2 /* Login */,
 				91AD924424A4C42E00925D4D /* Preview Content */,
 			);

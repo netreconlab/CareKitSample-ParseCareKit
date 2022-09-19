@@ -135,12 +135,4 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             }
         }
     }
-
-    func getRemoteClockUUIDAfterLoginFromLocalStorage() -> UUID? {
-        guard let uuid = UserDefaults.standard.object(forKey: "remoteClockUUID") as? String else {
-            return nil
-        }
-
-        return UUID(uuidString: uuid)
-    }
 }
