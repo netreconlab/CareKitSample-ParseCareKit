@@ -12,9 +12,6 @@ import CareKitUI
 import UIKit
 
 struct MainView: View {
-
-    @Environment(\.presentationMode) var presentationMode
-    @Environment(\.storeManager) private var storeManager
     @Environment(\.tintColor) private var tintColor
     @Environment(\.careKitStyle) private var style
     @StateObject private var loginViewModel = LoginViewModel()

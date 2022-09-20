@@ -13,8 +13,6 @@ import CareKit
 import os.log
 
 struct ProfileView: View {
-
-    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var viewModel: ProfileViewModel
     @ObservedObject var loginViewModel: LoginViewModel
     @State var firstName = ""
