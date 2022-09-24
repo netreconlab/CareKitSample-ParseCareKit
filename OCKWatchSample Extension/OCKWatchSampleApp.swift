@@ -17,9 +17,7 @@ struct OCKWatchSampleApp: App {
     @State var isActive = false
     @SceneBuilder var body: some Scene {
         WindowGroup {
-            NavigationView {
-                CareView()
-            }
+            MainView()
             .environment(\.appDelegate, delegate)
             .accentColor(Color(tintColor))
         }

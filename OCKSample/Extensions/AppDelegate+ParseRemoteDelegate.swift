@@ -9,6 +9,7 @@
 import UIKit
 import CareKitStore
 import ParseCareKit
+import WatchConnectivity
 
 extension AppDelegate: ParseRemoteDelegate {
 
@@ -20,6 +21,13 @@ extension AppDelegate: ParseRemoteDelegate {
         if self.isFirstAppOpen {
             self.isFirstAppOpen = false
         }
+        #if !targetEnvironment(simulator)
+        // watchOS 9 needs to be sent messages for updates on real devices
+        let message = Utility.prepareSyncMessageForWatch()
+        WCSession.default.sendMessage(message,
+                                      replyHandler: nil,
+                                      errorHandler: nil)
+        #endif
     }
 
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {

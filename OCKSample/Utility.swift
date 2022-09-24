@@ -11,6 +11,12 @@ import ParseSwift
 import os.log
 
 class Utility {
+    class func prepareSyncMessageForWatch() -> [String: Any] {
+        var returnMessage = [String: Any]()
+        returnMessage[Constants.requestSync] = "new messages in Cloud"
+        return returnMessage
+    }
+
     class func getUserSessionForWatch() -> [String: Any] {
         var returnMessage = [String: Any]()
 

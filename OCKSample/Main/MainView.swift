@@ -16,7 +16,6 @@ struct MainView: View {
     @Environment(\.careKitStyle) private var style
     @StateObject private var loginViewModel = LoginViewModel()
     @StateObject private var profileViewModel = ProfileViewModel()
-    @StateObject private var userStatus = UserStatus()
     @State private var path = [MainViewPath]()
 
     var body: some View {
@@ -27,16 +26,22 @@ struct MainView: View {
                 case .login:
                     LoginView(viewModel: loginViewModel)
                 case .tab:
-                    MainTabView(loginViewModel: loginViewModel,
-                                profileViewModel: profileViewModel)
+                    if isSyncingWithCloud {
+                        MainTabView(loginViewModel: loginViewModel,
+                                    profileViewModel: profileViewModel)
+                    } else {
+                        CareView()
+                    }
                 }
             }
             .onAppear {
-                path.append(.login)
-                if !userStatus.isLoggedOut {
-                    path.append(.tab)
-                } else if userStatus.isLoggedOut {
-                    path = [.login]
+                guard isSyncingWithCloud else {
+                    setTabAsOnlyPath()
+                    return
+                }
+                setLoginAsOnlyPath()
+                if !loginViewModel.isLoggedOut {
+                    appendPath(.tab)
                 }
             }
         }
@@ -44,12 +49,31 @@ struct MainView: View {
         .accentColor(Color(tintColor))
         .careKitStyle(Styler())
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
+            setLoginAsOnlyPath()
             if !isLoggedOut {
-                path.append(.tab)
-            } else {
-                path = [.login]
+                appendPath(.tab)
             }
         })
+    }
+
+    // MARK: Helpers
+    func setLoginAsOnlyPath() {
+        if path.first != .login || path.count > 1 {
+            path = [.login]
+        }
+    }
+
+    func setTabAsOnlyPath() {
+        if path.first != .tab || path.count > 1 {
+            path = [.tab]
+        }
+    }
+
+    func appendPath(_ path: MainViewPath) {
+        guard self.path.last != path else {
+            return
+        }
+        self.path.append(path)
     }
 }
 

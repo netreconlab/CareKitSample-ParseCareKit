@@ -15,12 +15,7 @@ import WatchConnectivity
 import os.log
 
 class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
-
-    let isSyncingWithCloud = true // True to sync with ParseServer, False to Sync with iOS Phone
-    private var parseRemote: ParseRemote!
-    private var sessionDelegate: SessionDelegate!
-    private lazy var phone = OCKWatchConnectivityPeer()
-    private(set) var store: OCKStore!
+    // MARK: Public read private write properties
     @Published private(set) var storeManager: OCKSynchronizedStoreManager! {
         willSet {
             StoreManagerKey.defaultValue = newValue
@@ -30,6 +25,12 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             }
         }
     }
+    private(set) var store: OCKStore!
+
+    // MARK: Private read/write properties
+    private var parseRemote: ParseRemote!
+    private var sessionDelegate: SessionDelegate!
+    private lazy var phone = OCKWatchConnectivityPeer()
 
     func applicationDidFinishLaunching() {
         // Parse-server setup
@@ -77,7 +78,6 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
-
             } else {
                 store = OCKStore(name: Constants.watchOSLocalCareStoreName,
                                  remote: phone)
@@ -86,11 +86,9 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
             }
             WCSession.default.activate()
-
         } catch {
             Logger.appDelegate.error("Error setting up remote: \(error.localizedDescription)")
         }
-
     }
 
     func applicationDidBecomeActive() {

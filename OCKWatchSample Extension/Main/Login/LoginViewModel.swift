@@ -12,14 +12,6 @@ import ParseSwift
 import os.log
 
 class LoginViewModel: ObservableObject {
-
-    var isSyncingWithCloud: Bool {
-        guard let sync = AppDelegateKey.defaultValue?.isSyncingWithCloud else {
-            return false
-        }
-        return sync
-    }
-
     @Published var isLoggedOut = true
 
     init() {
@@ -27,6 +19,9 @@ class LoginViewModel: ObservableObject {
                                                selector: #selector(userLoggedIn(_:)),
                                                name: Notification.Name(rawValue: Constants.userLoggedIn),
                                                object: nil)
+        Task {
+            await self.checkStatus()
+        }
     }
 
     @objc private func userLoggedIn(_ notification: Notification) {
@@ -40,6 +35,15 @@ class LoginViewModel: ObservableObject {
         defaultACL.publicRead = false
         defaultACL.publicWrite = false
         _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+    }
+
+    @MainActor
+    func checkStatus() {
+        if User.current != nil && isLoggedOut {
+            isLoggedOut = false
+        } else if User.current == nil && !isLoggedOut {
+            isLoggedOut = true
+        }
     }
 
     @MainActor

@@ -222,7 +222,7 @@ class ProfileViewModel: ObservableObject {
 
         try await appDelegate.store?.populateSampleData()
         try await appDelegate.healthKitStore.populateSampleData()
-        if appDelegate.isSyncingWithCloud {
+        if isSyncingWithCloud {
             appDelegate.parseRemote.automaticallySynchronizes = true
         }
 

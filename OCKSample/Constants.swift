@@ -11,6 +11,18 @@ import CareKit
 import CareKitStore
 import ParseSwift
 
+/**
+ **true** to sync with ParseServer, *false** to sync with iOS/watchOS.
+ */
+let isSyncingWithCloud = true
+/**
+ **true** to use WCSession to notify watchOS about updates, **false** to not notify.
+ A change in watchOS 9 removes the ability to use Websockets on real Apple Watches,
+ preventing auto updates from the Parse Server. See the link for
+ details: https://developer.apple.com/forums/thread/715024
+ */
+let isSendingPushUpdatesToWatch = true
+
 enum AppError: Error {
     case couldntCast
     case couldntBeUnwrapped

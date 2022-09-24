@@ -42,7 +42,6 @@ class AppDelegate: UIResponder, ObservableObject {
     @Published var isFirstAppOpen = true
 
     // MARK: Public read private write properties
-    let isSyncingWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
     // swiftlint:disable:next line_length
     @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName,
                                                                                                      type: .inMemory)) {

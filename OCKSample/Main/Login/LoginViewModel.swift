@@ -31,7 +31,11 @@ class LoginViewModel: ObservableObject {
     @Published private(set) var loginError: ParseError?
     private var profileViewModel = ProfileViewModel()
 
-    init() {}
+    init() {
+        Task {
+            await self.checkStatus()
+        }
+    }
 
     // MARK: Helpers
     @MainActor
@@ -80,6 +84,15 @@ class LoginViewModel: ObservableObject {
         defaultACL.publicRead = false
         defaultACL.publicWrite = false
         _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+    }
+
+    @MainActor
+    func checkStatus() {
+        if User.current != nil && isLoggedOut {
+            isLoggedOut = false
+        } else if User.current == nil && !isLoggedOut {
+            isLoggedOut = true
+        }
     }
 
     // MARK: User intentional behavier
