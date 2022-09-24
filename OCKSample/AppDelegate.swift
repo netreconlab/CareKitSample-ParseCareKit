@@ -58,7 +58,7 @@ class AppDelegate: UIResponder, ObservableObject {
 
     // MARK: Private read/write properties
     private var sessionDelegate: SessionDelegate!
-    private lazy var watch = OCKWatchConnectivityPeer()
+    private lazy var watchRemote = OCKWatchConnectivityPeer()
 
     // MARK: Helpers
     func resetAppToInitialState() {
@@ -98,9 +98,9 @@ class AppDelegate: UIResponder, ObservableObject {
             } else {
                 store = OCKStore(name: Constants.iOSLocalCareStoreName,
                                  type: .onDisk(),
-                                 remote: watch)
-                watch.delegate = self
-                sessionDelegate = LocalSessionDelegate(remote: watch, store: store)
+                                 remote: watchRemote)
+                watchRemote.delegate = self
+                sessionDelegate = LocalSessionDelegate(remote: watchRemote, store: store)
             }
 
             // Setup communication with watch
