@@ -14,7 +14,6 @@ import WatchConnectivity
 import os.log
 
 class CareViewModel: ObservableObject {
-    @Published var update = false
     @Published var storeManager = OCKSynchronizedStoreManager(wrapping: OCKStore(name: Constants.noCareStoreName,
                                                                                  type: .inMemory)) {
         didSet {
@@ -31,36 +30,16 @@ class CareViewModel: ObservableObject {
     }
 
     // MARK: Helpers
-
-    private func observeTask(_ task: OCKTask) {
-
-        storeManager.publisher(forEventsBelongingToTask: task,
-                               categories: [OCKStoreNotificationCategory.add,
-                                            OCKStoreNotificationCategory.update,
-                                            OCKStoreNotificationCategory.delete])
-            .sink { [weak self] in
-                guard self != nil else { return }
-                Logger.feed.info("Task updated: \($0, privacy: .private)")
-            }
-            .store(in: &cancellables)
-    }
-
-    private func clearSubscriptions() {
-        cancellables = []
-    }
-
     @MainActor
     @objc private func reloadViewModel() {
         let updatedStoreManager = StoreManagerKey.defaultValue
         guard storeManager !== updatedStoreManager else {
             return
         }
-        clearSubscriptions()
         storeManager = updatedStoreManager
     }
 
     // MARK: Intents
-
     func synchronizeStore() {
         guard let store = storeManager.store as? OCKStore else {
             return

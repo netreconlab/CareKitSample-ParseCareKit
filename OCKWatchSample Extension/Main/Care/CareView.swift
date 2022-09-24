@@ -12,8 +12,6 @@ import SwiftUI
 import os.log
 
 struct CareView: View {
-
-    @Environment(\.customStyler) private var style
     @ObservedObject var viewModel: CareViewModel
 
     var body: some View {

@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct MainView: View {
-    @Environment(\.customStyler) private var style
-    @Environment(\.tintColor) private var tintColor
     @StateObject var loginViewModel = LoginViewModel()
     @StateObject var careViewModel = CareViewModel()
 
@@ -26,8 +24,6 @@ struct MainView: View {
                 CareView(viewModel: careViewModel)
             }
         }
-        .accentColor(Color(tintColor))
-        .careKitStyle(Styler())
     }
 }
 
