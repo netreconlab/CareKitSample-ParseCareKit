@@ -12,7 +12,6 @@ import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject var loginViewModel: LoginViewModel
-    @ObservedObject var profileViewModel: ProfileViewModel
     @State private var selectedTab = 0
 
     var body: some View {
@@ -46,7 +45,7 @@ struct MainTabView: View {
                 .navigationBarTitle("")
                 .navigationBarHidden(true)
 
-            ProfileView(viewModel: profileViewModel, loginViewModel: loginViewModel)
+            ProfileView(loginViewModel: loginViewModel)
                 .tabItem {
                     if selectedTab == 2 {
                         Image("connect-filled")
@@ -65,6 +64,6 @@ struct MainTabView: View {
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView(loginViewModel: .init(), profileViewModel: .init())
+        MainTabView(loginViewModel: .init())
     }
 }

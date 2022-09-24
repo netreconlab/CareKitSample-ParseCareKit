@@ -12,20 +12,20 @@ import SwiftUI
 import os.log
 
 struct CareView: View {
-    @ObservedObject var viewModel: CareViewModel
+    @StateObject var viewModel = CareViewModel()
 
     var body: some View {
+        SimpleTaskView(taskID: TaskID.kegels,
+                       eventQuery: .init(for: Date()),
+                       storeManager: viewModel.storeManager)
         InstructionsTaskView(taskID: TaskID.stretch,
-                             eventQuery: OCKEventQuery(for: Date()),
+                             eventQuery: .init(for: Date()),
                              storeManager: viewModel.storeManager)
-        .onAppear(perform: {
-            viewModel.synchronizeStore()
-        })
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CareView(viewModel: .init())
+        CareView()
     }
 }

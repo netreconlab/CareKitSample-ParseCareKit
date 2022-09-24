@@ -15,7 +15,6 @@ struct MainView: View {
     @Environment(\.tintColor) private var tintColor
     @Environment(\.careKitStyle) private var style
     @StateObject private var loginViewModel = LoginViewModel()
-    @StateObject private var profileViewModel = ProfileViewModel()
     @State private var path = [MainViewPath]()
 
     var body: some View {
@@ -27,10 +26,11 @@ struct MainView: View {
                     LoginView(viewModel: loginViewModel)
                 case .tab:
                     if isSyncingWithCloud {
-                        MainTabView(loginViewModel: loginViewModel,
-                                    profileViewModel: profileViewModel)
+                        MainTabView(loginViewModel: loginViewModel)
                     } else {
                         CareView()
+                            .navigationBarTitle("")
+                            .navigationBarHidden(true)
                     }
                 }
             }

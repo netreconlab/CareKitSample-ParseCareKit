@@ -27,6 +27,7 @@ class CareViewModel: ObservableObject {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadViewModel),
                                                name: Notification.Name(rawValue: Constants.storeInitialized),
                                                object: nil)
+        synchronizeStore()
     }
 
     // MARK: Helpers

@@ -10,18 +10,17 @@ import SwiftUI
 
 struct MainView: View {
     @StateObject var loginViewModel = LoginViewModel()
-    @StateObject var careViewModel = CareViewModel()
 
     var body: some View {
         ScrollView {
             if isSyncingWithCloud {
                 if !loginViewModel.isLoggedOut {
-                    CareView(viewModel: careViewModel)
+                    CareView()
                 } else {
                     LoginView(viewModel: loginViewModel)
                 }
             } else {
-                CareView(viewModel: careViewModel)
+                CareView()
             }
         }
     }

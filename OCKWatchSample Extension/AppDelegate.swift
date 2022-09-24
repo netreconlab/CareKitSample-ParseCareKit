@@ -30,7 +30,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
     // MARK: Private read/write properties
     private var parseRemote: ParseRemote!
     private var sessionDelegate: SessionDelegate!
-    private lazy var phone = OCKWatchConnectivityPeer()
+    private lazy var phoneRemote = OCKWatchConnectivityPeer()
 
     func applicationDidFinishLaunching() {
         // Parse-server setup
@@ -80,10 +80,11 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
             } else {
                 store = OCKStore(name: Constants.watchOSLocalCareStoreName,
-                                 remote: phone)
-                phone.delegate = self
-                sessionDelegate = LocalSessionDelegate(remote: phone, store: store)
+                                 remote: phoneRemote)
+                phoneRemote.delegate = self
+                sessionDelegate = LocalSessionDelegate(remote: phoneRemote, store: store)
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
+                WCSession.default.delegate = sessionDelegate
             }
             WCSession.default.activate()
         } catch {
