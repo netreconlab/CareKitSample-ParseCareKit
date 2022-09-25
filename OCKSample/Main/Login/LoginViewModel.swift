@@ -63,10 +63,14 @@ class LoginViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
             AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
-
-                if error != nil {
-                    Logger.login.error("Error requesting HealthKit permissions: \(error!.localizedDescription)")
+                guard let error = error else {
+                    DispatchQueue.main.async {
+                        // swiftlint:disable:next line_length
+                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.finishedAskingForPermission)))
+                    }
+                    return
                 }
+                Logger.login.error("Error requesting HealthKit permissions: \(error.localizedDescription)")
             }
         }
 

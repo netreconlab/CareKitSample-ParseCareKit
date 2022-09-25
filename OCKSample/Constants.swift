@@ -74,6 +74,7 @@ enum Constants {
     static let parseRemoteClockIDKey = "requestRemoteClockID"
     static let requestSync = "requestSync"
     static let progressUpdate = "progressUpdate"
+    static let finishedAskingForPermission = "finishedAskingForPermission"
     static let userLoggedIn = "userLoggedIn"
     static let storeInitialized = "storeInitialized"
     static let userTypeKey = "userType"

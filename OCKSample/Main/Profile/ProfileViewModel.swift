@@ -35,16 +35,6 @@ class ProfileViewModel: ObservableObject {
         }
     }
 
-    @MainActor
-    @objc private func replaceStore() {
-        let updatedStoreManager = StoreManagerKey.defaultValue
-        guard storeManager !== updatedStoreManager else {
-            return
-        }
-        storeManager = updatedStoreManager
-        reloadViewModel()
-    }
-
     func refreshViewIfNeeded() {
         if cancellables.count == 0 {
             reloadViewModel()

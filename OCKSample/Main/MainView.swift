@@ -12,8 +12,6 @@ import CareKitUI
 import UIKit
 
 struct MainView: View {
-    @Environment(\.tintColor) private var tintColor
-    @Environment(\.careKitStyle) private var style
     @StateObject private var loginViewModel = LoginViewModel()
     @State private var path = [MainViewPath]()
 
@@ -46,8 +44,6 @@ struct MainView: View {
             }
         }
         .statusBar(hidden: true)
-        .accentColor(Color(tintColor))
-        .careKitStyle(Styler())
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             setLoginAsOnlyPath()
             if !isLoggedOut {
