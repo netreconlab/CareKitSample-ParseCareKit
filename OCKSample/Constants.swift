@@ -71,7 +71,6 @@ enum Constants {
     static let watchOSLocalCareStoreName = "watchOSLocalStore"
     static let noCareStoreName = "none"
     static let parseUserSessionTokenKey = "requestParseSessionToken"
-    static let parseRemoteClockIDKey = "requestRemoteClockID"
     static let requestSync = "requestSync"
     static let progressUpdate = "progressUpdate"
     static let finishedAskingForPermission = "finishedAskingForPermission"

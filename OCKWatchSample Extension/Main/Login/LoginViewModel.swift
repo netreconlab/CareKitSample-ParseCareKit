@@ -48,28 +48,22 @@ class LoginViewModel: ObservableObject {
 
     @MainActor
     class func loginFromiPhoneMessage(_ message: [String: Any]) async {
-        guard let sessionToken = message[Constants.parseUserSessionTokenKey] as? String,
-              let uuidString = message[Constants.parseRemoteClockIDKey] as? String else {
-                  Logger.feed.error("Error: data missing in iPhone message")
-                  return
+        guard let sessionToken = message[Constants.parseUserSessionTokenKey] as? String else {
+            Logger.login.error("Error: data missing in iPhone message")
+            return
         }
-
-        // Save remoteUUID for later
-        UserDefaults.standard.setValue(uuidString, forKey: Constants.parseRemoteClockIDKey)
-        UserDefaults.standard.synchronize()
 
         do {
             let user = try await User().become(sessionToken: sessionToken)
-            Logger.feed.info("Parse login successful \(user, privacy: .private)")
-
+            Logger.login.info("Parse login successful \(user, privacy: .private)")
+            let uuidString = try Utility.getRemoteClockUUID().uuidString
             do {
                 try LoginViewModel.setDefaultACL()
             } catch {
-                Logger.profile.error("Could not set defaultACL: \(error.localizedDescription)")
+                Logger.login.error("Could not set defaultACL: \(error.localizedDescription)")
             }
-
             guard let watchDelegate = AppDelegateKey.defaultValue else {
-                Logger.profile.error("ApplicationDelegate should not be nil")
+                Logger.login.error("ApplicationDelegate should not be nil")
                 return
             }
             watchDelegate.setupRemotes(uuid: uuidString)
@@ -85,8 +79,8 @@ class LoginViewModel: ObservableObject {
             }
         } catch {
             // swiftlint:disable:next line_length
-            Logger.feed.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-            Logger.feed.error("Parse error: \(String(describing: error.localizedDescription))")
+            Logger.login.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+            Logger.login.error("Parse error: \(String(describing: error.localizedDescription))")
         }
     }
 }

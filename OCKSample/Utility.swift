@@ -11,6 +11,7 @@ import ParseSwift
 import os.log
 
 class Utility {
+    // For classes, we can use "class" or "static" to declare type methods/properties.
     class func prepareSyncMessageForWatch() -> [String: Any] {
         var returnMessage = [String: Any]()
         returnMessage[Constants.requestSync] = "new messages in Cloud"
@@ -19,17 +20,16 @@ class Utility {
 
     class func getUserSessionForWatch() -> [String: Any] {
         var returnMessage = [String: Any]()
-
-        // Prepare data for watchOS
-        guard let sessionToken = User.current?.sessionToken else {
-            returnMessage[Constants.parseUserSessionTokenKey] = "not loggin in"
-            return returnMessage
-        }
-
-        returnMessage[Constants.parseUserSessionTokenKey] = sessionToken
-        // swiftlint:disable:next line_length
-        returnMessage[Constants.parseRemoteClockIDKey] = UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey)
+        returnMessage[Constants.parseUserSessionTokenKey] = User.current?.sessionToken
         return returnMessage
+    }
+
+    class func getRemoteClockUUID() throws -> UUID {
+        guard let lastUserTypeSelected = User.current?.lastTypeSelected,
+              let remoteClockUUID = User.current?.userTypeUUIDs?[lastUserTypeSelected] else {
+                  throw AppError.remoteClockIDNotAvailable
+              }
+        return remoteClockUUID
     }
 
     class func updateInstallationWithDeviceToken(_ deviceToken: Data? = nil) async {

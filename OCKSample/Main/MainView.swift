@@ -9,7 +9,6 @@ import SwiftUI
 import CareKit
 import CareKitStore
 import CareKitUI
-import UIKit
 
 struct MainView: View {
     @StateObject private var loginViewModel = LoginViewModel()
@@ -53,19 +52,19 @@ struct MainView: View {
     }
 
     // MARK: Helpers
-    func setLoginAsOnlyPath() {
+    private func setLoginAsOnlyPath() {
         if path.first != .login || path.count > 1 {
             path = [.login]
         }
     }
 
-    func setTabAsOnlyPath() {
+    private func setTabAsOnlyPath() {
         if path.first != .tab || path.count > 1 {
             path = [.tab]
         }
     }
 
-    func appendPath(_ path: MainViewPath) {
+    private func appendPath(_ path: MainViewPath) {
         guard self.path.last != path else {
             return
         }

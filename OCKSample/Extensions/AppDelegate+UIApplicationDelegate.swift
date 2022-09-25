@@ -27,15 +27,15 @@ extension AppDelegate: UIApplicationDelegate {
         if isSyncingWithCloud {
             if User.current != nil {
                 Logger.appDelegate.info("User is already signed in...")
-                guard let uuid = ProfileViewModel.getRemoteClockUUIDAfterLoginFromLocalStorage() else {
-                    Logger.appDelegate.info("Error in SceneDelage, no uuid saved.")
-                    return UISceneConfiguration(name: "Default Configuration",
-                                                sessionRole: connectingSceneSession.role)
-                }
-                setupRemotes(uuid: uuid)
-                parseRemote.automaticallySynchronizes = true
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+                do {
+                    let uuid = try Utility.getRemoteClockUUID()
+                    setupRemotes(uuid: uuid)
+                    parseRemote.automaticallySynchronizes = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+                    }
+                } catch {
+                    Logger.appDelegate.info("No uuid available: \(error)")
                 }
             }
         } else {

@@ -10,7 +10,6 @@ import Foundation
 import CareKitStore
 import Contacts
 import os.log
-import UIKit
 import ParseSwift
 import ParseCareKit
 

@@ -338,8 +338,8 @@
 		7030887E2582731300FFABB6 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				7036E4BE256DA089006E9A3C /* LoginViewModel.swift */,
 				70BD2B1E254B44DB0030B424 /* LoginView.swift */,
+				7036E4BE256DA089006E9A3C /* LoginViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";

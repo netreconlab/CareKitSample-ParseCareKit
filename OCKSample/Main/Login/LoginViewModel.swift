@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 import ParseCareKit
 import ParseSwift
 import CareKit
@@ -17,10 +16,43 @@ import os.log
 
 class LoginViewModel: ObservableObject {
 
+    // MARK: Public read, private write properties
     @Published private(set) var isLoggedOut = true {
         willSet {
-            // Publishes a notification to subscribers whenever this value changes
+            /*
+             Publishes a notification to subscribers whenever this value changes.
+             This is what the @Published property wrapper gives you for free
+             everytime you use it to wrap a property.
+            */
             objectWillChange.send()
+            if newValue {
+                self.sendUpdatedUserStatusToWatch()
+            }
+        }
+    }
+    @Published private(set) var loginError: ParseError?
+
+    // MARK: Private read/write properties
+    private var profileViewModel = ProfileViewModel()
+
+    init() {
+        checkStatus()
+    }
+
+    // MARK: Helpers (private)
+    private func checkStatus() {
+        DispatchQueue.main.async {
+            let isLoggedOut = self.isLoggedOut
+            if User.current != nil && isLoggedOut {
+                self.isLoggedOut = false
+            } else if User.current == nil && !isLoggedOut {
+                self.isLoggedOut = true
+            }
+        }
+    }
+
+    private func sendUpdatedUserStatusToWatch() {
+        DispatchQueue.main.async {
             let message = Utility.getUserSessionForWatch()
             WCSession.default.sendMessage(message,
                                           replyHandler: nil,
@@ -28,16 +60,6 @@ class LoginViewModel: ObservableObject {
         }
     }
 
-    @Published private(set) var loginError: ParseError?
-    private var profileViewModel = ProfileViewModel()
-
-    init() {
-        Task {
-            await self.checkStatus()
-        }
-    }
-
-    // MARK: Helpers
     @MainActor
     private func finishCompletingSignIn(_ careKitPatient: OCKPatient? = nil) async throws {
         if let careKitUser = careKitPatient {
@@ -60,7 +82,11 @@ class LoginViewModel: ObservableObject {
         }
 
         profileViewModel.refreshViewIfNeeded()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+
+        // Notify the SwiftUI view that the user is correctly logged in and to transition screens
+        checkStatus()
+
+        DispatchQueue.main.async {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
             AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
                 guard let error = error else {
@@ -74,16 +100,12 @@ class LoginViewModel: ObservableObject {
             }
         }
 
-        // Notify the SwiftUI view that the user is correctly logged in and to transition screens
-        self.isLoggedOut = false
-
         // Setup installation to receive push notifications
-        Task {
-            await Utility.updateInstallationWithDeviceToken()
-        }
+        await Utility.updateInstallationWithDeviceToken()
     }
 
-    class func setDefaultACL() throws {
+    // MARK: Helpers (private) - instance methods
+    private func setDefaultACL() throws {
         var defaultACL = ParseACL()
         defaultACL.publicRead = false
         defaultACL.publicWrite = false
@@ -91,23 +113,72 @@ class LoginViewModel: ObservableObject {
     }
 
     @MainActor
-    func checkStatus() {
-        if User.current != nil && isLoggedOut {
-            isLoggedOut = false
-        } else if User.current == nil && !isLoggedOut {
-            isLoggedOut = true
+    private func setupRemoteAfterLoginButtonTapped() throws {
+        let remoteUUID = try Utility.getRemoteClockUUID()
+        do {
+            try setDefaultACL()
+        } catch {
+            Logger.login.error("Could not set defaultACL: \(error.localizedDescription)")
         }
+
+        guard let appDelegate = AppDelegateKey.defaultValue else {
+            return
+        }
+        appDelegate.setupRemotes(uuid: remoteUUID)
+        appDelegate.parseRemote.automaticallySynchronizes = true
+
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+        return
     }
 
-    // MARK: User intentional behavier
+    @MainActor
+    private func savePatientAfterSignUp(_ type: UserType,
+                                        firstName: String,
+                                        lastName: String) async throws -> OCKPatient {
+        let remoteUUID = UUID()
+        do {
+            try setDefaultACL()
+        } catch {
+            Logger.login.error("Could not set defaultACL: \(error.localizedDescription)")
+        }
 
+        guard let appDelegate = AppDelegateKey.defaultValue else {
+            throw AppError.couldntBeUnwrapped
+        }
+        appDelegate.setupRemotes(uuid: remoteUUID)
+        let storeManager = appDelegate.storeManager
+
+        var newPatient = OCKPatient(remoteUUID: remoteUUID,
+                                    id: remoteUUID.uuidString,
+                                    givenName: firstName,
+                                    familyName: lastName)
+        newPatient.userType = type
+        let savedPatient = try await storeManager.store.addAnyPatient(newPatient)
+        guard let patient = savedPatient as? OCKPatient else {
+            throw AppError.couldntCast
+        }
+
+        try await appDelegate.store?.populateSampleData()
+        try await appDelegate.healthKitStore.populateSampleData()
+        if isSyncingWithCloud {
+            appDelegate.parseRemote.automaticallySynchronizes = true
+        }
+
+        // Post notification to sync
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+        Logger.login.info("Successfully added a new Patient")
+        return patient
+    }
+
+    // MARK: User intentional behavior
     /**
      Signs up the user *asynchronously*.
 
      This will also enforce that the username is not already taken.
-
-     - parameter username: The username the user is signing in with.
-     - parameter password: The password the user is signing in with.
+     - parameter username: The username the person signing up.
+     - parameter password: The password the person signing up.
+     - parameter firstName: The first name of the person signing up.
+     - parameter lastName: The last name of the person signing up.
     */
     @MainActor
     func signup(_ type: UserType,
@@ -115,7 +186,6 @@ class LoginViewModel: ObservableObject {
                 password: String,
                 firstName: String,
                 lastName: String) async {
-
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -127,11 +197,10 @@ class LoginViewModel: ObservableObject {
             newUser.password = password
             let user = try await newUser.signup()
             Logger.login.info("Parse signup successful: \(user)")
-            let patient = try await ProfileViewModel.savePatientAfterSignUp(type,
-                                                                            first: firstName,
-                                                                            last: lastName)
+            let patient = try await savePatientAfterSignUp(type,
+                                                           firstName: firstName,
+                                                           lastName: lastName)
             try? await finishCompletingSignIn(patient)
-
         } catch {
             guard let parseError = error as? ParseError else {
                 return
@@ -151,13 +220,13 @@ class LoginViewModel: ObservableObject {
     /**
      Logs in the user *asynchronously*.
 
-     This will also enforce that the username is not already taken.
-
-     - parameter username: The username the user is logging in with.
-     - parameter password: The password the user is logging in with.
+     The user must have already signed up.
+     - parameter username: The username the person logging in.
+     - parameter password: The password the person logging in.
     */
     @MainActor
-    func login(username: String, password: String) async {
+    func login(username: String,
+               password: String) async {
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -165,9 +234,8 @@ class LoginViewModel: ObservableObject {
             }
             let user = try await User.login(username: username, password: password)
             Logger.login.info("Parse login successful: \(user, privacy: .private)")
-
             do {
-                try await ProfileViewModel.setupRemoteAfterLoginButtonTapped()
+                try setupRemoteAfterLoginButtonTapped()
                 try? await finishCompletingSignIn()
             } catch {
                 // swiftlint:disable:next line_length
@@ -198,11 +266,10 @@ class LoginViewModel: ObservableObject {
             let user = try await User.anonymous.login()
             Logger.login.info("Parse login anonymous successful: \(user)")
             // Only allow annonymous users to be patients.
-            let patient = try await ProfileViewModel.savePatientAfterSignUp(.patient,
-                                                                            first: "Anonymous",
-                                                                            last: "Login")
+            let patient = try await savePatientAfterSignUp(.patient,
+                                                           firstName: "Anonymous",
+                                                           lastName: "Login")
             try? await finishCompletingSignIn(patient)
-
         } catch {
             // swiftlint:disable:next line_length
             Logger.login.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
@@ -214,20 +281,20 @@ class LoginViewModel: ObservableObject {
         }
     }
 
-    // You may not have seen "throws" before, but it's simple,
-    // this throws an error if one occurs, if not it behaves as normal
-    // Normally, you've seen do {} catch{} which catches the error, same concept...
+    /**
+     Logs out the currently logged in person *asynchronously*.
+    */
     @MainActor
     func logout() async {
+        // You may not have seen "throws" before, but it's simple,
+        // this throws an error if one occurs, if not it behaves as normal
+        // Normally, you've seen do {} catch{} which catches the error, same concept...
         do {
             try await User.logout()
         } catch {
-            Logger.profile.error("Error logging out: \(error.localizedDescription)")
+            Logger.login.error("Error logging out: \(error.localizedDescription)")
         }
-        UserDefaults.standard.removeObject(forKey: Constants.parseRemoteClockIDKey)
-        UserDefaults.standard.synchronize()
-
         AppDelegateKey.defaultValue?.resetAppToInitialState()
-        isLoggedOut = true
+        checkStatus()
     }
 }

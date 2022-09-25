@@ -40,8 +40,8 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 
         // If the user is not logged in, log them in
         if User.current != nil {
-            // swiftlint:disable:next line_length
-            self.setupRemotes(uuid: UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String) // Setup for getting info
+            // Setup for getting info
+            self.setupRemotes(uuid: try? Utility.getRemoteClockUUID().uuidString)
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
             Logger.appDelegate.info("User is already signed in...")
             store.synchronize { error in
