@@ -150,7 +150,7 @@ class LoginViewModel: ObservableObject {
             }
             var newUser = User()
             // Set any properties you want saved on the user befor logging in.
-            newUser.username = username
+            newUser.username = username.lowercased()
             newUser.password = password
             let user = try await newUser.signup()
             Logger.login.info("Parse signup successful: \(user)")
@@ -189,7 +189,7 @@ class LoginViewModel: ObservableObject {
                 Logger.login.error("Server health is not \"ok\"")
                 return
             }
-            let user = try await User.login(username: username, password: password)
+            let user = try await User.login(username: username.lowercased(), password: password)
             Logger.login.info("Parse login successful: \(user, privacy: .private)")
             do {
                 try Utility.setupRemoteAfterLogin()

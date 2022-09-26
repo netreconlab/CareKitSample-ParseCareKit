@@ -10,7 +10,6 @@ import Foundation
 import SwiftUI
 
 struct CustomStylerKey: EnvironmentKey {
-
     static var defaultValue: Styler {
         Styler()
     }
