@@ -90,8 +90,8 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                                  remote: phoneRemote)
                 phoneRemote.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: phoneRemote, store: store)
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
                 WCSession.default.delegate = sessionDelegate
+                storeManager = OCKSynchronizedStoreManager(wrapping: store)
             }
             WCSession.default.activate()
         } catch {

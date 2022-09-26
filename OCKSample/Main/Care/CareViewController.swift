@@ -101,10 +101,12 @@ class CareViewController: OCKDailyPageViewController {
         AppDelegateKey.defaultValue?.store?.synchronize { error in
             let errorString = error?.localizedDescription ?? "Successful sync with remote!"
             Logger.feed.info("\(errorString)")
-            if error != nil {
-                self.navigationItem.rightBarButtonItem?.tintColor = .red
-            }
             DispatchQueue.main.async {
+                if error != nil {
+                    self.navigationItem.rightBarButtonItem?.tintColor = .red
+                } else {
+                    self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
+                }
                 self.isSyncing = false
             }
         }

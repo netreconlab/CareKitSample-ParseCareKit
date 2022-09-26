@@ -16,7 +16,7 @@ import ParseSwift
  */
 let isSyncingWithCloud = true
 /**
- **true** to use WCSession to notify watchOS about updates, **false** to not notify.
+ Set to **true** to use WCSession to notify watchOS about updates, **false** to not notify.
  A change in watchOS 9 removes the ability to use Websockets on real Apple Watches,
  preventing auto updates from the Parse Server. See the link for
  details: https://developer.apple.com/forums/thread/715024
