@@ -12,7 +12,7 @@ import CareKitStore
 import ParseSwift
 
 /**
- **true** to sync with ParseServer, *false** to sync with iOS/watchOS.
+ Set to **true** to sync with ParseServer, *false** to sync with iOS/watchOS.
  */
 let isSyncingWithCloud = true
 /**
