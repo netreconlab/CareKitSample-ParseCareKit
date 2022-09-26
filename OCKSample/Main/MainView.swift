@@ -9,18 +9,10 @@ import SwiftUI
 import CareKit
 import CareKitStore
 import CareKitUI
-import UIKit
 
 struct MainView: View {
-
-    @Environment(\.presentationMode) var presentationMode
-    @Environment(\.storeManager) private var storeManager
-    @Environment(\.tintColor) private var tintColor
-    @Environment(\.careKitStyle) private var style
-    @StateObject private var loginViewModel = LoginViewModel()
-    @StateObject private var profileViewModel = ProfileViewModel()
-    @StateObject private var userStatus = UserStatus()
-    @State private var path = [MainViewPath]()
+    @StateObject var loginViewModel = LoginViewModel()
+    @State var path = [MainViewPath]()
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -30,28 +22,34 @@ struct MainView: View {
                 case .login:
                     LoginView(viewModel: loginViewModel)
                 case .tab:
-                    MainTabView(loginViewModel: loginViewModel,
-                                profileViewModel: profileViewModel)
+                    if isSyncingWithCloud {
+                        MainTabView(loginViewModel: loginViewModel)
+                    } else {
+                        CareView()
+                            .navigationBarTitle("")
+                            .navigationBarHidden(true)
+                    }
                 }
             }
             .onAppear {
-                path.append(.login)
-                if !userStatus.isLoggedOut {
-                    path.append(.tab)
-                } else if userStatus.isLoggedOut {
-                    path = [.login]
+                guard isSyncingWithCloud else {
+                    path = [.tab]
+                    return
                 }
+                guard !loginViewModel.isLoggedOut else {
+                    path = [.login]
+                    return
+                }
+                path = [.login, .tab]
             }
         }
         .statusBar(hidden: true)
-        .accentColor(Color(tintColor))
-        .careKitStyle(Styler())
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
-            if !isLoggedOut {
-                path.append(.tab)
-            } else {
+            guard !isLoggedOut else {
                 path = [.login]
+                return
             }
+            path = [.login, .tab]
         })
     }
 }

@@ -13,16 +13,13 @@ import CareKit
 import os.log
 
 struct ProfileView: View {
-
-    @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var viewModel: ProfileViewModel
+    @StateObject var viewModel = ProfileViewModel()
     @ObservedObject var loginViewModel: LoginViewModel
     @State var firstName = ""
     @State var lastName = ""
-    @State var birthday = Calendar.current.date(byAdding: .year, value: -20, to: Date())!
+    @State var birthday = Date()
 
     var body: some View {
-
         VStack {
             VStack(alignment: .leading) {
                 TextField("First Name", text: $firstName)
@@ -95,9 +92,6 @@ struct ProfileView: View {
             if let currentBirthday = patient?.birthday {
                 birthday = currentBirthday
             }
-        })
-        .onAppear(perform: {
-            viewModel.refreshViewIfNeeded()
         })
     }
 }

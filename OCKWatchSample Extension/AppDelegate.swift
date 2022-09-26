@@ -15,12 +15,7 @@ import WatchConnectivity
 import os.log
 
 class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
-
-    let isSyncingWithCloud = true // True to sync with ParseServer, False to Sync with iOS Phone
-    private var parseRemote: ParseRemote!
-    private var sessionDelegate: SessionDelegate!
-    private lazy var phone = OCKWatchConnectivityPeer()
-    private(set) var store: OCKStore!
+    // MARK: Public read private write properties
     @Published private(set) var storeManager: OCKSynchronizedStoreManager! {
         willSet {
             StoreManagerKey.defaultValue = newValue
@@ -30,6 +25,12 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             }
         }
     }
+    private(set) var store: OCKStore!
+    private(set) var parseRemote: ParseRemote!
+
+    // MARK: Private read/write properties
+    private var sessionDelegate: SessionDelegate!
+    private lazy var phoneRemote = OCKWatchConnectivityPeer()
 
     func applicationDidFinishLaunching() {
         // Parse-server setup
@@ -37,18 +38,24 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             completionHandler(.performDefaultHandling, nil)
         }
 
-        // If the user is not logged in, log them in
         if User.current != nil {
-            // swiftlint:disable:next line_length
-            self.setupRemotes(uuid: UserDefaults.standard.object(forKey: Constants.parseRemoteClockIDKey) as? String) // Setup for getting info
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-            Logger.appDelegate.info("User is already signed in...")
-            store.synchronize { error in
-                let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                Logger.appDelegate.info("\(errorString)")
+            do {
+                let uuid = try Utility.getRemoteClockUUID()
+                self.setupRemotes(uuid: uuid)
+                parseRemote.automaticallySynchronizes = true
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
+                Logger.appDelegate.info("User is already signed in...")
+                store.synchronize { error in
+                    let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+                    Logger.appDelegate.info("\(errorString)")
+                }
+            } catch {
+                Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+                setupRemotes(uuid: nil)
             }
         } else {
-            setupRemotes(uuid: nil) // Setup for getting info
+            Logger.appDelegate.info("User is not logged in...")
+            setupRemotes(uuid: nil)
         }
     }
 
@@ -58,39 +65,38 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
         }
     }
 
-    func setupRemotes(uuid: String? = nil) {
+    func setupRemotes(uuid: UUID? = nil) {
         do {
             if isSyncingWithCloud {
                 if sessionDelegate == nil {
-                    sessionDelegate = RemoteSessionDelegate(store: nil)
+                    sessionDelegate = RemoteSessionDelegate(store: store)
                     WCSession.default.delegate = sessionDelegate
                 }
-                guard let uuid = uuid,
-                      let remoteUUID = UUID(uuidString: uuid) else {
-                          Logger.appDelegate.error("Could not get remote clock UUID from User defaults")
-                          WCSession.default.activate()
-                          return
+                guard let uuid = uuid else {
+                    Logger.appDelegate.error("Could not get remote clock UUID")
+                    WCSession.default.activate()
+                    return
                 }
-                parseRemote = try ParseRemote(uuid: remoteUUID, auto: true, subscribeToServerUpdates: true)
+                parseRemote = try ParseRemote(uuid: uuid,
+                                              auto: false,
+                                              subscribeToServerUpdates: true)
                 store = OCKStore(name: Constants.watchOSParseCareStoreName,
                                  remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
-
             } else {
                 store = OCKStore(name: Constants.watchOSLocalCareStoreName,
-                                 remote: phone)
-                phone.delegate = self
-                sessionDelegate = LocalSessionDelegate(remote: phone, store: store)
+                                 remote: phoneRemote)
+                phoneRemote.delegate = self
+                sessionDelegate = LocalSessionDelegate(remote: phoneRemote, store: store)
+                WCSession.default.delegate = sessionDelegate
                 storeManager = OCKSynchronizedStoreManager(wrapping: store)
             }
             WCSession.default.activate()
-
         } catch {
             Logger.appDelegate.error("Error setting up remote: \(error.localizedDescription)")
         }
-
     }
 
     func applicationDidBecomeActive() {

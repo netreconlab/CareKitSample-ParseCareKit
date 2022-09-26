@@ -34,7 +34,6 @@ class LocalSessionDelegate: NSObject, SessionDelegate {
                  activationDidCompleteWith activationState: WCSessionActivationState,
                  error: Error?) {
         Logger.localSessionDelegate.info("New session state: \(activationState.rawValue)")
-
         if activationState == .activated {
             #if os(watchOS)
             store?.synchronize { error in
@@ -50,27 +49,28 @@ class LocalSessionDelegate: NSObject, SessionDelegate {
     func session(_ session: WCSession,
                  didReceiveMessage message: [String: Any],
                  replyHandler: @escaping ([String: Any]) -> Void) {
-
         #if os(watchOS)
         Logger.localSessionDelegate.info("Received message from iPhone")
         guard let store = store else {
             return
         }
-
         remote.reply(to: message, store: store) { reply in
-            replyHandler(reply)
+            DispatchQueue.main.async {
+                replyHandler(reply)
+            }
         }
         #else
         if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
             Logger.localSessionDelegate.info("Received message from Apple Watch requesting ParseUser, sending now")
-
+            // Prepare data for watchOS
+            let returnMessage = Utility.getUserSessionForWatch()
             DispatchQueue.main.async {
-                // Prepare data for watchOS
-                let returnMessage = Utility.getUserSessionForWatch()
                 replyHandler(returnMessage)
             }
         } else {
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+            }
         }
         #endif
     }

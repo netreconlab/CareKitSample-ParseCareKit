@@ -54,6 +54,10 @@ class CareViewController: OCKDailyPageViewController {
                                                selector: #selector(updateSynchronizationProgress(_:)),
                                                name: Notification.Name(rawValue: Constants.progressUpdate),
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadView(_:)),
+                                               name: Notification.Name(rawValue: Constants.finishedAskingForPermission),
+                                               object: nil)
     }
 
     @objc private func updateSynchronizationProgress(_ notification: Notification) {
@@ -94,28 +98,21 @@ class CareViewController: OCKDailyPageViewController {
             return
         }
         isSyncing = true
-        DispatchQueue.main.async {
-            AppDelegateKey.defaultValue?.store?.synchronize { error in
-                DispatchQueue.main.async {
-                    let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                    Logger.feed.info("\(errorString)")
-                    if error != nil {
-                        self.navigationItem.rightBarButtonItem?.tintColor = .red
-                    } else {
-                        guard let appDelegate = AppDelegateKey.defaultValue,
-                              appDelegate.isFirstAppOpen else {
-                            self.isSyncing = false
-                            return
-                        }
-                        self.reloadView()
-                    }
-                    self.isSyncing = false
+        AppDelegateKey.defaultValue?.store?.synchronize { error in
+            let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+            Logger.feed.info("\(errorString)")
+            DispatchQueue.main.async {
+                if error != nil {
+                    self.navigationItem.rightBarButtonItem?.tintColor = .red
+                } else {
+                    self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
                 }
+                self.isSyncing = false
             }
         }
     }
 
-    private func reloadView() {
+    @objc private func reloadView(_ notification: Notification? = nil) {
         guard !isLoading else {
             return
         }

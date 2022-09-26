@@ -8,17 +8,20 @@
 
 import Foundation
 import SwiftUI
+import CareKit
 
 @main
 struct OCKSampleApp: App {
-    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
-    @Environment(\.tintColor) private var tintColor
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.tintColor) var tintColor
+    @Environment(\.careKitStyle) var style
 
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environment(\.appDelegate, appDelegate)
                 .accentColor(Color(tintColor))
+                .careKitStyle(Styler())
         }
     }
 }

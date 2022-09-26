@@ -14,13 +14,14 @@ import WatchConnectivity
 import os.log
 
 class CareViewModel: ObservableObject {
-    @Published var update = false
-    @Published var storeManager = OCKSynchronizedStoreManager(wrapping: OCKStore(name: Constants.noCareStoreName,
-                                                                                 type: .inMemory)) {
+    // MARK: Public read, private write properties
+    @Published private(set) var storeManager: OCKSynchronizedStoreManager {
         didSet {
             synchronizeStore()
         }
     }
+
+    // MARK: Private read/private write properties
     private var cancellables: Set<AnyCancellable> = []
 
     init() {
@@ -28,40 +29,20 @@ class CareViewModel: ObservableObject {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadViewModel),
                                                name: Notification.Name(rawValue: Constants.storeInitialized),
                                                object: nil)
+        synchronizeStore()
     }
 
-    // MARK: Helpers
-
-    private func observeTask(_ task: OCKTask) {
-
-        storeManager.publisher(forEventsBelongingToTask: task,
-                               categories: [OCKStoreNotificationCategory.add,
-                                            OCKStoreNotificationCategory.update,
-                                            OCKStoreNotificationCategory.delete])
-            .sink { [weak self] in
-                guard self != nil else { return }
-                Logger.feed.info("Task updated: \($0, privacy: .private)")
-            }
-            .store(in: &cancellables)
-    }
-
-    private func clearSubscriptions() {
-        cancellables = []
-    }
-
+    // MARK: Helpers (private)
     @MainActor
     @objc private func reloadViewModel() {
         let updatedStoreManager = StoreManagerKey.defaultValue
         guard storeManager !== updatedStoreManager else {
             return
         }
-        clearSubscriptions()
         storeManager = updatedStoreManager
     }
 
-    // MARK: Intents
-
-    func synchronizeStore() {
+    private func synchronizeStore() {
         guard let store = storeManager.store as? OCKStore else {
             return
         }

@@ -37,12 +37,7 @@ import UIKit
 import WatchConnectivity
 
 class AppDelegate: UIResponder, ObservableObject {
-
-    // MARK: Public read/write properties
-    @Published var isFirstAppOpen = true
-
     // MARK: Public read private write properties
-    let isSyncingWithCloud = true // True to sync with ParseServer, False to Sync with iOS Watch
     // swiftlint:disable:next line_length
     @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName,
                                                                                                      type: .inMemory)) {
@@ -59,7 +54,7 @@ class AppDelegate: UIResponder, ObservableObject {
 
     // MARK: Private read/write properties
     private var sessionDelegate: SessionDelegate!
-    private lazy var watch = OCKWatchConnectivityPeer()
+    private lazy var watchRemote = OCKWatchConnectivityPeer()
 
     // MARK: Helpers
     func resetAppToInitialState() {
@@ -73,11 +68,11 @@ class AppDelegate: UIResponder, ObservableObject {
         } catch {
             Logger.appDelegate.error("Error deleting OCKStore: \(error.localizedDescription)")
         }
-        isFirstAppOpen = true
         storeManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName, type: .inMemory))
         healthKitStore = nil
         parseRemote = nil
         store = nil
+        sessionDelegate.store = store
     }
 
     func setupRemotes(uuid: UUID? = nil) {
@@ -99,9 +94,9 @@ class AppDelegate: UIResponder, ObservableObject {
             } else {
                 store = OCKStore(name: Constants.iOSLocalCareStoreName,
                                  type: .onDisk(),
-                                 remote: watch)
-                watch.delegate = self
-                sessionDelegate = LocalSessionDelegate(remote: watch, store: store)
+                                 remote: watchRemote)
+                watchRemote.delegate = self
+                sessionDelegate = LocalSessionDelegate(remote: watchRemote, store: store)
             }
 
             // Setup communication with watch

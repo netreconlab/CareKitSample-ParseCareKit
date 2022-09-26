@@ -86,10 +86,9 @@ class RemoteSessionDelegate: NSObject, SessionDelegate {
         #if os(iOS)
         if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
             Logger.remoteSessionDelegate.info("Received message from Apple Watch requesting ParseUser, sending now")
-
+            // Prepare data for watchOS
+            let returnMessage = Utility.getUserSessionForWatch()
             DispatchQueue.main.async {
-                // Prepare data for watchOS
-                let returnMessage = Utility.getUserSessionForWatch()
                 replyHandler(returnMessage)
             }
         }
