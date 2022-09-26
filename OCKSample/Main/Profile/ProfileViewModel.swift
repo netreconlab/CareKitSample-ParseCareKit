@@ -46,6 +46,7 @@ class ProfileViewModel: ObservableObject {
     @MainActor
     private func findAndObserveCurrentProfile() async {
         guard let uuid = try? Utility.getRemoteClockUUID() else {
+            Logger.profile.error("Could not get remote uuid for this user.")
             return
         }
         clearSubscriptions()

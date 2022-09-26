@@ -121,14 +121,16 @@ class CareViewController: OCKDailyPageViewController {
         guard !isLoading else {
             return
         }
-        isLoading = true
         DispatchQueue.main.async {
+            self.isLoading = true
             self.reload()
         }
     }
 
-    // This will be called each time the selected date changes.
-    // Use this as an opportunity to rebuild the content shown to the user.
+    /*
+     This will be called each time the selected date changes.
+     Use this as an opportunity to rebuild the content shown to the user.
+     */
     override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
                                           prepare listViewController: OCKListViewController, for date: Date) {
         let isCurrentDay = Calendar.current.isDate(date, inSameDayAs: Date())
@@ -187,8 +189,10 @@ class CareViewController: OCKDailyPageViewController {
                                                      storeManager: self.storeManager)]
 
         case TaskID.kegels:
-            // Since the kegel task is only scheduled every other day, there will be cases
-            // where it is not contained in the tasks array returned from the query.
+            /*
+             Since the kegel task is only scheduled every other day, there will be cases
+             where it is not contained in the tasks array returned from the query.
+             */
             return [OCKSimpleTaskViewController(task: task,
                                                eventQuery: .init(for: date),
                                                storeManager: self.storeManager)]
@@ -239,9 +243,11 @@ class CareViewController: OCKDailyPageViewController {
             insightsCard.chartView.headerView.accessibilityLabel = "Nausea & Doxylamine Intake, This Week"
             cards.append(insightsCard)
 
-            // Also create a card that displays a single event.
-            // The event query passed into the initializer specifies that only
-            // today's log entries should be displayed by this log task view controller.
+            /*
+             Also create a card that displays a single event.
+             The event query passed into the initializer specifies that only
+             today's log entries should be displayed by this log task view controller.
+             */
             let nauseaCard = OCKButtonLogTaskViewController(task: task,
                                                             eventQuery: .init(for: date),
                                                             storeManager: self.storeManager)

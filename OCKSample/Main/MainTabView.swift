@@ -16,7 +16,6 @@ struct MainTabView: View {
 
     var body: some View {
         TabView(selection: $selectedTab) {
-
             CareView()
                 .tabItem {
                     if selectedTab == 0 {
