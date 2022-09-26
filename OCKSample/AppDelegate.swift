@@ -37,6 +37,9 @@ import UIKit
 import WatchConnectivity
 
 class AppDelegate: UIResponder, ObservableObject {
+    // MARK: Public read/write properties
+    var isFirstTimeLogin = false
+
     // MARK: Public read private write properties
     // swiftlint:disable:next line_length
     @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName,

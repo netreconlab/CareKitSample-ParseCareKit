@@ -18,6 +18,11 @@ extension AppDelegate: ParseRemoteDelegate {
     }
 
     func successfullyPushedDataToCloud() {
+        if isFirstTimeLogin {
+            // swiftlint:disable:next line_length
+            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.completedFirstSyncAfterLogin)))
+            isFirstTimeLogin.toggle()
+        }
         #if !targetEnvironment(simulator)
         // watchOS 9 needs to be sent messages for updates on real devices
         let message = Utility.prepareSyncMessageForWatch()

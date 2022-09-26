@@ -191,9 +191,10 @@ class LoginViewModel: ObservableObject {
             }
             let user = try await User.login(username: username.lowercased(), password: password)
             Logger.login.info("Parse login successful: \(user, privacy: .private)")
+            AppDelegateKey.defaultValue?.isFirstTimeLogin = true
             do {
                 try Utility.setupRemoteAfterLogin()
-                try? await finishCompletingSignIn()
+                try await finishCompletingSignIn()
             } catch {
                 // swiftlint:disable:next line_length
                 Logger.login.error("Error saving the patient after signup: \(error.localizedDescription, privacy: .public)")
