@@ -27,6 +27,7 @@ struct ContactView: UIViewControllerRepresentable {
 struct ContactView_Previews: PreviewProvider {
 
     static var previews: some View {
-        ContactView()
+        ContactView(storeManager: Utility.createPreviewStoreManager())
+            .accentColor(Color(TintColorKey.defaultValue))
     }
 }

@@ -22,8 +22,8 @@ class ProfileViewModel: ObservableObject {
     // MARK: Private read/write properties
     private var cancellables: Set<AnyCancellable> = []
 
-    init() {
-        storeManager = StoreManagerKey.defaultValue
+    init(storeManager: OCKSynchronizedStoreManager? = nil) {
+        self.storeManager = storeManager ?? StoreManagerKey.defaultValue
         reloadViewModel()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reloadViewModel(_:)),

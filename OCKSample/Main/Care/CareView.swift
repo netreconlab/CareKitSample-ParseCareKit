@@ -18,11 +18,9 @@ struct CareView: UIViewControllerRepresentable {
     @State var storeManager = StoreManagerKey.defaultValue
 
     func makeUIViewController(context: Context) -> some UIViewController {
-
         let viewController = CareViewController(storeManager: storeManager)
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.navigationBar.backgroundColor = UIColor { $0.userInterfaceStyle == .light ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1): #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1) }
-
         return navigationController
     }
 
@@ -32,7 +30,7 @@ struct CareView: UIViewControllerRepresentable {
 
 struct CareView_Previews: PreviewProvider {
     static var previews: some View {
-        CareView()
+        CareView(storeManager: Utility.createPreviewStoreManager())
             .accentColor(Color(TintColorKey.defaultValue))
     }
 }
