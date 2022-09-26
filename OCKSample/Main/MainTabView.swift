@@ -28,8 +28,6 @@ struct MainTabView: View {
                     }
                 }
                 .tag(0)
-                .navigationBarTitle("")
-                .navigationBarHidden(true)
 
             ContactView()
                 .tabItem {
@@ -42,8 +40,6 @@ struct MainTabView: View {
                     }
                 }
                 .tag(1)
-                .navigationBarTitle("")
-                .navigationBarHidden(true)
 
             ProfileView(loginViewModel: loginViewModel)
                 .tabItem {
@@ -56,14 +52,14 @@ struct MainTabView: View {
                     }
                 }
                 .tag(2)
-                .navigationBarTitle("")
-                .navigationBarHidden(true)
         }
+        .navigationBarHidden(true)
     }
 }
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         MainTabView(loginViewModel: .init())
+            .accentColor(Color(TintColorKey.defaultValue))
     }
 }

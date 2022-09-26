@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CareKit
+import CareKitStore
 import ParseSwift
 import os.log
 
@@ -100,6 +102,24 @@ class Utility {
                 """)
             }
         }
+    }
+
+    class func createPreviewStoreManager() -> OCKSynchronizedStoreManager {
+        let store = OCKStore(name: Constants.noCareStoreName, type: .inMemory)
+        let patientId = "preview"
+        Task {
+            do {
+                // If patient exists, assume store is already populated
+                _ = try await store.fetchPatient(withID: patientId)
+            } catch {
+                let patient = OCKPatient(id: patientId,
+                                         givenName: "Preview",
+                                         familyName: "Patient")
+                _ = try? await store.addPatient(patient)
+                try? await store.populateSampleData()
+            }
+        }
+        return .init(wrapping: store)
     }
 
     #if os(iOS)

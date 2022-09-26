@@ -12,7 +12,7 @@ struct LoginView: View {
     @ObservedObject var viewModel: LoginViewModel
 
     var body: some View {
-        Text("Please open the OCKSample app on your iPhone and login")
+        Text("Please open the OCKSample app on your iPhone")
             .multilineTextAlignment(.center)
             .padding()
         Image(systemName: "apps.iphone")
@@ -24,5 +24,6 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView(viewModel: .init())
+            .accentColor(Color(TintColorKey.defaultValue))
     }
 }

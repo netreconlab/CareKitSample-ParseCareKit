@@ -10,24 +10,43 @@ import SwiftUI
 
 struct MainView: View {
     @StateObject var loginViewModel = LoginViewModel()
+    @State var path = [MainViewPath]()
 
     var body: some View {
-        ScrollView {
-            if isSyncingWithCloud {
-                if !loginViewModel.isLoggedOut {
-                    CareView()
-                } else {
-                    LoginView(viewModel: loginViewModel)
+        NavigationStack(path: $path) {
+            LoginView(viewModel: loginViewModel)
+                .navigationDestination(for: MainViewPath.self) { destination in
+                    switch destination {
+                    case .tabs:
+                        CareView()
+                    }
                 }
-            } else {
-                CareView()
-            }
+                .navigationBarHidden(true)
+                .onAppear {
+                    guard isSyncingWithCloud else {
+                        path = [.tabs]
+                        return
+                    }
+                    guard !loginViewModel.isLoggedOut else {
+                        path = []
+                        return
+                    }
+                    path = [.tabs]
+                }
         }
+        .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
+            guard !isLoggedOut else {
+                path = []
+                return
+            }
+            path = [.tabs]
+        })
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+            .accentColor(Color(TintColorKey.defaultValue))
     }
 }

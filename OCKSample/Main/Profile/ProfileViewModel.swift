@@ -22,9 +22,14 @@ class ProfileViewModel: ObservableObject {
     // MARK: Private read/write properties
     private var cancellables: Set<AnyCancellable> = []
 
-    init() {
-        storeManager = StoreManagerKey.defaultValue
+    init(storeManager: OCKSynchronizedStoreManager? = nil) {
+        self.storeManager = storeManager ?? StoreManagerKey.defaultValue
         reloadViewModel()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadViewModel(_:)),
+                                               // swiftlint:disable:next line_length
+                                               name: Notification.Name(rawValue: Constants.completedFirstSyncAfterLogin),
+                                               object: nil)
     }
 
     // MARK: Helpers (private)
@@ -32,7 +37,7 @@ class ProfileViewModel: ObservableObject {
         cancellables = []
     }
 
-    private func reloadViewModel() {
+    @objc private func reloadViewModel(_ notification: Notification? = nil) {
         Task {
             _ = await findAndObserveCurrentProfile()
         }

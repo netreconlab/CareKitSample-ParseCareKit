@@ -13,18 +13,21 @@ import CareKitStore
 import os.log
 
 struct ContactView: UIViewControllerRepresentable {
+    @State var storeManager = StoreManagerKey.defaultValue
 
     func makeUIViewController(context: Context) -> some UIViewController {
-        let viewController = OCKContactsListViewController(storeManager: StoreManagerKey.defaultValue)
+        let viewController = OCKContactsListViewController(storeManager: storeManager)
         return UINavigationController(rootViewController: viewController)
     }
 
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+    func updateUIViewController(_ uiViewController: UIViewControllerType,
+                                context: Context) {}
 }
 
 struct ContactView_Previews: PreviewProvider {
 
     static var previews: some View {
-        ContactView()
+        ContactView(storeManager: Utility.createPreviewStoreManager())
+            .accentColor(Color(TintColorKey.defaultValue))
     }
 }
