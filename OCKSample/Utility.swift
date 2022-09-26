@@ -104,17 +104,15 @@ class Utility {
 
     #if os(iOS)
     class func requestHealthKitPermissions() {
-        DispatchQueue.main.async {
-            AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
-                guard let error = error else {
-                    DispatchQueue.main.async {
-                        // swiftlint:disable:next line_length
-                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.finishedAskingForPermission)))
-                    }
-                    return
+        AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+            guard let error = error else {
+                DispatchQueue.main.async {
+                    // swiftlint:disable:next line_length
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.finishedAskingForPermission)))
                 }
-                Logger.login.error("Error requesting HealthKit permissions: \(error.localizedDescription)")
+                return
             }
+            Logger.login.error("Error requesting HealthKit permissions: \(error.localizedDescription)")
         }
     }
     #endif
