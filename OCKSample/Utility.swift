@@ -32,6 +32,32 @@ class Utility {
         return remoteClockUUID
     }
 
+    class func setDefaultACL() throws {
+        var defaultACL = ParseACL()
+        defaultACL.publicRead = false
+        defaultACL.publicWrite = false
+        _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+    }
+
+    @MainActor
+    class func setupRemoteAfterLogin() throws {
+        let remoteUUID = try Utility.getRemoteClockUUID()
+        do {
+            try setDefaultACL()
+        } catch {
+            Logger.login.error("Could not set defaultACL: \(error.localizedDescription)")
+        }
+
+        guard let appDelegate = AppDelegateKey.defaultValue else {
+            return
+        }
+        appDelegate.setupRemotes(uuid: remoteUUID)
+        appDelegate.parseRemote.automaticallySynchronizes = true
+
+        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+        return
+    }
+
     class func updateInstallationWithDeviceToken(_ deviceToken: Data? = nil) async {
         guard let keychainInstallation = Installation.current else {
             Logger.utility.debug("""
@@ -75,4 +101,21 @@ class Utility {
             }
         }
     }
+
+    #if os(iOS)
+    class func requestHealthKitPermissions() {
+        DispatchQueue.main.async {
+            AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+                guard let error = error else {
+                    DispatchQueue.main.async {
+                        // swiftlint:disable:next line_length
+                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.finishedAskingForPermission)))
+                    }
+                    return
+                }
+                Logger.login.error("Error requesting HealthKit permissions: \(error.localizedDescription)")
+            }
+        }
+    }
+    #endif
 }

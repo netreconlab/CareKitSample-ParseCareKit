@@ -98,23 +98,14 @@ class CareViewController: OCKDailyPageViewController {
             return
         }
         isSyncing = true
-        DispatchQueue.main.async {
-            AppDelegateKey.defaultValue?.store?.synchronize { error in
-                DispatchQueue.main.async {
-                    let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                    Logger.feed.info("\(errorString)")
-                    if error != nil {
-                        self.navigationItem.rightBarButtonItem?.tintColor = .red
-                    } else {
-                        guard let appDelegate = AppDelegateKey.defaultValue,
-                              appDelegate.isFirstAppOpen else {
-                            self.isSyncing = false
-                            return
-                        }
-                        self.reloadView()
-                    }
-                    self.isSyncing = false
-                }
+        AppDelegateKey.defaultValue?.store?.synchronize { error in
+            let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+            Logger.feed.info("\(errorString)")
+            if error != nil {
+                self.navigationItem.rightBarButtonItem?.tintColor = .red
+            }
+            DispatchQueue.main.async {
+                self.isSyncing = false
             }
         }
     }

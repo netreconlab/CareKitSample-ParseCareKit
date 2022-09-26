@@ -15,10 +15,11 @@ import os.log
 import Combine
 
 class ProfileViewModel: ObservableObject {
-
-    @Published var patient: OCKPatient?
-    @Published public internal(set) var error: Error?
+    // MARK: Public read, private write properties
+    @Published private(set) var patient: OCKPatient?
     private(set) var storeManager: OCKSynchronizedStoreManager
+
+    // MARK: Private read/write properties
     private var cancellables: Set<AnyCancellable> = []
 
     init() {
@@ -26,16 +27,14 @@ class ProfileViewModel: ObservableObject {
         reloadViewModel()
     }
 
-    // MARK: Helpers
+    // MARK: Helpers (private)
+    private func clearSubscriptions() {
+        cancellables = []
+    }
+
     private func reloadViewModel() {
         Task {
             _ = await findAndObserveCurrentProfile()
-        }
-    }
-
-    func refreshViewIfNeeded() {
-        if cancellables.count == 0 {
-            reloadViewModel()
         }
     }
 
@@ -76,17 +75,12 @@ class ProfileViewModel: ObservableObject {
             .store(in: &cancellables)
     }
 
-    private func clearSubscriptions() {
-        cancellables = []
-    }
-
-    // MARK: User intentions
+    // MARK: User intentional behavior
     @MainActor
     func saveProfile(_ first: String, last: String, birth: Date) async throws {
 
         if var patientToUpdate = patient {
             // If there is a currentPatient that was fetched, check to see if any of the fields changed
-
             var patientHasBeenUpdated = false
 
             if patient?.name.givenName != first {

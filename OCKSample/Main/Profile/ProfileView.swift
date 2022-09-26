@@ -93,9 +93,6 @@ struct ProfileView: View {
                 birthday = currentBirthday
             }
         })
-        .onAppear(perform: {
-            viewModel.refreshViewIfNeeded()
-        })
     }
 }
 

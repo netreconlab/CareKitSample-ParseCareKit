@@ -35,7 +35,8 @@ extension AppDelegate: UIApplicationDelegate {
                         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
                     }
                 } catch {
-                    Logger.appDelegate.info("No uuid available: \(error)")
+                    Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+                    setupRemotes()
                 }
             }
         } else {
@@ -45,13 +46,9 @@ extension AppDelegate: UIApplicationDelegate {
                 do {
                     try await store?.populateSampleData()
                     try await healthKitStore.populateSampleData()
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        self.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
-
-                            if error != nil {
-                                Logger.appDelegate.error("\(error!.localizedDescription)")
-                            }
-                        }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+                        Utility.requestHealthKitPermissions()
                     }
                 } catch {
                     Logger.appDelegate.error("""

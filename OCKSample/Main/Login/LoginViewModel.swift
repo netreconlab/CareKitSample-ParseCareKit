@@ -32,9 +32,6 @@ class LoginViewModel: ObservableObject {
     }
     @Published private(set) var loginError: ParseError?
 
-    // MARK: Private read/write properties
-    private var profileViewModel = ProfileViewModel()
-
     init() {
         checkStatus()
     }
@@ -81,54 +78,16 @@ class LoginViewModel: ObservableObject {
             }
         }
 
-        profileViewModel.refreshViewIfNeeded()
-
         // Notify the SwiftUI view that the user is correctly logged in and to transition screens
         checkStatus()
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-            AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
-                guard let error = error else {
-                    DispatchQueue.main.async {
-                        // swiftlint:disable:next line_length
-                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.finishedAskingForPermission)))
-                    }
-                    return
-                }
-                Logger.login.error("Error requesting HealthKit permissions: \(error.localizedDescription)")
-            }
+            Utility.requestHealthKitPermissions()
         }
 
         // Setup installation to receive push notifications
         await Utility.updateInstallationWithDeviceToken()
-    }
-
-    // MARK: Helpers (private) - instance methods
-    private func setDefaultACL() throws {
-        var defaultACL = ParseACL()
-        defaultACL.publicRead = false
-        defaultACL.publicWrite = false
-        _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
-    }
-
-    @MainActor
-    private func setupRemoteAfterLoginButtonTapped() throws {
-        let remoteUUID = try Utility.getRemoteClockUUID()
-        do {
-            try setDefaultACL()
-        } catch {
-            Logger.login.error("Could not set defaultACL: \(error.localizedDescription)")
-        }
-
-        guard let appDelegate = AppDelegateKey.defaultValue else {
-            return
-        }
-        appDelegate.setupRemotes(uuid: remoteUUID)
-        appDelegate.parseRemote.automaticallySynchronizes = true
-
-        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-        return
     }
 
     @MainActor
@@ -137,7 +96,7 @@ class LoginViewModel: ObservableObject {
                                         lastName: String) async throws -> OCKPatient {
         let remoteUUID = UUID()
         do {
-            try setDefaultACL()
+            try Utility.setDefaultACL()
         } catch {
             Logger.login.error("Could not set defaultACL: \(error.localizedDescription)")
         }
@@ -160,9 +119,7 @@ class LoginViewModel: ObservableObject {
 
         try await appDelegate.store?.populateSampleData()
         try await appDelegate.healthKitStore.populateSampleData()
-        if isSyncingWithCloud {
-            appDelegate.parseRemote.automaticallySynchronizes = true
-        }
+        appDelegate.parseRemote.automaticallySynchronizes = true
 
         // Post notification to sync
         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
@@ -235,7 +192,7 @@ class LoginViewModel: ObservableObject {
             let user = try await User.login(username: username, password: password)
             Logger.login.info("Parse login successful: \(user, privacy: .private)")
             do {
-                try setupRemoteAfterLoginButtonTapped()
+                try Utility.setupRemoteAfterLogin()
                 try? await finishCompletingSignIn()
             } catch {
                 // swiftlint:disable:next line_length
@@ -288,13 +245,13 @@ class LoginViewModel: ObservableObject {
     func logout() async {
         // You may not have seen "throws" before, but it's simple,
         // this throws an error if one occurs, if not it behaves as normal
-        // Normally, you've seen do {} catch{} which catches the error, same concept...
+        // Normally, you've seen do {} catch {} which catches the error, same concept...
         do {
             try await User.logout()
         } catch {
             Logger.login.error("Error logging out: \(error.localizedDescription)")
         }
         AppDelegateKey.defaultValue?.resetAppToInitialState()
-        checkStatus()
+        self.checkStatus()
     }
 }

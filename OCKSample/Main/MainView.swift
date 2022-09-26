@@ -33,42 +33,24 @@ struct MainView: View {
             }
             .onAppear {
                 guard isSyncingWithCloud else {
-                    setTabAsOnlyPath()
+                    path = [.tab]
                     return
                 }
-                setLoginAsOnlyPath()
-                if !loginViewModel.isLoggedOut {
-                    appendPath(.tab)
+                guard !loginViewModel.isLoggedOut else {
+                    path = [.login]
+                    return
                 }
+                path = [.login, .tab]
             }
         }
         .statusBar(hidden: true)
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
-            setLoginAsOnlyPath()
-            if !isLoggedOut {
-                appendPath(.tab)
+            guard !isLoggedOut else {
+                path = [.login]
+                return
             }
+            path = [.login, .tab]
         })
-    }
-
-    // MARK: Helpers
-    private func setLoginAsOnlyPath() {
-        if path.first != .login || path.count > 1 {
-            path = [.login]
-        }
-    }
-
-    private func setTabAsOnlyPath() {
-        if path.first != .tab || path.count > 1 {
-            path = [.tab]
-        }
-    }
-
-    private func appendPath(_ path: MainViewPath) {
-        guard self.path.last != path else {
-            return
-        }
-        self.path.append(path)
     }
 }
 

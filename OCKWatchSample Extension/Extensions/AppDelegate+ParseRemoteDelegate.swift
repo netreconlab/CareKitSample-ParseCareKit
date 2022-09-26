@@ -24,9 +24,7 @@ extension AppDelegate: ParseRemoteDelegate {
         Logger.appDelegate.info("Finished pushing data.")
     }
 
-    func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
-        Logger.appDelegate.info("Synchronization completed: \(progress)")
-    }
+    func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {}
 
     func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
 

@@ -37,10 +37,6 @@ import UIKit
 import WatchConnectivity
 
 class AppDelegate: UIResponder, ObservableObject {
-
-    // MARK: Public read/write properties
-    @Published var isFirstAppOpen = true
-
     // MARK: Public read private write properties
     // swiftlint:disable:next line_length
     @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName,
@@ -72,7 +68,6 @@ class AppDelegate: UIResponder, ObservableObject {
         } catch {
             Logger.appDelegate.error("Error deleting OCKStore: \(error.localizedDescription)")
         }
-        isFirstAppOpen = true
         storeManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName, type: .inMemory))
         healthKitStore = nil
         parseRemote = nil

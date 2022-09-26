@@ -12,40 +12,34 @@ import ParseSwift
 import os.log
 
 class LoginViewModel: ObservableObject {
-    @Published var isLoggedOut = true
+    // MARK: Public read, private write properties
+    @Published private(set) var isLoggedOut = true
 
     init() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(userLoggedIn(_:)),
                                                name: Notification.Name(rawValue: Constants.userLoggedIn),
                                                object: nil)
-        Task {
-            await self.checkStatus()
-        }
+        self.checkStatus()
     }
 
+    // MARK: Helpers (private)
     @objc private func userLoggedIn(_ notification: Notification) {
+        self.checkStatus()
+    }
+
+    private func checkStatus() {
         DispatchQueue.main.async {
-            self.isLoggedOut = false
+            let isLoggedOut = self.isLoggedOut
+            if User.current != nil && isLoggedOut {
+                self.isLoggedOut = false
+            } else if User.current == nil && !isLoggedOut {
+                self.isLoggedOut = true
+            }
         }
     }
 
-    class func setDefaultACL() throws {
-        var defaultACL = ParseACL()
-        defaultACL.publicRead = false
-        defaultACL.publicWrite = false
-        _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
-    }
-
-    @MainActor
-    func checkStatus() {
-        if User.current != nil && isLoggedOut {
-            isLoggedOut = false
-        } else if User.current == nil && !isLoggedOut {
-            isLoggedOut = true
-        }
-    }
-
+    // MARK: Helpers (public)
     @MainActor
     class func loginFromiPhoneMessage(_ message: [String: Any]) async {
         guard let sessionToken = message[Constants.parseUserSessionTokenKey] as? String else {
@@ -56,17 +50,11 @@ class LoginViewModel: ObservableObject {
         do {
             let user = try await User().become(sessionToken: sessionToken)
             Logger.login.info("Parse login successful \(user, privacy: .private)")
-            let uuidString = try Utility.getRemoteClockUUID().uuidString
-            do {
-                try LoginViewModel.setDefaultACL()
-            } catch {
-                Logger.login.error("Could not set defaultACL: \(error.localizedDescription)")
-            }
+            try Utility.setupRemoteAfterLogin()
             guard let watchDelegate = AppDelegateKey.defaultValue else {
                 Logger.login.error("ApplicationDelegate should not be nil")
                 return
             }
-            watchDelegate.setupRemotes(uuid: uuidString)
             watchDelegate.store.synchronize { error in
                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"

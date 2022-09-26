@@ -14,12 +14,14 @@ import WatchConnectivity
 import os.log
 
 class CareViewModel: ObservableObject {
-    @Published var storeManager = OCKSynchronizedStoreManager(wrapping: OCKStore(name: Constants.noCareStoreName,
-                                                                                 type: .inMemory)) {
+    // MARK: Public read, private write properties
+    @Published private(set) var storeManager: OCKSynchronizedStoreManager {
         didSet {
             synchronizeStore()
         }
     }
+
+    // MARK: Private read/private write properties
     private var cancellables: Set<AnyCancellable> = []
 
     init() {
@@ -30,7 +32,7 @@ class CareViewModel: ObservableObject {
         synchronizeStore()
     }
 
-    // MARK: Helpers
+    // MARK: Helpers (private)
     @MainActor
     @objc private func reloadViewModel() {
         let updatedStoreManager = StoreManagerKey.defaultValue
@@ -40,8 +42,7 @@ class CareViewModel: ObservableObject {
         storeManager = updatedStoreManager
     }
 
-    // MARK: Intents
-    func synchronizeStore() {
+    private func synchronizeStore() {
         guard let store = storeManager.store as? OCKStore else {
             return
         }
