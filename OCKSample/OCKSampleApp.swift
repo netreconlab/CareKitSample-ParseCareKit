@@ -12,9 +12,9 @@ import CareKit
 
 @main
 struct OCKSampleApp: App {
-    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
-    @Environment(\.tintColor) private var tintColor
-    @Environment(\.careKitStyle) private var style
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    @Environment(\.tintColor) var tintColor
+    @Environment(\.careKitStyle) var style
 
     var body: some Scene {
         WindowGroup {

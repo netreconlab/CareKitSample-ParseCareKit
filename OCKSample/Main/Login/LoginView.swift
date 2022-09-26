@@ -15,14 +15,13 @@ import UIKit
 struct LoginView: View {
     // swiftlint:disable:next line_length
     // Anything is @ is a wrapper that subscribes and refreshes the view when a change occurs. List to the last lecture in Section 2 for an explanation
-    @Environment(\.tintColor) private var tintColor
     @ObservedObject var viewModel: LoginViewModel
-    @State private var usersname = ""
-    @State private var password = ""
+    @State var usersname = ""
+    @State var password = ""
     @State var firstName: String = ""
     @State var lastName: String = ""
-    @State private var signupLoginSegmentValue = 0
-    @State private var presentMainScreen = false
+    @State var signupLoginSegmentValue = 0
+    @State var presentMainScreen = false
 
     var body: some View {
         VStack {

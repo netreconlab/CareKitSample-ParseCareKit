@@ -11,8 +11,8 @@ import CareKitStore
 import CareKitUI
 
 struct MainView: View {
-    @StateObject private var loginViewModel = LoginViewModel()
-    @State private var path = [MainViewPath]()
+    @StateObject var loginViewModel = LoginViewModel()
+    @State var path = [MainViewPath]()
 
     var body: some View {
         NavigationStack(path: $path) {
