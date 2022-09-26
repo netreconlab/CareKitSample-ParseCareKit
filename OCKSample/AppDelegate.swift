@@ -72,6 +72,7 @@ class AppDelegate: UIResponder, ObservableObject {
         healthKitStore = nil
         parseRemote = nil
         store = nil
+        sessionDelegate.store = store
     }
 
     func setupRemotes(uuid: UUID? = nil) {

@@ -69,11 +69,11 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
         do {
             if isSyncingWithCloud {
                 if sessionDelegate == nil {
-                    sessionDelegate = RemoteSessionDelegate(store: nil)
+                    sessionDelegate = RemoteSessionDelegate(store: store)
                     WCSession.default.delegate = sessionDelegate
                 }
                 guard let uuid = uuid else {
-                    Logger.appDelegate.error("Could not get remote clock UUID from User defaults")
+                    Logger.appDelegate.error("Could not get remote clock UUID")
                     WCSession.default.activate()
                     return
                 }
