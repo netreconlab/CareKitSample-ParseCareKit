@@ -81,7 +81,7 @@ enum Constants {
 }
 
 enum MainViewPath {
-    case login, tab
+    case tabs
 }
 
 enum TaskID {

@@ -160,7 +160,6 @@ struct LoginView: View {
                                                                Color(tintColor)]),
                                    startPoint: .top,
                                    endPoint: .bottom))
-        .navigationBarHidden(true)
     }
 }
 

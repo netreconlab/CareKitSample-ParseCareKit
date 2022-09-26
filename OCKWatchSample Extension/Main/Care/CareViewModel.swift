@@ -24,8 +24,8 @@ class CareViewModel: ObservableObject {
     // MARK: Private read/private write properties
     private var cancellables: Set<AnyCancellable> = []
 
-    init() {
-        self.storeManager = StoreManagerKey.defaultValue
+    init(storeManager: OCKSynchronizedStoreManager? = nil) {
+        self.storeManager = storeManager ?? StoreManagerKey.defaultValue
         NotificationCenter.default.addObserver(self, selector: #selector(reloadViewModel),
                                                name: Notification.Name(rawValue: Constants.storeInitialized),
                                                object: nil)

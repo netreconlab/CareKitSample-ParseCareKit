@@ -16,40 +16,36 @@ struct MainView: View {
 
     var body: some View {
         NavigationStack(path: $path) {
-            EmptyView()
-            .navigationDestination(for: MainViewPath.self) { destination in
-                switch destination {
-                case .login:
-                    LoginView(viewModel: loginViewModel)
-                case .tab:
-                    if isSyncingWithCloud {
-                        MainTabView(loginViewModel: loginViewModel)
-                    } else {
-                        CareView()
-                            .navigationBarTitle("")
-                            .navigationBarHidden(true)
+            LoginView(viewModel: loginViewModel)
+                .navigationDestination(for: MainViewPath.self) { destination in
+                    switch destination {
+                    case .tabs:
+                        if isSyncingWithCloud {
+                            MainTabView(loginViewModel: loginViewModel)
+                        } else {
+                            CareView()
+                        }
                     }
                 }
-            }
-            .onAppear {
-                guard isSyncingWithCloud else {
-                    path = [.tab]
-                    return
+                .navigationBarHidden(true)
+                .onAppear {
+                    guard isSyncingWithCloud else {
+                        path = [.tabs]
+                        return
+                    }
+                    guard !loginViewModel.isLoggedOut else {
+                        path = []
+                        return
+                    }
+                    path = [.tabs]
                 }
-                guard !loginViewModel.isLoggedOut else {
-                    path = [.login]
-                    return
-                }
-                path = [.login, .tab]
-            }
         }
-        .statusBar(hidden: true)
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             guard !isLoggedOut else {
-                path = [.login]
+                path = []
                 return
             }
-            path = [.login, .tab]
+            path = [.tabs]
         })
     }
 }

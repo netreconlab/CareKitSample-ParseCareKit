@@ -15,17 +15,20 @@ struct CareView: View {
     @StateObject var viewModel = CareViewModel()
 
     var body: some View {
-        SimpleTaskView(taskID: TaskID.kegels,
-                       eventQuery: .init(for: Date()),
-                       storeManager: viewModel.storeManager)
-        InstructionsTaskView(taskID: TaskID.stretch,
-                             eventQuery: .init(for: Date()),
-                             storeManager: viewModel.storeManager)
+        ScrollView {
+            SimpleTaskView(taskID: TaskID.kegels,
+                           eventQuery: .init(for: Date()),
+                           storeManager: viewModel.storeManager)
+            InstructionsTaskView(taskID: TaskID.stretch,
+                                 eventQuery: .init(for: Date()),
+                                 storeManager: viewModel.storeManager)
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CareView()
+        CareView(viewModel: .init(storeManager: Utility.createPreviewStoreManager()))
+            .accentColor(Color(TintColorKey.defaultValue))
     }
 }
