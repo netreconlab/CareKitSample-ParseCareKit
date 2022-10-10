@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/parse-community/Parse-Swift.git",
       "state" : {
-        "revision" : "40a7b42b20c22253d53b09dc49c37fbb7973fdfe",
-        "version" : "4.14.1"
+        "revision" : "dc7666f774755be333f48f25c4d8bead0a1a6877",
+        "version" : "4.14.2"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/ParseCareKit.git",
       "state" : {
-        "revision" : "71531ced7b6e0dabd5804a0d73f04792d1d963ab",
-        "version" : "0.10.0"
+        "revision" : "98b1abd56af2dd65196adb8473dfbec6448de751",
+        "version" : "0.10.1"
       }
     }
   ],
