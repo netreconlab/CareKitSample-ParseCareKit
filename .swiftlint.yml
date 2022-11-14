@@ -1,5 +1,6 @@
 excluded: # paths to ignore during linting. Takes precedence over `included`.
   - DerivedData
+  - ResearchKit
 disabled_rules:
   - weak_delegate
   - file_length
