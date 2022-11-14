@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 
 env:
-    CI_XCODE: '/Applications/Xcode_14.0.1.app/Contents/Developer'
+    CI_XCODE: '/Applications/Xcode_14.1.app/Contents/Developer'
 
 concurrency:
    group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,10 +17,10 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        destination: ['-destination platform\=iOS\ Simulator,name\=iPhone\ 13\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"']
+        destination: ['-destination platform\=iOS\ Simulator,name\=iPhone\ 14\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"']
         scheme: ['OCKSample', 'OCKWatchSample']
         exclude:
-        - destination: '-destination platform\=iOS\ Simulator,name\=iPhone\ 13\ Pro\ Max test'
+        - destination: '-destination platform\=iOS\ Simulator,name\=iPhone\ 14\ Pro\ Max test'
           scheme: 'OCKWatchSample'
         - destination: 'CODE_SIGNING_ALLOWED="NO"'
           scheme: 'OCKSample'
