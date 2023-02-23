@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/ParseCareKit.git",
       "state" : {
-        "branch" : "bumpParseSwift",
-        "revision" : "bb280985ed57ab5424bfe4e3737c848a59f25bf4"
+        "revision" : "d83dff408bddcc588e5066c5424bac23a35d21ca",
+        "version" : "0.11.0"
       }
     }
   ],
