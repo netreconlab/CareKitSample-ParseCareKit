@@ -33,29 +33,33 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
     private lazy var phoneRemote = OCKWatchConnectivityPeer()
 
     func applicationDidFinishLaunching() {
-        // Parse-server setup
-        PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
-            completionHandler(.performDefaultHandling, nil)
-        }
+        do {
+            // Parse-server setup
+            try PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                completionHandler(.performDefaultHandling, nil)
+            }
 
-        if User.current != nil {
-            do {
-                let uuid = try Utility.getRemoteClockUUID()
-                self.setupRemotes(uuid: uuid)
-                parseRemote.automaticallySynchronizes = true
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-                Logger.appDelegate.info("User is already signed in...")
-                store.synchronize { error in
-                    let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                    Logger.appDelegate.info("\(errorString)")
+            if User.current != nil {
+                do {
+                    let uuid = try Utility.getRemoteClockUUID()
+                    self.setupRemotes(uuid: uuid)
+                    parseRemote.automaticallySynchronizes = true
+                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
+                    Logger.appDelegate.info("User is already signed in...")
+                    store.synchronize { error in
+                        let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+                        Logger.appDelegate.info("\(errorString)")
+                    }
+                } catch {
+                    Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+                    setupRemotes(uuid: nil)
                 }
-            } catch {
-                Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+            } else {
+                Logger.appDelegate.info("User is not logged in...")
                 setupRemotes(uuid: nil)
             }
-        } else {
-            Logger.appDelegate.info("User is not logged in...")
-            setupRemotes(uuid: nil)
+        } catch {
+            Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
         }
     }
 

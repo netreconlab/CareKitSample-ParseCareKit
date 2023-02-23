@@ -18,10 +18,6 @@ extension PCKUtility {
      - throws: `ParseError`.
      */
     static func isServerAvailable() async throws -> Bool {
-        let serverHealth = try await ParseHealth.check()
-        guard serverHealth.contains("ok") else {
-            return false
-        }
-        return true
+        try await ParseHealth.check() == .ok
     }
 }

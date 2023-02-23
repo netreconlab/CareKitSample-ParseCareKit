@@ -13,10 +13,13 @@ import os.log
 extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-        // Parse-Server setup
-        PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
-            completionHandler(.performDefaultHandling, nil)
+        do {
+            // Parse-Server setup
+            try PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                completionHandler(.performDefaultHandling, nil)
+            }
+        } catch {
+            Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
         }
         return true
     }
