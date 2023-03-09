@@ -13,6 +13,7 @@ import CareKit
 import os.log
 
 struct ProfileView: View {
+    @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject var viewModel = ProfileViewModel()
     @ObservedObject var loginViewModel: LoginViewModel
     @State var firstName = ""
@@ -45,7 +46,7 @@ struct ProfileView: View {
                                                         last: lastName,
                                                         birth: birthday)
                     } catch {
-                        Logger.profile.error("Error saving profile: \(error.localizedDescription)")
+                        Logger.profile.error("Error saving profile: \(error)")
                     }
                 }
             }, label: {
@@ -73,7 +74,7 @@ struct ProfileView: View {
             })
             .background(Color(.red))
             .cornerRadius(15)
-        }.onReceive(viewModel.$patient, perform: { patient in
+        }.onReceive(viewModel.$patient) { patient in
             if let currentFirstName = patient?.name.givenName {
                 firstName = currentFirstName
             }
@@ -83,7 +84,9 @@ struct ProfileView: View {
             if let currentBirthday = patient?.birthday {
                 birthday = currentBirthday
             }
-        })
+        }.onReceive(appDelegate.$storeManager) { newStoreManager in
+            viewModel.updateStoreManager(newStoreManager)
+        }
     }
 }
 

@@ -64,12 +64,12 @@ class AppDelegate: UIResponder, ObservableObject {
         do {
             try healthKitStore.reset()
         } catch {
-            Logger.appDelegate.error("Error deleting HealthKit Store: \(error.localizedDescription)")
+            Logger.appDelegate.error("Error deleting HealthKit Store: \(error)")
         }
         do {
             try store?.delete() // Delete data in local OCKStore database
         } catch {
-            Logger.appDelegate.error("Error deleting OCKStore: \(error.localizedDescription)")
+            Logger.appDelegate.error("Error deleting OCKStore: \(error)")
         }
         storeManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName, type: .inMemory))
         healthKitStore = nil
@@ -78,17 +78,17 @@ class AppDelegate: UIResponder, ObservableObject {
         sessionDelegate.store = store
     }
 
-    func setupRemotes(uuid: UUID? = nil) {
+    func setupRemotes(uuid: UUID? = nil) async throws {
         do {
             if isSyncingWithCloud {
                 guard let uuid = uuid else {
                     Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
                     return
                 }
-                parseRemote = try ParseRemote(uuid: uuid,
-                                              auto: false,
-                                              subscribeToServerUpdates: true,
-                                              defaultACL: try? ParseACL.defaultACL())
+                parseRemote = try await ParseRemote(uuid: uuid,
+                                                    auto: false,
+                                                    subscribeToServerUpdates: true,
+                                                    defaultACL: try? ParseACL.defaultACL())
                 store = OCKStore(name: Constants.iOSParseCareStoreName,
                                  type: .onDisk(),
                                  remote: parseRemote)
@@ -116,7 +116,8 @@ class AppDelegate: UIResponder, ObservableObject {
             coordinator.attach(eventStore: healthKitStore)
             storeManager = OCKSynchronizedStoreManager(wrapping: coordinator)
         } catch {
-            Logger.appDelegate.error("Error setting up remote: \(error.localizedDescription)")
+            Logger.appDelegate.error("Error setting up remote: \(error)")
+            throw error
         }
     }
 }

@@ -17,19 +17,17 @@ import Combine
 class ProfileViewModel: ObservableObject {
     // MARK: Public read, private write properties
     @Published private(set) var patient: OCKPatient?
-    private(set) var storeManager: OCKSynchronizedStoreManager
+    private(set) var storeManager: OCKSynchronizedStoreManager {
+        didSet {
+            reloadViewModel()
+        }
+    }
 
     // MARK: Private read/write properties
     private var cancellables: Set<AnyCancellable> = []
 
     init(storeManager: OCKSynchronizedStoreManager? = nil) {
         self.storeManager = storeManager ?? StoreManagerKey.defaultValue
-        reloadViewModel()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reloadViewModel(_:)),
-                                               // swiftlint:disable:next line_length
-                                               name: Notification.Name(rawValue: Constants.completedFirstSyncAfterLogin),
-                                               object: nil)
     }
 
     // MARK: Helpers (private)
@@ -37,15 +35,19 @@ class ProfileViewModel: ObservableObject {
         cancellables = []
     }
 
-    @objc private func reloadViewModel(_ notification: Notification? = nil) {
+    private func reloadViewModel() {
         Task {
             _ = await findAndObserveCurrentProfile()
         }
     }
 
+    func updateStoreManager(_ storeManager: OCKSynchronizedStoreManager) {
+        self.storeManager = storeManager
+    }
+
     @MainActor
     private func findAndObserveCurrentProfile() async {
-        guard let uuid = try? Utility.getRemoteClockUUID() else {
+        guard let uuid = try? await Utility.getRemoteClockUUID() else {
             Logger.profile.error("Could not get remote uuid for this user.")
             return
         }
@@ -57,9 +59,8 @@ class ProfileViewModel: ObservableObject {
         queryForCurrentPatient.ids = [uuid.uuidString] // Search for the current logged in user
 
         do {
-            guard let appDelegate = AppDelegateKey.defaultValue,
-                  let foundPatient = try await appDelegate.store?.fetchPatients(query: queryForCurrentPatient),
-                let currentPatient = foundPatient.first else {
+            let foundPatient = try await storeManager.store.fetchAnyPatients(query: queryForCurrentPatient)
+            guard let currentPatient = foundPatient.first as? OCKPatient else {
                 // swiftlint:disable:next line_length
                 Logger.profile.error("Could not find patient with id \"\(uuid)\". It's possible they have never been saved.")
                 return
@@ -67,7 +68,7 @@ class ProfileViewModel: ObservableObject {
             self.observePatient(currentPatient)
         } catch {
             // swiftlint:disable:next line_length
-            Logger.profile.error("Could not find patient with id \"\(uuid)\". It's possible they have never been saved. Query error: \(error.localizedDescription)")
+            Logger.profile.error("Could not find patient with id \"\(uuid)\". It's possible they have never been saved. Query error: \(error)")
         }
     }
 
@@ -114,7 +115,7 @@ class ProfileViewModel: ObservableObject {
             }
 
         } else {
-            guard let remoteUUID = try? Utility.getRemoteClockUUID().uuidString else {
+            guard let remoteUUID = try? await Utility.getRemoteClockUUID().uuidString else {
                 Logger.profile.error("The user currently is not logged in")
                 return
             }

@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct LoginView: View {
+    @EnvironmentObject private var appDelegate: AppDelegate
     @ObservedObject var viewModel: LoginViewModel
 
     var body: some View {

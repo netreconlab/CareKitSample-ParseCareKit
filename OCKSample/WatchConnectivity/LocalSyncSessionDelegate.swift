@@ -62,10 +62,16 @@ class LocalSessionDelegate: NSObject, SessionDelegate {
         #else
         if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
             Logger.localSessionDelegate.info("Received message from Apple Watch requesting ParseUser, sending now")
-            // Prepare data for watchOS
-            let returnMessage = Utility.getUserSessionForWatch()
-            DispatchQueue.main.async {
-                replyHandler(returnMessage)
+            Task {
+                do {
+                    // Prepare data for watchOS
+                    let returnMessage = try await Utility.getUserSessionForWatch()
+                    DispatchQueue.main.async {
+                        replyHandler(returnMessage)
+                    }
+                } catch {
+                    Logger.localSessionDelegate.info("Could not get session for watch: \(error)")
+                }
             }
         } else {
             DispatchQueue.main.async {
