@@ -33,35 +33,51 @@ class LoginViewModel: ObservableObject {
     @Published private(set) var loginError: ParseError?
 
     init() {
-        checkStatus()
+        Task {
+            await checkStatus()
+        }
     }
 
     // MARK: Helpers (private)
-    private func checkStatus() {
-        DispatchQueue.main.async {
-            let isLoggedOut = self.isLoggedOut
-            if User.current != nil && isLoggedOut {
-                self.isLoggedOut = false
-            } else if User.current == nil && !isLoggedOut {
-                self.isLoggedOut = true
+    private func checkStatus() async {
+        let isLoggedOut = self.isLoggedOut
+        do {
+            _ = try await User.current()
+            if isLoggedOut {
+                DispatchQueue.main.async {
+                    self.isLoggedOut = false
+                }
+            }
+        } catch {
+            if !isLoggedOut {
+                DispatchQueue.main.async {
+                    self.isLoggedOut = true
+                }
             }
         }
     }
 
     private func sendUpdatedUserStatusToWatch() {
-        DispatchQueue.main.async {
-            let message = Utility.getUserSessionForWatch()
-            WCSession.default.sendMessage(message,
-                                          replyHandler: nil,
-                                          errorHandler: nil)
+        Task {
+            do {
+                let message = try await Utility.getUserSessionForWatch()
+                DispatchQueue.main.async {
+                    WCSession.default.sendMessage(message,
+                                                  replyHandler: nil,
+                                                  errorHandler: nil)
+                }
+            } catch {
+                Logger.login.info("Could not get session for watch: \(error)")
+                return
+            }
         }
     }
 
     @MainActor
     private func finishCompletingSignIn(_ careKitPatient: OCKPatient? = nil) async throws {
         if let careKitUser = careKitPatient {
-            guard var user = User.current,
-                let userType = careKitUser.userType,
+            var user = try await User.current()
+            guard let userType = careKitUser.userType,
                 let remoteUUID = careKitUser.remoteClockUUID else {
                 return
             }
@@ -74,12 +90,12 @@ class LoginViewModel: ObservableObject {
             do {
                 _ = try await user.save()
             } catch {
-                Logger.login.info("Could not save updated user: \(error.localizedDescription)")
+                Logger.login.info("Could not save updated user: \(error)")
             }
         }
 
         // Notify the SwiftUI view that the user is correctly logged in and to transition screens
-        checkStatus()
+        await checkStatus()
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
@@ -96,15 +112,15 @@ class LoginViewModel: ObservableObject {
                                         lastName: String) async throws -> OCKPatient {
         let remoteUUID = UUID()
         do {
-            try Utility.setDefaultACL()
+            try await Utility.setDefaultACL()
         } catch {
-            Logger.login.error("Could not set defaultACL: \(error.localizedDescription)")
+            Logger.login.error("Could not set defaultACL: \(error)")
         }
 
         guard let appDelegate = AppDelegateKey.defaultValue else {
             throw AppError.couldntBeUnwrapped
         }
-        appDelegate.setupRemotes(uuid: remoteUUID)
+        try await appDelegate.setupRemotes(uuid: remoteUUID)
         let storeManager = appDelegate.storeManager
 
         var newPatient = OCKPatient(remoteUUID: remoteUUID,
@@ -159,6 +175,7 @@ class LoginViewModel: ObservableObject {
                                                            lastName: lastName)
             try? await finishCompletingSignIn(patient)
         } catch {
+            Logger.login.error("Error details: \(error)")
             guard let parseError = error as? ParseError else {
                 return
             }
@@ -168,7 +185,7 @@ class LoginViewModel: ObservableObject {
 
             default:
                 // swiftlint:disable:next line_length
-                Logger.login.error("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***")
+                Logger.login.error("*** Error Signing up as user for Parse Server. Are you running parse-hipaa and is the initialization complete? Check http://localhost:1337 in your browser. If you are still having problems check for help here: https://github.com/netreconlab/parse-postgres#getting-started ***.")
                 self.loginError = parseError
             }
         }
@@ -193,16 +210,15 @@ class LoginViewModel: ObservableObject {
             Logger.login.info("Parse login successful: \(user, privacy: .private)")
             AppDelegateKey.defaultValue?.isFirstTimeLogin = true
             do {
-                try Utility.setupRemoteAfterLogin()
+                try await Utility.setupRemoteAfterLogin()
                 try await finishCompletingSignIn()
             } catch {
-                // swiftlint:disable:next line_length
-                Logger.login.error("Error saving the patient after signup: \(error.localizedDescription, privacy: .public)")
+                Logger.login.error("Error saving the patient after signup: \(error, privacy: .public)")
             }
         } catch {
             // swiftlint:disable:next line_length
             Logger.login.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-            Logger.login.error("Parse error: \(String(describing: error))")
+            Logger.login.error("Error details: \(error)")
             guard let parseError = error as? ParseError else {
                 // Handle unknow error, right now it's silent
                 return
@@ -231,7 +247,7 @@ class LoginViewModel: ObservableObject {
         } catch {
             // swiftlint:disable:next line_length
             Logger.login.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-            Logger.login.error("Parse error: \(String(describing: error))")
+            Logger.login.error("Error details: \(String(describing: error))")
             guard let parseError = error as? ParseError else {
                 return
             }
@@ -250,9 +266,9 @@ class LoginViewModel: ObservableObject {
         do {
             try await User.logout()
         } catch {
-            Logger.login.error("Error logging out: \(error.localizedDescription)")
+            Logger.login.error("Error logging out: \(error)")
         }
         AppDelegateKey.defaultValue?.resetAppToInitialState()
-        self.checkStatus()
+        await self.checkStatus()
     }
 }

@@ -14,36 +14,10 @@ import WatchConnectivity
 import os.log
 
 class CareViewModel: ObservableObject {
-    // MARK: Public read, private write properties
-    @Published private(set) var storeManager: OCKSynchronizedStoreManager {
-        didSet {
-            synchronizeStore()
-        }
-    }
 
-    // MARK: Private read/private write properties
-    private var cancellables: Set<AnyCancellable> = []
-
-    init(storeManager: OCKSynchronizedStoreManager? = nil) {
-        self.storeManager = storeManager ?? StoreManagerKey.defaultValue
-        NotificationCenter.default.addObserver(self, selector: #selector(reloadViewModel),
-                                               name: Notification.Name(rawValue: Constants.storeInitialized),
-                                               object: nil)
-        synchronizeStore()
-    }
-
-    // MARK: Helpers (private)
-    @MainActor
-    @objc private func reloadViewModel() {
-        let updatedStoreManager = StoreManagerKey.defaultValue
-        guard storeManager !== updatedStoreManager else {
-            return
-        }
-        storeManager = updatedStoreManager
-    }
-
-    private func synchronizeStore() {
-        guard let store = storeManager.store as? OCKStore else {
+    func synchronizeStore(storeManager: OCKSynchronizedStoreManager?) {
+        guard let store = storeManager?.store as? OCKStore else {
+            Logger.feed.info("Could not cast to OCKStore.")
             return
         }
         store.synchronize { error in

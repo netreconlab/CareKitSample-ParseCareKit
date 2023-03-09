@@ -33,33 +33,36 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
     private lazy var phoneRemote = OCKWatchConnectivityPeer()
 
     func applicationDidFinishLaunching() {
-        do {
-            // Parse-server setup
-            try PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
-                completionHandler(.performDefaultHandling, nil)
-            }
-
-            if User.current != nil {
+        Task {
+            do {
+                // Parse-server setup
+                try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                    completionHandler(.performDefaultHandling, nil)
+                }
                 do {
-                    let uuid = try Utility.getRemoteClockUUID()
-                    self.setupRemotes(uuid: uuid)
-                    parseRemote.automaticallySynchronizes = true
-                    NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-                    Logger.appDelegate.info("User is already signed in...")
-                    store.synchronize { error in
-                        let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                        Logger.appDelegate.info("\(errorString)")
+                    _ = try await User.current()
+                    do {
+                        let uuid = try await Utility.getRemoteClockUUID()
+                        try await self.setupRemotes(uuid: uuid)
+                        parseRemote.automaticallySynchronizes = true
+                        // swiftlint:disable:next line_length
+                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
+                        Logger.appDelegate.info("User is already signed in...")
+                        store.synchronize { error in
+                            let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+                            Logger.appDelegate.info("\(errorString)")
+                        }
+                    } catch {
+                        Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+                        try await setupRemotes(uuid: nil)
                     }
                 } catch {
-                    Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
-                    setupRemotes(uuid: nil)
+                    Logger.appDelegate.info("User is not logged in...")
+                    try await setupRemotes(uuid: nil)
                 }
-            } else {
-                Logger.appDelegate.info("User is not logged in...")
-                setupRemotes(uuid: nil)
+            } catch {
+                Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
             }
-        } catch {
-            Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
         }
     }
 
@@ -69,7 +72,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
         }
     }
 
-    func setupRemotes(uuid: UUID? = nil) {
+    func setupRemotes(uuid: UUID? = nil) async throws {
         do {
             if isSyncingWithCloud {
                 if sessionDelegate == nil {
@@ -81,9 +84,9 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                     WCSession.default.activate()
                     return
                 }
-                parseRemote = try ParseRemote(uuid: uuid,
-                                              auto: false,
-                                              subscribeToServerUpdates: true)
+                parseRemote = try await ParseRemote(uuid: uuid,
+                                                    auto: false,
+                                                    subscribeToServerUpdates: true)
                 store = OCKStore(name: Constants.watchOSParseCareStoreName,
                                  remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
@@ -99,7 +102,8 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             }
             WCSession.default.activate()
         } catch {
-            Logger.appDelegate.error("Error setting up remote: \(error.localizedDescription)")
+            Logger.appDelegate.error("Error setting up remote: \(error)")
+            throw error
         }
     }
 

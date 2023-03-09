@@ -37,17 +37,21 @@ class RemoteSessionDelegate: NSObject, SessionDelegate {
         case .activated:
             #if os(watchOS)
 
-            DispatchQueue.main.async {
-                // If user is not logged in, request login from iPhone
-                if User.current == nil {
-                    // swiftlint:disable:next line_length
-                    WCSession.default.sendMessage([Constants.parseUserSessionTokenKey: Constants.parseUserSessionTokenKey],
-                                                  replyHandler: { reply in
-                        Task {
-                            await LoginViewModel.loginFromiPhoneMessage(reply)
+            Task {
+                do {
+                    _ = try await User.current()
+                } catch {
+                    // If user is not logged in, request login from iPhone
+                    DispatchQueue.main.async {
+                        // swiftlint:disable:next line_length
+                        WCSession.default.sendMessage([Constants.parseUserSessionTokenKey: Constants.parseUserSessionTokenKey],
+                                                      replyHandler: { reply in
+                            Task {
+                                await LoginViewModel.loginFromiPhoneMessage(reply)
+                            }
+                        }) { error in // swiftlint:disable:this multiple_closures_with_trailing_closure
+                            Logger.remoteSessionDelegate.error("Could not get sessionToken from iOS: \(error)")
                         }
-                    }) { error in // swiftlint:disable:this multiple_closures_with_trailing_closure
-                        Logger.remoteSessionDelegate.error("Could not get sessionToken from iOS: \(error)")
                     }
                 }
             }
@@ -86,10 +90,16 @@ class RemoteSessionDelegate: NSObject, SessionDelegate {
         #if os(iOS)
         if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
             Logger.remoteSessionDelegate.info("Received message from Apple Watch requesting ParseUser, sending now")
-            // Prepare data for watchOS
-            let returnMessage = Utility.getUserSessionForWatch()
-            DispatchQueue.main.async {
-                replyHandler(returnMessage)
+            Task {
+                do {
+                    // Prepare data for watchOS
+                    let returnMessage = try await Utility.getUserSessionForWatch()
+                    DispatchQueue.main.async {
+                        replyHandler(returnMessage)
+                    }
+                } catch {
+                    Logger.remoteSessionDelegate.info("Could not get session for watch: \(error)")
+                }
             }
         }
         #endif

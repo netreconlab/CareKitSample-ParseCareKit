@@ -13,40 +13,39 @@ import os.log
 extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        do {
-            // Parse-Server setup
-            try PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
-                completionHandler(.performDefaultHandling, nil)
+        Task {
+            do {
+                // Parse-Server setup
+                try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                    completionHandler(.performDefaultHandling, nil)
+                }
+            } catch {
+                Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
+                return
             }
-        } catch {
-            Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
-        }
-        return true
-    }
-
-    func application(_ application: UIApplication,
-                     configurationForConnecting connectingSceneSession: UISceneSession,
-                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        if isSyncingWithCloud {
-            if User.current != nil {
-                Logger.appDelegate.info("User is already signed in...")
+            if isSyncingWithCloud {
                 do {
-                    let uuid = try Utility.getRemoteClockUUID()
-                    setupRemotes(uuid: uuid)
-                    parseRemote.automaticallySynchronizes = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+                    _ = try await User.current()
+                    Logger.appDelegate.info("User is already signed in...")
+                    do {
+                        let uuid = try await Utility.getRemoteClockUUID()
+                        try? await setupRemotes(uuid: uuid)
+                        parseRemote.automaticallySynchronizes = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            // swiftlint:disable:next line_length
+                            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+                        }
+                    } catch {
+                        Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+                        try await setupRemotes()
                     }
                 } catch {
-                    Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
-                    setupRemotes()
+                    Logger.appDelegate.error("User is not loggied in: \(error)")
                 }
-            }
-        } else {
-            // When syncing directly with watchOS, we do not care about login and need to setup remotes
-            setupRemotes()
-            Task {
+            } else {
+                // When syncing directly with watchOS, we do not care about login and need to setup remotes
                 do {
+                    try await setupRemotes()
                     try await store?.populateSampleData()
                     try await healthKitStore.populateSampleData()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -55,12 +54,18 @@ extension AppDelegate: UIApplicationDelegate {
                     }
                 } catch {
                     Logger.appDelegate.error("""
-                        Error in SceneDelage, could not populate
-                        data stores: \(error.localizedDescription)
-                    """)
+                    Error in SceneDelage, could not populate
+                    data stores: \(error)
+                """)
                 }
             }
         }
+        return true
+    }
+
+    func application(_ application: UIApplication,
+                     configurationForConnecting connectingSceneSession: UISceneSession,
+                     options: UIScene.ConnectionOptions) -> UISceneConfiguration {
         return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
     }
 

@@ -20,20 +20,28 @@ class LoginViewModel: ObservableObject {
                                                selector: #selector(userLoggedIn(_:)),
                                                name: Notification.Name(rawValue: Constants.userLoggedIn),
                                                object: nil)
-        self.checkStatus()
+        Task {
+            await self.checkStatus()
+        }
     }
 
     // MARK: Helpers (private)
     @objc private func userLoggedIn(_ notification: Notification) {
-        self.checkStatus()
+        Task {
+            await self.checkStatus()
+        }
     }
 
-    private func checkStatus() {
-        DispatchQueue.main.async {
-            let isLoggedOut = self.isLoggedOut
-            if User.current != nil && isLoggedOut {
+    @MainActor
+    private func checkStatus() async {
+        let isLoggedOut = self.isLoggedOut
+        do {
+            _ = try await User.current()
+            if isLoggedOut {
                 self.isLoggedOut = false
-            } else if User.current == nil && !isLoggedOut {
+            }
+        } catch {
+            if !isLoggedOut {
                 self.isLoggedOut = true
             }
         }
@@ -50,7 +58,7 @@ class LoginViewModel: ObservableObject {
         do {
             let user = try await User().become(sessionToken: sessionToken)
             Logger.login.info("Parse login successful \(user, privacy: .private)")
-            try Utility.setupRemoteAfterLogin()
+            try await Utility.setupRemoteAfterLogin()
             guard let watchDelegate = AppDelegateKey.defaultValue else {
                 Logger.login.error("ApplicationDelegate should not be nil")
                 return
@@ -68,7 +76,7 @@ class LoginViewModel: ObservableObject {
         } catch {
             // swiftlint:disable:next line_length
             Logger.login.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-            Logger.login.error("Parse error: \(String(describing: error.localizedDescription))")
+            Logger.login.error("Parse error: \(String(describing: error))")
         }
     }
 }

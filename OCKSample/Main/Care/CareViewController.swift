@@ -58,11 +58,6 @@ class CareViewController: OCKDailyPageViewController {
                                                selector: #selector(reloadView(_:)),
                                                name: Notification.Name(rawValue: Constants.finishedAskingForPermission),
                                                object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reloadView(_:)),
-                                               // swiftlint:disable:next line_length
-                                               name: Notification.Name(rawValue: Constants.completedFirstSyncAfterLogin),
-                                               object: nil)
     }
 
     @objc private func updateSynchronizationProgress(_ notification: Notification) {
@@ -208,16 +203,12 @@ class CareViewController: OCKDailyPageViewController {
         case TaskID.nausea:
             var cards = [UIViewController]()
             // dynamic gradient colors
-            let nauseaGradientStart = UIColor { traitCollection -> UIColor in
-                return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1) : #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1)
-            }
-            let nauseaGradientEnd = UIColor { traitCollection -> UIColor in
-                return traitCollection.userInterfaceStyle == .light ? #colorLiteral(red: 0, green: 0.2858072221, blue: 0.6897063851, alpha: 1) : #colorLiteral(red: 0.06253327429, green: 0.6597633362, blue: 0.8644603491, alpha: 1)
-            }
+            let nauseaGradientStart = TintColorFlipKey.defaultValue
+            let nauseaGradientEnd = TintColorKey.defaultValue
 
             // Create a plot comparing nausea to medication adherence.
             let nauseaDataSeries = OCKDataSeriesConfiguration(
-                taskID: "nausea",
+                taskID: task.id,
                 legendTitle: "Nausea",
                 gradientStartColor: nauseaGradientStart,
                 gradientEndColor: nauseaGradientEnd,
@@ -225,7 +216,7 @@ class CareViewController: OCKDailyPageViewController {
                 eventAggregator: OCKEventAggregator.countOutcomeValues)
 
             let doxylamineDataSeries = OCKDataSeriesConfiguration(
-                taskID: "doxylamine",
+                taskID: task.id,
                 legendTitle: "Doxylamine",
                 gradientStartColor: .systemGray2,
                 gradientEndColor: .systemGray,
@@ -268,7 +259,7 @@ class CareViewController: OCKDailyPageViewController {
                 tasks.first(where: { $0.id == orderedTaskID }) }
             return orderedTasks
         } catch {
-            Logger.feed.error("\(error.localizedDescription, privacy: .public)")
+            Logger.feed.error("\(error, privacy: .public)")
             return []
         }
     }

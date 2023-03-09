@@ -20,40 +20,42 @@ class Utility {
         return returnMessage
     }
 
-    class func getUserSessionForWatch() -> [String: Any] {
+    class func getUserSessionForWatch() async throws -> [String: Any] {
         var returnMessage = [String: Any]()
-        returnMessage[Constants.parseUserSessionTokenKey] = User.current?.sessionToken
+        returnMessage[Constants.parseUserSessionTokenKey] = try await User.sessionToken()
         return returnMessage
     }
 
-    class func getRemoteClockUUID() throws -> UUID {
-        guard let lastUserTypeSelected = User.current?.lastTypeSelected,
-              let remoteClockUUID = User.current?.userTypeUUIDs?[lastUserTypeSelected] else {
-                  throw AppError.remoteClockIDNotAvailable
-              }
+    class func getRemoteClockUUID() async throws -> UUID {
+        guard let user = try? await User.current(),
+            let lastUserTypeSelected = user.lastTypeSelected,
+            let remoteClockUUID = user.userTypeUUIDs?[lastUserTypeSelected] else {
+            throw AppError.remoteClockIDNotAvailable
+        }
         return remoteClockUUID
     }
 
-    class func setDefaultACL() throws {
+    class func setDefaultACL() async throws {
         var defaultACL = ParseACL()
         defaultACL.publicRead = false
         defaultACL.publicWrite = false
-        _ = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+        _ = try await ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
     }
 
     @MainActor
-    class func setupRemoteAfterLogin() throws {
-        let remoteUUID = try Utility.getRemoteClockUUID()
+    class func setupRemoteAfterLogin() async throws {
+        let remoteUUID = try await Utility.getRemoteClockUUID()
         do {
-            try setDefaultACL()
+            try await setDefaultACL()
         } catch {
-            Logger.login.error("Could not set defaultACL: \(error.localizedDescription)")
+            Logger.login.error("Could not set defaultACL: \(error)")
         }
 
         guard let appDelegate = AppDelegateKey.defaultValue else {
+            Logger.login.error("Could not setup remotes, AppDelegate is nil")
             return
         }
-        appDelegate.setupRemotes(uuid: remoteUUID)
+        try await appDelegate.setupRemotes(uuid: remoteUUID)
         appDelegate.parseRemote.automaticallySynchronizes = true
 
         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
@@ -61,7 +63,7 @@ class Utility {
     }
 
     class func updateInstallationWithDeviceToken(_ deviceToken: Data? = nil) async {
-        guard let keychainInstallation = Installation.current else {
+        guard let keychainInstallation = try? await Installation.current() else {
             Logger.utility.debug("""
                 Attempted to update installation,
                 but no current installation is available
@@ -77,7 +79,7 @@ class Utility {
             }
         } else {
             currentInstallation = keychainInstallation
-            currentInstallation.user = User.current
+            currentInstallation.user = try? await User.current()
             currentInstallation.channels = [InstallationChannel.global.rawValue]
             isUpdatingInstallationMutable = false
         }
@@ -98,7 +100,7 @@ class Utility {
                 }
             } catch {
                 Logger.utility.error("""
-                    Could not update installation: \(error.localizedDescription)
+                    Could not update installation: \(error)
                 """)
             }
         }
@@ -132,7 +134,7 @@ class Utility {
                 }
                 return
             }
-            Logger.login.error("Error requesting HealthKit permissions: \(error.localizedDescription)")
+            Logger.login.error("Error requesting HealthKit permissions: \(error)")
         }
     }
     #endif
