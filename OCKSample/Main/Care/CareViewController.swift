@@ -166,7 +166,6 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    @MainActor
     private func taskViewController(for task: OCKAnyTask,
                                     on date: Date) -> [UIViewController]? {
         switch task.id {
@@ -251,7 +250,6 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    @MainActor
     private func fetchTasks(on date: Date) async -> [OCKAnyTask] {
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
