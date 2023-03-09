@@ -86,8 +86,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 }
                 parseRemote = try await ParseRemote(uuid: uuid,
                                                     auto: false,
-                                                    subscribeToServerUpdates: true,
-                                                    defaultACL: try? ParseACL.defaultACL())
+                                                    subscribeToServerUpdates: true)
                 store = OCKStore(name: Constants.watchOSParseCareStoreName,
                                  remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
