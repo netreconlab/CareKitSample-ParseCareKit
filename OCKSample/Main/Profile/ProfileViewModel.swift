@@ -44,6 +44,7 @@ class ProfileViewModel: ObservableObject {
     func updateStoreManager(_ storeManager: OCKSynchronizedStoreManager? = nil) {
         guard let storeManager = storeManager else {
             guard let appDelegateStoreManager = AppDelegateKey.defaultValue?.storeManager else {
+                Logger.profile.error("Missing AppDelegate storeManager")
                 return
             }
             self.storeManager = appDelegateStoreManager
@@ -55,7 +56,7 @@ class ProfileViewModel: ObservableObject {
     @MainActor
     private func findAndObserveCurrentProfile() async {
         guard let uuid = try? await Utility.getRemoteClockUUID() else {
-            Logger.profile.error("Could not get remote uuid for this user.")
+            Logger.profile.error("Could not get remote uuid for this user")
             return
         }
         clearSubscriptions()
@@ -69,7 +70,7 @@ class ProfileViewModel: ObservableObject {
             let foundPatient = try await storeManager.store.fetchAnyPatients(query: queryForCurrentPatient)
             guard let currentPatient = foundPatient.first as? OCKPatient else {
                 // swiftlint:disable:next line_length
-                Logger.profile.error("Could not find patient with id \"\(uuid)\". It's possible they have never been saved.")
+                Logger.profile.error("Could not find patient with id \"\(uuid)\". It's possible they have never been saved")
                 return
             }
             self.observePatient(currentPatient)

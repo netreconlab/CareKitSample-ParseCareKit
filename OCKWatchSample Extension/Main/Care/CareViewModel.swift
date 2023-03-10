@@ -17,7 +17,7 @@ class CareViewModel: ObservableObject {
 
     func synchronizeStore(storeManager: OCKSynchronizedStoreManager?) {
         guard let store = storeManager?.store as? OCKStore else {
-            Logger.feed.info("Could not cast to OCKStore.")
+            Logger.feed.info("Could not cast to OCKStore")
             return
         }
         store.synchronize { error in

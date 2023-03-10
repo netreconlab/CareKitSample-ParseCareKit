@@ -21,7 +21,7 @@ extension AppDelegate: ParseRemoteDelegate {
     }
 
     func successfullyPushedDataToCloud() {
-        Logger.appDelegate.info("Finished pushing data.")
+        Logger.appDelegate.info("Finished pushing data")
     }
 
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {}
