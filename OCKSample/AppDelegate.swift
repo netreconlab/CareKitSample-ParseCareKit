@@ -38,7 +38,13 @@ import WatchConnectivity
 
 class AppDelegate: UIResponder, ObservableObject {
     // MARK: Public read/write properties
-    var isFirstTimeLogin = false
+    @Published var isFirstTimeLogin = false {
+        willSet {
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
+        }
+    }
 
     // MARK: Public read private write properties
     // swiftlint:disable:next line_length

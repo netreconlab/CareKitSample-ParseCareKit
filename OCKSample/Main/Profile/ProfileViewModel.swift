@@ -41,7 +41,14 @@ class ProfileViewModel: ObservableObject {
         }
     }
 
-    func updateStoreManager(_ storeManager: OCKSynchronizedStoreManager) {
+    func updateStoreManager(_ storeManager: OCKSynchronizedStoreManager? = nil) {
+        guard let storeManager = storeManager else {
+            guard let appDelegateStoreManager = AppDelegateKey.defaultValue?.storeManager else {
+                return
+            }
+            self.storeManager = appDelegateStoreManager
+            return
+        }
         self.storeManager = storeManager
     }
 
