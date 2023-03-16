@@ -56,7 +56,7 @@ class LoginViewModel: ObservableObject {
         }
 
         do {
-            let user = try await User().become(sessionToken: sessionToken)
+            let user = try await User.become(sessionToken: sessionToken)
             Logger.login.info("Parse login successful \(user, privacy: .private)")
             try await Utility.setupRemoteAfterLogin()
             guard let watchDelegate = AppDelegateKey.defaultValue else {
