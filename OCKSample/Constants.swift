@@ -74,7 +74,7 @@ enum Constants {
     static let requestSync = "requestSync"
     static let progressUpdate = "progressUpdate"
     static let finishedAskingForPermission = "finishedAskingForPermission"
-    static let completedFirstSyncAfterLogin = "completedFirstSyncAfterLogin"
+    static let shouldRefreshView = "shouldRefreshView"
     static let userLoggedIn = "userLoggedIn"
     static let storeInitialized = "storeInitialized"
     static let userTypeKey = "userType"

@@ -58,6 +58,10 @@ class CareViewController: OCKDailyPageViewController {
                                                selector: #selector(reloadView(_:)),
                                                name: Notification.Name(rawValue: Constants.finishedAskingForPermission),
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadView(_:)),
+                                               name: Notification.Name(rawValue: Constants.shouldRefreshView),
+                                               object: nil)
     }
 
     @objc private func updateSynchronizationProgress(_ notification: Notification) {

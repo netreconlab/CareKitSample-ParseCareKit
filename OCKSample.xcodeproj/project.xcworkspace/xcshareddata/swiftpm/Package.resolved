@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "carekitutilities",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/netreconlab/CareKitUtilities.git",
+      "state" : {
+        "revision" : "ca65485fd95f40ae1bc27f61ee062b2688ad2554",
+        "version" : "0.0.1"
+      }
+    },
+    {
       "identity" : "fhirmodels",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/FHIRModels.git",
