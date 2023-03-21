@@ -9,6 +9,7 @@
 import Foundation
 import CareKit
 import CareKitStore
+import CareKitUtilities
 import SwiftUI
 import ParseCareKit
 import os.log
