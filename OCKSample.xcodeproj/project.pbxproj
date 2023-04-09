@@ -48,7 +48,6 @@
 		70CF66E428E1E74C00FAE977 /* TintColorFlipKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF66E328E1E74C00FAE977 /* TintColorFlipKey.swift */; };
 		70CF66E528E1E74C00FAE977 /* TintColorFlipKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF66E328E1E74C00FAE977 /* TintColorFlipKey.swift */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
-		70F03A912786073300E5AFB4 /* CareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A902786073300E5AFB4 /* CareViewModel.swift */; };
 		70F03A952786093B00E5AFB4 /* OCKHealthKitPassthroughStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A942786093B00E5AFB4 /* OCKHealthKitPassthroughStore.swift */; };
 		70F03A972786098F00E5AFB4 /* OCKStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A962786098F00E5AFB4 /* OCKStore.swift */; };
 		70F03A9C27860A2000E5AFB4 /* OCKStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A962786098F00E5AFB4 /* OCKStore.swift */; };
@@ -168,7 +167,6 @@
 		7083A855279CA40A00B3832E /* PCKUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCKUtility.swift; sourceTree = "<group>"; };
 		70BD2B1E254B44DB0030B424 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		70CF66E328E1E74C00FAE977 /* TintColorFlipKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColorFlipKey.swift; sourceTree = "<group>"; };
-		70F03A902786073300E5AFB4 /* CareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareViewModel.swift; sourceTree = "<group>"; };
 		70F03A942786093B00E5AFB4 /* OCKHealthKitPassthroughStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKHealthKitPassthroughStore.swift; sourceTree = "<group>"; };
 		70F03A962786098F00E5AFB4 /* OCKStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKStore.swift; sourceTree = "<group>"; };
 		70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Parse.swift"; sourceTree = "<group>"; };
@@ -361,7 +359,6 @@
 			isa = PBXGroup;
 			children = (
 				91AD923A24A4C42D00925D4D /* CareView.swift */,
-				70F03A902786073300E5AFB4 /* CareViewModel.swift */,
 			);
 			path = Care;
 			sourceTree = "<group>";
@@ -726,7 +723,6 @@
 				9103AA5227B8C913002C921E /* FontColorKey.swift in Sources */,
 				707CC719254DA91900116728 /* OCKLocalization.swift in Sources */,
 				7007759B252229C900EC0EDA /* User.swift in Sources */,
-				70F03A912786073300E5AFB4 /* CareViewModel.swift in Sources */,
 				70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */,
 				918FDEB9271B493A0045A0EF /* Installation.swift in Sources */,
 				91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */,

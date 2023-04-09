@@ -38,9 +38,11 @@ import WatchConnectivity
 
 class AppDelegate: UIResponder, ObservableObject {
     // MARK: Public read/write properties
+
     @Published var isFirstTimeLogin = false
 
     // MARK: Public read private write properties
+
     @Published private(set) var storeCoordinator: OCKStoreCoordinator = .init() {
         willSet {
             StoreCoordinatorKey.defaultValue = newValue
@@ -52,10 +54,12 @@ class AppDelegate: UIResponder, ObservableObject {
     private(set) var parseRemote: ParseRemote!
 
     // MARK: Private read/write properties
+
     private var sessionDelegate: SessionDelegate!
     private lazy var watchRemote = OCKWatchConnectivityPeer()
 
     // MARK: Helpers
+
     @MainActor
     func resetAppToInitialState() {
         do {
@@ -67,8 +71,10 @@ class AppDelegate: UIResponder, ObservableObject {
         storeCoordinator = .init()
         healthKitStore = nil
         parseRemote = nil
-        store = .init(name: Constants.noCareStoreName, type: .inMemory)
+        let store = OCKStore(name: Constants.noCareStoreName,
+                             type: .inMemory)
         sessionDelegate.store = store
+        self.store = store
     }
 
     @MainActor
@@ -83,17 +89,19 @@ class AppDelegate: UIResponder, ObservableObject {
                                                     auto: false,
                                                     subscribeToServerUpdates: true,
                                                     defaultACL: try? ParseACL.defaultACL())
-                store = OCKStore(name: Constants.iOSParseCareStoreName,
-                                 type: .onDisk(),
-                                 remote: parseRemote)
+                let store = OCKStore(name: Constants.iOSParseCareStoreName,
+                                     type: .onDisk(),
+                                     remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate = RemoteSessionDelegate(store: store)
+                self.store = store
             } else {
-                store = OCKStore(name: Constants.iOSLocalCareStoreName,
+                let store = OCKStore(name: Constants.iOSLocalCareStoreName,
                                  type: .onDisk(),
                                  remote: watchRemote)
                 watchRemote.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: watchRemote, store: store)
+                self.store = store
             }
 
             // Setup communication with watch
@@ -101,10 +109,10 @@ class AppDelegate: UIResponder, ObservableObject {
             WCSession.default.activate()
 
             healthKitStore = OCKHealthKitPassthroughStore(store: store)
-            let coordinator = OCKStoreCoordinator()
-            coordinator.attach(store: store)
-            coordinator.attach(eventStore: healthKitStore)
-            storeCoordinator = coordinator
+            let storeCoordinator = OCKStoreCoordinator()
+            storeCoordinator.attach(store: store)
+            storeCoordinator.attach(eventStore: healthKitStore)
+            self.storeCoordinator = storeCoordinator
         } catch {
             Logger.appDelegate.error("Error setting up remote: \(error)")
             throw error

@@ -36,6 +36,15 @@ class ProfileViewModel: ObservableObject {
         }
     }
 
+    // MARK: Helpers (public)
+
+    func updatePatient(_ patient: OCKAnyPatient) {
+        guard let patient = patient as? OCKPatient else {
+            return
+        }
+        self.patient = patient
+    }
+
     // MARK: User intentional behavior
 
     func saveProfile() async throws {
@@ -66,12 +75,5 @@ class ProfileViewModel: ObservableObject {
             _ = try await AppDelegateKey.defaultValue?.store.updatePatient(patientToUpdate)
             Logger.profile.info("Successfully updated patient")
         }
-    }
-
-    func updatePatient(_ patient: OCKAnyPatient) {
-        guard let patient = patient as? OCKPatient else {
-            return
-        }
-        self.patient = patient
     }
 }

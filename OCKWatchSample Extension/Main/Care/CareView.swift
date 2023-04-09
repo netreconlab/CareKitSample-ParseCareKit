@@ -13,9 +13,7 @@ import SwiftUI
 import os.log
 
 struct CareView: View {
-
     @CareStoreFetchRequest(query: OCKEventQuery(for: Date())) private var events
-    @StateObject var viewModel = CareViewModel()
 
     var body: some View {
         ScrollView {
@@ -26,10 +24,6 @@ struct CareView: View {
                     InstructionsTaskView(event: event)
                 }
             }
-        }.onAppear {
-            var query = events.query
-            query.taskIDs = [TaskID.kegels, TaskID.stretch]
-            events.query = query
         }
     }
 }
@@ -38,5 +32,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         CareView()
             .accentColor(Color(TintColorKey.defaultValue))
+            .environment(\.careStore, Utility.createPreviewStore())
     }
 }

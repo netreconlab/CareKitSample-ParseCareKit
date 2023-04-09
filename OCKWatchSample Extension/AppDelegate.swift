@@ -17,6 +17,7 @@ import os.log
 class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 
     // MARK: Public read private write properties
+
     @Published private(set) var store: OCKStore! {
         willSet {
             newValue.synchronize { error in
@@ -29,6 +30,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
     private(set) var parseRemote: ParseRemote!
 
     // MARK: Private read/write properties
+
     private var sessionDelegate: SessionDelegate!
     private lazy var phoneRemote = OCKWatchConnectivityPeer()
 
@@ -87,17 +89,23 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 }
                 parseRemote = try await ParseRemote(uuid: uuid,
                                                     auto: false,
-                                                    subscribeToServerUpdates: true)
-                store = OCKStore(name: Constants.watchOSParseCareStoreName,
-                                 remote: parseRemote)
+                                                    subscribeToServerUpdates: true,
+                                                    defaultACL: try? ParseACL.defaultACL())
+                let store = OCKStore(name: Constants.watchOSParseCareStoreName,
+                                     type: .onDisk(),
+                                     remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
+                self.store = store
             } else {
-                store = OCKStore(name: Constants.watchOSLocalCareStoreName,
-                                 remote: phoneRemote)
+                let store = OCKStore(name: Constants.watchOSLocalCareStoreName,
+                                     type: .onDisk(),
+                                     remote: phoneRemote)
                 phoneRemote.delegate = self
-                sessionDelegate = LocalSessionDelegate(remote: phoneRemote, store: store)
+                sessionDelegate = LocalSessionDelegate(remote: phoneRemote,
+                                                       store: store)
                 WCSession.default.delegate = sessionDelegate
+                self.store = store
             }
             WCSession.default.activate()
         } catch {
