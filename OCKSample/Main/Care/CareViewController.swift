@@ -262,11 +262,6 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    private func fetchEvents(on date: Date) async throws -> CareStoreQueryResults<OCKEvent<OCKTask, OCKOutcome>> {
-        let (tasks, taskQuery) = await self.fetchTasks(on: date)
-        return try streamCareStoreEvents(for: tasks, from: taskQuery)
-    }
-
     private func fetchTasks(on date: Date) async -> ([OCKAnyTask], OCKTaskQuery) {
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
@@ -281,30 +276,26 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    private func streamCareStoreEvents(for tasks: [OCKAnyTask],
-                                       // swiftlint:disable:next line_length
-                                       from query: OCKTaskQuery) throws -> CareStoreQueryResults<OCKEvent<OCKTask, OCKOutcome>> {
+    private func streamEvents(on date: Date) async throws -> CareStoreQueryResults<OCKAnyEvent> {
+        let (tasks, taskQuery) = await self.fetchTasks(on: date)
+        return try streamCoordinatorEvents(for: tasks, from: taskQuery)
+    }
+
+    private func streamCoordinatorEvents(for tasks: [OCKAnyTask],
+                                         // swiftlint:disable:next line_length
+                                         from query: OCKTaskQuery) throws -> CareStoreQueryResults<OCKAnyEvent> {
         guard tasks.count > 0 else {
             throw AppError.errorString("No current tasks")
         }
         guard let dateInterval = query.dateInterval else {
             throw AppError.errorString("Task query should have a set date")
         }
-        // var events = [CareStoreFetchRequest<OCKAnyEvent, OCKEventQuery>]()
         var eventQuery = OCKEventQuery(dateInterval: dateInterval)
         eventQuery.taskIDs = tasks.map { $0.id }
-        guard let store = AppDelegateKey.defaultValue?.store else {
+        guard let store = store as? OCKStoreCoordinator else {
             throw AppError.couldntBeUnwrapped
         }
-        return store.events(matching: eventQuery)
-        /*if let healthKitStore = AppDelegateKey.defaultValue?.healthKitStore {
-            let storeEvents = healthKitStore.events(matching: eventQuery)
-            // other.append(storeEvents)
-        } */
-        /*tasks.forEach {
-            eventQuery.taskIDs = [$0.id]
-            events.append(CareStoreFetchRequest(query: eventQuery))
-        }*/
+        return store.anyEvents(matching: eventQuery)
     }
 }
 
