@@ -39,20 +39,17 @@ class LoginViewModel: ObservableObject {
     }
 
     // MARK: Helpers (private)
+    @MainActor
     private func checkStatus() async {
         let isLoggedOut = self.isLoggedOut
         do {
             _ = try await User.current()
             if isLoggedOut {
-                DispatchQueue.main.async {
-                    self.isLoggedOut = false
-                }
+                self.isLoggedOut = false
             }
         } catch {
             if !isLoggedOut {
-                DispatchQueue.main.async {
-                    self.isLoggedOut = true
-                }
+                self.isLoggedOut = true
             }
         }
     }
