@@ -30,10 +30,6 @@ struct MainView: View {
                                     return
                                 }
                                 store = newStore
-                                store.synchronize { error in
-                                    let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                                    Logger.feed.info("\(errorString)")
-                                }
                             }
                     }
                 }

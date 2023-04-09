@@ -19,10 +19,11 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
     // MARK: Public read private write properties
     @Published private(set) var store: OCKStore! {
         willSet {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
-                self.objectWillChange.send()
+            newValue.synchronize { error in
+                let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+                Logger.appDelegate.info("\(errorString)")
             }
+            self.objectWillChange.send()
         }
     }
     private(set) var parseRemote: ParseRemote!
@@ -71,6 +72,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
         }
     }
 
+    @MainActor
     func setupRemotes(uuid: UUID? = nil) async throws {
         do {
             if isSyncingWithCloud {

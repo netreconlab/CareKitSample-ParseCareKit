@@ -38,30 +38,16 @@ import WatchConnectivity
 
 class AppDelegate: UIResponder, ObservableObject {
     // MARK: Public read/write properties
-    @Published var isFirstTimeLogin = false {
-        willSet {
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
-        }
-    }
+    @Published var isFirstTimeLogin = false
 
     // MARK: Public read private write properties
     @Published private(set) var storeCoordinator: OCKStoreCoordinator = .init() {
         willSet {
             StoreCoordinatorKey.defaultValue = newValue
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            self.objectWillChange.send()
         }
     }
-    @Published private(set) var store: OCKStore! = .init(name: Constants.noCareStoreName, type: .inMemory) {
-        willSet {
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
-        }
-    }
+    @Published private(set) var store: OCKStore! = .init(name: Constants.noCareStoreName, type: .inMemory)
     private(set) var healthKitStore: OCKHealthKitPassthroughStore!
     private(set) var parseRemote: ParseRemote!
 
@@ -70,6 +56,7 @@ class AppDelegate: UIResponder, ObservableObject {
     private lazy var watchRemote = OCKWatchConnectivityPeer()
 
     // MARK: Helpers
+    @MainActor
     func resetAppToInitialState() {
         do {
             try storeCoordinator.reset()
@@ -84,6 +71,7 @@ class AppDelegate: UIResponder, ObservableObject {
         sessionDelegate.store = store
     }
 
+    @MainActor
     func setupRemotes(uuid: UUID? = nil) async throws {
         do {
             if isSyncingWithCloud {
