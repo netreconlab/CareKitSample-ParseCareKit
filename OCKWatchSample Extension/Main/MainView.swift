@@ -7,10 +7,15 @@
 //
 
 import SwiftUI
+import CareKitStore
+import os.log
 
 struct MainView: View {
+    @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject var loginViewModel = LoginViewModel()
     @State var path = [MainViewPath]()
+    @State private var store = OCKStore(name: Constants.noCareStoreName,
+                                        type: .inMemory)
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -19,6 +24,17 @@ struct MainView: View {
                     switch destination {
                     case .tabs:
                         CareView()
+                            .environment(\.careStore, store)
+                            .onReceive(appDelegate.$store) { newStore in
+                                guard let newStore = newStore else {
+                                    return
+                                }
+                                store = newStore
+                                store.synchronize { error in
+                                    let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+                                    Logger.feed.info("\(errorString)")
+                                }
+                            }
                     }
                 }
                 .navigationBarHidden(true)

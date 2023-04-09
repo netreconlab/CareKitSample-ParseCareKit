@@ -9,10 +9,14 @@
 // This was built using tutorial: https://www.hackingwithswift.com/books/ios-swiftui/creating-tabs-with-tabview-and-tabitem
 
 import SwiftUI
+import CareKitStore
 
 struct MainTabView: View {
+    @EnvironmentObject private var appDelegate: AppDelegate
     @ObservedObject var loginViewModel: LoginViewModel
     @State private var selectedTab = 0
+    @State private var store = OCKStore(name: Constants.noCareStoreName,
+                                        type: .inMemory)
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -51,6 +55,13 @@ struct MainTabView: View {
                     }
                 }
                 .tag(2)
+                .environment(\.careStore, store)
+                .onReceive(appDelegate.$store) { newStore in
+                    guard let newStore = newStore else {
+                        return
+                    }
+                    store = newStore
+                }
         }
         .navigationBarHidden(true)
     }

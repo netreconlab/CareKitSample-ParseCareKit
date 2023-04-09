@@ -13,27 +13,28 @@ import CareKit
 import os.log
 
 struct ProfileView: View {
-    @EnvironmentObject private var appDelegate: AppDelegate
+    @CareStoreFetchRequest(query: OCKPatientQuery(for: Date())) private var patients
     @StateObject var viewModel = ProfileViewModel()
     @ObservedObject var loginViewModel: LoginViewModel
-    @State var firstName = ""
-    @State var lastName = ""
-    @State var birthday = Date()
 
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
-                TextField("First Name", text: $firstName)
+                TextField("First Name",
+                          text: $viewModel.firstName)
                     .padding()
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
 
-                TextField("Last Name", text: $lastName)
+                TextField("Last Name",
+                          text: $viewModel.lastName)
                     .padding()
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
 
-                DatePicker("Birthday", selection: $birthday, displayedComponents: [DatePickerComponents.date])
+                DatePicker("Birthday",
+                           selection: $viewModel.birthday,
+                           displayedComponents: [DatePickerComponents.date])
                     .padding()
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
@@ -42,9 +43,7 @@ struct ProfileView: View {
             Button(action: {
                 Task {
                     do {
-                        try await viewModel.saveProfile(firstName,
-                                                        last: lastName,
-                                                        birth: birthday)
+                        try await viewModel.saveProfile()
                     } catch {
                         Logger.profile.error("Error saving profile: \(error)")
                     }
@@ -75,30 +74,20 @@ struct ProfileView: View {
             .background(Color(.red))
             .cornerRadius(15)
         }
-        .onReceive(viewModel.$patient) { patient in
-            if let currentFirstName = patient?.name.givenName {
-                firstName = currentFirstName
+        .onReceive(patients.publisher) { patient in
+            guard let patient = patient.result as? OCKPatient else {
+                return
             }
-            if let currentLastName = patient?.name.familyName {
-                lastName = currentLastName
-            }
-            if let currentBirthday = patient?.birthday {
-                birthday = currentBirthday
-            }
-        }
-        .onReceive(appDelegate.$store) { newStore in
-            viewModel.updateStore(newStore)
-        }
-        .onReceive(appDelegate.$isFirstTimeLogin) { _ in
-            viewModel.updateStore()
+            viewModel.patient = patient
         }
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(viewModel: .init(store: Utility.createPreviewStore()),
+        ProfileView(viewModel: .init(),
                     loginViewModel: .init())
             .accentColor(Color(TintColorKey.defaultValue))
+            .environment(\.careStore, Utility.createPreviewStore())
     }
 }

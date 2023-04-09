@@ -13,16 +13,4 @@ import CareKitStore
 import WatchConnectivity
 import os.log
 
-class CareViewModel: ObservableObject {
-
-    func synchronizeStore(_ store: OCKStore?) {
-        guard let store = store else {
-            Logger.feed.info("OCKStore is nil")
-            return
-        }
-        store.synchronize { error in
-            let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-            Logger.feed.info("\(errorString)")
-        }
-    }
-}
+class CareViewModel: ObservableObject {}

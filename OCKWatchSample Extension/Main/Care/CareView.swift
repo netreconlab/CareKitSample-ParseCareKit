@@ -13,7 +13,7 @@ import SwiftUI
 import os.log
 
 struct CareView: View {
-    @EnvironmentObject private var appDelegate: AppDelegate
+
     @CareStoreFetchRequest(query: OCKEventQuery(for: Date())) private var events
     @StateObject var viewModel = CareViewModel()
 
@@ -24,12 +24,12 @@ struct CareView: View {
                     SimpleTaskView(event: event)
                 } else if event.result.task.id == TaskID.stretch {
                     InstructionsTaskView(event: event)
-                } else {
-                    SimpleTaskView(event: event)
                 }
             }
-        }.onReceive(appDelegate.$store) { newStore in
-            viewModel.synchronizeStore(newStore)
+        }.onAppear {
+            var query = events.query
+            query.taskIDs = [TaskID.kegels, TaskID.stretch]
+            events.query = query
         }
     }
 }

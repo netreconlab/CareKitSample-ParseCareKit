@@ -16,89 +16,49 @@ import os.log
 import Combine
 
 class ProfileViewModel: ObservableObject {
-    // MARK: Public read, private write properties
-    @Published private(set) var patient: OCKPatient?
-    private(set) var store: OCKStore {
-        didSet {
-            reloadViewModel()
-        }
-    }
-
-    // MARK: Private read/write properties
-    private var cancellables: Set<AnyCancellable> = []
-
-    init(store: OCKStore? = nil) {
-        self.store = store ?? AppDelegateKey.defaultValue?.store
-            ?? .init(name: Constants.noCareStoreName, type: .inMemory)
-    }
-
-    // MARK: Helpers (private)
-
-    func updateStore(_ store: OCKStore? = nil) {
-        guard let store = store else {
-            guard let appDelegateStore = AppDelegateKey.defaultValue?.store else {
-                Logger.profile.error("Missing AppDelegate store")
-                return
+    // MARK: Public read/write properties
+    var firstName = ""
+    var lastName = ""
+    var birthday = Date()
+    var patient: OCKPatient? {
+        willSet {
+            if let currentFirstName = newValue?.name.givenName {
+                firstName = currentFirstName
             }
-            self.store = appDelegateStore
-            return
-        }
-        self.store = store
-    }
-
-    private func reloadViewModel() {
-        Task {
-            _ = await findAndObserveCurrentProfile()
-        }
-    }
-
-    @MainActor
-    private func findAndObserveCurrentProfile() async {
-        guard let uuid = try? await Utility.getRemoteClockUUID() else {
-            Logger.profile.error("Could not get remote uuid for this user")
-            return
-        }
-
-        // Build query to search for OCKPatient
-        // swiftlint:disable:next line_length
-        var queryForCurrentPatient = OCKPatientQuery(for: Date()) // This makes the query for the current version of Patient
-        queryForCurrentPatient.ids = [uuid.uuidString] // Search for the current logged in user
-
-        do {
-            var stream = store.patients(matching: queryForCurrentPatient)
-            let patients = try await stream.next()
-            self.patient = patients?.first
-        } catch {
-            // swiftlint:disable:next line_length
-            Logger.profile.error("Could not find patient with id \"\(uuid)\". It's possible they have never been saved. Query error: \(error)")
+            if let currentLastName = newValue?.name.familyName {
+                lastName = currentLastName
+            }
+            if let currentBirthday = newValue?.birthday {
+                birthday = currentBirthday
+            }
         }
     }
 
     // MARK: User intentional behavior
     @MainActor
-    func saveProfile(_ first: String, last: String, birth: Date) async throws {
+    func saveProfile() async throws {
 
         if var patientToUpdate = patient {
             // If there is a currentPatient that was fetched, check to see if any of the fields changed
             var patientHasBeenUpdated = false
 
-            if patient?.name.givenName != first {
+            if patient?.name.givenName != firstName {
                 patientHasBeenUpdated = true
-                patientToUpdate.name.givenName = first
+                patientToUpdate.name.givenName = firstName
             }
 
-            if patient?.name.familyName != last {
+            if patient?.name.familyName != lastName {
                 patientHasBeenUpdated = true
-                patientToUpdate.name.familyName = last
+                patientToUpdate.name.familyName = lastName
             }
 
-            if patient?.birthday != birth {
+            if patient?.birthday != birthday {
                 patientHasBeenUpdated = true
-                patientToUpdate.birthday = birth
+                patientToUpdate.birthday = birthday
             }
 
             if patientHasBeenUpdated {
-                let updated = try await store.updatePatient(patientToUpdate)
+                let updated = try await AppDelegateKey.defaultValue?.store.updatePatient(patientToUpdate)
                 Logger.profile.info("Successfully updated patient")
                 self.patient = updated
             }
@@ -109,11 +69,13 @@ class ProfileViewModel: ObservableObject {
                 return
             }
 
-            var newPatient = OCKPatient(id: remoteUUID, givenName: first, familyName: last)
-            newPatient.birthday = birth
+            var newPatient = OCKPatient(id: remoteUUID,
+                                        givenName: firstName,
+                                        familyName: lastName)
+            newPatient.birthday = birthday
 
             // This is new patient that has never been saved before
-            let addedPatient = try await store.addPatient(newPatient)
+            let addedPatient = try await AppDelegateKey.defaultValue?.store.addPatient(newPatient)
             Logger.profile.info("Succesffully saved new patient")
             self.patient = addedPatient
         }

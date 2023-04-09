@@ -178,7 +178,12 @@ class CareViewController: OCKDailyPageViewController {
         query.taskIDs = [task.id]
 
         switch task.id {
-        /* case TaskID.steps:
+        case TaskID.steps:
+            /*
+            guard let event = CareStoreFetchRequest<OCKAnyEvent, OCKEventQuery>(query: query).wrappedValue.first else {
+                return nil
+            }
+            let view = NumericProgressTaskView(event: event)
             let title = task.title
             let firstOutcome = event.outcome?.sortedOutcomeValuesByRecency().values.first
             let computedProgress = event.computeProgress()
@@ -192,7 +197,8 @@ class CareViewController: OCKDailyPageViewController {
                 .padding([.vertical], 20)
                 .careKitStyle(CustomStylerKey.defaultValue)
 
-            return [view.formattedHostingController()] */
+            return [view.formattedHostingController()]*/
+            return nil
         case TaskID.stretch:
             return [OCKInstructionsTaskViewController(query: query,
                                                       store: self.store)]
@@ -282,7 +288,6 @@ class CareViewController: OCKDailyPageViewController {
     }
 
     private func streamCoordinatorEvents(for tasks: [OCKAnyTask],
-                                         // swiftlint:disable:next line_length
                                          from query: OCKTaskQuery) throws -> CareStoreQueryResults<OCKAnyEvent> {
         guard tasks.count > 0 else {
             throw AppError.errorString("No current tasks")
