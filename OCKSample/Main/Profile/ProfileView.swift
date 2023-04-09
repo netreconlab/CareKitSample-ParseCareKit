@@ -13,9 +13,9 @@ import CareKit
 import os.log
 
 struct ProfileView: View {
-    @CareStoreFetchRequest(query: OCKPatientQuery(for: Date())) private var patients
     @StateObject var viewModel = ProfileViewModel()
     @ObservedObject var loginViewModel: LoginViewModel
+    @CareStoreFetchRequest(query: OCKPatientQuery(for: Date())) private var patients
 
     var body: some View {
         VStack {
@@ -74,11 +74,8 @@ struct ProfileView: View {
             .background(Color(.red))
             .cornerRadius(15)
         }
-        .onReceive(patients.publisher) { patient in
-            guard let patient = patient.result as? OCKPatient else {
-                return
-            }
-            viewModel.patient = patient
+        .onReceive(patients.publisher) { publishedPatient in
+            viewModel.updatePatient(publishedPatient.result)
         }
     }
 }

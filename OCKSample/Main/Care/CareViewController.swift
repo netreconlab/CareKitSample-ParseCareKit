@@ -150,7 +150,7 @@ class CareViewController: OCKDailyPageViewController {
         }
 
         Task {
-            let (tasks, _) = await self.fetchTasks(on: date)
+            let tasks = await self.fetchTasks(on: date)
             tasks.compactMap {
                 let cards = self.taskViewController(for: $0,
                                                     on: date)
@@ -268,39 +268,18 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    private func fetchTasks(on date: Date) async -> ([OCKAnyTask], OCKTaskQuery) {
+    private func fetchTasks(on date: Date) async -> [OCKAnyTask] {
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
         do {
             let tasks = try await store.fetchAnyTasks(query: query)
             let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
                 tasks.first(where: { $0.id == orderedTaskID }) }
-            return (orderedTasks, query)
+            return orderedTasks
         } catch {
             Logger.feed.error("\(error, privacy: .public)")
-            return ([], query)
+            return []
         }
-    }
-
-    private func streamEvents(on date: Date) async throws -> CareStoreQueryResults<OCKAnyEvent> {
-        let (tasks, taskQuery) = await self.fetchTasks(on: date)
-        return try streamCoordinatorEvents(for: tasks, from: taskQuery)
-    }
-
-    private func streamCoordinatorEvents(for tasks: [OCKAnyTask],
-                                         from query: OCKTaskQuery) throws -> CareStoreQueryResults<OCKAnyEvent> {
-        guard tasks.count > 0 else {
-            throw AppError.errorString("No current tasks")
-        }
-        guard let dateInterval = query.dateInterval else {
-            throw AppError.errorString("Task query should have a set date")
-        }
-        var eventQuery = OCKEventQuery(dateInterval: dateInterval)
-        eventQuery.taskIDs = tasks.map { $0.id }
-        guard let store = store as? OCKStoreCoordinator else {
-            throw AppError.couldntBeUnwrapped
-        }
-        return store.anyEvents(matching: eventQuery)
     }
 }
 
