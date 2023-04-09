@@ -57,7 +57,6 @@ class AppDelegate: UIResponder, ObservableObject {
     }
     @Published private(set) var store: OCKStore! = .init(name: Constants.noCareStoreName, type: .inMemory) {
         willSet {
-            // StoreCoordinatorKey.defaultValue = newValue
             DispatchQueue.main.async {
                 self.objectWillChange.send()
             }

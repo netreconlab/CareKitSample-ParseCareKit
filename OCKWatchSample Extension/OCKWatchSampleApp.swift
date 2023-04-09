@@ -20,7 +20,7 @@ struct OCKWatchSampleApp: App {
         WindowGroup {
             MainView()
             .environment(\.appDelegate, appDelegate)
-            .environment(\.careStore, appDelegate.store)
+            // .environment(\.careStore, appDelegate.store)
             .accentColor(Color(tintColor))
             .careKitStyle(style)
         }
