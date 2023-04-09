@@ -34,7 +34,7 @@ struct CareView: UIViewControllerRepresentable {
     }
 
     func createViewController() -> UIViewController {
-        CareViewController(storeManager: appDelegate.storeManager)
+        CareViewController(store: appDelegate.storeCoordinator)
     }
 }
 

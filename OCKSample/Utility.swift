@@ -106,7 +106,7 @@ class Utility {
         }
     }
 
-    class func createPreviewStoreManager() -> OCKSynchronizedStoreManager {
+    class func createPreviewStore() -> OCKStore {
         let store = OCKStore(name: Constants.noCareStoreName, type: .inMemory)
         let patientId = "preview"
         Task {
@@ -121,7 +121,7 @@ class Utility {
                 try? await store.populateSampleData()
             }
         }
-        return .init(wrapping: store)
+        return store
     }
 
     #if os(iOS)

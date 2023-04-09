@@ -121,26 +121,21 @@ class LoginViewModel: ObservableObject {
             throw AppError.couldntBeUnwrapped
         }
         try await appDelegate.setupRemotes(uuid: remoteUUID)
-        let storeManager = appDelegate.storeManager
 
         var newPatient = OCKPatient(remoteUUID: remoteUUID,
                                     id: remoteUUID.uuidString,
                                     givenName: firstName,
                                     familyName: lastName)
         newPatient.userType = type
-        let savedPatient = try await storeManager.store.addAnyPatient(newPatient)
-        guard let patient = savedPatient as? OCKPatient else {
-            throw AppError.couldntCast
-        }
-
-        try await appDelegate.store?.populateSampleData()
+        let savedPatient = try await appDelegate.store.addPatient(newPatient)
+        try await appDelegate.store.populateSampleData()
         try await appDelegate.healthKitStore.populateSampleData()
         appDelegate.parseRemote.automaticallySynchronizes = true
 
         // Post notification to sync
         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         Logger.login.info("Successfully added a new Patient")
-        return patient
+        return savedPatient
     }
 
     // MARK: User intentional behavior

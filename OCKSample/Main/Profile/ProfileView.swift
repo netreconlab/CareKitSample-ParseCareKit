@@ -74,7 +74,8 @@ struct ProfileView: View {
             })
             .background(Color(.red))
             .cornerRadius(15)
-        }.onReceive(viewModel.$patient) { patient in
+        }
+        .onReceive(viewModel.$patient) { patient in
             if let currentFirstName = patient?.name.givenName {
                 firstName = currentFirstName
             }
@@ -84,17 +85,19 @@ struct ProfileView: View {
             if let currentBirthday = patient?.birthday {
                 birthday = currentBirthday
             }
-        }.onReceive(appDelegate.$storeManager) { newStoreManager in
-            viewModel.updateStoreManager(newStoreManager)
-        }.onReceive(appDelegate.$isFirstTimeLogin) { _ in
-            viewModel.updateStoreManager()
+        }
+        .onReceive(appDelegate.$store) { newStore in
+            viewModel.updateStore(newStore)
+        }
+        .onReceive(appDelegate.$isFirstTimeLogin) { _ in
+            viewModel.updateStore()
         }
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(viewModel: .init(storeManager: Utility.createPreviewStoreManager()),
+        ProfileView(viewModel: .init(store: Utility.createPreviewStore()),
                     loginViewModel: .init())
             .accentColor(Color(TintColorKey.defaultValue))
     }

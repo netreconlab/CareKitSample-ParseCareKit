@@ -46,7 +46,7 @@ extension AppDelegate: UIApplicationDelegate {
                 // When syncing directly with watchOS, we do not care about login and need to setup remotes
                 do {
                     try await setupRemotes()
-                    try await store?.populateSampleData()
+                    try await store.populateSampleData()
                     try await healthKitStore.populateSampleData()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))

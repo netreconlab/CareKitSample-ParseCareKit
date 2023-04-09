@@ -15,17 +15,16 @@ import WatchConnectivity
 import os.log
 
 class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
+
     // MARK: Public read private write properties
-    @Published private(set) var storeManager: OCKSynchronizedStoreManager! {
+    @Published private(set) var store: OCKStore! {
         willSet {
-            StoreManagerKey.defaultValue = newValue
             DispatchQueue.main.async {
                 NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
                 self.objectWillChange.send()
             }
         }
     }
-    private(set) var store: OCKStore!
     private(set) var parseRemote: ParseRemote!
 
     // MARK: Private read/write properties
@@ -91,14 +90,12 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                                  remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
             } else {
                 store = OCKStore(name: Constants.watchOSLocalCareStoreName,
                                  remote: phoneRemote)
                 phoneRemote.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: phoneRemote, store: store)
                 WCSession.default.delegate = sessionDelegate
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
             }
             WCSession.default.activate()
         } catch {

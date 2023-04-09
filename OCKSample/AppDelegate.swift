@@ -47,19 +47,24 @@ class AppDelegate: UIResponder, ObservableObject {
     }
 
     // MARK: Public read private write properties
-    // swiftlint:disable:next line_length
-    @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName,
-                                                                                                     type: .inMemory)) {
+    @Published private(set) var storeCoordinator: OCKStoreCoordinator = .init() {
         willSet {
-            StoreManagerKey.defaultValue = newValue
+            StoreCoordinatorKey.defaultValue = newValue
             DispatchQueue.main.async {
                 self.objectWillChange.send()
             }
         }
     }
-    private(set) var parseRemote: ParseRemote!
-    private(set) var store: OCKStore?
+    @Published private(set) var store: OCKStore! = .init(name: Constants.noCareStoreName, type: .inMemory) {
+        willSet {
+            // StoreCoordinatorKey.defaultValue = newValue
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
+        }
+    }
     private(set) var healthKitStore: OCKHealthKitPassthroughStore!
+    private(set) var parseRemote: ParseRemote!
 
     // MARK: Private read/write properties
     private var sessionDelegate: SessionDelegate!
@@ -68,19 +73,15 @@ class AppDelegate: UIResponder, ObservableObject {
     // MARK: Helpers
     func resetAppToInitialState() {
         do {
-            try healthKitStore.reset()
+            try storeCoordinator.reset()
         } catch {
-            Logger.appDelegate.error("Error deleting HealthKit Store: \(error)")
+            Logger.appDelegate.error("Error deleting Coordinator Store: \(error)")
         }
-        do {
-            try store?.delete() // Delete data in local OCKStore database
-        } catch {
-            Logger.appDelegate.error("Error deleting OCKStore: \(error)")
-        }
-        storeManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName, type: .inMemory))
+
+        storeCoordinator = .init()
         healthKitStore = nil
         parseRemote = nil
-        store = nil
+        store = .init(name: Constants.noCareStoreName, type: .inMemory)
         sessionDelegate.store = store
     }
 
@@ -112,15 +113,11 @@ class AppDelegate: UIResponder, ObservableObject {
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
 
-            guard let currentStore = store else {
-                Logger.appDelegate.error("Should have OCKStore")
-                return
-            }
-            healthKitStore = OCKHealthKitPassthroughStore(store: currentStore)
+            healthKitStore = OCKHealthKitPassthroughStore(store: store)
             let coordinator = OCKStoreCoordinator()
-            coordinator.attach(store: currentStore)
+            coordinator.attach(store: store)
             coordinator.attach(eventStore: healthKitStore)
-            storeManager = OCKSynchronizedStoreManager(wrapping: coordinator)
+            storeCoordinator = coordinator
         } catch {
             Logger.appDelegate.error("Error setting up remote: \(error)")
             throw error

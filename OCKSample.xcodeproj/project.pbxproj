@@ -19,7 +19,7 @@
 		70221F2F28D7CDE400971195 /* AppDelegate+ParseRemoteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70221F2D28D7CD9200971195 /* AppDelegate+ParseRemoteDelegate.swift */; };
 		70221F3428D8ABBE00971195 /* AppDelegate+UIApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70221F3328D8ABBE00971195 /* AppDelegate+UIApplicationDelegate.swift */; };
 		70221F3828D8C0CB00971195 /* AppDelegateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE928C2EE6C0005B5A2 /* AppDelegateKey.swift */; };
-		70221F3928D8C10800971195 /* StoreManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC4271B4EA70045A0EF /* StoreManagerKey.swift */; };
+		70221F3928D8C10800971195 /* StoreCoordinatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC4271B4EA70045A0EF /* StoreCoordinatorKey.swift */; };
 		70308886258273D400FFABB6 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70308885258273D400FFABB6 /* LoginViewModel.swift */; };
 		703616FF29CA194900B50BC5 /* CareKitUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 703616FE29CA194900B50BC5 /* CareKitUtilities */; };
 		7036170129CA196800B50BC5 /* CareKitUtilities in Frameworks */ = {isa = PBXBuildFile; productRef = 7036170029CA196800B50BC5 /* CareKitUtilities */; };
@@ -79,7 +79,7 @@
 		918FDEB8271B49060045A0EF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEB6271B41FF0045A0EF /* Logger.swift */; };
 		918FDEB9271B493A0045A0EF /* Installation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEB4271B40590045A0EF /* Installation.swift */; };
 		918FDEC3271B4E950045A0EF /* TintColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC2271B4E950045A0EF /* TintColorKey.swift */; };
-		918FDEC5271B4EA70045A0EF /* StoreManagerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC4271B4EA70045A0EF /* StoreManagerKey.swift */; };
+		918FDEC5271B4EA70045A0EF /* StoreCoordinatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC4271B4EA70045A0EF /* StoreCoordinatorKey.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
 		91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922C24A4C42D00925D4D /* Assets.xcassets */; };
@@ -186,7 +186,7 @@
 		918FDEB4271B40590045A0EF /* Installation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Installation.swift; sourceTree = "<group>"; };
 		918FDEB6271B41FF0045A0EF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		918FDEC2271B4E950045A0EF /* TintColorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColorKey.swift; sourceTree = "<group>"; };
-		918FDEC4271B4EA70045A0EF /* StoreManagerKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManagerKey.swift; sourceTree = "<group>"; };
+		918FDEC4271B4EA70045A0EF /* StoreCoordinatorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCoordinatorKey.swift; sourceTree = "<group>"; };
 		91AD922124A45A3900925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseCareKit.plist; sourceTree = "<group>"; };
 		91AD922324A461D200925D4D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		91AD922724A4C42B00925D4D /* OCKWatchSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCKWatchSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -435,7 +435,7 @@
 				70F0EFE928C2EE6C0005B5A2 /* AppDelegateKey.swift */,
 				70F921A727CA9A3A00368CEC /* CustomStylerKey.swift */,
 				70F03AA727860E7700E5AFB4 /* FontColorKey.swift */,
-				918FDEC4271B4EA70045A0EF /* StoreManagerKey.swift */,
+				918FDEC4271B4EA70045A0EF /* StoreCoordinatorKey.swift */,
 				918FDEC2271B4E950045A0EF /* TintColorKey.swift */,
 				70CF66E328E1E74C00FAE977 /* TintColorFlipKey.swift */,
 			);
@@ -708,7 +708,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70F921B327CAC16E00368CEC /* LocalSyncSessionDelegate.swift in Sources */,
-				70221F3928D8C10800971195 /* StoreManagerKey.swift in Sources */,
+				70221F3928D8C10800971195 /* StoreCoordinatorKey.swift in Sources */,
 				70A98D63278A268B009B58F2 /* ColorStyler.swift in Sources */,
 				918FDEB8271B49060045A0EF /* Logger.swift in Sources */,
 				91AD923B24A4C42D00925D4D /* CareView.swift in Sources */,
@@ -768,7 +768,7 @@
 				918FDEB7271B41FF0045A0EF /* Logger.swift in Sources */,
 				70221F2A28D7BE0600971195 /* AppDelegate+ParseRemoteDelegate.swift in Sources */,
 				7036E4D3256EBE35006E9A3C /* MainView.swift in Sources */,
-				918FDEC5271B4EA70045A0EF /* StoreManagerKey.swift in Sources */,
+				918FDEC5271B4EA70045A0EF /* StoreCoordinatorKey.swift in Sources */,
 				91693822271B897200A634ED /* Utility.swift in Sources */,
 				707CC718254DA91900116728 /* OCKLocalization.swift in Sources */,
 				E7C37849228F887800E982D8 /* TipView.swift in Sources */,
@@ -1194,7 +1194,7 @@
 			repositoryURL = "https://github.com/cbaker6/CareKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.1.8;
+				minimumVersion = "3.0.0-alpha.4";
 			};
 		};
 		703616FD29CA194900B50BC5 /* XCRemoteSwiftPackageReference "CareKitUtilities" */ = {
@@ -1202,7 +1202,7 @@
 			repositoryURL = "https://github.com/netreconlab/CareKitUtilities.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
+				minimumVersion = "1.0.0-alpha.1";
 			};
 		};
 		918FDEAD271B3F8F0045A0EF /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
@@ -1210,7 +1210,7 @@
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.13.1;
+				minimumVersion = "1.0.0-alpha.1";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
