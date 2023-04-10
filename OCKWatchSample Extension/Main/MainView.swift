@@ -25,12 +25,6 @@ struct MainView: View {
                     case .tabs:
                         CareView()
                             .environment(\.careStore, store)
-                            .onReceive(appDelegate.$store) { newStore in
-                                guard let newStore = newStore else {
-                                    return
-                                }
-                                store = newStore
-                            }
                     }
                 }
                 .navigationBarHidden(true)
@@ -53,6 +47,15 @@ struct MainView: View {
             }
             path = [.tabs]
         })
+        .onReceive(appDelegate.$store) { newStore in
+            Task {
+                await loginViewModel.checkStatus()
+            }
+            guard let newStore = newStore else {
+                return
+            }
+            store = newStore
+        }
     }
 }
 

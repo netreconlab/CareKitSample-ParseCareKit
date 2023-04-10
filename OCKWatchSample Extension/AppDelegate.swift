@@ -48,13 +48,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                         let uuid = try await Utility.getRemoteClockUUID()
                         try await self.setupRemotes(uuid: uuid)
                         parseRemote.automaticallySynchronizes = true
-                        // swiftlint:disable:next line_length
-                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
                         Logger.appDelegate.info("User is already signed in...")
-                        store.synchronize { error in
-                            let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                            Logger.appDelegate.info("\(errorString)")
-                        }
                     } catch {
                         Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
                         try await setupRemotes(uuid: nil)
