@@ -41,6 +41,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
                     completionHandler(.performDefaultHandling, nil)
                 }
+                await Utility.clearDeviceOnFirstRun()
                 do {
                     _ = try await User.current()
                     do {
@@ -112,6 +113,23 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             Logger.appDelegate.error("Error setting up remote: \(error)")
             throw error
         }
+    }
+
+    @MainActor
+    func resetAppToInitialState() {
+
+        do {
+            try self.store?.delete()
+        } catch {
+            Logger.appDelegate.error("Error deleting OCKStore: \(error)")
+        }
+
+        parseRemote = nil
+
+        let store = OCKStore(name: Constants.noCareStoreName,
+                             type: .inMemory)
+        sessionDelegate.store = store
+        self.store = store
     }
 
     func applicationDidBecomeActive() {

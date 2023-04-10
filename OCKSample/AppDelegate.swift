@@ -65,12 +65,19 @@ class AppDelegate: UIResponder, ObservableObject {
         do {
             try storeCoordinator.reset()
         } catch {
-            Logger.appDelegate.error("Error deleting Coordinator Store: \(error)")
+            Logger.appDelegate.error("Could not delete Coordinator Store: \(error)")
+        }
+
+        do {
+            try self.store?.delete()
+        } catch {
+            Logger.utility.error("Could not delete local OCKStore because of error: \(error)")
         }
 
         storeCoordinator = .init()
         healthKitStore = nil
         parseRemote = nil
+
         let store = OCKStore(name: Constants.noCareStoreName,
                              type: .inMemory)
         sessionDelegate.store = store
@@ -82,7 +89,7 @@ class AppDelegate: UIResponder, ObservableObject {
         do {
             if isSyncingWithCloud {
                 guard let uuid = uuid else {
-                    Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
+                    Logger.appDelegate.error("Could not setupRemotes, uuid is nil")
                     return
                 }
                 parseRemote = try await ParseRemote(uuid: uuid,
@@ -114,7 +121,7 @@ class AppDelegate: UIResponder, ObservableObject {
             storeCoordinator.attach(eventStore: healthKitStore)
             self.storeCoordinator = storeCoordinator
         } catch {
-            Logger.appDelegate.error("Error setting up remote: \(error)")
+            Logger.appDelegate.error("Could not setup remote: \(error)")
             throw error
         }
     }

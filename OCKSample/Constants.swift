@@ -77,6 +77,7 @@ enum Constants {
     static let shouldRefreshView = "shouldRefreshView"
     static let userLoggedIn = "userLoggedIn"
     static let userTypeKey = "userType"
+    static let appName = "ParseCareKitSample"
 }
 
 enum MainViewPath {

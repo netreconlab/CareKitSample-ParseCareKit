@@ -23,6 +23,7 @@ extension AppDelegate: UIApplicationDelegate {
                 Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
                 return
             }
+            await Utility.clearDeviceOnFirstRun()
             if isSyncingWithCloud {
                 do {
                     _ = try await User.current()

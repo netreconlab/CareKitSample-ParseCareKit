@@ -48,11 +48,11 @@ class Utility {
         do {
             try await setDefaultACL()
         } catch {
-            Logger.login.error("Could not set defaultACL: \(error)")
+            Logger.utility.error("Could not set defaultACL: \(error)")
         }
 
         guard let appDelegate = AppDelegateKey.defaultValue else {
-            Logger.login.error("Could not setup remotes, AppDelegate is nil")
+            Logger.utility.error("Could not setup remotes, AppDelegate is nil")
             return
         }
         try await appDelegate.setupRemotes(uuid: remoteUUID)
@@ -124,6 +124,55 @@ class Utility {
         return store
     }
 
+    class func clearDeviceOnFirstRun(storeName: String? = nil) async {
+        // Clear items out of the Keychain on app first run.
+        if UserDefaults.standard.object(forKey: Constants.appName) == nil {
+
+            if let storeName = storeName {
+                let store = OCKStore(name: storeName, type: .onDisk())
+                do {
+                    try store.delete()
+                } catch {
+                    Logger.utility.error("""
+                        Could not delete OCKStore with name \"\(storeName)\" because of error: \(error)
+                    """)
+                }
+            } else {
+                let localStore: OCKStore!
+                let parseStore: OCKStore!
+
+                #if os(watchOS)
+                localStore = OCKStore(name: Constants.watchOSLocalCareStoreName,
+                                      type: .onDisk())
+                parseStore = OCKStore(name: Constants.watchOSParseCareStoreName,
+                                      type: .onDisk())
+                #else
+                localStore = OCKStore(name: Constants.iOSLocalCareStoreName,
+                                      type: .onDisk())
+                parseStore = OCKStore(name: Constants.iOSParseCareStoreName,
+                                      type: .onDisk())
+                #endif
+
+                do {
+                    try localStore.delete()
+                } catch {
+                    Logger.utility.error("Could not delete local OCKStore because of error: \(error)")
+                }
+                do {
+                    try parseStore.delete()
+                } catch {
+                    Logger.utility.error("Could not delete parse OCKStore because of error: \(error)")
+                }
+            }
+
+            // This is no longer the first run
+            UserDefaults.standard.setValue(String(Constants.appName),
+                                           forKey: Constants.appName)
+            UserDefaults.standard.synchronize()
+            try? await User.logout()
+        }
+    }
+
     #if os(iOS)
     class func requestHealthKitPermissions() {
         AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
@@ -134,7 +183,7 @@ class Utility {
                 }
                 return
             }
-            Logger.login.error("Error requesting HealthKit permissions: \(error)")
+            Logger.utility.error("Error requesting HealthKit permissions: \(error)")
         }
     }
     #endif

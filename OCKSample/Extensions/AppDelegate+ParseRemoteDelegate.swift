@@ -20,7 +20,10 @@ extension AppDelegate: ParseRemoteDelegate {
     @MainActor
     func successfullyPushedDataToCloud() {
         if isFirstTimeLogin {
-            self.isFirstTimeLogin.toggle()
+            // BAKER: @MainActor not working (shows purple warning), leave async.
+            DispatchQueue.main.async {
+                self.isFirstTimeLogin.toggle()
+            }
         }
         #if !targetEnvironment(simulator)
         // watchOS 9 needs to be sent messages for updates on real devices
