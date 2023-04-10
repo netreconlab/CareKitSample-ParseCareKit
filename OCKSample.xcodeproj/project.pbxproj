@@ -590,8 +590,9 @@
 		E72B2BFE226939E3009A9438 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Network Reconnaissance Lab";
 				TargetAttributes = {
 					5173CB8623C3A846007655A0 = {

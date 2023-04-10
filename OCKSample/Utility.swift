@@ -57,8 +57,6 @@ class Utility {
         }
         try await appDelegate.setupRemotes(uuid: remoteUUID)
         appDelegate.parseRemote.automaticallySynchronizes = true
-
-        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         return
     }
 
