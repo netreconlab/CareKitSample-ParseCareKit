@@ -47,11 +47,15 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                     do {
                         let uuid = try await Utility.getRemoteClockUUID()
                         try await self.setupRemotes(uuid: uuid)
-                        parseRemote.automaticallySynchronizes = true
                         Logger.appDelegate.info("User is already signed in...")
                     } catch {
                         Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
                         try await setupRemotes(uuid: nil)
+                    }
+                    if isSyncingWithCloud {
+                        parseRemote.automaticallySynchronizes = true
+                    } else {
+                        phoneRemote.automaticallySynchronizes = true
                     }
                 } catch {
                     Logger.appDelegate.info("User is not logged in...")
@@ -94,7 +98,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 self.store = store
             } else {
                 let store = OCKStore(name: Constants.watchOSLocalCareStoreName,
-                                     type: .onDisk(),
+                                     type: .inMemory,
                                      remote: phoneRemote)
                 phoneRemote.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: phoneRemote,
