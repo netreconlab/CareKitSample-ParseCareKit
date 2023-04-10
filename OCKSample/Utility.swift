@@ -167,7 +167,9 @@ class Utility {
             UserDefaults.standard.setValue(String(Constants.appName),
                                            forKey: Constants.appName)
             UserDefaults.standard.synchronize()
-            try? await User.logout()
+            if isSyncingWithCloud {
+                try? await User.logout()
+            }
         }
     }
 

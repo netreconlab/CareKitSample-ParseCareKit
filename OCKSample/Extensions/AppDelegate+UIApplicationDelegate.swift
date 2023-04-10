@@ -14,17 +14,17 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Task {
-            do {
-                // Parse-Server setup
-                try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
-                    completionHandler(.performDefaultHandling, nil)
-                }
-            } catch {
-                Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
-                return
-            }
             await Utility.clearDeviceOnFirstRun()
             if isSyncingWithCloud {
+                do {
+                    // Parse-Server setup
+                    try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                        completionHandler(.performDefaultHandling, nil)
+                    }
+                } catch {
+                    Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
+                    return
+                }
                 do {
                     _ = try await User.current()
                     Logger.appDelegate.info("User is already signed in...")
