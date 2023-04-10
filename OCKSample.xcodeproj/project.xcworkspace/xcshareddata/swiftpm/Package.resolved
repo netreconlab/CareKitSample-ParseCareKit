@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/cbaker6/CareKit.git",
       "state" : {
-        "revision" : "032abb22324bcd2b80d506aa708f5e035cf1c0a5",
-        "version" : "3.0.0-alpha.6"
+        "revision" : "38b9ef83b930f66daa329e9e1fd699d43340ea06",
+        "version" : "3.0.0-alpha.11"
       }
     },
     {
