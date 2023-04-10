@@ -24,6 +24,7 @@ struct MainView: View {
                             MainTabView(loginViewModel: loginViewModel)
                         } else {
                             CareView()
+                                .navigationBarHidden(true)
                         }
                     }
                 }
