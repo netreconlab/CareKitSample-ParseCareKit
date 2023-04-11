@@ -57,7 +57,8 @@ struct MainTabView: View {
                 .tag(2)
                 .environment(\.careStore, store)
                 .onReceive(appDelegate.$store) { newStore in
-                    guard let newStore = newStore else {
+                    guard let newStore = newStore,
+                          store.name != newStore.name else {
                         return
                     }
                     store = newStore

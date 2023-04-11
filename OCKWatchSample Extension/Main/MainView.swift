@@ -56,7 +56,8 @@ struct MainView: View {
             Task {
                 await loginViewModel.checkStatus()
             }
-            guard let newStore = newStore else {
+            guard let newStore = newStore,
+                  store.name != newStore.name else {
                 return
             }
             store = newStore

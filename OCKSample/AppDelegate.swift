@@ -104,8 +104,8 @@ class AppDelegate: UIResponder, ObservableObject {
                 self.store = store
             } else {
                 let store = OCKStore(name: Constants.iOSLocalCareStoreName,
-                                 type: .onDisk(),
-                                 remote: watchRemote)
+                                     type: .onDisk(),
+                                     remote: watchRemote)
                 watchRemote.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: watchRemote, store: store)
                 self.store = store
