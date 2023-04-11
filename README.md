@@ -5,7 +5,7 @@ An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s 
 
 <img src="https://user-images.githubusercontent.com/8621344/101721031-06869500-3a75-11eb-9631-88927e9c8f00.png" width="300"> <img src="https://user-images.githubusercontent.com/8621344/101721111-33d34300-3a75-11eb-885e-4a6fc96dbd35.png" width="300"> <img src="https://user-images.githubusercontent.com/8621344/101721146-48afd680-3a75-11eb-955a-7848146a9d6f.png" width="300"><img src="https://user-images.githubusercontent.com/8621344/101721182-5cf3d380-3a75-11eb-99c9-bde40477acf3.png" width="300">
 
-**Similar to the [What's New in CareKit](https://developer.apple.com/videos/play/wwdc2020/10151/) WWDC20 video, this app syncs between the AppleWatch (setting the flag `isSyncingWithCloud` in `OCKSampleApp.swift` to  `isSyncingWithCloud = false`. Different from the video, setting `isSyncingWithCloud = true` (default behavior) in the aforementioned files syncs iOS and watchOS to a Parse Server.**
+**Similar to the [What's New in CareKit](https://developer.apple.com/videos/play/wwdc2020/10151/) WWDC20 video, this app syncs between data between iOS and an Apple Watch (setting the flag `isSyncingWithCloud` in `Constants.swift` to  `isSyncingWithCloud = false`. Different from the video, setting `isSyncingWithCloud = true` (default behavior) in the aforementioned file syncs iOS and watchOS to a Parse Server.**
 
 ParseCareKit synchronizes the following entities to Parse tables/classes using [Parse-Swift](https://github.com/netreconlab/Parse-Swift):
 
