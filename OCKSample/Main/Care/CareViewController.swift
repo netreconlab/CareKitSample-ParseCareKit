@@ -149,23 +149,27 @@ class CareViewController: OCKDailyPageViewController {
             }
         }
 
-        Task {
-            let tasks = await self.fetchTasks(on: date)
-            tasks.compactMap {
-                let cards = self.taskViewController(for: $0,
-                                                    on: date)
-                cards?.forEach {
-                    if let carekitView = $0.view as? OCKView {
-                        carekitView.customStyle = CustomStylerKey.defaultValue
+        fetchTasks(on: date) { result in
+            switch result {
+            case .success(let tasks):
+                tasks.compactMap {
+                    let cards = self.taskViewController(for: $0,
+                                                        on: date)
+                    cards?.forEach {
+                        if let carekitView = $0.view as? OCKView {
+                            carekitView.customStyle = CustomStylerKey.defaultValue
+                        }
+                        $0.view.isUserInteractionEnabled = isCurrentDay
+                        $0.view.alpha = !isCurrentDay ? 0.4 : 1.0
                     }
-                    $0.view.isUserInteractionEnabled = isCurrentDay
-                    $0.view.alpha = !isCurrentDay ? 0.4 : 1.0
+                    return cards
+                }.forEach { (cards: [UIViewController]) in
+                    cards.forEach {
+                        listViewController.appendViewController($0, animated: false)
+                    }
                 }
-                return cards
-            }.forEach { (cards: [UIViewController]) in
-                cards.forEach {
-                    listViewController.appendViewController($0, animated: false)
-                }
+            case .failure(let error):
+                Logger.feed.error("Could not fetch tasks: \(error)")
             }
             self.isLoading = false
         }
@@ -268,17 +272,20 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    private func fetchTasks(on date: Date) async -> [OCKAnyTask] {
+    private func fetchTasks(on date: Date,
+                            completion: @escaping (Result<[OCKAnyTask], Error>) -> Void) {
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
-        do {
-            let tasks = try await store.fetchAnyTasks(query: query)
-            let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
-                tasks.first(where: { $0.id == orderedTaskID }) }
-            return orderedTasks
-        } catch {
-            Logger.feed.error("\(error, privacy: .public)")
-            return []
+        store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
+            switch result {
+            case .success(let tasks):
+                let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
+                    tasks.first(where: { $0.id == orderedTaskID })
+                }
+                completion(.success(orderedTasks))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
 }

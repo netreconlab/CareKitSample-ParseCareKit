@@ -13,9 +13,10 @@ import CareKit
 import os.log
 
 struct ProfileView: View {
+    private static var query = OCKPatientQuery(for: Date())
+    @CareStoreFetchRequest(query: query) private var patients
     @StateObject var viewModel = ProfileViewModel()
     @ObservedObject var loginViewModel: LoginViewModel
-    @CareStoreFetchRequest(query: OCKPatientQuery(for: Date())) private var patients
 
     var body: some View {
         VStack {

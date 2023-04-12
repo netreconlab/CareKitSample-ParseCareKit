@@ -26,8 +26,13 @@ struct CareView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: UIViewControllerType,
                                 context: Context) {
-        guard let navigationController = uiViewController as? UINavigationController else {
-            Logger.feed.error("View should have been a UINavigationController")
+        guard let navigationController = uiViewController as? UINavigationController,
+              let careViewController = navigationController.viewControllers.first as? CareViewController else {
+            Logger.feed.error("CareView should have been a UINavigationController")
+            return
+        }
+        guard careViewController.store !== appDelegate.storeCoordinator else {
+            // No need to update view
             return
         }
         navigationController.setViewControllers([createViewController()], animated: false)

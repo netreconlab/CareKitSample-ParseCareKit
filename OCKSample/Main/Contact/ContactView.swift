@@ -23,14 +23,15 @@ struct ContactView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIViewControllerType,
                                 context: Context) {
         guard let navigationController = uiViewController as? UINavigationController else {
-            Logger.feed.error("View should have been a UINavigationController")
+            Logger.feed.error("ContactView should have been a UINavigationController")
             return
         }
         navigationController.setViewControllers([createViewController()], animated: false)
     }
 
     func createViewController() -> UIViewController {
-        OCKContactsListViewController(store: appDelegate.storeCoordinator)
+        OCKContactsListViewController(store: appDelegate.storeCoordinator,
+                                      contactViewSynchronizer: OCKDetailedContactViewSynchronizer())
     }
 }
 

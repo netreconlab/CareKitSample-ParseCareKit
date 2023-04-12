@@ -34,6 +34,10 @@ extension AppDelegate: ParseRemoteDelegate {
         #endif
     }
 
+    func needStore() -> OCKAnyStoreProtocol {
+        return storeCoordinator
+    }
+
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {
         let progressPercentage = Int(progress * 100.0)
         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.progressUpdate),
