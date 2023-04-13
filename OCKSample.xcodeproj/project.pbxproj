@@ -1191,7 +1191,7 @@
 			repositoryURL = "https://github.com/cbaker6/CareKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = "3.0.0-alpha.17";
+				minimumVersion = "3.0.0-alpha.20";
 			};
 		};
 		703616FD29CA194900B50BC5 /* XCRemoteSwiftPackageReference "CareKitUtilities" */ = {

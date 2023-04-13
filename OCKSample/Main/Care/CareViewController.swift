@@ -58,7 +58,7 @@ class CareViewController: OCKDailyPageViewController {
         event.computeProgress(by: .checkingOutcomeExists)
     }) {
         super.init(store: store, computeProgress: computeProgress)
-        self.events = events
+        // self.events = events
     }
 
     override func viewDidLoad() {
@@ -206,7 +206,6 @@ class CareViewController: OCKDailyPageViewController {
 
         switch task.id {
         case TaskID.steps:
-
             guard let event = getStoreFetchRequestEvent(for: task.id) else {
                 return nil
             }
@@ -214,6 +213,7 @@ class CareViewController: OCKDailyPageViewController {
                 .careKitStyle(CustomStylerKey.defaultValue)
 
             return [view.formattedHostingController()]
+
         case TaskID.stretch:
             return [OCKInstructionsTaskViewController(query: query,
                                                       store: self.store)]

@@ -39,7 +39,7 @@ struct CareView: UIViewControllerRepresentable {
         }
         guard careViewController.store !== appDelegate.storeCoordinator else {
             // No need to replace view
-            careViewController.events = events
+            // careViewController.events = events
             return
         }
         navigationController.setViewControllers([createViewController()], animated: false)
