@@ -41,6 +41,25 @@ class CareViewController: OCKDailyPageViewController {
 
     private var isSyncing = false
     private var isLoading = false
+    var events: CareStoreFetchedResults<OCKAnyEvent, OCKEventQuery>? {
+        didSet {
+            self.reloadView()
+        }
+    }
+
+    /// Create an instance of the view controller. Will hook up the calendar to the tasks collection,
+    /// and query and display the tasks.
+    ///
+    /// - Parameter store: The store from which to query the tasks.
+    /// - Parameter computeProgress: Used to compute the combined progress for a series of CareKit events.
+    init(store: OCKAnyStoreProtocol,
+         events: CareStoreFetchedResults<OCKAnyEvent, OCKEventQuery>? = nil,
+         computeProgress: @escaping (OCKAnyEvent) -> CareTaskProgress = { event in
+        event.computeProgress(by: .checkingOutcomeExists)
+    }) {
+        super.init(store: store, computeProgress: computeProgress)
+        self.events = events
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -175,6 +194,10 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
+    private func getStoreFetchRequestEvent(for taskId: String) -> CareStoreFetchedResult<OCKAnyEvent>? {
+        events?.filter({ $0.result.task.id == taskId }).last
+    }
+
     private func taskViewController(for task: OCKAnyTask,
                                     on date: Date) -> [UIViewController]? {
 
@@ -183,26 +206,15 @@ class CareViewController: OCKDailyPageViewController {
 
         switch task.id {
         case TaskID.steps:
-            /*
-            guard let event = CareStoreFetchRequest<OCKAnyEvent, OCKEventQuery>(query: query).wrappedValue.first else {
+
+            guard let event = getStoreFetchRequestEvent(for: task.id) else {
                 return nil
             }
             let view = NumericProgressTaskView(event: event)
-            let title = task.title
-            let firstOutcome = event.outcome?.sortedOutcomeValuesByRecency().values.first
-            let computedProgress = event.computeProgress()
-            let progress = firstOutcome?.doubleValue ?? 0.0
-            let goal: Double = progress / computedProgress.fractionCompleted
-            let isCompleted = event.computeProgress().isCompleted
-            let view = NumericProgressTaskView(title: Text(title ?? ""),
-                                               progress: Text("\(progress)"),
-                                               goal: Text("\(goal)"),
-                                               isComplete: isCompleted)
                 .padding([.vertical], 20)
                 .careKitStyle(CustomStylerKey.defaultValue)
 
-            return [view.formattedHostingController()]*/
-            return nil
+            return [view.formattedHostingController()]
         case TaskID.stretch:
             return [OCKInstructionsTaskViewController(query: query,
                                                       store: self.store)]

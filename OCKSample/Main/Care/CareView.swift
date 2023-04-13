@@ -15,6 +15,12 @@ import CareKitStore
 import os.log
 
 struct CareView: UIViewControllerRepresentable {
+    private static var query: OCKEventQuery {
+        var query = OCKEventQuery(for: Date())
+        query.taskIDs = [TaskID.steps]
+        return query
+    }
+    @CareStoreFetchRequest(query: query) private var events
     @EnvironmentObject private var appDelegate: AppDelegate
 
     func makeUIViewController(context: Context) -> some UIViewController {
@@ -32,14 +38,16 @@ struct CareView: UIViewControllerRepresentable {
             return
         }
         guard careViewController.store !== appDelegate.storeCoordinator else {
-            // No need to update view
+            // No need to replace view
+            careViewController.events = events
             return
         }
         navigationController.setViewControllers([createViewController()], animated: false)
     }
 
     func createViewController() -> UIViewController {
-        CareViewController(store: appDelegate.storeCoordinator)
+        CareViewController(store: appDelegate.storeCoordinator,
+                           events: events)
     }
 }
 

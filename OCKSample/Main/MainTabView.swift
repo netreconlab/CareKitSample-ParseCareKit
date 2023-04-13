@@ -15,8 +15,7 @@ struct MainTabView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
     @ObservedObject var loginViewModel: LoginViewModel
     @State private var selectedTab = 0
-    @State private var store = OCKStore(name: Constants.noCareStoreName,
-                                        type: .inMemory)
+    @State private var store = OCKStoreCoordinator()
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -55,16 +54,15 @@ struct MainTabView: View {
                     }
                 }
                 .tag(2)
-                .environment(\.careStore, store)
-                .onReceive(appDelegate.$store) { newStore in
-                    guard let newStore = newStore,
-                          store.name != newStore.name else {
-                        return
-                    }
-                    store = newStore
-                }
         }
         .navigationBarHidden(true)
+        .environment(\.careStore, store)
+        .onReceive(appDelegate.$storeCoordinator) { newStore in
+            guard store !== newStore else {
+                return
+            }
+            store = newStore
+        }
     }
 }
 
@@ -72,5 +70,7 @@ struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         MainTabView(loginViewModel: .init())
             .accentColor(Color(TintColorKey.defaultValue))
+            .environment(\.careStore, Utility.createPreviewStore())
+
     }
 }
