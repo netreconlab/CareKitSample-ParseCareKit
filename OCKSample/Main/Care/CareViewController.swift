@@ -211,7 +211,6 @@ class CareViewController: OCKDailyPageViewController {
                 return nil
             }
             let view = NumericProgressTaskView(event: event)
-                .padding([.vertical], 20)
                 .careKitStyle(CustomStylerKey.defaultValue)
 
             return [view.formattedHostingController()]
