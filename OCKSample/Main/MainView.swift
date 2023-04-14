@@ -11,8 +11,10 @@ import CareKitStore
 import CareKitUI
 
 struct MainView: View {
+    @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject var loginViewModel = LoginViewModel()
     @State var path = [MainViewPath]()
+    @State private var storeCoordinator = OCKStoreCoordinator()
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -41,6 +43,7 @@ struct MainView: View {
                     path = [.tabs]
                 }
         }
+        .environment(\.careStore, storeCoordinator)
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             guard !isLoggedOut else {
                 path = []
@@ -48,12 +51,19 @@ struct MainView: View {
             }
             path = [.tabs]
         })
+        .onReceive(appDelegate.$storeCoordinator) { newStoreCoordinator in
+            guard storeCoordinator !== newStoreCoordinator else {
+                return
+            }
+            storeCoordinator = newStoreCoordinator
+        }
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+            .environment(\.careStore, Utility.createPreviewStore())
             .accentColor(Color(TintColorKey.defaultValue))
     }
 }

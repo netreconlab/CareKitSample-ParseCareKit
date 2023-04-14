@@ -12,10 +12,8 @@ import SwiftUI
 import CareKitStore
 
 struct MainTabView: View {
-    @EnvironmentObject private var appDelegate: AppDelegate
     @ObservedObject var loginViewModel: LoginViewModel
     @State private var selectedTab = 0
-    @State private var store = OCKStoreCoordinator()
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -56,13 +54,6 @@ struct MainTabView: View {
                 .tag(2)
         }
         .navigationBarHidden(true)
-        .environment(\.careStore, store)
-        .onReceive(appDelegate.$storeCoordinator) { newStore in
-            guard store !== newStore else {
-                return
-            }
-            store = newStore
-        }
     }
 }
 

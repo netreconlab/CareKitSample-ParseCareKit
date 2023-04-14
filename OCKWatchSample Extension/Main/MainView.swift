@@ -24,7 +24,6 @@ struct MainView: View {
                     switch destination {
                     case .tabs:
                         CareView()
-                            .environment(\.careStore, store)
                             .navigationBarHidden(true)
                     }
                 }
@@ -41,6 +40,7 @@ struct MainView: View {
                     path = [.tabs]
                 }
         }
+        .environment(\.careStore, store)
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             guard isSyncingWithCloud else {
                 path = [.tabs]

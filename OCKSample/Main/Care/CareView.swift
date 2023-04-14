@@ -37,7 +37,8 @@ struct CareView: UIViewControllerRepresentable {
             Logger.feed.error("CareView should have been a UINavigationController")
             return
         }
-        guard careViewController.store !== appDelegate.storeCoordinator else {
+        guard careViewController.store !== appDelegate.storeCoordinator ||
+                appDelegate.isFirstTimeLogin else {
             // No need to replace view
             // careViewController.events = events
             return
