@@ -14,7 +14,6 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Task {
-            await Utility.clearDeviceOnFirstRun()
             if isSyncingWithCloud {
                 do {
                     // Parse-Server setup
@@ -25,6 +24,7 @@ extension AppDelegate: UIApplicationDelegate {
                     Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
                     return
                 }
+                await Utility.clearDeviceOnFirstRun()
                 do {
                     _ = try await User.current()
                     Logger.appDelegate.info("User is already signed in...")
@@ -44,6 +44,7 @@ extension AppDelegate: UIApplicationDelegate {
                     Logger.appDelegate.error("User is not loggied in: \(error)")
                 }
             } else {
+                await Utility.clearDeviceOnFirstRun()
                 // When syncing directly with watchOS, we do not care about login and need to setup remotes
                 do {
                     try await setupRemotes()
