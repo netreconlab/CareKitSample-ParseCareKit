@@ -27,10 +27,12 @@ extension AppDelegate: ParseRemoteDelegate {
         }
         #if !targetEnvironment(simulator)
         // watchOS 9 needs to be sent messages for updates on real devices
-        let message = Utility.prepareSyncMessageForWatch()
-        WCSession.default.sendMessage(message,
-                                      replyHandler: nil,
-                                      errorHandler: nil)
+        if isSendingPushUpdatesToWatch {
+            let message = Utility.prepareSyncMessageForWatch()
+            WCSession.default.sendMessage(message,
+                                          replyHandler: nil,
+                                          errorHandler: nil)
+        }
         #endif
     }
 
