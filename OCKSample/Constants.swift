@@ -24,46 +24,6 @@ let isSyncingWithCloud = true
  */
 let isSendingPushUpdatesToWatch = true
 
-enum AppError: Error {
-    case couldntCast
-    case couldntBeUnwrapped
-    case valueNotFoundInUserInfo
-    case remoteClockIDNotAvailable
-    case emptyTaskEvents
-    case invalidIndexPath(_ indexPath: IndexPath)
-    case noOutcomeValueForEvent(_ event: OCKAnyEvent, index: Int)
-    case cannotMakeOutcomeFor(_ event: OCKAnyEvent)
-    case parseError(_ error: ParseError)
-    case error(_ error: Error)
-    case errorString(_ string: String)
-}
-
-extension AppError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
-        case .couldntCast:
-            return NSLocalizedString("OCKSampleError: Could not cast to required type.",
-                                     comment: "Casting error")
-        case .couldntBeUnwrapped:
-            return NSLocalizedString("OCKSampleError: Could not unwrap a required type.",
-                                     comment: "Unwrapping error")
-        case .valueNotFoundInUserInfo:
-            return NSLocalizedString("OCKSampleError: Could not find the required value in userInfo.",
-                                     comment: "Value not found error")
-        case .remoteClockIDNotAvailable:
-            return NSLocalizedString("OCKSampleError: Could not get remote clock ID.",
-                                     comment: "Value not available error")
-        case .emptyTaskEvents: return "Task events is empty"
-        case let .noOutcomeValueForEvent(event, index): return "Event has no outcome value at index \(index): \(event)"
-        case .invalidIndexPath(let indexPath): return "Invalid index path \(indexPath)"
-        case .cannotMakeOutcomeFor(let event): return "Cannot make outcome for event: \(event)"
-        case .parseError(let error): return "\(error)"
-        case .error(let error): return "\(error)"
-        case .errorString(let string): return string
-        }
-    }
-}
-
 enum Constants {
     static let parseConfigFileName = "ParseCareKit"
     static let iOSParseCareStoreName = "iOSParseStore"
@@ -79,35 +39,4 @@ enum Constants {
     static let userLoggedIn = "userLoggedIn"
     static let userTypeKey = "userType"
     static let appName = "ParseCareKitSample"
-}
-
-enum MainViewPath {
-    case tabs
-}
-
-enum TaskID {
-    static let doxylamine = "doxylamine"
-    static let nausea = "nausea"
-    static let stretch = "stretch"
-    static let kegels = "kegels"
-    static let steps = "steps"
-
-    static var ordered: [String] {
-        [Self.steps, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
-    }
-}
-
-enum UserType: String, Codable {
-    case patient                           = "Patient"
-    case none                              = "None"
-
-    // Return all types as an array, make sure to maintain order above
-    func allTypesAsArray() -> [String] {
-        return [UserType.patient.rawValue,
-                UserType.none.rawValue]
-    }
-}
-
-enum InstallationChannel: String {
-    case global
 }
