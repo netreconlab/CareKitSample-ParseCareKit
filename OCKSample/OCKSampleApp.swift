@@ -21,7 +21,7 @@ struct OCKSampleApp: App {
             MainView()
                 .environment(\.appDelegate, appDelegate)
                 .accentColor(Color(tintColor))
-                .careKitStyle(Styler())
+                .careKitStyle(style)
         }
     }
 }
