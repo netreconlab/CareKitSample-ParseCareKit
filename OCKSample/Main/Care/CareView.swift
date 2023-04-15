@@ -56,5 +56,6 @@ struct CareView_Previews: PreviewProvider {
     static var previews: some View {
         CareView()
             .accentColor(Color(TintColorKey.defaultValue))
+            .environment(\.careStore, Utility.createPreviewStore())
     }
 }

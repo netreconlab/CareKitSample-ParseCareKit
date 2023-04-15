@@ -12,8 +12,8 @@ import os.log
 
 struct MainView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
-    @StateObject var loginViewModel = LoginViewModel()
-    @State var path = [MainViewPath]()
+    @StateObject private var loginViewModel = LoginViewModel()
+    @State private var path = [MainViewPath]()
     @State private var store = OCKStore(name: Constants.noCareStoreName,
                                         type: .inMemory)
 
@@ -24,23 +24,22 @@ struct MainView: View {
                     switch destination {
                     case .tabs:
                         CareView()
-                            .navigationBarHidden(true)
                     }
                 }
                 .navigationBarHidden(true)
-                .onAppear {
-                    guard isSyncingWithCloud else {
-                        path = [.tabs]
-                        return
-                    }
-                    guard !loginViewModel.isLoggedOut else {
-                        path = []
-                        return
-                    }
-                    path = [.tabs]
-                }
         }
         .environment(\.careStore, store)
+        .onAppear {
+            guard isSyncingWithCloud else {
+                path = [.tabs]
+                return
+            }
+            guard !loginViewModel.isLoggedOut else {
+                path = []
+                return
+            }
+            path = [.tabs]
+        }
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             guard isSyncingWithCloud else {
                 path = [.tabs]

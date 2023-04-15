@@ -12,8 +12,8 @@ import CareKitUI
 
 struct MainView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
-    @StateObject var loginViewModel = LoginViewModel()
-    @State var path = [MainViewPath]()
+    @StateObject private var loginViewModel = LoginViewModel()
+    @State private var path = [MainViewPath]()
     @State private var storeCoordinator = OCKStoreCoordinator()
 
     var body: some View {
@@ -24,26 +24,26 @@ struct MainView: View {
                     case .tabs:
                         if isSyncingWithCloud {
                             MainTabView(loginViewModel: loginViewModel)
+                                .navigationBarHidden(true)
                         } else {
                             CareView()
                                 .navigationBarHidden(true)
                         }
                     }
                 }
-                .navigationBarHidden(true)
-                .onAppear {
-                    guard isSyncingWithCloud else {
-                        path = [.tabs]
-                        return
-                    }
-                    guard !loginViewModel.isLoggedOut else {
-                        path = []
-                        return
-                    }
-                    path = [.tabs]
-                }
         }
         .environment(\.careStore, storeCoordinator)
+        .onAppear {
+            guard isSyncingWithCloud else {
+                path = [.tabs]
+                return
+            }
+            guard !loginViewModel.isLoggedOut else {
+                path = []
+                return
+            }
+            path = [.tabs]
+        }
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             guard !isLoggedOut else {
                 path = []
