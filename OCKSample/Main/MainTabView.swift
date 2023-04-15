@@ -61,6 +61,5 @@ struct MainTabView_Previews: PreviewProvider {
         MainTabView(loginViewModel: .init())
             .accentColor(Color(TintColorKey.defaultValue))
             .environment(\.careStore, Utility.createPreviewStore())
-
     }
 }
