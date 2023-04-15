@@ -36,33 +36,42 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 
     func applicationDidFinishLaunching() {
         Task {
-            do {
-                // Parse-server setup
-                try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
-                    completionHandler(.performDefaultHandling, nil)
-                }
-                await Utility.clearDeviceOnFirstRun()
+            if isSyncingWithCloud {
                 do {
-                    _ = try await User.current()
+                    // Parse-server setup
+                    try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                        completionHandler(.performDefaultHandling, nil)
+                    }
+                    await Utility.clearDeviceOnFirstRun()
                     do {
-                        let uuid = try await Utility.getRemoteClockUUID()
-                        try await self.setupRemotes(uuid: uuid)
-                        Logger.appDelegate.info("User is already signed in...")
+                        _ = try await User.current()
+                        do {
+                            let uuid = try await Utility.getRemoteClockUUID()
+                            try await self.setupRemotes(uuid: uuid)
+                            Logger.appDelegate.info("User is already signed in...")
+                        } catch {
+                            Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+                            try await setupRemotes(uuid: nil)
+                        }
+                        parseRemote.automaticallySynchronizes = true
                     } catch {
-                        Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+                        Logger.appDelegate.info("User is not logged in...")
                         try await setupRemotes(uuid: nil)
                     }
-                    if isSyncingWithCloud {
-                        parseRemote.automaticallySynchronizes = true
-                    } else {
-                        phoneRemote.automaticallySynchronizes = true
-                    }
                 } catch {
-                    Logger.appDelegate.info("User is not logged in...")
-                    try await setupRemotes(uuid: nil)
+                    Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
                 }
-            } catch {
-                Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
+            } else {
+                await Utility.clearDeviceOnFirstRun()
+                do {
+                    try await self.setupRemotes()
+                    phoneRemote.automaticallySynchronizes = true
+                } catch {
+                    Logger.appDelegate.error("""
+                        Could not populate
+                        data stores: \(error)
+                    """)
+                }
             }
         }
     }
@@ -98,7 +107,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 self.store = store
             } else {
                 let store = OCKStore(name: Constants.watchOSLocalCareStoreName,
-                                     type: .inMemory,
+                                     type: .onDisk(),
                                      remote: phoneRemote)
                 phoneRemote.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: phoneRemote,

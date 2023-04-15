@@ -56,9 +56,9 @@ extension AppDelegate: UIApplicationDelegate {
                     }
                 } catch {
                     Logger.appDelegate.error("""
-                    Error in SceneDelage, could not populate
-                    data stores: \(error)
-                """)
+                        Could not populate
+                        data stores: \(error)
+                    """)
                 }
             }
         }

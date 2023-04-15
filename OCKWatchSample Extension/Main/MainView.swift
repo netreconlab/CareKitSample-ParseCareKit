@@ -24,22 +24,23 @@ struct MainView: View {
                     switch destination {
                     case .tabs:
                         CareView()
+                            .navigationBarHidden(true)
                     }
                 }
                 .navigationBarHidden(true)
+                .onAppear {
+                    guard isSyncingWithCloud else {
+                        path = [.tabs]
+                        return
+                    }
+                    guard !loginViewModel.isLoggedOut else {
+                        path = []
+                        return
+                    }
+                    path = [.tabs]
+                }
         }
         .environment(\.careStore, store)
-        .onAppear {
-            guard isSyncingWithCloud else {
-                path = [.tabs]
-                return
-            }
-            guard !loginViewModel.isLoggedOut else {
-                path = []
-                return
-            }
-            path = [.tabs]
-        }
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             guard isSyncingWithCloud else {
                 path = [.tabs]

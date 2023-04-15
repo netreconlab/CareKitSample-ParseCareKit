@@ -31,19 +31,19 @@ struct MainView: View {
                         }
                     }
                 }
+                .onAppear {
+                    guard isSyncingWithCloud else {
+                        path = [.tabs]
+                        return
+                    }
+                    guard !loginViewModel.isLoggedOut else {
+                        path = []
+                        return
+                    }
+                    path = [.tabs]
+                }
         }
         .environment(\.careStore, storeCoordinator)
-        .onAppear {
-            guard isSyncingWithCloud else {
-                path = [.tabs]
-                return
-            }
-            guard !loginViewModel.isLoggedOut else {
-                path = []
-                return
-            }
-            path = [.tabs]
-        }
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             guard !isLoggedOut else {
                 path = []
