@@ -6,11 +6,11 @@
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
 
-import SwiftUI
 import CareKitUI
 import CareKitStore
 import CareKit
 import os.log
+import SwiftUI
 
 struct ProfileView: View {
     private static var query = OCKPatientQuery(for: Date())

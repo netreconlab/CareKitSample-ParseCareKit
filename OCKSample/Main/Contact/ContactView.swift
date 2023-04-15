@@ -6,14 +6,14 @@
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
 
-import SwiftUI
-import UIKit
 import CareKit
 import CareKitStore
 import os.log
+import SwiftUI
+import UIKit
 
 struct ContactView: UIViewControllerRepresentable {
-    @EnvironmentObject private var appDelegate: AppDelegate
+    @Environment(\.careStore) var careStore
 
     func makeUIViewController(context: Context) -> some UIViewController {
         let viewController = createViewController()
@@ -30,7 +30,7 @@ struct ContactView: UIViewControllerRepresentable {
     }
 
     func createViewController() -> UIViewController {
-        OCKContactsListViewController(store: appDelegate.storeCoordinator,
+        OCKContactsListViewController(store: careStore,
                                       contactViewSynchronizer: OCKDetailedContactViewSynchronizer())
     }
 }
@@ -40,5 +40,6 @@ struct ContactView_Previews: PreviewProvider {
     static var previews: some View {
         ContactView()
             .accentColor(Color(TintColorKey.defaultValue))
+            .environment(\.careStore, Utility.createPreviewStore())
     }
 }

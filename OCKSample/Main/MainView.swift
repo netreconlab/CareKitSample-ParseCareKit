@@ -5,10 +5,10 @@
 //  Created by Corey Baker on 11/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 
-import SwiftUI
 import CareKit
 import CareKitStore
 import CareKitUI
+import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
@@ -63,6 +63,7 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+            .environment(\.appDelegate, AppDelegate())
             .environment(\.careStore, Utility.createPreviewStore())
             .accentColor(Color(TintColorKey.defaultValue))
     }

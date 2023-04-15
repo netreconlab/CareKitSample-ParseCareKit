@@ -8,11 +8,11 @@
 // swiftlint:disable:next line_length
 // This file embeds a UIKit View Controller inside of a SwiftUI view. I used this tutorial to figure this out https://developer.apple.com/tutorials/swiftui/interfacing-with-uikit
 
-import SwiftUI
-import UIKit
 import CareKit
 import CareKitStore
 import os.log
+import SwiftUI
+import UIKit
 
 struct CareView: UIViewControllerRepresentable {
     private static var query: OCKEventQuery {
@@ -20,8 +20,9 @@ struct CareView: UIViewControllerRepresentable {
         query.taskIDs = [TaskID.steps]
         return query
     }
+    @Environment(\.appDelegate) private var appDelegate
+    @Environment(\.careStore) private var careStore
     @CareStoreFetchRequest(query: query) private var events
-    @EnvironmentObject private var appDelegate: AppDelegate
 
     func makeUIViewController(context: Context) -> some UIViewController {
         let viewController = createViewController()
@@ -37,8 +38,8 @@ struct CareView: UIViewControllerRepresentable {
             Logger.feed.error("CareView should have been a UINavigationController")
             return
         }
-        guard careViewController.store !== appDelegate.storeCoordinator ||
-                appDelegate.isFirstTimeLogin else {
+        guard careViewController.store !== careStore ||
+                appDelegate?.isFirstTimeLogin == true else {
             // No need to replace view
             // careViewController.events = events
             return
@@ -47,7 +48,7 @@ struct CareView: UIViewControllerRepresentable {
     }
 
     func createViewController() -> UIViewController {
-        CareViewController(store: appDelegate.storeCoordinator,
+        CareViewController(store: careStore,
                            events: events)
     }
 }
@@ -56,6 +57,7 @@ struct CareView_Previews: PreviewProvider {
     static var previews: some View {
         CareView()
             .accentColor(Color(TintColorKey.defaultValue))
+            .environment(\.appDelegate, AppDelegate())
             .environment(\.careStore, Utility.createPreviewStore())
     }
 }
