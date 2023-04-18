@@ -6,16 +6,16 @@
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
 
-import SwiftUI
 import CareKitUI
 import CareKitStore
 import CareKit
 import os.log
+import SwiftUI
 
 struct ProfileView: View {
     private static var query = OCKPatientQuery(for: Date())
     @CareStoreFetchRequest(query: query) private var patients
-    @StateObject var viewModel = ProfileViewModel()
+    @StateObject private var viewModel = ProfileViewModel()
     @ObservedObject var loginViewModel: LoginViewModel
 
     var body: some View {
@@ -83,8 +83,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(viewModel: .init(),
-                    loginViewModel: .init())
+        ProfileView(loginViewModel: .init())
             .accentColor(Color(TintColorKey.defaultValue))
             .environment(\.careStore, Utility.createPreviewStore())
     }

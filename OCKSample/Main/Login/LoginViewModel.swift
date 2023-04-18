@@ -6,13 +6,12 @@
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
 
-import Foundation
-import ParseCareKit
-import ParseSwift
 import CareKit
 import CareKitStore
-import WatchConnectivity
+import ParseCareKit
+import ParseSwift
 import os.log
+import WatchConnectivity
 
 class LoginViewModel: ObservableObject {
 

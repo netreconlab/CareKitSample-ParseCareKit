@@ -28,14 +28,12 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-import Foundation
-import UIKit
-import SwiftUI
-import Combine
 import CareKit
 import CareKitStore
 import CareKitUI
 import os.log
+import SwiftUI
+import UIKit
 
 class CareViewController: OCKDailyPageViewController {
 

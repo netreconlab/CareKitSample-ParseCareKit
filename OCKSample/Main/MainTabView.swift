@@ -8,8 +8,8 @@
 // swiftlint:disable:next line_length
 // This was built using tutorial: https://www.hackingwithswift.com/books/ios-swiftui/creating-tabs-with-tabview-and-tabitem
 
-import SwiftUI
 import CareKitStore
+import SwiftUI
 
 struct MainTabView: View {
     @ObservedObject var loginViewModel: LoginViewModel
@@ -53,7 +53,6 @@ struct MainTabView: View {
                 }
                 .tag(2)
         }
-        .navigationBarHidden(true)
     }
 }
 
@@ -62,6 +61,5 @@ struct MainTabView_Previews: PreviewProvider {
         MainTabView(loginViewModel: .init())
             .accentColor(Color(TintColorKey.defaultValue))
             .environment(\.careStore, Utility.createPreviewStore())
-
     }
 }

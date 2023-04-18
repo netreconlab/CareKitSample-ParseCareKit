@@ -6,14 +6,11 @@
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 //
 
-import Foundation
 import CareKit
 import CareKitStore
 import CareKitUtilities
 import SwiftUI
-import ParseCareKit
 import os.log
-import Combine
 
 class ProfileViewModel: ObservableObject {
 

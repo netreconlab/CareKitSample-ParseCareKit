@@ -5,15 +5,15 @@
 //  Created by Corey Baker on 11/25/20.
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 
-import SwiftUI
 import CareKit
 import CareKitStore
 import CareKitUI
+import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
-    @StateObject var loginViewModel = LoginViewModel()
-    @State var path = [MainViewPath]()
+    @StateObject private var loginViewModel = LoginViewModel()
+    @State private var path = [MainViewPath]()
     @State private var storeCoordinator = OCKStoreCoordinator()
 
     var body: some View {
@@ -24,13 +24,13 @@ struct MainView: View {
                     case .tabs:
                         if isSyncingWithCloud {
                             MainTabView(loginViewModel: loginViewModel)
+                                .navigationBarHidden(true)
                         } else {
                             CareView()
                                 .navigationBarHidden(true)
                         }
                     }
                 }
-                .navigationBarHidden(true)
                 .onAppear {
                     guard isSyncingWithCloud else {
                         path = [.tabs]
@@ -63,6 +63,7 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+            .environment(\.appDelegate, AppDelegate())
             .environment(\.careStore, Utility.createPreviewStore())
             .accentColor(Color(TintColorKey.defaultValue))
     }

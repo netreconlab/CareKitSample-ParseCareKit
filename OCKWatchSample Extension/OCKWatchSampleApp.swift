@@ -12,10 +12,8 @@ import SwiftUI
 @main
 struct OCKWatchSampleApp: App {
     @WKApplicationDelegateAdaptor private var appDelegate: AppDelegate
-    @Environment(\.scenePhase) private var scenePhase
     @Environment(\.tintColor) private var tintColor
     @Environment(\.customStyler) private var style
-    @State var isActive = false
     @SceneBuilder var body: some Scene {
         WindowGroup {
             MainView()

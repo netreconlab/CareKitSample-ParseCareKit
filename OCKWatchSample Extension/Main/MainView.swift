@@ -12,8 +12,8 @@ import os.log
 
 struct MainView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
-    @StateObject var loginViewModel = LoginViewModel()
-    @State var path = [MainViewPath]()
+    @StateObject private var loginViewModel = LoginViewModel()
+    @State private var path = [MainViewPath]()
     @State private var store = OCKStore(name: Constants.noCareStoreName,
                                         type: .inMemory)
 
