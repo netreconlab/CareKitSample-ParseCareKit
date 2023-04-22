@@ -1237,7 +1237,7 @@
 			repositoryURL = "https://github.com/netreconlab/CareKitUtilities.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = "1.0.0-alpha.1";
+				minimumVersion = "1.0.0-alpha.2";
 			};
 		};
 		918FDEAD271B3F8F0045A0EF /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {
@@ -1245,7 +1245,7 @@
 			repositoryURL = "https://github.com/netreconlab/ParseCareKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = "1.0.0-alpha.23";
+				minimumVersion = "1.0.0-alpha.41";
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
