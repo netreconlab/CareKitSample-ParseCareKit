@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/cbaker6/CareKit.git",
       "state" : {
-        "revision" : "225341b1785513785b7d4a9d4538c2dd48bc0554",
-        "version" : "3.0.0-alpha.21"
+        "revision" : "698176a292e3077f7a30496c42f9e8392328930e",
+        "version" : "3.0.0-alpha.22"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/ParseCareKit.git",
       "state" : {
-        "revision" : "d46bf778b9502f408b10e0dae1ccb75d4d153310",
-        "version" : "1.0.0-alpha.41"
+        "revision" : "9463925d261b51887080d8729846ca65c8c4cc1d",
+        "version" : "1.0.0-alpha.51"
       }
     },
     {
