@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/ParseCareKit.git",
       "state" : {
-        "revision" : "9463925d261b51887080d8729846ca65c8c4cc1d",
-        "version" : "1.0.0-alpha.51"
+        "revision" : "8edcd6a6fe50062566539464d980c26571cdd32b",
+        "version" : "1.0.0-alpha.55"
       }
     },
     {
