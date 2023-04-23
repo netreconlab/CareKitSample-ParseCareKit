@@ -22,7 +22,7 @@ struct MainView: View {
                 .navigationDestination(for: MainViewPath.self) { destination in
                     switch destination {
                     case .tabs:
-                        if isSyncingWithCloud {
+                        if isSyncingWithRemote {
                             MainTabView(loginViewModel: loginViewModel)
                                 .navigationBarHidden(true)
                         } else {
@@ -32,7 +32,7 @@ struct MainView: View {
                     }
                 }
                 .onAppear {
-                    guard isSyncingWithCloud else {
+                    guard isSyncingWithRemote else {
                         path = [.tabs]
                         return
                     }

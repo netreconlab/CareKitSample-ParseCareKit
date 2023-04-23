@@ -14,7 +14,7 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Task {
-            if isSyncingWithCloud {
+            if isSyncingWithRemote {
                 do {
                     // Parse-Server setup
                     try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in

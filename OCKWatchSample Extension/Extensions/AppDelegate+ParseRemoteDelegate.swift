@@ -20,7 +20,7 @@ extension AppDelegate: ParseRemoteDelegate {
         }
     }
 
-    func successfullyPushedDataToCloud() {
+    func successfullyPushedToRemote() {
         Logger.appDelegate.info("Finished pushing data")
     }
 

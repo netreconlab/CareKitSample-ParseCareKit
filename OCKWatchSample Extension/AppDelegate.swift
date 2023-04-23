@@ -36,7 +36,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 
     func applicationDidFinishLaunching() {
         Task {
-            if isSyncingWithCloud {
+            if isSyncingWithRemote {
                 do {
                     // Parse-server setup
                     try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
@@ -85,7 +85,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
     @MainActor
     func setupRemotes(uuid: UUID? = nil) async throws {
         do {
-            if isSyncingWithCloud {
+            if isSyncingWithRemote {
                 if sessionDelegate == nil {
                     sessionDelegate = RemoteSessionDelegate(store: store)
                     WCSession.default.delegate = sessionDelegate
@@ -97,7 +97,8 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 }
                 parseRemote = try await ParseRemote(uuid: uuid,
                                                     auto: false,
-                                                    subscribeToServerUpdates: true)
+                                                    subscribeToServerUpdates: true,
+                                                    defaultACL: PCKUtility.getDefaultACL())
                 let store = OCKStore(name: Constants.watchOSParseCareStoreName,
                                      type: .onDisk(),
                                      remote: parseRemote)

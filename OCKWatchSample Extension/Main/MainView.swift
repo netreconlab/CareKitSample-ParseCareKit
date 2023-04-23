@@ -29,7 +29,7 @@ struct MainView: View {
                 }
                 .navigationBarHidden(true)
                 .onAppear {
-                    guard isSyncingWithCloud else {
+                    guard isSyncingWithRemote else {
                         path = [.tabs]
                         return
                     }
@@ -42,7 +42,7 @@ struct MainView: View {
         }
         .environment(\.careStore, store)
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
-            guard isSyncingWithCloud else {
+            guard isSyncingWithRemote else {
                 path = [.tabs]
                 return
             }
@@ -61,7 +61,7 @@ struct MainView: View {
                 return
             }
             store = newStore
-            guard isSyncingWithCloud else {
+            guard isSyncingWithRemote else {
                 path = [.tabs]
                 return
             }

@@ -14,7 +14,7 @@ import ParseSwift
 /**
  Set to **true** to sync with ParseServer, *false** to sync with iOS/watchOS.
  */
-let isSyncingWithCloud = true
+let isSyncingWithRemote = true
 
 /**
  Set to **true** to use WCSession to notify watchOS about updates, **false** to not notify.

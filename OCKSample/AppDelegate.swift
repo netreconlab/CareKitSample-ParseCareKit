@@ -87,14 +87,15 @@ class AppDelegate: UIResponder, ObservableObject {
     @MainActor
     func setupRemotes(uuid: UUID? = nil) async throws {
         do {
-            if isSyncingWithCloud {
+            if isSyncingWithRemote {
                 guard let uuid = uuid else {
                     Logger.appDelegate.error("Could not setupRemotes, uuid is nil")
                     return
                 }
                 parseRemote = try await ParseRemote(uuid: uuid,
                                                     auto: false,
-                                                    subscribeToServerUpdates: true)
+                                                    subscribeToServerUpdates: true,
+                                                    defaultACL: PCKUtility.getDefaultACL())
                 let store = OCKStore(name: Constants.iOSParseCareStoreName,
                                      type: .onDisk(),
                                      remote: parseRemote)

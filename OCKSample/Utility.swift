@@ -16,7 +16,7 @@ class Utility {
     // For classes, we can use "class" or "static" to declare type methods/properties.
     class func prepareSyncMessageForWatch() -> [String: Any] {
         var returnMessage = [String: Any]()
-        returnMessage[Constants.requestSync] = "new messages in Cloud"
+        returnMessage[Constants.requestSync] = "new messages on Remote"
         return returnMessage
     }
 
@@ -170,7 +170,7 @@ class Utility {
             UserDefaults.standard.setValue(String(Constants.appName),
                                            forKey: Constants.appName)
             UserDefaults.standard.synchronize()
-            if isSyncingWithCloud {
+            if isSyncingWithRemote {
                 try? await User.logout()
             }
         }

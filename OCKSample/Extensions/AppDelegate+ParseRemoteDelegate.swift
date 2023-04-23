@@ -18,7 +18,7 @@ extension AppDelegate: ParseRemoteDelegate {
     }
 
     @MainActor
-    func successfullyPushedDataToCloud() {
+    func successfullyPushedToRemote() {
         if isFirstTimeLogin {
             // BAKER: @MainActor not working (shows purple warning), leave async.
             DispatchQueue.main.async {
