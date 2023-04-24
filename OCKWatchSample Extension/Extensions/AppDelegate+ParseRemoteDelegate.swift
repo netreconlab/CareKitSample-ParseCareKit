@@ -24,7 +24,7 @@ extension AppDelegate: ParseRemoteDelegate {
         Logger.appDelegate.info("Finished pushing data")
     }
 
-    func needStore() -> OCKAnyStoreProtocol {
+    func provideStore() -> OCKAnyStoreProtocol {
         guard let store = store else {
             return OCKStore(name: Constants.noCareStoreName, type: .inMemory)
         }

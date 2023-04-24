@@ -36,7 +36,7 @@ extension AppDelegate: ParseRemoteDelegate {
         #endif
     }
 
-    func needStore() -> OCKAnyStoreProtocol {
+    func provideStore() -> OCKAnyStoreProtocol {
         return storeCoordinator
     }
 
