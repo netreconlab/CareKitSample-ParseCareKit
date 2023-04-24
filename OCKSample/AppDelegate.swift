@@ -82,6 +82,7 @@ class AppDelegate: UIResponder, ObservableObject {
                              type: .inMemory)
         sessionDelegate.store = store
         self.store = store
+        PCKUtility.removeCache()
     }
 
     @MainActor
