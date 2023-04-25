@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, ObservableObject {
                 }
                 parseRemote = try await ParseRemote(uuid: uuid,
                                                     auto: false,
-                                                    subscribeToServerUpdates: true,
+                                                    subscribeToRemoteUpdates: true,
                                                     defaultACL: PCKUtility.getDefaultACL())
                 let store = OCKStore(name: Constants.iOSParseCareStoreName,
                                      type: .onDisk(),

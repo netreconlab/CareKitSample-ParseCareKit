@@ -97,7 +97,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 }
                 parseRemote = try await ParseRemote(uuid: uuid,
                                                     auto: false,
-                                                    subscribeToServerUpdates: true,
+                                                    subscribeToRemoteUpdates: true,
                                                     defaultACL: PCKUtility.getDefaultACL())
                 let store = OCKStore(name: Constants.watchOSParseCareStoreName,
                                      type: .onDisk(),
