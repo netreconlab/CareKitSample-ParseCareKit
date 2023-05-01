@@ -17,7 +17,8 @@ extension AppDelegate: UIApplicationDelegate {
             if isSyncingWithRemote {
                 do {
                     // Parse-Server setup
-                    try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                    // swiftlint:disable:next line_length
+                    try await PCKUtility.configureParse(fileName: Constants.parseConfigFileName) { _, completionHandler in
                         completionHandler(.performDefaultHandling, nil)
                     }
                 } catch {

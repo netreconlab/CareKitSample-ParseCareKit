@@ -39,7 +39,8 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             if isSyncingWithRemote {
                 do {
                     // Parse-server setup
-                    try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                    // swiftlint:disable:next line_length
+                    try await PCKUtility.configureParse(fileName: Constants.parseConfigFileName) { _, completionHandler in
                         completionHandler(.performDefaultHandling, nil)
                     }
                     await Utility.clearDeviceOnFirstRun()
