@@ -9,7 +9,7 @@
 	<key>LiveQueryServer</key>
 	<string></string>
 	<key>UseTransactions</key>
-	<false/>
+	<true/>
 	<key>DeleteKeychainIfNeeded</key>
 	<true/>
 </dict>

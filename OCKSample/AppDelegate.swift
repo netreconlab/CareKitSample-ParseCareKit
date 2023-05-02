@@ -38,91 +38,91 @@ import WatchConnectivity
 
 class AppDelegate: UIResponder, ObservableObject {
     // MARK: Public read/write properties
-    @Published var isFirstTimeLogin = false {
-        willSet {
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
-        }
-    }
+
+    @Published var isFirstTimeLogin = false
 
     // MARK: Public read private write properties
-    // swiftlint:disable:next line_length
-    @Published private(set) var storeManager: OCKSynchronizedStoreManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName,
-                                                                                                     type: .inMemory)) {
+
+    @Published private(set) var storeCoordinator: OCKStoreCoordinator = .init() {
         willSet {
-            StoreManagerKey.defaultValue = newValue
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+            StoreCoordinatorKey.defaultValue = newValue
+            self.objectWillChange.send()
         }
     }
-    private(set) var parseRemote: ParseRemote!
-    private(set) var store: OCKStore?
+    @Published private(set) var store: OCKStore! = .init(name: Constants.noCareStoreName, type: .inMemory)
     private(set) var healthKitStore: OCKHealthKitPassthroughStore!
+    private(set) var parseRemote: ParseRemote!
 
     // MARK: Private read/write properties
+
     private var sessionDelegate: SessionDelegate!
     private lazy var watchRemote = OCKWatchConnectivityPeer()
 
     // MARK: Helpers
+
+    @MainActor
     func resetAppToInitialState() {
         do {
-            try healthKitStore.reset()
+            try storeCoordinator.reset()
         } catch {
-            Logger.appDelegate.error("Error deleting HealthKit Store: \(error)")
+            Logger.appDelegate.error("Could not delete Coordinator Store: \(error)")
         }
+
         do {
-            try store?.delete() // Delete data in local OCKStore database
+            try self.store?.delete()
         } catch {
-            Logger.appDelegate.error("Error deleting OCKStore: \(error)")
+            Logger.utility.error("Could not delete local OCKStore because of error: \(error)")
         }
-        storeManager = .init(wrapping: OCKStore(name: Constants.noCareStoreName, type: .inMemory))
+
+        storeCoordinator = .init()
         healthKitStore = nil
         parseRemote = nil
-        store = nil
+
+        let store = OCKStore(name: Constants.noCareStoreName,
+                             type: .inMemory)
         sessionDelegate.store = store
+        self.store = store
+        PCKUtility.removeCache()
     }
 
+    @MainActor
     func setupRemotes(uuid: UUID? = nil) async throws {
         do {
-            if isSyncingWithCloud {
+            if isSyncingWithRemote {
                 guard let uuid = uuid else {
-                    Logger.appDelegate.error("Error in setupRemotes, uuid is nil")
+                    Logger.appDelegate.error("Could not setupRemotes, uuid is nil")
                     return
                 }
                 parseRemote = try await ParseRemote(uuid: uuid,
                                                     auto: false,
-                                                    subscribeToServerUpdates: true,
-                                                    defaultACL: try? ParseACL.defaultACL())
-                store = OCKStore(name: Constants.iOSParseCareStoreName,
-                                 type: .onDisk(),
-                                 remote: parseRemote)
+                                                    subscribeToRemoteUpdates: true,
+                                                    defaultACL: PCKUtility.getDefaultACL())
+                let store = OCKStore(name: Constants.iOSParseCareStoreName,
+                                     type: .onDisk(),
+                                     remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate = RemoteSessionDelegate(store: store)
+                self.store = store
             } else {
-                store = OCKStore(name: Constants.iOSLocalCareStoreName,
-                                 type: .onDisk(),
-                                 remote: watchRemote)
+                let store = OCKStore(name: Constants.iOSLocalCareStoreName,
+                                     type: .onDisk(),
+                                     remote: watchRemote)
                 watchRemote.delegate = self
                 sessionDelegate = LocalSessionDelegate(remote: watchRemote, store: store)
+                self.store = store
             }
 
             // Setup communication with watch
             WCSession.default.delegate = sessionDelegate
             WCSession.default.activate()
 
-            guard let currentStore = store else {
-                Logger.appDelegate.error("Should have OCKStore")
-                return
-            }
-            healthKitStore = OCKHealthKitPassthroughStore(store: currentStore)
-            let coordinator = OCKStoreCoordinator()
-            coordinator.attach(store: currentStore)
-            coordinator.attach(eventStore: healthKitStore)
-            storeManager = OCKSynchronizedStoreManager(wrapping: coordinator)
+            healthKitStore = OCKHealthKitPassthroughStore(store: store)
+            let storeCoordinator = OCKStoreCoordinator()
+            storeCoordinator.attach(store: store)
+            storeCoordinator.attach(eventStore: healthKitStore)
+            self.storeCoordinator = storeCoordinator
         } catch {
-            Logger.appDelegate.error("Error setting up remote: \(error)")
+            Logger.appDelegate.error("Could not setup remote: \(error)")
             throw error
         }
     }

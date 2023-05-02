@@ -20,8 +20,15 @@ extension AppDelegate: ParseRemoteDelegate {
         }
     }
 
-    func successfullyPushedDataToCloud() {
+    func successfullyPushedToRemote() {
         Logger.appDelegate.info("Finished pushing data")
+    }
+
+    func provideStore() -> OCKAnyStoreProtocol {
+        guard let store = store else {
+            return OCKStore(name: Constants.noCareStoreName, type: .inMemory)
+        }
+        return store
     }
 
     func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {}
@@ -29,28 +36,14 @@ extension AppDelegate: ParseRemoteDelegate {
     func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
 
         // https://github.com/carekit-apple/CareKit/issues/567
-        // Workaround to handle deleted and re-added outcomes.
-        // Always prefer updates over deletes.
-        let outcomes = conflicts.compactMap { conflict -> OCKOutcome? in
-            if case let .outcome(outcome) = conflict {
-                return outcome
-            } else {
-                return nil
-            }
-        }
+        // Last write wins
+        do {
+            let lastWrite = try conflicts
+                .max(by: { try $0.parseEntity().value.createdDate! > $1.parseEntity().value.createdDate! })!
 
-        if outcomes.count == 2,
-           outcomes.contains(where: { $0.deletedDate != nil}),
-           let added = outcomes.first(where: { $0.deletedDate == nil}) {
-
-            completion(.success(.outcome(added)))
-            return
-        }
-
-        if let first = conflicts.first {
-            completion(.success(first))
-        } else {
-            completion(.failure(.remoteSynchronizationFailed(reason: "Error, non selected for conflict")))
+            completion(.success(lastWrite))
+        } catch {
+            completion(.failure(.invalidValue(reason: error.localizedDescription)))
         }
     }
 }

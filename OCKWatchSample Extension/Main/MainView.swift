@@ -7,10 +7,15 @@
 //
 
 import SwiftUI
+import CareKitStore
+import os.log
 
 struct MainView: View {
-    @StateObject var loginViewModel = LoginViewModel()
-    @State var path = [MainViewPath]()
+    @EnvironmentObject private var appDelegate: AppDelegate
+    @StateObject private var loginViewModel = LoginViewModel()
+    @State private var path = [MainViewPath]()
+    @State private var store = OCKStore(name: Constants.noCareStoreName,
+                                        type: .inMemory)
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -19,11 +24,12 @@ struct MainView: View {
                     switch destination {
                     case .tabs:
                         CareView()
+                            .navigationBarHidden(true)
                     }
                 }
                 .navigationBarHidden(true)
                 .onAppear {
-                    guard isSyncingWithCloud else {
+                    guard isSyncingWithRemote else {
                         path = [.tabs]
                         return
                     }
@@ -34,13 +40,33 @@ struct MainView: View {
                     path = [.tabs]
                 }
         }
+        .environment(\.careStore, store)
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
+            guard isSyncingWithRemote else {
+                path = [.tabs]
+                return
+            }
             guard !isLoggedOut else {
                 path = []
                 return
             }
             path = [.tabs]
         })
+        .onReceive(appDelegate.$store) { newStore in
+            Task {
+                await loginViewModel.checkStatus()
+            }
+            guard let newStore = newStore,
+                  store.name != newStore.name else {
+                return
+            }
+            store = newStore
+            guard isSyncingWithRemote else {
+                path = [.tabs]
+                return
+            }
+            path = [.tabs]
+        }
     }
 }
 

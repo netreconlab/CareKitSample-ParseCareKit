@@ -15,53 +15,64 @@ import WatchConnectivity
 import os.log
 
 class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
+
     // MARK: Public read private write properties
-    @Published private(set) var storeManager: OCKSynchronizedStoreManager! {
+
+    @Published private(set) var store: OCKStore! {
         willSet {
-            StoreManagerKey.defaultValue = newValue
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.storeInitialized)))
-                self.objectWillChange.send()
+            newValue.synchronize { error in
+                let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+                Logger.appDelegate.info("\(errorString)")
             }
+            self.objectWillChange.send()
         }
     }
-    private(set) var store: OCKStore!
     private(set) var parseRemote: ParseRemote!
 
     // MARK: Private read/write properties
+
     private var sessionDelegate: SessionDelegate!
     private lazy var phoneRemote = OCKWatchConnectivityPeer()
 
     func applicationDidFinishLaunching() {
         Task {
-            do {
-                // Parse-server setup
-                try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
-                    completionHandler(.performDefaultHandling, nil)
-                }
+            if isSyncingWithRemote {
                 do {
-                    _ = try await User.current()
+                    // Parse-server setup
+                    // swiftlint:disable:next line_length
+                    try await PCKUtility.configureParse(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                        completionHandler(.performDefaultHandling, nil)
+                    }
+                    await Utility.clearDeviceOnFirstRun()
                     do {
-                        let uuid = try await Utility.getRemoteClockUUID()
-                        try await self.setupRemotes(uuid: uuid)
-                        parseRemote.automaticallySynchronizes = true
-                        // swiftlint:disable:next line_length
-                        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-                        Logger.appDelegate.info("User is already signed in...")
-                        store.synchronize { error in
-                            let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                            Logger.appDelegate.info("\(errorString)")
+                        _ = try await User.current()
+                        do {
+                            let uuid = try await Utility.getRemoteClockUUID()
+                            try await self.setupRemotes(uuid: uuid)
+                            Logger.appDelegate.info("User is already signed in...")
+                        } catch {
+                            Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+                            try await setupRemotes(uuid: nil)
                         }
+                        parseRemote.automaticallySynchronizes = true
                     } catch {
-                        Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
+                        Logger.appDelegate.info("User is not logged in...")
                         try await setupRemotes(uuid: nil)
                     }
                 } catch {
-                    Logger.appDelegate.info("User is not logged in...")
-                    try await setupRemotes(uuid: nil)
+                    Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
                 }
-            } catch {
-                Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
+            } else {
+                await Utility.clearDeviceOnFirstRun()
+                do {
+                    try await self.setupRemotes()
+                    phoneRemote.automaticallySynchronizes = true
+                } catch {
+                    Logger.appDelegate.error("""
+                        Could not populate
+                        data stores: \(error)
+                    """)
+                }
             }
         }
     }
@@ -72,9 +83,10 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
         }
     }
 
+    @MainActor
     func setupRemotes(uuid: UUID? = nil) async throws {
         do {
-            if isSyncingWithCloud {
+            if isSyncingWithRemote {
                 if sessionDelegate == nil {
                     sessionDelegate = RemoteSessionDelegate(store: store)
                     WCSession.default.delegate = sessionDelegate
@@ -86,25 +98,46 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 }
                 parseRemote = try await ParseRemote(uuid: uuid,
                                                     auto: false,
-                                                    subscribeToServerUpdates: true)
-                store = OCKStore(name: Constants.watchOSParseCareStoreName,
-                                 remote: parseRemote)
+                                                    subscribeToRemoteUpdates: true,
+                                                    defaultACL: PCKUtility.getDefaultACL())
+                let store = OCKStore(name: Constants.watchOSParseCareStoreName,
+                                     type: .onDisk(),
+                                     remote: parseRemote)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
+                self.store = store
             } else {
-                store = OCKStore(name: Constants.watchOSLocalCareStoreName,
-                                 remote: phoneRemote)
+                let store = OCKStore(name: Constants.watchOSLocalCareStoreName,
+                                     type: .onDisk(),
+                                     remote: phoneRemote)
                 phoneRemote.delegate = self
-                sessionDelegate = LocalSessionDelegate(remote: phoneRemote, store: store)
+                sessionDelegate = LocalSessionDelegate(remote: phoneRemote,
+                                                       store: store)
                 WCSession.default.delegate = sessionDelegate
-                storeManager = OCKSynchronizedStoreManager(wrapping: store)
+                self.store = store
             }
             WCSession.default.activate()
         } catch {
             Logger.appDelegate.error("Error setting up remote: \(error)")
             throw error
         }
+    }
+
+    @MainActor
+    func resetAppToInitialState() {
+
+        do {
+            try self.store?.delete()
+        } catch {
+            Logger.appDelegate.error("Error deleting OCKStore: \(error)")
+        }
+
+        parseRemote = nil
+
+        let store = OCKStore(name: Constants.noCareStoreName,
+                             type: .inMemory)
+        sessionDelegate.store = store
+        self.store = store
     }
 
     func applicationDidBecomeActive() {

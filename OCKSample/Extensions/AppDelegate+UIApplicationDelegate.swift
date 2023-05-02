@@ -14,16 +14,18 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Task {
-            do {
-                // Parse-Server setup
-                try await PCKUtility.setupServer(fileName: Constants.parseConfigFileName) { _, completionHandler in
-                    completionHandler(.performDefaultHandling, nil)
+            if isSyncingWithRemote {
+                do {
+                    // Parse-Server setup
+                    // swiftlint:disable:next line_length
+                    try await PCKUtility.configureParse(fileName: Constants.parseConfigFileName) { _, completionHandler in
+                        completionHandler(.performDefaultHandling, nil)
+                    }
+                } catch {
+                    Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
+                    return
                 }
-            } catch {
-                Logger.appDelegate.info("Could not configure Parse Swift: \(error)")
-                return
-            }
-            if isSyncingWithCloud {
+                await Utility.clearDeviceOnFirstRun()
                 do {
                     _ = try await User.current()
                     Logger.appDelegate.info("User is already signed in...")
@@ -43,10 +45,11 @@ extension AppDelegate: UIApplicationDelegate {
                     Logger.appDelegate.error("User is not loggied in: \(error)")
                 }
             } else {
+                await Utility.clearDeviceOnFirstRun()
                 // When syncing directly with watchOS, we do not care about login and need to setup remotes
                 do {
                     try await setupRemotes()
-                    try await store?.populateSampleData()
+                    try await store.populateSampleData()
                     try await healthKitStore.populateSampleData()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
@@ -54,9 +57,9 @@ extension AppDelegate: UIApplicationDelegate {
                     }
                 } catch {
                     Logger.appDelegate.error("""
-                    Error in SceneDelage, could not populate
-                    data stores: \(error)
-                """)
+                        Could not populate
+                        data stores: \(error)
+                    """)
                 }
             }
         }

@@ -8,14 +8,21 @@
 // swiftlint:disable:next line_length
 // This file embeds a UIKit View Controller inside of a SwiftUI view. I used this tutorial to figure this out https://developer.apple.com/tutorials/swiftui/interfacing-with-uikit
 
-import SwiftUI
-import UIKit
 import CareKit
 import CareKitStore
 import os.log
+import SwiftUI
+import UIKit
 
 struct CareView: UIViewControllerRepresentable {
-    @EnvironmentObject private var appDelegate: AppDelegate
+    private static var query: OCKEventQuery {
+        var query = OCKEventQuery(for: Date())
+        query.taskIDs = [TaskID.steps]
+        return query
+    }
+    @Environment(\.appDelegate) private var appDelegate
+    @Environment(\.careStore) private var careStore
+    @CareStoreFetchRequest(query: query) private var events
 
     func makeUIViewController(context: Context) -> some UIViewController {
         let viewController = createViewController()
@@ -26,15 +33,23 @@ struct CareView: UIViewControllerRepresentable {
 
     func updateUIViewController(_ uiViewController: UIViewControllerType,
                                 context: Context) {
-        guard let navigationController = uiViewController as? UINavigationController else {
-            Logger.feed.error("View should have been a UINavigationController")
+        guard let navigationController = uiViewController as? UINavigationController,
+              let careViewController = navigationController.viewControllers.first as? CareViewController else {
+            Logger.feed.error("CareView should have been a UINavigationController")
+            return
+        }
+        guard careViewController.store !== careStore ||
+                appDelegate?.isFirstTimeLogin == true else {
+            // No need to replace view
+            // careViewController.events = events
             return
         }
         navigationController.setViewControllers([createViewController()], animated: false)
     }
 
     func createViewController() -> UIViewController {
-        CareViewController(storeManager: appDelegate.storeManager)
+        CareViewController(store: careStore,
+                           events: events)
     }
 }
 
@@ -42,5 +57,7 @@ struct CareView_Previews: PreviewProvider {
     static var previews: some View {
         CareView()
             .accentColor(Color(TintColorKey.defaultValue))
+            .environment(\.appDelegate, AppDelegate())
+            .environment(\.careStore, Utility.createPreviewStore())
     }
 }

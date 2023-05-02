@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/cbaker6/CareKit.git",
       "state" : {
-        "revision" : "954185b307222431e50f656d2870019e9ec97c28",
-        "version" : "2.1.8"
+        "revision" : "698176a292e3077f7a30496c42f9e8392328930e",
+        "version" : "3.0.0-alpha.22"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/CareKitUtilities.git",
       "state" : {
-        "revision" : "ca65485fd95f40ae1bc27f61ee062b2688ad2554",
-        "version" : "0.0.1"
+        "revision" : "7c7be19c8f652589fe97692df92cd7ffb634c41c",
+        "version" : "1.0.0-alpha.2"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/Parse-Swift.git",
       "state" : {
-        "revision" : "8c7d8dce114571052d07516e8f4aef90891960aa",
-        "version" : "5.3.3"
+        "revision" : "a746db0bf4e9a2b3b33bc0a7f9dbcaf79feb0c8b",
+        "version" : "5.4.2"
       }
     },
     {
@@ -41,8 +41,26 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/ParseCareKit.git",
       "state" : {
-        "revision" : "57aaabd1dfe0d038ffc40e95239b2445ed832d74",
-        "version" : "0.13.1"
+        "revision" : "566f68ef230e4285eb9e19a3d1045947d5a74eef",
+        "version" : "1.0.0-alpha.80"
+      }
+    },
+    {
+      "identity" : "swift-async-algorithms",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-async-algorithms",
+      "state" : {
+        "revision" : "9cfed92b026c524674ed869a4ff2dcfdeedf8a2a",
+        "version" : "0.1.0"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "937e904258d22af6e447a0b72c0bc67583ef64a2",
+        "version" : "1.0.4"
       }
     }
   ],

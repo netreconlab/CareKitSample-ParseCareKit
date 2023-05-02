@@ -16,24 +16,15 @@ class LoginViewModel: ObservableObject {
     @Published private(set) var isLoggedOut = true
 
     init() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(userLoggedIn(_:)),
-                                               name: Notification.Name(rawValue: Constants.userLoggedIn),
-                                               object: nil)
         Task {
             await self.checkStatus()
         }
     }
 
     // MARK: Helpers (private)
-    @objc private func userLoggedIn(_ notification: Notification) {
-        Task {
-            await self.checkStatus()
-        }
-    }
 
     @MainActor
-    private func checkStatus() async {
+    func checkStatus() async {
         let isLoggedOut = self.isLoggedOut
         do {
             _ = try await User.current()
@@ -59,15 +50,6 @@ class LoginViewModel: ObservableObject {
             let user = try await User.become(sessionToken: sessionToken)
             Logger.login.info("Parse login successful \(user, privacy: .private)")
             try await Utility.setupRemoteAfterLogin()
-            guard let watchDelegate = AppDelegateKey.defaultValue else {
-                Logger.login.error("ApplicationDelegate should not be nil")
-                return
-            }
-            watchDelegate.store.synchronize { error in
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.userLoggedIn)))
-                let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                Logger.watch.info("\(errorString)")
-            }
 
             // Setup installation to receive push notifications
             Task {

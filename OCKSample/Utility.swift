@@ -16,7 +16,7 @@ class Utility {
     // For classes, we can use "class" or "static" to declare type methods/properties.
     class func prepareSyncMessageForWatch() -> [String: Any] {
         var returnMessage = [String: Any]()
-        returnMessage[Constants.requestSync] = "new messages in Cloud"
+        returnMessage[Constants.requestSync] = "new messages on Remote"
         return returnMessage
     }
 
@@ -48,17 +48,15 @@ class Utility {
         do {
             try await setDefaultACL()
         } catch {
-            Logger.login.error("Could not set defaultACL: \(error)")
+            Logger.utility.error("Could not set defaultACL: \(error)")
         }
 
         guard let appDelegate = AppDelegateKey.defaultValue else {
-            Logger.login.error("Could not setup remotes, AppDelegate is nil")
+            Logger.utility.error("Could not setup remotes, AppDelegate is nil")
             return
         }
         try await appDelegate.setupRemotes(uuid: remoteUUID)
         appDelegate.parseRemote.automaticallySynchronizes = true
-
-        NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         return
     }
 
@@ -106,7 +104,7 @@ class Utility {
         }
     }
 
-    class func createPreviewStoreManager() -> OCKSynchronizedStoreManager {
+    class func createPreviewStore() -> OCKStore {
         let store = OCKStore(name: Constants.noCareStoreName, type: .inMemory)
         let patientId = "preview"
         Task {
@@ -114,14 +112,68 @@ class Utility {
                 // If patient exists, assume store is already populated
                 _ = try await store.fetchPatient(withID: patientId)
             } catch {
-                let patient = OCKPatient(id: patientId,
+                var patient = OCKPatient(id: patientId,
                                          givenName: "Preview",
                                          familyName: "Patient")
+                patient.birthday = Calendar.current.date(byAdding: .year,
+                                                         value: -20,
+                                                         to: Date())
                 _ = try? await store.addPatient(patient)
                 try? await store.populateSampleData()
             }
         }
-        return .init(wrapping: store)
+        return store
+    }
+
+    class func clearDeviceOnFirstRun(storeName: String? = nil) async {
+        // Clear items out of the Keychain on app first run.
+        if UserDefaults.standard.object(forKey: Constants.appName) == nil {
+
+            if let storeName = storeName {
+                let store = OCKStore(name: storeName, type: .onDisk())
+                do {
+                    try store.delete()
+                } catch {
+                    Logger.utility.error("""
+                        Could not delete OCKStore with name \"\(storeName)\" because of error: \(error)
+                    """)
+                }
+            } else {
+                let localStore: OCKStore!
+                let parseStore: OCKStore!
+
+                #if os(watchOS)
+                localStore = OCKStore(name: Constants.watchOSLocalCareStoreName,
+                                      type: .onDisk())
+                parseStore = OCKStore(name: Constants.watchOSParseCareStoreName,
+                                      type: .onDisk())
+                #else
+                localStore = OCKStore(name: Constants.iOSLocalCareStoreName,
+                                      type: .onDisk())
+                parseStore = OCKStore(name: Constants.iOSParseCareStoreName,
+                                      type: .onDisk())
+                #endif
+
+                do {
+                    try localStore.delete()
+                } catch {
+                    Logger.utility.error("Could not delete local OCKStore because of error: \(error)")
+                }
+                do {
+                    try parseStore.delete()
+                } catch {
+                    Logger.utility.error("Could not delete parse OCKStore because of error: \(error)")
+                }
+            }
+
+            // This is no longer the first run
+            UserDefaults.standard.setValue(String(Constants.appName),
+                                           forKey: Constants.appName)
+            UserDefaults.standard.synchronize()
+            if isSyncingWithRemote {
+                try? await User.logout()
+            }
+        }
     }
 
     #if os(iOS)
@@ -134,7 +186,7 @@ class Utility {
                 }
                 return
             }
-            Logger.login.error("Error requesting HealthKit permissions: \(error)")
+            Logger.utility.error("Error requesting HealthKit permissions: \(error)")
         }
     }
     #endif

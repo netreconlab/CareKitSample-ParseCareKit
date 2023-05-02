@@ -6,7 +6,6 @@
 //  Copyright © 2021 Network Reconnaissance Lab. All rights reserved.
 //
 
-import Foundation
 import CareKitUI
 import UIKit
 

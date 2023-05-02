@@ -11,15 +11,13 @@ import SwiftUI
 
 @main
 struct OCKWatchSampleApp: App {
-    @WKApplicationDelegateAdaptor private var delegate: AppDelegate
-    @Environment(\.scenePhase) private var scenePhase
+    @WKApplicationDelegateAdaptor private var appDelegate: AppDelegate
     @Environment(\.tintColor) private var tintColor
     @Environment(\.customStyler) private var style
-    @State var isActive = false
     @SceneBuilder var body: some Scene {
         WindowGroup {
             MainView()
-            .environment(\.appDelegate, delegate)
+            .environment(\.appDelegate, appDelegate)
             .accentColor(Color(tintColor))
             .careKitStyle(style)
         }

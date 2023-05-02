@@ -1,11 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
    LastUpgradeVersion = "1430"
-   version = "1.7">
+   version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "91AD922624A4C42B00925D4D"
+               BuildableName = "OCKWatchSample.app"
+               BlueprintName = "OCKWatchSample"
+               ReferencedContainer = "container:OCKSample.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
@@ -27,60 +41,47 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <TestPlans>
-         <TestPlanReference
-            reference = "container:OCKSample.xctestplan"
-            default = "YES">
-         </TestPlanReference>
-      </TestPlans>
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5173CB8623C3A846007655A0"
-               BuildableName = "OCKSampleUITests.xctest"
-               BlueprintName = "OCKSampleUITests"
-               ReferencedContainer = "container:OCKSample.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      region = "JP"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
-      allowLocationSimulation = "YES">
+      allowLocationSimulation = "YES"
+      launchAutomaticallySubstyle = "8"
+      notificationPayloadFile = "OCKWatchSample Extension/Notifications/PushNotificationPayload.apns">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E72B2C05226939E3009A9438"
-            BuildableName = "OCKSample.app"
-            BlueprintName = "OCKSample"
+            BlueprintIdentifier = "91AD922624A4C42B00925D4D"
+            BuildableName = "OCKWatchSample.app"
+            BlueprintName = "OCKWatchSample"
             ReferencedContainer = "container:OCKSample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES">
+      debugDocumentVersioning = "YES"
+      launchAutomaticallySubstyle = "8"
+      notificationPayloadFile = "OCKWatchSample Extension/Notifications/PushNotificationPayload.apns">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E72B2C05226939E3009A9438"
-            BuildableName = "OCKSample.app"
-            BlueprintName = "OCKSample"
+            BlueprintIdentifier = "91AD922624A4C42B00925D4D"
+            BuildableName = "OCKWatchSample.app"
+            BlueprintName = "OCKWatchSample"
             ReferencedContainer = "container:OCKSample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -89,7 +90,7 @@
       buildConfiguration = "Debug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

@@ -8,23 +8,27 @@
 
 import CareKit
 import CareKitStore
+import CareKitUI
 import SwiftUI
 import os.log
 
 struct CareView: View {
-    @EnvironmentObject private var appDelegate: AppDelegate
-    @StateObject var viewModel = CareViewModel()
+    private static var query: OCKEventQuery {
+        var query = OCKEventQuery(for: Date())
+        query.taskIDs = [TaskID.stretch, TaskID.kegels]
+        return query
+    }
+    @CareStoreFetchRequest(query: query) private var events
 
     var body: some View {
         ScrollView {
-            SimpleTaskView(taskID: TaskID.kegels,
-                           eventQuery: .init(for: Date()),
-                           storeManager: appDelegate.storeManager)
-            InstructionsTaskView(taskID: TaskID.stretch,
-                                 eventQuery: .init(for: Date()),
-                                 storeManager: appDelegate.storeManager)
-        }.onReceive(appDelegate.$storeManager) { newStoreManager in
-            viewModel.synchronizeStore(storeManager: newStoreManager)
+            ForEach(events) { event in
+                if event.result.task.id == TaskID.kegels {
+                    SimpleTaskView(event: event)
+                } else if event.result.task.id == TaskID.stretch {
+                    InstructionsTaskView(event: event)
+                }
+            }
         }
     }
 }
@@ -33,5 +37,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         CareView()
             .accentColor(Color(TintColorKey.defaultValue))
+            .environment(\.careStore, Utility.createPreviewStore())
     }
 }
