@@ -56,7 +56,7 @@ class CareViewController: OCKDailyPageViewController {
         event.computeProgress(by: .checkingOutcomeExists)
     }) {
         super.init(store: store, computeProgress: computeProgress)
-        // self.events = events
+        self.events = events
     }
 
     override func viewDidLoad() {
@@ -207,7 +207,7 @@ class CareViewController: OCKDailyPageViewController {
             guard let event = getStoreFetchRequestEvent(for: task.id) else {
                 return nil
             }
-            let view = NumericProgressTaskView(event: event)
+            let view = NumericProgressTaskView<_NumericProgressTaskViewHeader>(event: event, numberFormatter: .none)
                 .careKitStyle(CustomStylerKey.defaultValue)
 
             return [view.formattedHostingController()]

@@ -30,27 +30,27 @@ struct MainView: View {
                 .navigationBarHidden(true)
                 .onAppear {
                     guard isSyncingWithRemote else {
-                        path = [.tabs]
+                        updatePath([.tabs])
                         return
                     }
                     guard !loginViewModel.isLoggedOut else {
-                        path = []
+                        updatePath([])
                         return
                     }
-                    path = [.tabs]
+                    updatePath([.tabs])
                 }
         }
         .environment(\.careStore, store)
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             guard isSyncingWithRemote else {
-                path = [.tabs]
+                updatePath([.tabs])
                 return
             }
             guard !isLoggedOut else {
-                path = []
+                updatePath([])
                 return
             }
-            path = [.tabs]
+            updatePath([.tabs])
         })
         .onReceive(appDelegate.$store) { newStore in
             Task {
@@ -62,11 +62,16 @@ struct MainView: View {
             }
             store = newStore
             guard isSyncingWithRemote else {
-                path = [.tabs]
+                updatePath([.tabs])
                 return
             }
-            path = [.tabs]
+            updatePath([.tabs])
         }
+    }
+
+    @MainActor
+    func updatePath(_ path: [MainViewPath]) {
+        self.path = path
     }
 }
 

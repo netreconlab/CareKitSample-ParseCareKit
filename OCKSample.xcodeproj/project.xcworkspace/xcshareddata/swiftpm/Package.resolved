@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/cbaker6/CareKit.git",
       "state" : {
-        "revision" : "698176a292e3077f7a30496c42f9e8392328930e",
-        "version" : "3.0.0-alpha.22"
+        "revision" : "ed05957648de96d7ad8a81bd24edff3ee712f20e",
+        "version" : "3.0.0-beta.2"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/CareKitUtilities.git",
       "state" : {
-        "revision" : "7c7be19c8f652589fe97692df92cd7ffb634c41c",
-        "version" : "1.0.0-alpha.2"
+        "revision" : "741d8964126c03b7035d1e416fe143ec31415773",
+        "version" : "0.1.1"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/FHIRModels.git",
       "state" : {
-        "revision" : "c91e5bb74397136f79656bebdfda76a523d3e88c",
-        "version" : "0.3.2"
+        "revision" : "e115442fb3c5d44ffb1dc9b4e039b77fd143ad96",
+        "version" : "0.4.0"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/Parse-Swift.git",
       "state" : {
-        "revision" : "a746db0bf4e9a2b3b33bc0a7f9dbcaf79feb0c8b",
-        "version" : "5.4.2"
+        "revision" : "fc516a6e48c1c150a0ecac94910bc8dcedfc2e71",
+        "version" : "5.8.1"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/ParseCareKit.git",
       "state" : {
-        "revision" : "566f68ef230e4285eb9e19a3d1045947d5a74eef",
-        "version" : "1.0.0-alpha.80"
+        "revision" : "1b4bb74e48b49851803d861a53cfb9790d5757d5",
+        "version" : "1.0.0-beta.3"
       }
     },
     {

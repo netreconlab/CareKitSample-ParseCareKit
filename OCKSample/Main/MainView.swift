@@ -33,23 +33,23 @@ struct MainView: View {
                 }
                 .onAppear {
                     guard isSyncingWithRemote else {
-                        path = [.tabs]
+                        updatePath([.tabs])
                         return
                     }
                     guard !loginViewModel.isLoggedOut else {
-                        path = []
+                        updatePath([])
                         return
                     }
-                    path = [.tabs]
+                    updatePath([.tabs])
                 }
         }
         .environment(\.careStore, storeCoordinator)
         .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
             guard !isLoggedOut else {
-                path = []
+                updatePath([])
                 return
             }
-            path = [.tabs]
+            updatePath([.tabs])
         })
         .onReceive(appDelegate.$storeCoordinator) { newStoreCoordinator in
             guard storeCoordinator !== newStoreCoordinator else {
@@ -57,6 +57,11 @@ struct MainView: View {
             }
             storeCoordinator = newStoreCoordinator
         }
+    }
+
+    @MainActor
+    func updatePath(_ path: [MainViewPath]) {
+        self.path = path
     }
 }
 
