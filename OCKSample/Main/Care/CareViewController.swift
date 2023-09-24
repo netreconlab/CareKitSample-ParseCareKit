@@ -31,7 +31,6 @@
 import CareKit
 import CareKitStore
 import CareKitUI
-import CareKitUtilities
 import os.log
 import SwiftUI
 import UIKit
