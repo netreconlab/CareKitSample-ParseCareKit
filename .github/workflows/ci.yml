@@ -25,7 +25,7 @@ jobs:
         - destination: 'CODE_SIGNING_ALLOWED="NO"'
           scheme: 'OCKSample'
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme ${{ matrix.scheme }} ${{ matrix.destination }} | xcpretty
       env:
