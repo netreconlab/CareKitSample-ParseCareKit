@@ -149,27 +149,12 @@ class CareViewController: OCKDailyPageViewController {
      */
     override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
                                           prepare listViewController: OCKListViewController, for date: Date) {
-        let isCurrentDay = Calendar.current.isDate(date, inSameDayAs: Date())
+        Task {
+            do {
+                let tasks = try await fetchTasks(on: date)
+                let isCurrentDay = Calendar.current.isDate(date, inSameDayAs: Date())
 
-        // Only show the tip view on the current date
-        if isCurrentDay {
-            if Calendar.current.isDate(date, inSameDayAs: Date()) {
-                // Add a non-CareKit view into the list
-                let tipTitle = "Benefits of exercising"
-                let tipText = "Learn how activity can promote a healthy pregnancy."
-                let tipView = TipView()
-                tipView.headerView.titleLabel.text = tipTitle
-                tipView.headerView.detailLabel.text = tipText
-                tipView.imageView.image = UIImage(named: "exercise.jpg")
-                tipView.customStyle = CustomStylerKey.defaultValue
-                listViewController.appendView(tipView, animated: false)
-            }
-        }
-
-        fetchTasks(on: date) { result in
-            switch result {
-            case .success(let tasks):
-                tasks.compactMap {
+                let taskCards = tasks.compactMap {
                     let cards = self.taskViewController(for: $0,
                                                         on: date)
                     cards?.forEach {
@@ -180,16 +165,38 @@ class CareViewController: OCKDailyPageViewController {
                         $0.view.alpha = !isCurrentDay ? 0.4 : 1.0
                     }
                     return cards
-                }.forEach { (cards: [UIViewController]) in
+                }
+
+                listViewController.clear()
+
+                // Only show the tip view on the current date
+                if isCurrentDay {
+                    if Calendar.current.isDate(date, inSameDayAs: Date()) {
+                        // Add a non-CareKit view into the list
+                        let tipTitle = "Benefits of exercising"
+                        let tipText = "Learn how activity can promote a healthy pregnancy."
+                        let tipView = TipView()
+                        tipView.headerView.titleLabel.text = tipTitle
+                        tipView.headerView.detailLabel.text = tipText
+                        tipView.imageView.image = UIImage(named: "exercise.jpg")
+                        tipView.customStyle = CustomStylerKey.defaultValue
+                        listViewController.appendView(tipView, animated: false)
+                    }
+                }
+
+                // Display the rest of the cards
+                taskCards.forEach { (cards: [UIViewController]) in
                     cards.forEach {
                         listViewController.appendViewController($0, animated: false)
                     }
                 }
-            case .failure(let error):
+
+            } catch {
                 Logger.feed.error("Could not fetch tasks: \(error)")
             }
             self.isLoading = false
         }
+
     }
 
     private func getStoreFetchRequestEvent(for taskId: String) -> CareStoreFetchedResult<OCKAnyEvent>? {
@@ -281,21 +288,14 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    private func fetchTasks(on date: Date,
-                            completion: @escaping (Result<[OCKAnyTask], Error>) -> Void) {
+    private func fetchTasks(on date: Date) async throws -> [OCKAnyTask] {
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
-        store.fetchAnyTasks(query: query, callbackQueue: .main) { result in
-            switch result {
-            case .success(let tasks):
-                let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
-                    tasks.first(where: { $0.id == orderedTaskID })
-                }
-                completion(.success(orderedTasks))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        let tasks = try await store.fetchAnyTasks(query: query)
+        let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
+            tasks.first(where: { $0.id == orderedTaskID })
         }
+        return orderedTasks
     }
 }
 
