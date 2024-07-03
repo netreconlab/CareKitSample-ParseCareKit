@@ -200,7 +200,7 @@ class CareViewController: OCKDailyPageViewController {
     }
 
     private func getStoreFetchRequestEvent(for taskId: String) -> CareStoreFetchedResult<OCKAnyEvent>? {
-        events?.filter({ $0.result.task.id == taskId }).last
+        events?.last(where: { $0.result.task.id == taskId })
     }
 
     private func taskViewController(for task: OCKAnyTask,

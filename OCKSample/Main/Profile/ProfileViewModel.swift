@@ -8,7 +8,7 @@
 
 import CareKit
 import CareKitStore
-import CareKitUtilities
+import CareKitEssentials
 import SwiftUI
 import os.log
 
