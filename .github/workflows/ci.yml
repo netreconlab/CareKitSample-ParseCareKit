@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 
 env:
-    CI_XCODE: '/Applications/Xcode_15.0.app/Contents/Developer'
+    CI_XCODE: '/Applications/Xcode_15.4.app/Contents/Developer'
 
 concurrency:
    group: ${{ github.workflow }}-${{ github.ref }}
@@ -14,18 +14,20 @@ concurrency:
 
 jobs:
   test:
-    runs-on: macos-13
+    runs-on: macos-14
     strategy:
       matrix:
-        destination: ['-destination platform\=iOS\ Simulator,name\=iPhone\ 14\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"']
+        destination: ['-destination platform\=iOS\ Simulator,OS=17.5,name\=iPhone\ 15\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"']
         scheme: ['OCKSample', 'OCKWatchSample']
         exclude:
-        - destination: '-destination platform\=iOS\ Simulator,name\=iPhone\ 14\ Pro\ Max test'
+        - destination: '-destination platform\=iOS\ Simulator,OS=17.5,name\=iPhone\ 15\ Pro\ Max test'
           scheme: 'OCKWatchSample'
         - destination: 'CODE_SIGNING_ALLOWED="NO"'
           scheme: 'OCKSample'
     steps:
     - uses: actions/checkout@v4
+    - name: Install SwiftLint
+      run: brew install swiftlint
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme ${{ matrix.scheme }} ${{ matrix.destination }} | xcpretty
       env:
