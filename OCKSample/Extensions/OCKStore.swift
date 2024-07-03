@@ -144,15 +144,15 @@ extension OCKStore {
         contact1.title = "Family Practice Doctor"
         contact1.role = "Dr. Daniels is a family practice doctor with 8 years of experience."
         contact1.emailAddresses = [OCKLabeledValue(label: CNLabelEmailiCloud, value: "janedaniels@uky.edu")]
-        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 257-2000")]
-        contact1.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 357-2040")]
+        contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(800) 257-2000")]
+        contact1.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(800) 357-2040")]
 
         contact1.address = {
             let address = OCKPostalAddress()
-            address.street = "2195 Harrodsburg Rd"
-            address.city = "Lexington"
-            address.state = "KY"
-            address.postalCode = "40504"
+            address.street = "1500 San Pablo St"
+            address.city = "Los Angeles"
+            address.state = "CA"
+            address.postalCode = "90033"
             return address
         }()
 
@@ -161,14 +161,14 @@ extension OCKStore {
         contact2.asset = "MatthewReiff"
         contact2.title = "OBGYN"
         contact2.role = "Dr. Reiff is an OBGYN with 13 years of experience."
-        contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 257-1000")]
-        contact2.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(859) 257-1234")]
+        contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(800) 257-1000")]
+        contact2.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(800) 257-1234")]
         contact2.address = {
             let address = OCKPostalAddress()
-            address.street = "1000 S Limestone"
-            address.city = "Lexington"
-            address.state = "KY"
-            address.postalCode = "40536"
+            address.street = "1500 San Pablo St"
+            address.city = "Los Angeles"
+            address.state = "CA"
+            address.postalCode = "90033"
             return address
         }()
 
