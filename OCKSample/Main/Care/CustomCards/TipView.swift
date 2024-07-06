@@ -28,6 +28,8 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if os(iOS)
+
 import UIKit
 import CareKit
 import CareKitUI
@@ -115,3 +117,5 @@ class TipView: OCKView, OCKCardable {
         directionalLayoutMargins = cachedStyle.dimension.directionalInsets1
     }
 }
+
+#endif

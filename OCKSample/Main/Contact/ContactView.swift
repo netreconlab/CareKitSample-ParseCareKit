@@ -30,8 +30,14 @@ struct ContactView: UIViewControllerRepresentable {
     }
 
     func createViewController() -> UIViewController {
-        OCKContactsListViewController(store: careStore,
-                                      contactViewSynchronizer: OCKDetailedContactViewSynchronizer())
+        #if os(iOS)
+        return OCKContactsListViewController(
+            store: careStore,
+            contactViewSynchronizer: OCKDetailedContactViewSynchronizer()
+        )
+        #else
+        return UIViewController()
+        #endif
     }
 }
 
