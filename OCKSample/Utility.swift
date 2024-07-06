@@ -176,7 +176,7 @@ class Utility {
         }
     }
 
-    #if os(iOS)
+    #if os(iOS) || os(visionOS)
     class func requestHealthKitPermissions() {
         AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
             guard let error = error else {

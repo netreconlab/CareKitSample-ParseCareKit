@@ -19,7 +19,7 @@ class RemoteSessionDelegate: NSObject, SessionDelegate {
         self.store = store
     }
 
-    #if os(iOS)
+    #if os(iOS) || os(visionOS)
     func sessionDidBecomeInactive(_ session: WCSession) {
         Logger.remoteSessionDelegate.info("sessionDidBecomeInactive")
     }
