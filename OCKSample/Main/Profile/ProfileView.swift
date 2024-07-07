@@ -13,8 +13,8 @@ import os.log
 import SwiftUI
 
 struct ProfileView: View {
-    private static var query = OCKPatientQuery(for: Date())
-    @CareStoreFetchRequest(query: query) private var patients
+
+    @CareStoreFetchRequest(query: query()) private var patients
     @StateObject private var viewModel = ProfileViewModel()
     @ObservedObject var loginViewModel: LoginViewModel
 
@@ -79,6 +79,11 @@ struct ProfileView: View {
             viewModel.updatePatient(publishedPatient.result)
         }
     }
+
+    static func query() -> OCKPatientQuery {
+        OCKPatientQuery(for: Date())
+    }
+
 }
 
 struct ProfileView_Previews: PreviewProvider {

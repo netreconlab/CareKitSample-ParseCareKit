@@ -13,12 +13,8 @@ import SwiftUI
 import os.log
 
 struct CareView: View {
-    private static var query: OCKEventQuery {
-        var query = OCKEventQuery(for: Date())
-        query.taskIDs = [TaskID.stretch, TaskID.kegels]
-        return query
-    }
-    @CareStoreFetchRequest(query: query) private var events
+
+    @CareStoreFetchRequest(query: query()) private var events
 
     var body: some View {
         ScrollView {
@@ -30,6 +26,12 @@ struct CareView: View {
                 }
             }
         }
+    }
+
+    static func query() -> OCKEventQuery {
+        var query = OCKEventQuery(for: Date())
+        query.taskIDs = [TaskID.stretch, TaskID.kegels]
+        return query
     }
 }
 
