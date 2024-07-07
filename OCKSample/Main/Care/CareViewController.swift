@@ -50,11 +50,13 @@ class CareViewController: OCKDailyPageViewController {
     ///
     /// - Parameter store: The store from which to query the tasks.
     /// - Parameter computeProgress: Used to compute the combined progress for a series of CareKit events.
-    init(store: OCKAnyStoreProtocol,
-         events: CareStoreFetchedResults<OCKAnyEvent, OCKEventQuery>? = nil,
-         computeProgress: @escaping (OCKAnyEvent) -> CareTaskProgress = { event in
-        event.computeProgress(by: .checkingOutcomeExists)
-    }) {
+    init(
+        store: OCKAnyStoreProtocol,
+        events: CareStoreFetchedResults<OCKAnyEvent, OCKEventQuery>? = nil,
+        computeProgress: @escaping (OCKAnyEvent) -> CareTaskProgress = { event in
+            event.computeProgress(by: .checkingOutcomeExists)
+        }
+    ) {
         super.init(store: store, computeProgress: computeProgress)
         self.events = events
     }
@@ -147,8 +149,11 @@ class CareViewController: OCKDailyPageViewController {
      This will be called each time the selected date changes.
      Use this as an opportunity to rebuild the content shown to the user.
      */
-    override func dailyPageViewController(_ dailyPageViewController: OCKDailyPageViewController,
-                                          prepare listViewController: OCKListViewController, for date: Date) {
+    override func dailyPageViewController(
+        _ dailyPageViewController: OCKDailyPageViewController,
+        prepare listViewController: OCKListViewController,
+        for date: Date
+    ) {
         Task {
             do {
                 let tasks = try await fetchTasks(on: date)
@@ -205,8 +210,10 @@ class CareViewController: OCKDailyPageViewController {
         events?.last(where: { $0.result.task.id == taskId })
     }
 
-    private func taskViewController(for task: OCKAnyTask,
-                                    on date: Date) -> [UIViewController]? {
+    private func taskViewController(
+        for task: OCKAnyTask,
+        on date: Date
+    ) -> [UIViewController]? {
 
         var query = OCKEventQuery(for: Date())
         query.taskIDs = [task.id]
@@ -216,8 +223,11 @@ class CareViewController: OCKDailyPageViewController {
             guard let event = getStoreFetchRequestEvent(for: task.id) else {
                 return nil
             }
-            let view = NumericProgressTaskView<_NumericProgressTaskViewHeader>(event: event, numberFormatter: .none)
-                .careKitStyle(CustomStylerKey.defaultValue)
+            let view = NumericProgressTaskView<_NumericProgressTaskViewHeader>(
+                event: event,
+                numberFormatter: .none
+            )
+            .careKitStyle(CustomStylerKey.defaultValue)
 
             return [view.formattedHostingController()]
 

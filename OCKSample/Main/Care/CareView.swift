@@ -15,14 +15,10 @@ import SwiftUI
 import UIKit
 
 struct CareView: UIViewControllerRepresentable {
-    private static var query: OCKEventQuery {
-        var query = OCKEventQuery(for: Date())
-        query.taskIDs = [TaskID.steps]
-        return query
-    }
+
     @Environment(\.appDelegate) private var appDelegate
     @Environment(\.careStore) private var careStore
-    @CareStoreFetchRequest(query: query) private var events
+    @CareStoreFetchRequest(query: query()) private var events
 
     func makeUIViewController(context: Context) -> some UIViewController {
         let viewController = createViewController()
@@ -31,8 +27,10 @@ struct CareView: UIViewControllerRepresentable {
         return navigationController
     }
 
-    func updateUIViewController(_ uiViewController: UIViewControllerType,
-                                context: Context) {
+    func updateUIViewController(
+        _ uiViewController: UIViewControllerType,
+        context: Context
+    ) {
         guard let navigationController = uiViewController as? UINavigationController,
               let careViewController = navigationController.viewControllers.first as? CareViewController else {
             Logger.feed.error("CareView should have been a UINavigationController")
@@ -48,8 +46,16 @@ struct CareView: UIViewControllerRepresentable {
     }
 
     func createViewController() -> UIViewController {
-        CareViewController(store: careStore,
-                           events: events)
+        CareViewController(
+            store: careStore,
+            events: events
+        )
+    }
+
+    static func query() -> OCKEventQuery {
+        var query = OCKEventQuery(for: Date())
+        query.taskIDs = [TaskID.steps]
+        return query
     }
 }
 
