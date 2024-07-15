@@ -9,13 +9,13 @@ An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s 
 
 ParseCareKit synchronizes the following entities to Parse tables/classes using [Parse-Swift](https://github.com/netreconlab/Parse-Swift):
 
-- [x] OCKTask <-> Task
-- [x] OCKHealthKitTask <-> HealthKitTask 
-- [x] OCKOutcome <-> Outcome
-- [x] OCKRevisionRecord.KnowledgeVector <-> Clock
 - [x] OCKPatient <-> Patient
 - [x] OCKCarePlan <-> CarePlan
 - [x] OCKContact <-> Contact
+- [x] OCKTask <-> Task
+- [x] OCKHealthKitTask <-> HealthKitTask 
+- [x] OCKOutcome <-> Outcome
+- [x] OCKRevisionRecord <-> RevisionRecord
 
 **Use at your own risk. There is no promise that this is HIPAA compliant and we are not responsible for any mishandling of your data**
 
