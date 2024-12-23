@@ -18,7 +18,6 @@ struct CareView: UIViewControllerRepresentable {
 
     @Environment(\.appDelegate) private var appDelegate
     @Environment(\.careStore) private var careStore
-    @CareStoreFetchRequest(query: query()) private var events
 
     func makeUIViewController(context: Context) -> some UIViewController {
         let viewController = createViewController()
@@ -38,24 +37,19 @@ struct CareView: UIViewControllerRepresentable {
         }
         guard careViewController.store !== careStore ||
                 appDelegate?.isFirstTimeLogin == true else {
-            // No need to replace view
-            careViewController.events = events
             return
         }
-        navigationController.setViewControllers([createViewController()], animated: false)
+        let newCareViewController = createViewController()
+        navigationController.setViewControllers(
+            [newCareViewController],
+            animated: false
+        )
     }
 
     func createViewController() -> UIViewController {
         CareViewController(
-            store: careStore,
-            events: events
+            store: careStore
         )
-    }
-
-    static func query() -> OCKEventQuery {
-        var query = OCKEventQuery(for: Date())
-        query.taskIDs = [TaskID.steps]
-        return query
     }
 }
 
