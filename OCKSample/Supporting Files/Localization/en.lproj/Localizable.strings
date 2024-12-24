@@ -62,3 +62,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 "THREE_FINGER_SWIPE_WEEK" = "Three-finger swipe to go to next or previous week";
 "TODAY" = "Today";
 "START_SURVEY" = "Start Survey";
+
+// MARK: Login
+"APP_NAME" = "CareKit Sample App";
+"LOGIN_PICKER" = "Login Picker";
+"LOGIN" = "Login";
+"LOGIN_ANONYMOUSLY" = "Login Anonymously";
+"SIGN_UP" = "Sign Up";
+"USERNAME" = "Username";
+"PASSWORD" = "Password";
+"GIVEN_NAME" = "First Name";
+"FAMILY_NAME" = "Last Name";
+"ERROR" = "Error";
+"OPEN_APP_IPHONE" = "Please open the app on your iPhone";
+
+// MARK: Care View
+"NAUSEA_DOXYLAMINE_INTAKE" = "Nausea & Doxylamine Intake";
+"THIS_WEEK" = "This Week";
+"NAUSEA" = "Nausea";
+"DOXYLAMINE" = "Doxylamine";
+
+// MARK: Profile
+"BIRTHDAY" = "Birthday";
+"SAVE_PROFILE" = "Save Profile";
+"LOG_OUT" = "Log Out";
+
+// MARK: TASKS
+"TAKE DOXYLAMINE" = "Take Doxylamine";
+"DOXYLAMINE_INSTRUCTIONS" = "Take 25mg of doxylamine when you experience nausea";
+"ANYTIME_DURING_DAY" = "Anytime throughout the day";
+"TRACK NAUSEA" = "Track your nausea";
+"NAUSEA_INSTRUCTIONS" = "Tap the button below anytime you experience nausea";
+"KEGEL_EXERCISES" = "Kegel Exercises";
+"KEGEL_INSTRUCTIONS" = "Perform kegel exercies";
+"STRETCH" = "Stretch";

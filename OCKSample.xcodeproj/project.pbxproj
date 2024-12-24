@@ -620,7 +620,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1620;
 				ORGANIZATIONNAME = "Network Reconnaissance Lab";
 				TargetAttributes = {
 					5173CB8623C3A846007655A0 = {
@@ -1040,7 +1040,6 @@
 		91AD924D24A4C42E00925D4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1069,7 +1068,6 @@
 		91AD924E24A4C42E00925D4D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1237,7 +1235,7 @@
 			repositoryURL = "https://github.com/netreconlab/CareKitEssentials";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = "1.0.0-alpha.16";
+				minimumVersion = "1.0.0-alpha.31";
 			};
 		};
 		70202EBF2807333900CF73FB /* XCRemoteSwiftPackageReference "CareKit" */ = {
@@ -1245,7 +1243,7 @@
 			repositoryURL = "https://github.com/cbaker6/CareKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = "3.0.0-beta.14";
+				minimumVersion = "3.0.0-beta.31";
 			};
 		};
 		918FDEAD271B3F8F0045A0EF /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {

@@ -14,8 +14,10 @@ struct MainView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject private var loginViewModel = LoginViewModel()
     @State private var path = [MainViewPath]()
-    @State private var store = OCKStore(name: Constants.noCareStoreName,
-                                        type: .inMemory)
+    @State private var store = OCKStore(
+        name: Constants.noCareStoreName,
+        type: .inMemory
+    )
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -57,7 +59,7 @@ struct MainView: View {
                 await loginViewModel.checkStatus()
             }
             guard let newStore = newStore,
-                  store.name != newStore.name else {
+                  store !== newStore else {
                 return
             }
             store = newStore

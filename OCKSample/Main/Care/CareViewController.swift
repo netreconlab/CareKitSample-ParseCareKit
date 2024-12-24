@@ -29,36 +29,25 @@
  */
 
 import CareKit
+import CareKitEssentials
 import CareKitStore
 import CareKitUI
 import os.log
 import SwiftUI
 import UIKit
 
+// swiftlint:disable type_body_length
+
+@MainActor
 class CareViewController: OCKDailyPageViewController {
 
     private var isSyncing = false
     private var isLoading = false
-    var events: CareStoreFetchedResults<OCKAnyEvent, OCKEventQuery>? {
-        didSet {
-            self.reloadView()
-        }
+    private var accentColor: Color {
+        Color(TintColorKey.defaultValue)
     }
-
-    /// Create an instance of the view controller. Will hook up the calendar to the tasks collection,
-    /// and query and display the tasks.
-    ///
-    /// - Parameter store: The store from which to query the tasks.
-    /// - Parameter computeProgress: Used to compute the combined progress for a series of CareKit events.
-    init(
-        store: OCKAnyStoreProtocol,
-        events: CareStoreFetchedResults<OCKAnyEvent, OCKEventQuery>? = nil,
-        computeProgress: @escaping (OCKAnyEvent) -> CareTaskProgress = { event in
-            event.computeProgress(by: .checkingOutcomeExists)
-        }
-    ) {
-        super.init(store: store, computeProgress: computeProgress)
-        self.events = events
+    private var style: Styler {
+        CustomStylerKey.defaultValue
     }
 
     override func viewDidLoad() {
@@ -115,7 +104,6 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    @MainActor
     @objc private func synchronizeWithRemote() {
         guard !isSyncing else {
             return
@@ -139,10 +127,7 @@ class CareViewController: OCKDailyPageViewController {
         guard !isLoading else {
             return
         }
-        DispatchQueue.main.async {
-            self.isLoading = true
-            self.reload()
-        }
+        self.reload()
     }
 
     /*
@@ -154,145 +139,169 @@ class CareViewController: OCKDailyPageViewController {
         prepare listViewController: OCKListViewController,
         for date: Date
     ) {
-        Task {
-            do {
-                let tasks = try await fetchTasks(on: date)
-                let isCurrentDay = Calendar.current.isDate(date, inSameDayAs: Date())
+        self.isLoading = true
 
-                let taskCards = tasks.compactMap {
-                    let cards = self.taskViewController(for: $0,
-                                                        on: date)
-                    cards?.forEach {
-                        if let carekitView = $0.view as? OCKView {
-                            carekitView.customStyle = CustomStylerKey.defaultValue
-                        }
-                        $0.view.isUserInteractionEnabled = isCurrentDay
-                        $0.view.alpha = !isCurrentDay ? 0.4 : 1.0
-                    }
-                    return cards
-                }
+        // Always call this method to ensure dates for
+        // queries are correct.
+        let date = modifyDateIfNeeded(date)
+        let isCurrentDay = isSameDay(as: date)
 
-                listViewController.clear()
-
-                #if os(iOS)
-                // Only show the tip view on the current date
-                if isCurrentDay {
-                    if Calendar.current.isDate(date, inSameDayAs: Date()) {
-                        // Add a non-CareKit view into the list
-                        let tipTitle = "Benefits of exercising"
-                        let tipText = "Learn how activity can promote a healthy pregnancy."
-                        let tipView = TipView()
-                        tipView.headerView.titleLabel.text = tipTitle
-                        tipView.headerView.detailLabel.text = tipText
-                        tipView.imageView.image = UIImage(named: "exercise.jpg")
-                        tipView.customStyle = CustomStylerKey.defaultValue
-                        listViewController.appendView(tipView, animated: false)
-                    }
-                }
-                #endif
-
-                // Display the rest of the cards
-                taskCards.forEach { (cards: [UIViewController]) in
-                    cards.forEach {
-                        listViewController.appendViewController($0, animated: false)
-                    }
-                }
-
-            } catch {
-                Logger.feed.error("Could not fetch tasks: \(error)")
+        // Only show the tip view on the current date
+        if isCurrentDay {
+            if Calendar.current.isDate(date, inSameDayAs: Date()) {
+                // Add a non-CareKit view into the list
+                let tipTitle = "Benefits of exercising"
+                let tipText = "Learn how activity can promote a healthy pregnancy."
+                let tipView = TipView()
+                tipView.headerView.titleLabel.text = tipTitle
+                tipView.headerView.detailLabel.text = tipText
+                tipView.imageView.image = UIImage(named: "exercise.jpg")
+                tipView.customStyle = CustomStylerKey.defaultValue
+                listViewController.appendView(tipView, animated: false)
             }
-            self.isLoading = false
         }
 
+        fetchAndDisplayTasks(on: listViewController, for: date)
     }
 
-    private func getStoreFetchRequestEvent(for taskId: String) -> CareStoreFetchedResult<OCKAnyEvent>? {
-        events?.last(where: { $0.result.task.id == taskId })
+    private func isSameDay(as date: Date) -> Bool {
+        Calendar.current.isDate(
+            date,
+            inSameDayAs: Date()
+        )
     }
 
-    private func taskViewController(
-        for task: OCKAnyTask,
+    private func modifyDateIfNeeded(_ date: Date) -> Date {
+        guard date < .now else {
+            return date
+        }
+        guard !isSameDay(as: date) else {
+            return .now
+        }
+        return date.endOfDay
+    }
+
+    private func fetchAndDisplayTasks(
+        on listViewController: OCKListViewController,
+        for date: Date
+    ) {
+        Task {
+            let tasks = await self.fetchTasks(on: date)
+            appendTasks(tasks, to: listViewController, date: date)
+        }
+    }
+
+    private func taskViewControllers(
+        _ task: OCKAnyTask,
         on date: Date
     ) -> [UIViewController]? {
 
-        var query = OCKEventQuery(for: Date())
+        var query = OCKEventQuery(for: date)
         query.taskIDs = [task.id]
 
         switch task.id {
         case TaskID.steps:
-            guard let event = getStoreFetchRequestEvent(for: task.id) else {
-                return nil
-            }
-            let view = NumericProgressTaskView<_NumericProgressTaskViewHeader>(
-                event: event,
-                numberFormatter: .none
+            let card = EventQueryView<NumericProgressTaskView>(
+                query: query
             )
-            .careKitStyle(CustomStylerKey.defaultValue)
+            .formattedHostingController()
 
-            return [view.formattedHostingController()]
+            return [card]
 
         case TaskID.stretch:
-            return [OCKInstructionsTaskViewController(query: query,
-                                                      store: self.store)]
+            let card = EventQueryView<InstructionsTaskView>(
+                query: query
+            )
+            .formattedHostingController()
+
+            return [card]
 
         case TaskID.kegels:
             /*
              Since the kegel task is only scheduled every other day, there will be cases
              where it is not contained in the tasks array returned from the query.
              */
-            return [OCKSimpleTaskViewController(query: query,
-                                                store: self.store)]
+            let card = EventQueryView<SimpleTaskView>(
+                query: query
+            )
+            .formattedHostingController()
+
+            return [card]
 
         // Create a card for the doxylamine task if there are events for it on this day.
         case TaskID.doxylamine:
 
-            return [OCKChecklistTaskViewController(query: query,
-                                                   store: self.store)]
+            // This is a UIKit based card.
+            let card = OCKChecklistTaskViewController(
+                query: query,
+                store: self.store
+            )
+
+            return [card]
 
         case TaskID.nausea:
-            var cards = [UIViewController]()
+
+            let title = String(localized: "NAUSEA_DOXYLAMINE_INTAKE")
+            let subtitle = String(localized: "THIS_WEEK")
+            let duration = Calendar
+                .current
+                .dateIntervalOfWeek(for: Date())
+
             // dynamic gradient colors
-            let nauseaGradientStart = TintColorFlipKey.defaultValue
-            let nauseaGradientEnd = TintColorKey.defaultValue
+            let nauseaGradientStart = Color(TintColorFlipKey.defaultValue)
+            let nauseaGradientEnd = accentColor
 
-            // Create a plot comparing nausea to medication adherence.
-            let nauseaDataSeries = OCKDataSeriesConfiguration(
+            let nauseaDataSeries = CKEDataSeriesConfiguration(
                 taskID: task.id,
-                legendTitle: "Nausea",
+                mark: .bar,
+                legendTitle: String(localized: "NAUSEA"),
+                color: nauseaGradientEnd,
                 gradientStartColor: nauseaGradientStart,
-                gradientEndColor: nauseaGradientEnd,
-                markerSize: 10) { event in
-                    event.computeProgress(by: .summingOutcomeValues)
-                }
+                stackingMethod: .unstacked
+            ) { event in
+                event.computeProgress(by: .summingOutcomeValues)
+            }
 
-            let doxylamineDataSeries = OCKDataSeriesConfiguration(
-                taskID: task.id,
-                legendTitle: "Doxylamine",
-                gradientStartColor: .systemGray2,
-                gradientEndColor: .systemGray,
-                markerSize: 10) { event in
-                    event.computeProgress(by: .summingOutcomeValues)
-                }
+            let doxylamineDataSeries = CKEDataSeriesConfiguration(
+                taskID: TaskID.doxylamine,
+                mark: .bar,
+                legendTitle: String(localized: "DOXYLAMINE"),
+                color: Color(UIColor.systemGray2),
+                gradientStartColor: .gray,
+                stackingMethod: .unstacked
+            ) { event in
+                event.computeProgress(by: .summingOutcomeValues)
+            }
 
-            let insightsCard = OCKCartesianChartViewController(
-                plotType: .bar,
-                selectedDate: date,
-                configurations: [nauseaDataSeries, doxylamineDataSeries],
-                store: self.store)
+            let configurations = [
+                nauseaDataSeries,
+                doxylamineDataSeries
+            ]
 
-            insightsCard.typedView.headerView.titleLabel.text = "Nausea & Doxylamine Intake"
-            insightsCard.typedView.headerView.detailLabel.text = "This Week"
-            insightsCard.typedView.headerView.accessibilityLabel = "Nausea & Doxylamine Intake, This Week"
-            cards.append(insightsCard)
+            // This is a SwiftUI View Chart.
+            let chart = CareEssentialChartView(
+                title: title,
+                subtitle: subtitle,
+                dateInterval: duration,
+                period: .day,
+                configurations: configurations
+            ).formattedHostingController()
 
             /*
-             Also create a card that displays a single event.
+             Also create a card (UIKit view) that displays a single event.
              The event query passed into the initializer specifies that only
              today's log entries should be displayed by this log task view controller.
              */
-            let nauseaCard = OCKButtonLogTaskViewController(query: query,
-                                                            store: self.store)
-            cards.append(nauseaCard)
+            let nauseaCard = OCKButtonLogTaskViewController(
+                query: query,
+                store: self.store
+            )
+
+            let cards: [UIViewController] = [
+                chart,
+                nauseaCard
+            ]
+
             return cards
 
         default:
@@ -300,18 +309,56 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    private func fetchTasks(on date: Date) async throws -> [OCKAnyTask] {
+    private func appendTasks(
+        _ tasks: [OCKAnyTask],
+        to listViewController: OCKListViewController,
+        date: Date
+    ) {
+        let isCurrentDay = isSameDay(as: date)
+        tasks.compactMap {
+            let cards = self.taskViewControllers(
+                $0,
+                on: date
+            )
+            cards?.forEach {
+                if let carekitView = $0.view as? OCKView {
+                    carekitView.customStyle = style
+                }
+                $0.view.isUserInteractionEnabled = isCurrentDay
+                $0.view.alpha = !isCurrentDay ? 0.4 : 1.0
+            }
+            return cards
+        }.forEach { (cards: [UIViewController]) in
+            cards.forEach {
+                let card = $0
+                DispatchQueue.main.async {
+                    listViewController.appendViewController(card, animated: true)
+                }
+            }
+        }
+        DispatchQueue.main.async {
+            self.isLoading = false
+        }
+    }
+
+    private func fetchTasks(on date: Date) async -> [OCKAnyTask] {
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
-        let tasks = try await store.fetchAnyTasks(query: query)
-        let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
-            tasks.first(where: { $0.id == orderedTaskID })
+        do {
+            let tasks = try await store.fetchAnyTasks(query: query)
+            let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
+                tasks.first(where: { $0.id == orderedTaskID })
+            }
+            return orderedTasks
+        } catch {
+            Logger.feed.error("Could not fetch tasks: \(error, privacy: .public)")
+            return []
         }
-        return orderedTasks
     }
 }
 
 private extension View {
+    /// Convert SwiftUI view to UIKit view.
     func formattedHostingController() -> UIHostingController<Self> {
         let viewController = UIHostingController(rootView: self)
         viewController.view.backgroundColor = .clear

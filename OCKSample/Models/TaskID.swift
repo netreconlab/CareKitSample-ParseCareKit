@@ -18,4 +18,8 @@ enum TaskID {
     static var ordered: [String] {
         [Self.steps, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
     }
+
+    static var orderedObjective: [String] {
+        [Self.doxylamine, Self.kegels, Self.stretch]
+    }
 }
