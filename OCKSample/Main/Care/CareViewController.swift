@@ -263,7 +263,7 @@ class CareViewController: OCKDailyPageViewController {
             }
 
             let doxylamineDataSeries = CKEDataSeriesConfiguration(
-                taskID: task.id,
+                taskID: TaskID.doxylamine,
                 mark: .bar,
                 legendTitle: String(localized: "DOXYLAMINE"),
                 color: Color(UIColor.systemGray2),
