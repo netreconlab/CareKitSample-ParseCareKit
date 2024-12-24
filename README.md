@@ -1,5 +1,5 @@
 # CareKitSample+ParseCareKit
-![Swift](https://img.shields.io/badge/swift-5.10-brightgreen.svg) ![Xcode 16.0+](https://img.shields.io/badge/xcode-16.0%2B-blue.svg) ![iOS 18.0+](https://img.shields.io/badge/iOS-16.0%2B-blue.svg) ![watchOS 11.0+](https://img.shields.io/badge/watchOS-9.0%2B-blue.svg) ![CareKit 3.0+](https://img.shields.io/badge/CareKit-3.0%2B-red.svg) ![ci](https://github.com/netreconlab/CareKitSample-ParseCareKit/workflows/ci/badge.svg?branch=main)
+![Swift](https://img.shields.io/badge/swift-5.10-brightgreen.svg) ![Xcode 16.0+](https://img.shields.io/badge/xcode-16.0%2B-blue.svg) ![iOS 18.0+](https://img.shields.io/badge/iOS-18.0%2B-blue.svg) ![watchOS 11.0+](https://img.shields.io/badge/watchOS-11.0%2B-blue.svg) ![CareKit 3.0+](https://img.shields.io/badge/CareKit-3.0%2B-red.svg) ![ci](https://github.com/netreconlab/CareKitSample-ParseCareKit/workflows/ci/badge.svg?branch=main)
 
 An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing CareKit data to the Cloud via [ParseCareKit](https://github.com/netreconlab/ParseCareKit).
 
