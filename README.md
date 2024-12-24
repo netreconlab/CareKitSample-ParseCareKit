@@ -1,11 +1,11 @@
 # CareKitSample+ParseCareKit
 ![Swift](https://img.shields.io/badge/swift-5.10-brightgreen.svg) ![Xcode 16.0+](https://img.shields.io/badge/xcode-16.0%2B-blue.svg) ![iOS 18.0+](https://img.shields.io/badge/iOS-18.0%2B-blue.svg) ![watchOS 11.0+](https://img.shields.io/badge/watchOS-11.0%2B-blue.svg) ![CareKit 3.0+](https://img.shields.io/badge/CareKit-3.0%2B-red.svg) ![ci](https://github.com/netreconlab/CareKitSample-ParseCareKit/workflows/ci/badge.svg?branch=main)
 
-An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing CareKit data to the Cloud via [ParseCareKit](https://github.com/netreconlab/ParseCareKit).
+An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s OCKSample synchronizing CareKit data to the Cloud via [ParseCareKit](https://github.com/netreconlab/ParseCareKit). This project also depends on [CareKitEssentials](https://github.com/netreconlab/CareKitEssentials), which adds a number of views and APIs to make using CareKit easier.
 
 <img src="https://github.com/netreconlab/CareKitSample-ParseCareKit/assets/8621344/4e57796b-5c81-474d-bd8d-dfd9f18327e3" width="300"> <img src="https://github.com/netreconlab/CareKitSample-ParseCareKit/assets/8621344/d60d194a-87a5-41e9-8ae4-41a847e91ea3" width="300"> <img src="https://github.com/netreconlab/CareKitSample-ParseCareKit/assets/8621344/ca0ac2e0-d17d-4bae-88fd-f59b94812419" width="300"><img src="https://github.com/netreconlab/CareKitSample-ParseCareKit/assets/8621344/3be47269-cfde-4de2-94ae-25a60f06cac9" width="300">
 
-**Similar to the [What's New in CareKit](https://developer.apple.com/videos/play/wwdc2020/10151/) WWDC20 video, this app syncs between data between iOS and an Apple Watch (setting the flag `isSyncingWithRemote` in `Constants.swift` to  `isSyncingWithRemote = false`. Different from the video, setting `isSyncingWithRemote = true` (default behavior) in the aforementioned file syncs iOS and watchOS to a Parse Server.**
+**Similar to the [What's New in CareKit](https://developer.apple.com/videos/play/wwdc2020/10151/) WWDC20 video, this app syncs data between iOS and an Apple Watch (setting the flag `isSyncingWithRemote` in `Constants.swift` to `isSyncingWithRemote = false.` Different from the video, setting `isSyncingWithRemote = true` (default behavior) in the aforementioned file syncs iOS and watchOS to a Parse Server.**
 
 ParseCareKit synchronizes the following entities to Parse tables/classes using [Parse-Swift](https://github.com/netreconlab/Parse-Swift):
 
