@@ -22,7 +22,7 @@ struct ProfileView: View {
         VStack {
             VStack(alignment: .leading) {
                 TextField(
-                    "FIRST_NAME",
+                    "GIVEN_NAME",
                     text: $viewModel.firstName
                 )
                 .padding()
@@ -30,7 +30,7 @@ struct ProfileView: View {
                 .shadow(radius: 10.0, x: 20, y: 10)
 
                 TextField(
-                    "LAST_NAME",
+                    "FAMILY_NAME",
                     text: $viewModel.lastName
                 )
                 .padding()

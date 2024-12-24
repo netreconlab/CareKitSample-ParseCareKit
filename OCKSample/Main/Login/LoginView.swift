@@ -74,13 +74,13 @@ struct LoginView: View {
 
                 switch signupLoginSegmentValue {
                 case 1:
-                    TextField("FIRST_NAME", text: $firstName)
+                    TextField("GIVEN_NAME", text: $firstName)
                         .padding()
                         .background(.white)
                         .cornerRadius(20.0)
                         .shadow(radius: 10.0, x: 20, y: 10)
 
-                    TextField("LAST_NAME", text: $lastName)
+                    TextField("FAMILY_NAME", text: $lastName)
                         .padding()
                         .background(.white)
                         .cornerRadius(20.0)
