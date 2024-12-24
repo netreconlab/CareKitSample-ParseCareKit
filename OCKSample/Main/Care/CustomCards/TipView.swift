@@ -28,8 +28,6 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if os(iOS)
-
 import UIKit
 import CareKit
 import CareKitUI
@@ -97,17 +95,21 @@ class TipView: OCKView, OCKCardable {
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             imageHeightConstraint
         ])
+
+        registerForTraitChanges(
+            [UITraitPreferredContentSizeCategory.self],
+            handler: { (self: Self, previousTraitCollection: UITraitCollection) in
+                let traitCollection = self.traitCollection
+                // swiftlint:disable:next line_length
+                if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+                    self.imageHeightConstraint.constant = self.scaledImageHeight(compatibleWith: traitCollection)
+                }
+            }
+        )
     }
 
     func scaledImageHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
         return UIFontMetrics.default.scaledValue(for: 200, compatibleWith: traitCollection)
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-            imageHeightConstraint.constant = scaledImageHeight(compatibleWith: traitCollection)
-        }
     }
 
     override func styleDidChange() {
@@ -117,5 +119,3 @@ class TipView: OCKView, OCKCardable {
         directionalLayoutMargins = cachedStyle.dimension.directionalInsets1
     }
 }
-
-#endif

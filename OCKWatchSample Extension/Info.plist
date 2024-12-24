@@ -20,29 +20,29 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <false/>
-        <key>NSExceptionDomains</key>
-        <dict>
-            <key>localhost</key>
-            <dict>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-                <key>NSExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSExceptionRequiresForwardSecrecy</key>
-                <false/>
-            </dict>
-        </dict>
-    </dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSExceptionRequiresForwardSecrecy</key>
+				<false/>
+			</dict>
+		</dict>
+	</dict>
 	<key>NSExtension</key>
 	<dict>
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>WKAppBundleIdentifier</key>
-			<string>edu.uky.netrecon.ParseCarekitSample.watchkitapp</string>
+			<string>edu.usc.netrecon.ParseCarekitSample.watchkitapp</string>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.watchkit</string>

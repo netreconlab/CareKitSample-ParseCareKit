@@ -17,7 +17,6 @@ extension AppDelegate: ParseRemoteDelegate {
         NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
     }
 
-    @MainActor
     func successfullyPushedToRemote() {
         if isFirstTimeLogin {
             // BAKER: @MainActor not working (shows purple warning), leave async.
@@ -29,9 +28,11 @@ extension AppDelegate: ParseRemoteDelegate {
         // watchOS 9 needs to be sent messages for updates on real devices
         if isSendingPushUpdatesToWatch {
             let message = Utility.prepareSyncMessageForWatch()
-            WCSession.default.sendMessage(message,
-                                          replyHandler: nil,
-                                          errorHandler: nil)
+            WCSession.default.sendMessage(
+                message,
+                replyHandler: nil,
+                errorHandler: nil
+            )
         }
         #endif
     }

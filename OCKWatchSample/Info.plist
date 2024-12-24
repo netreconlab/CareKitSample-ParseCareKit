@@ -28,12 +28,12 @@
 		<dict>
 			<key>localhost</key>
 			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 				<key>NSExceptionRequiresForwardSecrecy</key>
 				<false/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
 			</dict>
 		</dict>
 	</dict>
@@ -45,6 +45,6 @@
 	<key>WKApplication</key>
 	<true/>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>edu.uky.netrecon.ParseCarekitSample</string>
+	<string>edu.usc.netrecon.ParseCarekitSample</string>
 </dict>
 </plist>
