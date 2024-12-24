@@ -62,7 +62,28 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 "THREE_FINGER_SWIPE_WEEK" = "Three-finger swipe to go to next or previous week";
 "TODAY" = "Today";
 "START_SURVEY" = "Start Survey";
+
+// MARK: Login
+"APP_NAME" = "CareKit Sample App";
+"LOGIN_PICKER" = "Login Picker";
+"LOGIN" = "Login";
+"LOGIN_ANONYMOUSLY" = "Login Anonymously";
+"SIGN_UP" = "Sign Up";
+"USERNAME" = "Username";
+"PASSWORD" = "Password";
+"FIRST_NAME" = "First Name";
+"LAST_NAME" = "Last Name";
+"ERROR" = "Error";
+"OPEN_APP_IPHONE" = "Please open the app on your iPhone";
+
+// MARK: Care View
 "NAUSEA_DOXYLAMINE_INTAKE" = "Nausea & Doxylamine Intake";
 "THIS_WEEK" = "This Week";
 "NAUSEA" = "Nausea";
 "DOXYLAMINE" = "Doxylamine";
+
+// MARK: Profile
+
+"BIRTHDAY" = "Birthday";
+"SAVE_PROFILE" = "Save Profile";
+"LOG_OUT" = "Log Out";

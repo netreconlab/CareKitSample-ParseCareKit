@@ -33,7 +33,7 @@ struct LoginView: View {
     var body: some View {
         VStack {
             // Change the title to the name of your application
-            Text("CareKit Sample App")
+            Text("APP_NAME")
                 .font(.largeTitle)
                 .foregroundColor(.white)
                 .padding()
@@ -51,9 +51,9 @@ struct LoginView: View {
              https://www.swiftkickmobile.com/creating-a-segmented-control-in-swiftui/
              */
             Picker(selection: $signupLoginSegmentValue,
-                   label: Text("Login Picker")) {
-                Text("Login").tag(0)
-                Text("Sign Up").tag(1)
+                   label: Text("LOGIN_PICKER")) {
+                Text("LOGIN").tag(0)
+                Text("SIGN_UP").tag(1)
             }
             .pickerStyle(.segmented)
             .background(Color(tintColorFlip))
@@ -61,12 +61,12 @@ struct LoginView: View {
             .padding()
 
             VStack(alignment: .leading) {
-                TextField("Username", text: $usersname)
+                TextField("USERNAME", text: $usersname)
                     .padding()
                     .background(.white)
                     .cornerRadius(20.0)
                     .shadow(radius: 10.0, x: 20, y: 10)
-                SecureField("Password", text: $password)
+                SecureField("PASSWORD", text: $password)
                     .padding()
                     .background(.white)
                     .cornerRadius(20.0)
@@ -74,13 +74,13 @@ struct LoginView: View {
 
                 switch signupLoginSegmentValue {
                 case 1:
-                    TextField("First Name", text: $firstName)
+                    TextField("FIRST_NAME", text: $firstName)
                         .padding()
                         .background(.white)
                         .cornerRadius(20.0)
                         .shadow(radius: 10.0, x: 20, y: 10)
 
-                    TextField("Last Name", text: $lastName)
+                    TextField("LAST_NAME", text: $lastName)
                         .padding()
                         .background(.white)
                         .cornerRadius(20.0)
@@ -114,13 +114,13 @@ struct LoginView: View {
             }, label: {
                 switch signupLoginSegmentValue {
                 case 1:
-                    Text("Sign Up")
+                    Text("SIGN_UP")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 300)
                 default:
-                    Text("Login")
+                    Text("LOGIN")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
@@ -137,7 +137,7 @@ struct LoginView: View {
             }, label: {
                 switch signupLoginSegmentValue {
                 case 0:
-                    Text("Login Anonymously")
+                    Text("LOGIN_ANONYMOUSLY")
                         .font(.headline)
                         .foregroundColor(.white)
                         .padding()
@@ -151,15 +151,22 @@ struct LoginView: View {
 
             // If an error occurs show it on the screen
             if let error = viewModel.loginError {
-                Text("Error: \(error.message)")
+                Text("\(String(localized: "ERROR")): \(error.message)")
                     .foregroundColor(.red)
             }
             Spacer()
         }
-        .background(LinearGradient(gradient: Gradient(colors: [Color(tintColorFlip),
-                                                               Color(tintColor)]),
-                                   startPoint: .top,
-                                   endPoint: .bottom))
+        .background(
+            LinearGradient(
+                gradient: Gradient(
+                    colors: [
+                        Color(tintColorFlip),
+                        Color(tintColor)]
+                ),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        )
     }
 }
 

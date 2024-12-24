@@ -12,7 +12,7 @@ struct LoginView: View {
     @ObservedObject var viewModel: LoginViewModel
 
     var body: some View {
-        Text("Please open the OCKSample app on your iPhone")
+        Text("OPEN_APP_IPHONE")
             .multilineTextAlignment(.center)
             .padding()
         Image(systemName: "apps.iphone")

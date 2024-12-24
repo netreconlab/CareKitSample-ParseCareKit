@@ -21,24 +21,30 @@ struct ProfileView: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
-                TextField("First Name",
-                          text: $viewModel.firstName)
-                    .padding()
-                    .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
+                TextField(
+                    "FIRST_NAME",
+                    text: $viewModel.firstName
+                )
+                .padding()
+                .cornerRadius(20.0)
+                .shadow(radius: 10.0, x: 20, y: 10)
 
-                TextField("Last Name",
-                          text: $viewModel.lastName)
-                    .padding()
-                    .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
+                TextField(
+                    "LAST_NAME",
+                    text: $viewModel.lastName
+                )
+                .padding()
+                .cornerRadius(20.0)
+                .shadow(radius: 10.0, x: 20, y: 10)
 
-                DatePicker("Birthday",
-                           selection: $viewModel.birthday,
-                           displayedComponents: [DatePickerComponents.date])
-                    .padding()
-                    .cornerRadius(20.0)
-                    .shadow(radius: 10.0, x: 20, y: 10)
+                DatePicker(
+                    "BIRTHDAY",
+                    selection: $viewModel.birthday,
+                    displayedComponents: [DatePickerComponents.date]
+                )
+                .padding()
+                .cornerRadius(20.0)
+                .shadow(radius: 10.0, x: 20, y: 10)
             }
 
             Button(action: {
@@ -50,11 +56,13 @@ struct ProfileView: View {
                     }
                 }
             }, label: {
-                Text("Save Profile")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 300, height: 50)
+                Text(
+                    "SAVE_PROFILE"
+                )
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .frame(width: 300, height: 50)
             })
             .background(Color(.green))
             .cornerRadius(15)
@@ -66,11 +74,13 @@ struct ProfileView: View {
                     await loginViewModel.logout()
                 }
             }, label: {
-                Text("Log Out")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding()
-                    .frame(width: 300, height: 50)
+                Text(
+                    "LOG_OUT"
+                )
+                .font(.headline)
+                .foregroundColor(.white)
+                .padding()
+                .frame(width: 300, height: 50)
             })
             .background(Color(.red))
             .cornerRadius(15)
