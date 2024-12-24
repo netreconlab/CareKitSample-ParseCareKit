@@ -52,27 +52,42 @@ class CareViewController: OCKDailyPageViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
-                                                            target: self,
-                                                            action: #selector(synchronizeWithRemote))
-        NotificationCenter.default.addObserver(self, selector: #selector(synchronizeWithRemote),
-                                               name: Notification.Name(rawValue: Constants.requestSync),
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateSynchronizationProgress(_:)),
-                                               name: Notification.Name(rawValue: Constants.progressUpdate),
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reloadView(_:)),
-                                               name: Notification.Name(rawValue: Constants.finishedAskingForPermission),
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(reloadView(_:)),
-                                               name: Notification.Name(rawValue: Constants.shouldRefreshView),
-                                               object: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .refresh,
+            target: self,
+            action: #selector(synchronizeWithRemote)
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(synchronizeWithRemote),
+            name: Notification.Name(
+                rawValue: Constants.requestSync
+            ),
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateSynchronizationProgress(_:)),
+            name: Notification.Name(rawValue: Constants.progressUpdate),
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reloadView(_:)),
+            name: Notification.Name(rawValue: Constants.finishedAskingForPermission),
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reloadView(_:)),
+            name: Notification.Name(rawValue: Constants.shouldRefreshView),
+            object: nil
+        )
     }
 
-    @objc private func updateSynchronizationProgress(_ notification: Notification) {
+    @objc private func updateSynchronizationProgress(
+        _ notification: Notification
+    ) {
         guard let receivedInfo = notification.userInfo as? [String: Any],
             let progress = receivedInfo[Constants.progressUpdate] as? Int else {
             return
@@ -188,6 +203,21 @@ class CareViewController: OCKDailyPageViewController {
         Task {
             let tasks = await self.fetchTasks(on: date)
             appendTasks(tasks, to: listViewController, date: date)
+        }
+    }
+
+    private func fetchTasks(on date: Date) async -> [OCKAnyTask] {
+        var query = OCKTaskQuery(for: date)
+        query.excludesTasksWithNoEvents = true
+        do {
+            let tasks = try await store.fetchAnyTasks(query: query)
+            let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
+                tasks.first(where: { $0.id == orderedTaskID })
+            }
+            return orderedTasks
+        } catch {
+            Logger.feed.error("Could not fetch tasks: \(error, privacy: .public)")
+            return []
         }
     }
 
@@ -338,21 +368,6 @@ class CareViewController: OCKDailyPageViewController {
         }
         DispatchQueue.main.async {
             self.isLoading = false
-        }
-    }
-
-    private func fetchTasks(on date: Date) async -> [OCKAnyTask] {
-        var query = OCKTaskQuery(for: date)
-        query.excludesTasksWithNoEvents = true
-        do {
-            let tasks = try await store.fetchAnyTasks(query: query)
-            let orderedTasks = TaskID.ordered.compactMap { orderedTaskID in
-                tasks.first(where: { $0.id == orderedTaskID })
-            }
-            return orderedTasks
-        } catch {
-            Logger.feed.error("Could not fetch tasks: \(error, privacy: .public)")
-            return []
         }
     }
 }

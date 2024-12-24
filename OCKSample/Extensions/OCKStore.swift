@@ -160,7 +160,14 @@ extension OCKStore {
         stretch.impactsAdherence = true
         stretch.asset = "figure.walk"
 
-        try await addTasksIfNotPresent([nausea, doxylamine, kegels, stretch])
+        try await addTasksIfNotPresent(
+            [
+                nausea,
+                doxylamine,
+                kegels,
+                stretch
+            ]
+        )
 
         var contact1 = OCKContact(
             id: "jane",
@@ -168,13 +175,11 @@ extension OCKStore {
             familyName: "Daniels",
             carePlanUUID: nil
         )
-        contact1.asset = "JaneDaniels"
         contact1.title = "Family Practice Doctor"
         contact1.role = "Dr. Daniels is a family practice doctor with 8 years of experience."
         contact1.emailAddresses = [OCKLabeledValue(label: CNLabelEmailiCloud, value: "janedaniels@uky.edu")]
         contact1.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(800) 257-2000")]
         contact1.messagingNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(800) 357-2040")]
-
         contact1.address = {
             let address = OCKPostalAddress()
             address.street = "1500 San Pablo St"
@@ -184,9 +189,12 @@ extension OCKStore {
             return address
         }()
 
-        var contact2 = OCKContact(id: "matthew", givenName: "Matthew",
-                                  familyName: "Reiff", carePlanUUID: nil)
-        contact2.asset = "MatthewReiff"
+        var contact2 = OCKContact(
+            id: "matthew",
+            givenName: "Matthew",
+            familyName: "Reiff",
+            carePlanUUID: nil
+        )
         contact2.title = "OBGYN"
         contact2.role = "Dr. Reiff is an OBGYN with 13 years of experience."
         contact2.phoneNumbers = [OCKLabeledValue(label: CNLabelWork, value: "(800) 257-1000")]
@@ -200,6 +208,11 @@ extension OCKStore {
             return address
         }()
 
-        try await addContactsIfNotPresent([contact1, contact2])
+        try await addContactsIfNotPresent(
+            [
+                contact1,
+                contact2
+            ]
+        )
     }
 }
