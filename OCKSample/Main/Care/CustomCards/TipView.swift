@@ -32,6 +32,7 @@ import UIKit
 import CareKit
 import CareKitUI
 
+// swiftlint:disable line_length
 class TipView: OCKView, OCKCardable {
 
     var cardView: UIView { self }
@@ -96,6 +97,8 @@ class TipView: OCKView, OCKCardable {
             imageHeightConstraint
         ])
 
+        // BAKER: Required if building for iOS 18+.
+        /*
         registerForTraitChanges(
             [UITraitPreferredContentSizeCategory.self],
             handler: { (self: Self, previousTraitCollection: UITraitCollection) in
@@ -106,10 +109,7 @@ class TipView: OCKView, OCKCardable {
                 }
             }
         )
-    }
-
-    func scaledImageHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        return UIFontMetrics.default.scaledValue(for: 200, compatibleWith: traitCollection)
+        */
     }
 
     override func styleDidChange() {
@@ -118,4 +118,18 @@ class TipView: OCKView, OCKCardable {
         enableCardStyling(true, style: cachedStyle)
         directionalLayoutMargins = cachedStyle.dimension.directionalInsets1
     }
+
+    // BAKER: Remove if building for iOS 18+.
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            imageHeightConstraint.constant = scaledImageHeight(compatibleWith: traitCollection)
+        }
+    }
+
+    func scaledImageHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        return UIFontMetrics.default.scaledValue(for: 200, compatibleWith: traitCollection)
+    }
 }
+
+// swiftlint:enable line_length
