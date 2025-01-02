@@ -96,20 +96,19 @@ class TipView: OCKView, OCKCardable {
             imageHeightConstraint
         ])
 
-        registerForTraitChanges(
-            [UITraitPreferredContentSizeCategory.self],
-            handler: { (self: Self, previousTraitCollection: UITraitCollection) in
-                let traitCollection = self.traitCollection
-                // swiftlint:disable:next line_length
-                if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
-                    self.imageHeightConstraint.constant = self.scaledImageHeight(compatibleWith: traitCollection)
+        // BAKER: Required if building for iOS 17+.
+        if #available(iOS 17.0, *) {
+            registerForTraitChanges(
+                [UITraitPreferredContentSizeCategory.self],
+                handler: { (self: Self, previousTraitCollection: UITraitCollection) in
+                    let traitCollection = self.traitCollection
+                    // swiftlint:disable:next line_length
+                    if previousTraitCollection.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+                        self.imageHeightConstraint.constant = self.scaledImageHeight(compatibleWith: traitCollection)
+                    }
                 }
-            }
-        )
-    }
-
-    func scaledImageHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
-        return UIFontMetrics.default.scaledValue(for: 200, compatibleWith: traitCollection)
+            )
+        }
     }
 
     override func styleDidChange() {
@@ -117,5 +116,17 @@ class TipView: OCKView, OCKCardable {
         let cachedStyle = style()
         enableCardStyling(true, style: cachedStyle)
         directionalLayoutMargins = cachedStyle.dimension.directionalInsets1
+    }
+
+    // BAKER: Remove if building for iOS 18+.
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        if previousTraitCollection?.preferredContentSizeCategory != traitCollection.preferredContentSizeCategory {
+            imageHeightConstraint.constant = scaledImageHeight(compatibleWith: traitCollection)
+        }
+    }
+
+    func scaledImageHeight(compatibleWith traitCollection: UITraitCollection) -> CGFloat {
+        return UIFontMetrics.default.scaledValue(for: 200, compatibleWith: traitCollection)
     }
 }
