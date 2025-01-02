@@ -34,7 +34,7 @@ You can setup your [parse-hipaa](https://github.com/netreconlab/parse-hipaa) usi
 
 ## Fork this repo to get the modified OCKSample app
 
-1. Fork [CareKitSample-ParseCareKit](https://github.com/netreconlab/ParseCareKit)
+1. Fork [CareKitSample-ParseCareKit](https://github.com/netreconlab/CareKitSample-ParseCareKit)
 2. Open `OCKSample.xcodeproj` in Xcode
 3. You may need to configure your "Team" and "Bundle Identifier" in "Signing and Capabilities"
 4. Run the app and data will synchronize with parse-hipaa via http://localhost:1337/parse automatically
