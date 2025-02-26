@@ -28,6 +28,7 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if os(iOS)
 import UIKit
 import CareKit
 import CareKitUI
@@ -130,3 +131,5 @@ class TipView: OCKView, OCKCardable {
         return UIFontMetrics.default.scaledValue(for: 200, compatibleWith: traitCollection)
     }
 }
+
+#endif

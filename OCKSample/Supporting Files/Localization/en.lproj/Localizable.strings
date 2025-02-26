@@ -88,10 +88,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 "LOG_OUT" = "Log Out";
 
 // MARK: TASKS
-"TAKE DOXYLAMINE" = "Take Doxylamine";
+"TAKE_DOXYLAMINE" = "Take Doxylamine";
 "DOXYLAMINE_INSTRUCTIONS" = "Take 25mg of doxylamine when you experience nausea";
 "ANYTIME_DURING_DAY" = "Anytime throughout the day";
-"TRACK NAUSEA" = "Track your nausea";
+"TRACK_NAUSEA" = "Track your nausea";
 "NAUSEA_INSTRUCTIONS" = "Tap the button below anytime you experience nausea";
 "KEGEL_EXERCISES" = "Kegel Exercises";
 "KEGEL_INSTRUCTIONS" = "Perform kegel exercies";

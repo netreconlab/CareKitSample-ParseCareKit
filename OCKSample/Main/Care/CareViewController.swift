@@ -161,6 +161,7 @@ class CareViewController: OCKDailyPageViewController {
         let date = modifyDateIfNeeded(date)
         let isCurrentDay = isSameDay(as: date)
 
+        #if os(iOS)
         // Only show the tip view on the current date
         if isCurrentDay {
             if Calendar.current.isDate(date, inSameDayAs: Date()) {
@@ -175,6 +176,7 @@ class CareViewController: OCKDailyPageViewController {
                 listViewController.appendView(tipView, animated: false)
             }
         }
+        #endif
 
         fetchAndDisplayTasks(on: listViewController, for: date)
     }
@@ -258,6 +260,7 @@ class CareViewController: OCKDailyPageViewController {
 
             return [card]
 
+        #if os(iOS)
         // Create a card for the doxylamine task if there are events for it on this day.
         case TaskID.doxylamine:
 
@@ -268,6 +271,7 @@ class CareViewController: OCKDailyPageViewController {
             )
 
             return [card]
+        #endif
 
         case TaskID.nausea:
 
@@ -317,6 +321,7 @@ class CareViewController: OCKDailyPageViewController {
                 configurations: configurations
             ).formattedHostingController()
 
+            #if os(iOS)
             /*
              Also create a card (UIKit view) that displays a single event.
              The event query passed into the initializer specifies that only
@@ -333,6 +338,15 @@ class CareViewController: OCKDailyPageViewController {
             ]
 
             return cards
+
+            #else
+
+            let cards: [UIViewController] = [
+                chart
+            ]
+
+            return cards
+            #endif
 
         default:
             return nil
