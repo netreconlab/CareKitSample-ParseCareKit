@@ -10,7 +10,7 @@ import CareKitUI
 import UIKit
 
 struct ColorStyler: OCKColorStyler {
-    #if os(iOS)
+    #if os(iOS) || os(visionOS)
     var label: UIColor {
         FontColorKey.defaultValue
     }

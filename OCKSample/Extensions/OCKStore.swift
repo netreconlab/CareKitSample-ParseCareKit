@@ -96,7 +96,7 @@ extension OCKStore {
 
         var doxylamine = OCKTask(
             id: TaskID.doxylamine,
-            title: String(localized: "TAKE DOXYLAMINE"),
+            title: String(localized: "TAKE_DOXYLAMINE"),
             carePlanUUID: nil,
             schedule: schedule
         )
@@ -118,7 +118,7 @@ extension OCKStore {
 
         var nausea = OCKTask(
             id: TaskID.nausea,
-            title: String(localized: "TRACK NAUSEA"),
+            title: String(localized: "TRACK_NAUSEA"),
             carePlanUUID: nil,
             schedule: nauseaSchedule
         )
