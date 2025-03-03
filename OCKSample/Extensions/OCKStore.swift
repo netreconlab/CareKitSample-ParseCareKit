@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CareKitEssentials
 import CareKitStore
 import Contacts
 import os.log
@@ -15,35 +16,7 @@ import ParseCareKit
 
 extension OCKStore {
 
-    func addTasksIfNotPresent(_ tasks: [OCKTask]) async throws {
-        let taskIdsToAdd = tasks.compactMap { $0.id }
-
-        // Prepare query to see if tasks are already added
-        var query = OCKTaskQuery(for: Date())
-        query.ids = taskIdsToAdd
-
-        let foundTasks = try await fetchTasks(query: query)
-        var tasksNotInStore = [OCKTask]()
-
-        // Check results to see if there's a missing task
-        tasks.forEach { potentialTask in
-            if foundTasks.first(where: { $0.id == potentialTask.id }) == nil {
-                tasksNotInStore.append(potentialTask)
-            }
-        }
-
-        // Only add if there's a new task
-        if tasksNotInStore.count > 0 {
-            do {
-                _ = try await addTasks(tasksNotInStore)
-                Logger.ockStore.info("Added tasks into OCKStore!")
-            } catch {
-                Logger.ockStore.error("Error adding tasks: \(error)")
-            }
-        }
-    }
-
-    func addContactsIfNotPresent(_ contacts: [OCKContact]) async throws {
+    func addContactsIfNotPresent(_ contacts: [OCKContact]) async throws -> [OCKContact] {
         let contactIdsToAdd = contacts.compactMap { $0.id }
 
         // Prepare query to see if contacts are already added
@@ -51,24 +24,22 @@ extension OCKStore {
         query.ids = contactIdsToAdd
 
         let foundContacts = try await fetchContacts(query: query)
-        var contactsNotInStore = [OCKContact]()
 
-        // Check results to see if there's a missing task
-        contacts.forEach { potential in
-            if foundContacts.first(where: { $0.id == potential.id }) == nil {
-                contactsNotInStore.append(potential)
+        // Find all missing tasks.
+        let contactsNotInStore = contacts.filter { potentialContact -> Bool in
+            guard foundContacts.first(where: { $0.id == potentialContact.id }) == nil else {
+                return false
             }
+            return true
         }
 
         // Only add if there's a new task
-        if contactsNotInStore.count > 0 {
-            do {
-                _ = try await addContacts(contactsNotInStore)
-                Logger.ockStore.info("Added contacts into OCKStore!")
-            } catch {
-                Logger.ockStore.error("Error adding contacts: \(error)")
-            }
+        guard contactsNotInStore.count > 0 else {
+            return []
         }
+
+        let addedContacts = try await addContacts(contactsNotInStore)
+        return addedContacts
     }
 
     // Adds tasks and contacts into the store
@@ -160,7 +131,7 @@ extension OCKStore {
         stretch.impactsAdherence = true
         stretch.asset = "figure.walk"
 
-        try await addTasksIfNotPresent(
+        _ = try await addTasksIfNotPresent(
             [
                 nausea,
                 doxylamine,
@@ -208,7 +179,7 @@ extension OCKStore {
             return address
         }()
 
-        try await addContactsIfNotPresent(
+        _ = try await addContactsIfNotPresent(
             [
                 contact1,
                 contact2
