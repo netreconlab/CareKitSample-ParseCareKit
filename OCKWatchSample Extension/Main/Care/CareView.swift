@@ -37,7 +37,7 @@ struct CareView: View {
                 }
             }
         }.onAppear {
-            let taskIDs = TaskID.orderedObjective
+            let taskIDs = TaskID.orderedWatchOS
             sortedTaskIDs = computeTaskIDOrder(taskIDs: taskIDs)
             events.query.taskIDs = taskIDs
         }
@@ -45,7 +45,7 @@ struct CareView: View {
 
     static func query() -> OCKEventQuery {
         var query = OCKEventQuery(for: Date())
-        query.taskIDs = TaskID.orderedObjective
+        query.taskIDs = TaskID.orderedWatchOS
         return query
     }
 

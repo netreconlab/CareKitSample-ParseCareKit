@@ -1253,7 +1253,7 @@
 			repositoryURL = "https://github.com/cbaker6/CareKit.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = "3.0.0-beta.40";
+				minimumVersion = "3.0.0-beta.42";
 			};
 		};
 		918FDEAD271B3F8F0045A0EF /* XCRemoteSwiftPackageReference "ParseCareKit" */ = {

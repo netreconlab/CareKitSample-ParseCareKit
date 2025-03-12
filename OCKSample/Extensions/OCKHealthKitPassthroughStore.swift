@@ -7,55 +7,65 @@
 //
 
 import Foundation
+import CareKitEssentials
 import CareKitStore
 import HealthKit
 import os.log
 
 extension OCKHealthKitPassthroughStore {
 
-    func addTasksIfNotPresent(_ tasks: [OCKHealthKitTask]) async throws -> [OCKHealthKitTask] {
-        let tasksToAdd = tasks
-        let taskIdsToAdd = tasksToAdd.compactMap { $0.id }
-
-        // Prepare query to see if tasks are already added
-        var query = OCKTaskQuery(for: Date())
-        query.ids = taskIdsToAdd
-
-        let foundTasks = try await fetchTasks(query: query)
-
-        // Find all missing tasks.
-        let tasksNotInStore = tasks.filter { potentialTask -> Bool in
-            guard foundTasks.first(where: { $0.id == potentialTask.id }) == nil else {
-                return false
-            }
-            return true
-        }
-
-        // Only add if there's a new task
-        guard tasksNotInStore.count > 0 else {
-            return []
-        }
-
-        let addedTasks = try await addTasks(tasksNotInStore)
-        return addedTasks
-    }
-
     func populateSampleData() async throws {
 
-        let schedule = OCKSchedule.dailyAtTime(
-            hour: 8, minutes: 0, start: Date(), end: nil, text: nil,
-            duration: .hours(12), targetValues: [OCKOutcomeValue(2000.0, units: "Steps")])
-
+        let countUnit = HKUnit.count()
+        let stepTargetValue = OCKOutcomeValue(
+            2000.0,
+            units: countUnit.unitString
+        )
+        let stepTargetValues = [ stepTargetValue ]
+        let stepSchedule = OCKSchedule.dailyAtTime(
+            hour: 8,
+            minutes: 0,
+            start: Date(),
+            end: nil,
+            text: nil,
+            duration: .allDay,
+            targetValues: stepTargetValues
+        )
         var steps = OCKHealthKitTask(
             id: TaskID.steps,
-            title: "Steps",
+            title: String(localized: "STEPS"),
             carePlanUUID: nil,
-            schedule: schedule,
+            schedule: stepSchedule,
             healthKitLinkage: OCKHealthKitLinkage(
                 quantityIdentifier: .stepCount,
                 quantityType: .cumulative,
-                unit: .count()))
+                unit: countUnit
+            )
+        )
         steps.asset = "figure.walk"
-        try await addTasksIfNotPresent([steps])
+
+        let ovulationTestResultSchedule = OCKSchedule.dailyAtTime(
+            hour: 8,
+            minutes: 0,
+            start: Date(),
+            end: nil,
+            text: nil,
+            duration: .allDay,
+            targetValues: []
+        )
+        var ovulationTestResult = OCKHealthKitTask(
+            id: TaskID.ovulationTestResult,
+            title: String(localized: "OVULATION_TEST_RESULT"),
+            carePlanUUID: nil,
+            schedule: ovulationTestResultSchedule,
+            healthKitLinkage: OCKHealthKitLinkage(
+                categoryIdentifier: .ovulationTestResult
+            )
+        )
+        ovulationTestResult.asset = "circle.dotted"
+        let tasks = [ steps, ovulationTestResult ]
+
+        _ = try await addTasksIfNotPresent(tasks)
+
     }
 }

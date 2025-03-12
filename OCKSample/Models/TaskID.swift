@@ -14,12 +14,21 @@ enum TaskID {
     static let stretch = "stretch"
     static let kegels = "kegels"
     static let steps = "steps"
+    static let ovulationTestResult = "ovulationTestResult"
 
     static var ordered: [String] {
-        [Self.steps, Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
+        orderedObjective + orderedSubjective
     }
 
     static var orderedObjective: [String] {
-        [Self.doxylamine, Self.kegels, Self.stretch]
+        [ Self.steps, Self.ovulationTestResult ]
+    }
+
+    static var orderedSubjective: [String] {
+        [ Self.doxylamine, Self.kegels, Self.stretch, Self.nausea]
+    }
+
+    static var orderedWatchOS: [String] {
+        [ Self.doxylamine, Self.kegels, Self.stretch ]
     }
 }
