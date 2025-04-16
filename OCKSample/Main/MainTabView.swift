@@ -59,7 +59,6 @@ struct MainTabView: View {
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         MainTabView(loginViewModel: .init())
-            .accentColor(Color(TintColorKey.defaultValue))
             .environment(\.careStore, Utility.createPreviewStore())
     }
 }

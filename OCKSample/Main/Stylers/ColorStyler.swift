@@ -7,6 +7,7 @@
 //
 
 import CareKitUI
+import SwiftUI
 import UIKit
 
 struct ColorStyler: OCKColorStyler {
@@ -15,7 +16,7 @@ struct ColorStyler: OCKColorStyler {
         FontColorKey.defaultValue
     }
     var tertiaryLabel: UIColor {
-        TintColorKey.defaultValue
+		UIColor(Color.accentColor)
     }
     #endif
 }

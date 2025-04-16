@@ -61,7 +61,6 @@ struct CareView: UIViewControllerRepresentable {
 struct CareView_Previews: PreviewProvider {
     static var previews: some View {
         CareView()
-            .accentColor(Color(TintColorKey.defaultValue))
             .environment(\.appDelegate, AppDelegate())
             .environment(\.careStore, Utility.createPreviewStore())
     }

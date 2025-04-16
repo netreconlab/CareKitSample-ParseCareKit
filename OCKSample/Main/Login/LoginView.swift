@@ -21,7 +21,6 @@ import UIKit
  in Section 2 for an explanation
  */
 struct LoginView: View {
-    @Environment(\.tintColor) var tintColor
     @Environment(\.tintColorFlip) var tintColorFlip
     @ObservedObject var viewModel: LoginViewModel
     @State var usersname = ""
@@ -161,7 +160,8 @@ struct LoginView: View {
                 gradient: Gradient(
                     colors: [
                         Color(tintColorFlip),
-                        Color(tintColor)]
+                        Color.accentColor
+					]
                 ),
                 startPoint: .top,
                 endPoint: .bottom
@@ -173,6 +173,5 @@ struct LoginView: View {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView(viewModel: .init())
-            .accentColor(Color(TintColorKey.defaultValue))
     }
 }
