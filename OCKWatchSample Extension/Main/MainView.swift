@@ -25,7 +25,7 @@ struct MainView: View {
                 .navigationDestination(for: MainViewPath.self) { destination in
                     switch destination {
                     case .tabs:
-                        CareView()
+						MainTabView(loginViewModel: loginViewModel)
                             .navigationBarHidden(true)
                     }
                 }
@@ -80,6 +80,5 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
-            .accentColor(Color(TintColorKey.defaultValue))
     }
 }

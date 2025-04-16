@@ -43,9 +43,6 @@ class CareViewController: OCKDailyPageViewController {
 
     private var isSyncing = false
     private var isLoading = false
-    private var accentColor: Color {
-        Color(TintColorKey.defaultValue)
-    }
     private var style: Styler {
         CustomStylerKey.defaultValue
     }
@@ -114,7 +111,7 @@ class CareViewController: OCKDailyPageViewController {
                 self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
                                                                          style: .plain, target: self,
                                                                          action: #selector(self.synchronizeWithRemote))
-                self.navigationItem.rightBarButtonItem?.tintColor = TintColorKey.defaultValue
+				self.navigationItem.rightBarButtonItem?.tintColor = self.view.tintColor
             }
         }
     }
@@ -291,7 +288,7 @@ class CareViewController: OCKDailyPageViewController {
 
             // dynamic gradient colors
             let nauseaGradientStart = Color(TintColorFlipKey.defaultValue)
-            let nauseaGradientEnd = accentColor
+			let nauseaGradientEnd = Color.accentColor
 
             let nauseaDataSeries = CKEDataSeriesConfiguration(
                 taskID: task.id,

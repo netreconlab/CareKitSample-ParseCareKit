@@ -53,11 +53,14 @@
 		7099D20C29E98E400037CD8E /* InstallationChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7099D20A29E98E400037CD8E /* InstallationChannel.swift */; };
 		70A98D62278A2683009B58F2 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Styler.swift */; };
 		70A98D63278A268B009B58F2 /* ColorStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyler.swift */; };
-		70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC2271B4E950045A0EF /* TintColorKey.swift */; };
 		70C0D474279BA492003DA141 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91693821271B897200A634ED /* Utility.swift */; };
 		70CF66E428E1E74C00FAE977 /* TintColorFlipKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF66E328E1E74C00FAE977 /* TintColorFlipKey.swift */; };
 		70CF66E528E1E74C00FAE977 /* TintColorFlipKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF66E328E1E74C00FAE977 /* TintColorFlipKey.swift */; };
 		70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
+		70E342292DB05813005124F9 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E342282DB05813005124F9 /* ProfileView.swift */; };
+		70E3422B2DB0581C005124F9 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E3422A2DB0581C005124F9 /* MainTabView.swift */; };
+		70E3422F2DB06281005124F9 /* NoHighlightStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E3422E2DB06281005124F9 /* NoHighlightStyle.swift */; };
+		70E342302DB062F8005124F9 /* NoHighlightStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E3422E2DB06281005124F9 /* NoHighlightStyle.swift */; };
 		70F03A952786093B00E5AFB4 /* OCKHealthKitPassthroughStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A942786093B00E5AFB4 /* OCKHealthKitPassthroughStore.swift */; };
 		70F03A972786098F00E5AFB4 /* OCKStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A962786098F00E5AFB4 /* OCKStore.swift */; };
 		70F03A9C27860A2000E5AFB4 /* OCKStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A962786098F00E5AFB4 /* OCKStore.swift */; };
@@ -87,7 +90,6 @@
 		918FDEB7271B41FF0045A0EF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEB6271B41FF0045A0EF /* Logger.swift */; };
 		918FDEB8271B49060045A0EF /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEB6271B41FF0045A0EF /* Logger.swift */; };
 		918FDEB9271B493A0045A0EF /* Installation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEB4271B40590045A0EF /* Installation.swift */; };
-		918FDEC3271B4E950045A0EF /* TintColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC2271B4E950045A0EF /* TintColorKey.swift */; };
 		918FDEC5271B4EA70045A0EF /* StoreCoordinatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC4271B4EA70045A0EF /* StoreCoordinatorKey.swift */; };
 		91AD922224A45A3900925D4D /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
 		91AD922424A461D200925D4D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922324A461D200925D4D /* README.md */; };
@@ -182,6 +184,9 @@
 		7099D20A29E98E400037CD8E /* InstallationChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstallationChannel.swift; sourceTree = "<group>"; };
 		70BD2B1E254B44DB0030B424 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		70CF66E328E1E74C00FAE977 /* TintColorFlipKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColorFlipKey.swift; sourceTree = "<group>"; };
+		70E342282DB05813005124F9 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		70E3422A2DB0581C005124F9 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		70E3422E2DB06281005124F9 /* NoHighlightStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoHighlightStyle.swift; sourceTree = "<group>"; };
 		70F03A942786093B00E5AFB4 /* OCKHealthKitPassthroughStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKHealthKitPassthroughStore.swift; sourceTree = "<group>"; };
 		70F03A962786098F00E5AFB4 /* OCKStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCKStore.swift; sourceTree = "<group>"; };
 		70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKPatient+Parse.swift"; sourceTree = "<group>"; };
@@ -198,7 +203,6 @@
 		91693821271B897200A634ED /* Utility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
 		918FDEB4271B40590045A0EF /* Installation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Installation.swift; sourceTree = "<group>"; };
 		918FDEB6271B41FF0045A0EF /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		918FDEC2271B4E950045A0EF /* TintColorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintColorKey.swift; sourceTree = "<group>"; };
 		918FDEC4271B4EA70045A0EF /* StoreCoordinatorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreCoordinatorKey.swift; sourceTree = "<group>"; };
 		91AD922124A45A3900925D4D /* ParseCareKit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = ParseCareKit.plist; sourceTree = "<group>"; };
 		91AD922324A461D200925D4D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -274,14 +278,6 @@
 			path = OCKSampleUITests;
 			sourceTree = "<group>";
 		};
-		70221F2B28D7C7C600971195 /* CustomCards */ = {
-			isa = PBXGroup;
-			children = (
-				E7C37848228F887800E982D8 /* TipView.swift */,
-			);
-			path = CustomCards;
-			sourceTree = "<group>";
-		};
 		70221F2C28D7CD7400971195 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +301,7 @@
 			children = (
 				70221F2728D7809800971195 /* MainTabView.swift */,
 				7036E4D2256EBE35006E9A3C /* MainView.swift */,
+				70E3422C2DB058A7005124F9 /* Cards */,
 				70308878258272CD00FFABB6 /* Care */,
 				7030887D258272F400FFABB6 /* Contact */,
 				7030887E2582731300FFABB6 /* Login */,
@@ -319,7 +316,6 @@
 			children = (
 				7036E4C3256E0A48006E9A3C /* CareView.swift */,
 				E7440E4E229477F7007AD30A /* CareViewController.swift */,
-				70221F2B28D7C7C600971195 /* CustomCards */,
 			);
 			path = Care;
 			sourceTree = "<group>";
@@ -354,8 +350,10 @@
 			isa = PBXGroup;
 			children = (
 				7075151C28DE1A7400A57A0C /* MainView.swift */,
+				70E3422A2DB0581C005124F9 /* MainTabView.swift */,
 				70A98D64278A2722009B58F2 /* Care */,
 				70A98D65278A273E009B58F2 /* Login */,
+				70E342272DB057FD005124F9 /* Profile */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -394,6 +392,31 @@
 				70308885258273D400FFABB6 /* LoginViewModel.swift */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		70E342272DB057FD005124F9 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				70E342282DB05813005124F9 /* ProfileView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		70E3422C2DB058A7005124F9 /* Cards */ = {
+			isa = PBXGroup;
+			children = (
+				E7C37848228F887800E982D8 /* TipView.swift */,
+				70E3422D2DB0626A005124F9 /* Modifiers */,
+			);
+			path = Cards;
+			sourceTree = "<group>";
+		};
+		70E3422D2DB0626A005124F9 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				70E3422E2DB06281005124F9 /* NoHighlightStyle.swift */,
+			);
+			path = Modifiers;
 			sourceTree = "<group>";
 		};
 		70F921AA27CABDE900368CEC /* WatchConnectivity */ = {
@@ -461,7 +484,6 @@
 				70F921A727CA9A3A00368CEC /* CustomStylerKey.swift */,
 				70F03AA727860E7700E5AFB4 /* FontColorKey.swift */,
 				918FDEC4271B4EA70045A0EF /* StoreCoordinatorKey.swift */,
-				918FDEC2271B4E950045A0EF /* TintColorKey.swift */,
 				70CF66E328E1E74C00FAE977 /* TintColorFlipKey.swift */,
 			);
 			path = Environment;
@@ -744,8 +766,11 @@
 				7075151E28DE1A8300A57A0C /* MainView.swift in Sources */,
 				70A98D62278A2683009B58F2 /* Styler.swift in Sources */,
 				91693818271B5E1600A634ED /* Constants.swift in Sources */,
+				70E3422B2DB0581C005124F9 /* MainTabView.swift in Sources */,
 				7075152028DE1BB400A57A0C /* LoginView.swift in Sources */,
+				70E342292DB05813005124F9 /* ProfileView.swift in Sources */,
 				70F921B227CAC16E00368CEC /* RemoteSessionDelegate.swift in Sources */,
+				70E342302DB062F8005124F9 /* NoHighlightStyle.swift in Sources */,
 				70221F2F28D7CDE400971195 /* AppDelegate+ParseRemoteDelegate.swift in Sources */,
 				7083A857279CA40F00B3832E /* PCKUtility.swift in Sources */,
 				91AD923924A4C42D00925D4D /* OCKWatchSampleApp.swift in Sources */,
@@ -755,7 +780,6 @@
 				7099D20329E98DDF0037CD8E /* MainViewPath.swift in Sources */,
 				707CC719254DA91900116728 /* OCKLocalization.swift in Sources */,
 				7007759B252229C900EC0EDA /* User.swift in Sources */,
-				70A98D68278A2DF1009B58F2 /* TintColorKey.swift in Sources */,
 				7099D20929E98E200037CD8E /* UserType.swift in Sources */,
 				918FDEB9271B493A0045A0EF /* Installation.swift in Sources */,
 				91AD923F24A4C42D00925D4D /* NotificationController.swift in Sources */,
@@ -793,7 +817,7 @@
 				7036E4C4256E0A48006E9A3C /* CareView.swift in Sources */,
 				70F921B027CABED600368CEC /* LocalSyncSessionDelegate.swift in Sources */,
 				70221F2828D7809800971195 /* MainTabView.swift in Sources */,
-				918FDEC3271B4E950045A0EF /* TintColorKey.swift in Sources */,
+				70E3422F2DB06281005124F9 /* NoHighlightStyle.swift in Sources */,
 				70CF66E428E1E74C00FAE977 /* TintColorFlipKey.swift in Sources */,
 				70F03AA327860AFF00E5AFB4 /* OCKPatient+Parse.swift in Sources */,
 				7099D1FF29E98D900037CD8E /* AppError.swift in Sources */,
@@ -865,6 +889,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				"ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME[sdk=*]" = AccentColor;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -925,6 +950,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = OCKSample/OCKSample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1101,6 +1127,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				"ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME[sdk=*]" = AccentColor;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1167,6 +1194,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = OCKSample/OCKSample.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;

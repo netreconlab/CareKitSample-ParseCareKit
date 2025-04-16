@@ -13,14 +13,12 @@ import CareKit
 @main
 struct OCKSampleApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @Environment(\.tintColor) var tintColor
     @Environment(\.careKitStyle) var style
 
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environment(\.appDelegate, appDelegate)
-                .accentColor(Color(tintColor))
                 .careKitStyle(style)
         }
     }

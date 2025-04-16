@@ -45,7 +45,6 @@ struct ContactView_Previews: PreviewProvider {
 
     static var previews: some View {
         ContactView()
-            .accentColor(Color(TintColorKey.defaultValue))
             .environment(\.careStore, Utility.createPreviewStore())
     }
 }

@@ -99,7 +99,6 @@ struct ProfileView: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView(loginViewModel: .init())
-            .accentColor(Color(TintColorKey.defaultValue))
             .environment(\.careStore, Utility.createPreviewStore())
     }
 }
