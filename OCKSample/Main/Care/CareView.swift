@@ -63,5 +63,6 @@ struct CareView_Previews: PreviewProvider {
         CareView()
             .environment(\.appDelegate, AppDelegate())
             .environment(\.careStore, Utility.createPreviewStore())
+			.careKitStyle(Styler())
     }
 }

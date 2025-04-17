@@ -9,6 +9,7 @@
 // This was built using tutorial: https://www.hackingwithswift.com/books/ios-swiftui/creating-tabs-with-tabview-and-tabitem
 
 import CareKitStore
+import CareKitUI
 import SwiftUI
 
 struct MainTabView: View {
@@ -59,6 +60,8 @@ struct MainTabView: View {
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         MainTabView(loginViewModel: .init())
+			.environment(\.appDelegate, AppDelegate())
             .environment(\.careStore, Utility.createPreviewStore())
+			.careKitStyle(Styler())
     }
 }

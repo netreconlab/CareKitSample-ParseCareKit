@@ -46,5 +46,6 @@ struct ContactView_Previews: PreviewProvider {
     static var previews: some View {
         ContactView()
             .environment(\.careStore, Utility.createPreviewStore())
+			.careKitStyle(Styler())
     }
 }

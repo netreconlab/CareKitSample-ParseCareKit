@@ -63,5 +63,6 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         CareView()
             .environment(\.careStore, Utility.createPreviewStore())
+			.careKitStyle(Styler())
     }
 }

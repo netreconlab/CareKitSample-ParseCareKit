@@ -111,5 +111,6 @@ struct ProfileView_Previews: PreviewProvider {
 	static var previews: some View {
 		ProfileView()
 			.environment(\.careStore, Utility.createPreviewStore())
+			.careKitStyle(Styler())
 	}
 }

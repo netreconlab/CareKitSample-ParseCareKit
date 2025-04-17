@@ -8,6 +8,7 @@
 
 import SwiftUI
 import CareKitStore
+import CareKitUI
 import os.log
 
 struct MainView: View {
@@ -80,5 +81,8 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+			.environment(\.appDelegate, AppDelegate())
+			.environment(\.careStore, Utility.createPreviewStore())
+			.careKitStyle(Styler())
     }
 }
