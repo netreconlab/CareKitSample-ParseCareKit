@@ -6,6 +6,7 @@
 //  Copyright © 2025 Network Reconnaissance Lab. All rights reserved.
 //
 
+import CareKitUI
 import SwiftUI
 
 struct MainTabView: View {

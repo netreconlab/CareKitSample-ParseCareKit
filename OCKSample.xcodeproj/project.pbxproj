@@ -30,6 +30,7 @@
 		7036E4D3256EBE35006E9A3C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4D2256EBE35006E9A3C /* MainView.swift */; };
 		7036E517256F2413006E9A3C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E516256F2413006E9A3C /* ProfileViewModel.swift */; };
 		7036E64025717F85006E9A3C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E63F25717F85006E9A3C /* Constants.swift */; };
+		704352422DB09A5C00A12187 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C4CA0A22809AD500ECC3D7 /* Assets.xcassets */; };
 		7075151E28DE1A8300A57A0C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7075151C28DE1A7400A57A0C /* MainView.swift */; };
 		7075152028DE1BB400A57A0C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7075151F28DE1BB400A57A0C /* LoginView.swift */; };
 		707CC714254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
@@ -699,6 +700,7 @@
 				91AD924624A4C42E00925D4D /* Preview Assets.xcassets in Resources */,
 				91AD922D24A4C42D00925D4D /* Assets.xcassets in Resources */,
 				70F03AB42788C76700E5AFB4 /* ParseCareKit.plist in Resources */,
+				704352422DB09A5C00A12187 /* Assets.xcassets in Resources */,
 				91AD924324A4C42E00925D4D /* Assets.xcassets in Resources */,
 				707CC717254DA91900116728 /* Localizable.stringsdict in Resources */,
 			);
@@ -1273,7 +1275,7 @@
 			repositoryURL = "https://github.com/netreconlab/CareKitEssentials";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = "1.0.0-alpha.40";
+				minimumVersion = "1.0.0-alpha.44";
 			};
 		};
 		70202EBF2807333900CF73FB /* XCRemoteSwiftPackageReference "CareKit" */ = {

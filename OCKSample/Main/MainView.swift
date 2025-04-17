@@ -70,5 +70,6 @@ struct MainView_Previews: PreviewProvider {
         MainView()
             .environment(\.appDelegate, AppDelegate())
             .environment(\.careStore, Utility.createPreviewStore())
+			.careKitStyle(Styler())
     }
 }
