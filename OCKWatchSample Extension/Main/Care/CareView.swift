@@ -29,10 +29,10 @@ struct CareView: View {
 
     var body: some View {
         ScrollView {
-            ForEach(orderedEvents) { event in
+			ForEach(orderedEvents) { event in
                 if event.result.task.id == TaskID.kegels {
                     SimpleTaskView(event: event)
-                } else {
+				} else {
                     InstructionsTaskView(event: event)
                 }
             }

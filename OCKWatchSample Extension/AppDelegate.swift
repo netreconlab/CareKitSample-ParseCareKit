@@ -27,7 +27,14 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             self.objectWillChange.send()
         }
     }
+	@Published private(set) var storeCoordinator: OCKStoreCoordinator = .init() {
+		willSet {
+			StoreCoordinatorKey.defaultValue = newValue
+			self.objectWillChange.send()
+		}
+	}
     private(set) var parseRemote: ParseRemote!
+	private(set) var healthKitStore: OCKHealthKitPassthroughStore!
 
     // MARK: Private read/write properties
 
@@ -96,13 +103,17 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                     WCSession.default.activate()
                     return
                 }
-                parseRemote = try await ParseRemote(uuid: uuid,
-                                                    auto: false,
-                                                    subscribeToRemoteUpdates: true,
-                                                    defaultACL: PCKUtility.getDefaultACL())
-                let store = OCKStore(name: Constants.watchOSParseCareStoreName,
-                                     type: .onDisk(),
-                                     remote: parseRemote)
+                parseRemote = try await ParseRemote(
+					uuid: uuid,
+					auto: false,
+					subscribeToRemoteUpdates: true,
+					defaultACL: PCKUtility.getDefaultACL()
+				)
+                let store = OCKStore(
+					name: Constants.watchOSParseCareStoreName,
+					type: .onDisk(),
+					remote: parseRemote
+				)
                 parseRemote?.parseRemoteDelegate = self
                 sessionDelegate.store = store
                 self.store = store
@@ -117,6 +128,12 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 self.store = store
             }
             WCSession.default.activate()
+
+			healthKitStore = OCKHealthKitPassthroughStore(store: store)
+			let storeCoordinator = OCKStoreCoordinator()
+			storeCoordinator.attach(store: store)
+			storeCoordinator.attach(eventStore: healthKitStore)
+			self.storeCoordinator = storeCoordinator
         } catch {
             Logger.appDelegate.error("Error setting up remote: \(error)")
             throw error
