@@ -6,6 +6,7 @@
 //  Copyright © 2020 Network Reconnaissance Lab. All rights reserved.
 
 import CareKit
+import CareKitEssentials
 import CareKitStore
 import CareKitUI
 import SwiftUI
@@ -44,18 +45,15 @@ struct MainView: View {
                 }
         }
         .environment(\.careStore, storeCoordinator)
-        .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
+		.onChange(of: appDelegate.storeCoordinator) { newStoreCoordinator in
+			storeCoordinator = newStoreCoordinator
+		}
+		.onReceive(loginViewModel.$isLoggedOut) { isLoggedOut in
             guard !isLoggedOut else {
                 updatePath([])
                 return
             }
             updatePath([.tabs])
-        })
-        .onReceive(appDelegate.$storeCoordinator) { newStoreCoordinator in
-            guard storeCoordinator !== newStoreCoordinator else {
-                return
-            }
-            storeCoordinator = newStoreCoordinator
         }
     }
 

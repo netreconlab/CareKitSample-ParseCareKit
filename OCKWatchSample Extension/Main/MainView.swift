@@ -6,19 +6,17 @@
 //  Copyright © 2022 Network Reconnaissance Lab. All rights reserved.
 //
 
-import SwiftUI
+import CareKitEssentials
 import CareKitStore
 import CareKitUI
+import SwiftUI
 import os.log
 
 struct MainView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject private var loginViewModel = LoginViewModel()
     @State private var path = [MainViewPath]()
-    @State private var store = OCKStore(
-        name: Constants.noCareStoreName,
-        type: .inMemory
-    )
+    @State private var storeCoordinator = OCKStoreCoordinator()
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -43,29 +41,25 @@ struct MainView: View {
                     updatePath([.tabs])
                 }
         }
-        .environment(\.careStore, store)
-        .onReceive(loginViewModel.$isLoggedOut, perform: { isLoggedOut in
+        .environment(\.careStore, storeCoordinator)
+		.onChange(of: appDelegate.storeCoordinator) { newStoreCoordinator in
+			Task {
+				await loginViewModel.checkStatus()
+			}
+			storeCoordinator = newStoreCoordinator
+			guard isSyncingWithRemote else {
+				updatePath([.tabs])
+				return
+			}
+			updatePath([.tabs])
+		}
+        .onReceive(loginViewModel.$isLoggedOut) { isLoggedOut in
             guard isSyncingWithRemote else {
                 updatePath([.tabs])
                 return
             }
             guard !isLoggedOut else {
                 updatePath([])
-                return
-            }
-            updatePath([.tabs])
-        })
-        .onReceive(appDelegate.$store) { newStore in
-            Task {
-                await loginViewModel.checkStatus()
-            }
-            guard let newStore = newStore,
-                  store !== newStore else {
-                return
-            }
-            store = newStore
-            guard isSyncingWithRemote else {
-                updatePath([.tabs])
                 return
             }
             updatePath([.tabs])
