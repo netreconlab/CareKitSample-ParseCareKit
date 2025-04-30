@@ -49,7 +49,7 @@ struct InsightsView: View {
 						showMeanMark: false,
 						showMedianMark: false,
 						color: meanGradientEnd,
-						gradientStartColor: meanGradientStart,
+						gradientStartColor: meanGradientStart
 					) { event in
 						event.computeProgress(by: .maxOutcomeValue())
 					}
