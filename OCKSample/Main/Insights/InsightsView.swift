@@ -131,7 +131,7 @@ struct InsightsView: View {
 			Spacer()
 		}
 		.onAppear {
-			let taskIDs = TaskID.orderedWatchOS
+			let taskIDs = TaskID.orderedWatchOS + TaskID.orderedObjective
 			sortedTaskIDs = computeTaskIDOrder(taskIDs: taskIDs)
 			events.query.taskIDs = taskIDs
 			events.query.dateInterval = eventQueryInterval
