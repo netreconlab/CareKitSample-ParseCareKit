@@ -105,13 +105,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 "DATE" = "Date";
 "VALUE" = "Value";
 "DATA_SERIES" = "Data Series";
-"VALUE_DISPLAY" = "Value: %F";
+"VALUE_DISPLAY" = "Value: %.2F";
 "MEAN" = "Mean";
 "AVERAGE" = "Average";
 "MEDIAN" = "Median";
 "SUM" = "SUM";
-"AVERAGE_VALUE" = "Average: %F";
-"MEDIAN_VALUE" = "Median: %F";
+"AVERAGE_VALUE" = "Average: %.2F";
+"MEDIAN_VALUE" = "Median: %.2F";
 "DAY" = "Day";
 "WEEK" = "Week";
 "MONTH" = "Month";
