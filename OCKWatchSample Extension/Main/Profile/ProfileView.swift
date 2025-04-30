@@ -48,31 +48,31 @@ struct ProfileView: View {
 								.background(Color.accentColor)
 								.padding(.bottom)
 							Spacer()
-							Button(action: {
-								Task {
-									do {
-										try await logout()
-									} catch {
-										Logger.profile.error("Error logging out: \(error)")
-									}
-								}
-							}) {
-								RectangularCompletionView(isComplete: isLoggedOut) {
-									Spacer()
-									Text("LOG_OUT")
-										.foregroundColor(.white)
-										.frame(maxWidth: .infinity)
-										.padding()
-									Spacer()
-								}
-							}
-							.background(Color.accentColor)
-							.buttonStyle(NoHighlightStyle())
 						}
 						.padding()
 					}
 				}
 			}
+			Button(action: {
+				Task {
+					do {
+						try await logout()
+					} catch {
+						Logger.profile.error("Error logging out: \(error)")
+					}
+				}
+			}) {
+				RectangularCompletionView(isComplete: isLoggedOut) {
+					Spacer()
+					Text("LOG_OUT")
+						.foregroundColor(.white)
+						.frame(maxWidth: .infinity)
+						.padding()
+					Spacer()
+				}
+			}
+			.background(Color.accentColor)
+			.buttonStyle(NoHighlightStyle())
 		}
 	}
 

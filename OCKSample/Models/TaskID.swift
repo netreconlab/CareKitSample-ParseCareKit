@@ -29,6 +29,6 @@ enum TaskID {
     }
 
     static var orderedWatchOS: [String] {
-        [ Self.doxylamine, Self.kegels, Self.stretch ]
+        [ Self.doxylamine, Self.kegels, Self.stretch ] + orderedObjective
     }
 }

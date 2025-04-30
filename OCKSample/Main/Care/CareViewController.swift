@@ -36,8 +36,6 @@ import os.log
 import SwiftUI
 import UIKit
 
-// swiftlint:disable type_body_length
-
 @MainActor
 class CareViewController: OCKDailyPageViewController {
 
@@ -280,52 +278,6 @@ class CareViewController: OCKDailyPageViewController {
 
         case TaskID.nausea:
 
-            let title = String(localized: "NAUSEA_DOXYLAMINE_INTAKE")
-            let subtitle = String(localized: "THIS_WEEK")
-            let duration = Calendar
-                .current
-                .dateIntervalOfWeek(for: Date())
-
-            // dynamic gradient colors
-            let nauseaGradientStart = Color(TintColorFlipKey.defaultValue)
-			let nauseaGradientEnd = Color.accentColor
-
-            let nauseaDataSeries = CKEDataSeriesConfiguration(
-                taskID: task.id,
-                mark: .bar,
-                legendTitle: String(localized: "NAUSEA"),
-                color: nauseaGradientEnd,
-                gradientStartColor: nauseaGradientStart,
-                stackingMethod: .unstacked
-            ) { event in
-                event.computeProgress(by: .summingOutcomeValues)
-            }
-
-            let doxylamineDataSeries = CKEDataSeriesConfiguration(
-                taskID: TaskID.doxylamine,
-                mark: .bar,
-                legendTitle: String(localized: "DOXYLAMINE"),
-                color: Color(UIColor.systemGray2),
-                gradientStartColor: .gray,
-                stackingMethod: .unstacked
-            ) { event in
-                event.computeProgress(by: .summingOutcomeValues)
-            }
-
-            let configurations = [
-                nauseaDataSeries,
-                doxylamineDataSeries
-            ]
-
-            // This is a SwiftUI View Chart.
-            let chart = CareEssentialChartView(
-                title: title,
-                subtitle: subtitle,
-                dateInterval: duration,
-                period: .day,
-                configurations: configurations
-            ).formattedHostingController()
-
             #if os(iOS)
             /*
              Also create a card (UIKit view) that displays a single event.
@@ -337,20 +289,10 @@ class CareViewController: OCKDailyPageViewController {
                 store: self.store
             )
 
-            let cards: [UIViewController] = [
-                chart,
-                nauseaCard
-            ]
-
-            return cards
+            return [nauseaCard]
 
             #else
-
-            let cards: [UIViewController] = [
-                chart
-            ]
-
-            return cards
+            return []
             #endif
 
         default:

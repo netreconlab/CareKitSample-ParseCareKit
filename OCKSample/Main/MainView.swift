@@ -45,7 +45,8 @@ struct MainView: View {
                 }
         }
         .environment(\.careStore, storeCoordinator)
-		.onChange(of: appDelegate.storeCoordinator) { newStoreCoordinator in
+		.onReceive(appDelegate.$storeCoordinator) { newStoreCoordinator in
+			guard storeCoordinator !== newStoreCoordinator else { return }
 			storeCoordinator = newStoreCoordinator
 		}
 		.onReceive(loginViewModel.$isLoggedOut) { isLoggedOut in

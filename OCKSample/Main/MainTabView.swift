@@ -30,29 +30,41 @@ struct MainTabView: View {
                 }
                 .tag(0)
 
-            ContactView()
-                .tabItem {
-                    if selectedTab == 1 {
-                        Image("phone.bubble.left.fill")
-                            .renderingMode(.template)
-                    } else {
-                        Image("phone.bubble.left")
-                            .renderingMode(.template)
-                    }
-                }
-                .tag(1)
+			InsightsView()
+				.tabItem {
+					if selectedTab == 1 {
+						Image(systemName: "chart.pie.fill")
+							.renderingMode(.template)
+					} else {
+						Image(systemName: "chart.pie")
+							.renderingMode(.template)
+					}
+				}
+				.tag(1)
 
-            ProfileView(loginViewModel: loginViewModel)
-                .tabItem {
-                    if selectedTab == 2 {
-                        Image("connect-filled")
-                            .renderingMode(.template)
-                    } else {
-                        Image("connect")
-                            .renderingMode(.template)
-                    }
-                }
-                .tag(2)
+			ContactView()
+				.tabItem {
+					if selectedTab == 2 {
+						Image("phone.bubble.left.fill")
+							.renderingMode(.template)
+					} else {
+						Image("phone.bubble.left")
+							.renderingMode(.template)
+					}
+				}
+				.tag(2)
+
+			ProfileView(loginViewModel: loginViewModel)
+				.tabItem {
+					if selectedTab == 3 {
+						Image("connect-filled")
+							.renderingMode(.template)
+					} else {
+						Image("connect")
+							.renderingMode(.template)
+					}
+				}
+				.tag(3)
         }
     }
 }

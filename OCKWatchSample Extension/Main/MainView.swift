@@ -41,16 +41,15 @@ struct MainView: View {
                     updatePath([.tabs])
                 }
         }
-        .environment(\.careStore, storeCoordinator)
-		.onChange(of: appDelegate.storeCoordinator) { newStoreCoordinator in
+		.environment(\.careStore, storeCoordinator)
+		.onReceive(appDelegate.$storeCoordinator) { newStoreCoordinator in
 			Task {
 				await loginViewModel.checkStatus()
 			}
-			storeCoordinator = newStoreCoordinator
-			guard isSyncingWithRemote else {
-				updatePath([.tabs])
+			guard newStoreCoordinator !== storeCoordinator else {
 				return
 			}
+			storeCoordinator = newStoreCoordinator
 			updatePath([.tabs])
 		}
         .onReceive(loginViewModel.$isLoggedOut) { isLoggedOut in
