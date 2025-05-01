@@ -24,112 +24,114 @@ struct InsightsView: View {
     var body: some View {
 		NavigationStack {
 			ScrollView {
-				dateIntervalSegmentView
-					.padding()
+				VStack {
+					dateIntervalSegmentView
+						.padding()
 
-				// This is for loop is useful when you want a chart for
-				// for every task which may not always be the case.
-				ForEach(orderedEvents) { event in
-					let eventResult = event.result
+					// This is for loop is useful when you want a chart for
+					// for every task which may not always be the case.
+					ForEach(orderedEvents) { event in
+						let eventResult = event.result
 
-					if eventResult.task.id != TaskID.doxylamine
-						&& eventResult.task.id != TaskID.nausea {
+						if eventResult.task.id != TaskID.doxylamine
+							&& eventResult.task.id != TaskID.nausea {
 
-						// dynamic gradient colors
-						let meanGradientStart = Color(TintColorFlipKey.defaultValue)
-						let meanGradientEnd = Color.accentColor
+							// dynamic gradient colors
+							let meanGradientStart = Color(TintColorFlipKey.defaultValue)
+							let meanGradientEnd = Color.accentColor
 
-						// Can add muliple plots on a single
-						// chart by adding multiple configurations.
-						let meanConfiguration = CKEDataSeriesConfiguration(
-							taskID: eventResult.task.id,
-							dataStrategy: .mean,
-							mark: .bar,
-							legendTitle: String(localized: "AVERAGE"),
-							showMarkWhenHighlighted: true,
-							showMeanMark: false,
-							showMedianMark: false,
-							color: meanGradientEnd,
-							gradientStartColor: meanGradientStart
-						) { event in
-							event.computeProgress(by: .maxOutcomeValue())
+							// Can add muliple plots on a single
+							// chart by adding multiple configurations.
+							let meanConfiguration = CKEDataSeriesConfiguration(
+								taskID: eventResult.task.id,
+								dataStrategy: .mean,
+								mark: .bar,
+								legendTitle: String(localized: "AVERAGE"),
+								showMarkWhenHighlighted: true,
+								showMeanMark: false,
+								showMedianMark: false,
+								color: meanGradientEnd,
+								gradientStartColor: meanGradientStart
+							) { event in
+								event.computeProgress(by: .maxOutcomeValue())
+							}
+
+							let sumConfiguration = CKEDataSeriesConfiguration(
+								taskID: eventResult.task.id,
+								dataStrategy: .sum,
+								mark: .bar,
+								legendTitle: String(localized: "TOTAL"),
+								color: Color(TintColorFlipKey.defaultValue) // Set to app color.
+							) { event in
+								event.computeProgress(by: .maxOutcomeValue())
+							}
+
+							CareKitEssentialChartView(
+								title: eventResult.title,
+								subtitle: subtitle,
+								dateInterval: $chartInterval,
+								period: $period,
+								configurations: [
+									meanConfiguration,
+									sumConfiguration
+								]
+							)
+
+						} else if eventResult.task.id == TaskID.doxylamine {
+							// Example of showing nausea vs doxlymine
+
+							// dynamic gradient colors
+							let nauseaGradientStart = Color(TintColorFlipKey.defaultValue)
+							let nauseaGradientEnd = Color.accentColor
+
+							let nauseaConfiguration = CKEDataSeriesConfiguration(
+								taskID: TaskID.nausea,
+								dataStrategy: .sum,
+								mark: .bar,
+								legendTitle: String(localized: "NAUSEA"),
+								showMarkWhenHighlighted: true,
+								showMeanMark: true,
+								showMedianMark: false,
+								color: nauseaGradientEnd,
+								gradientStartColor: nauseaGradientStart,
+								stackingMethod: .unstacked
+							) { event in
+								// This event occurs all-day and can be submitted
+								// multiple times, since we want to understand
+								// the "total" amount of times a patient experiences
+								// nausea, we sum the outcomes for each event.
+								event.computeProgress(by: .summingOutcomeValues())
+							}
+
+							let doxylamineConfiguration = CKEDataSeriesConfiguration(
+								taskID: eventResult.task.id,
+								dataStrategy: .sum,
+								mark: .bar,
+								legendTitle: String(localized: "DOXYLAMINE"),
+								color: .gray,
+								gradientStartColor: .gray.opacity(0.3),
+								stackingMethod: .unstacked,
+								symbol: .diamond,
+								interpolation: .catmullRom
+							) { event in
+								event.computeProgress(by: .averagingOutcomeValues())
+							}
+
+							CareKitEssentialChartView(
+								title: String(localized: "NAUSEA_DOXYLAMINE_INTAKE"),
+								subtitle: subtitle,
+								dateInterval: $chartInterval,
+								period: $period,
+								configurations: [
+									nauseaConfiguration,
+									doxylamineConfiguration
+								]
+							)
 						}
-
-						let sumConfiguration = CKEDataSeriesConfiguration(
-							taskID: eventResult.task.id,
-							dataStrategy: .sum,
-							mark: .bar,
-							legendTitle: String(localized: "TOTAL"),
-							color: Color(TintColorFlipKey.defaultValue) // Set to app color.
-						) { event in
-							event.computeProgress(by: .maxOutcomeValue())
-						}
-
-						CareKitEssentialChartView(
-							title: eventResult.title,
-							subtitle: subtitle,
-							dateInterval: $chartInterval,
-							period: $period,
-							configurations: [
-								meanConfiguration,
-								sumConfiguration
-							]
-						)
-
-					} else if eventResult.task.id == TaskID.doxylamine {
-						// Example of showing nausea vs doxlymine
-
-						// dynamic gradient colors
-						let nauseaGradientStart = Color(TintColorFlipKey.defaultValue)
-						let nauseaGradientEnd = Color.accentColor
-
-						let nauseaConfiguration = CKEDataSeriesConfiguration(
-							taskID: TaskID.nausea,
-							dataStrategy: .sum,
-							mark: .bar,
-							legendTitle: String(localized: "NAUSEA"),
-							showMarkWhenHighlighted: true,
-							showMeanMark: true,
-							showMedianMark: false,
-							color: nauseaGradientEnd,
-							gradientStartColor: nauseaGradientStart,
-							stackingMethod: .unstacked
-						) { event in
-							// This event occurs all-day and can be submitted
-							// multiple times, since we want to understand
-							// the "total" amount of times a patient experiences
-							// nausea, we sum the outcomes for each event.
-							event.computeProgress(by: .summingOutcomeValues())
-						}
-
-						let doxylamineConfiguration = CKEDataSeriesConfiguration(
-							taskID: eventResult.task.id,
-							dataStrategy: .sum,
-							mark: .bar,
-							legendTitle: String(localized: "DOXYLAMINE"),
-							color: .gray,
-							gradientStartColor: .gray.opacity(0.3),
-							stackingMethod: .unstacked,
-							symbol: .diamond,
-							interpolation: .catmullRom
-						) { event in
-							event.computeProgress(by: .averagingOutcomeValues())
-						}
-
-						CareKitEssentialChartView(
-							title: String(localized: "NAUSEA_DOXYLAMINE_INTAKE"),
-							subtitle: subtitle,
-							dateInterval: $chartInterval,
-							period: $period,
-							configurations: [
-								nauseaConfiguration,
-								doxylamineConfiguration
-							]
-						)
+						Spacer()
 					}
 				}
-
-				Spacer()
+				.padding()
 			}
 			.onAppear {
 				let taskIDs = TaskID.orderedWatchOS + TaskID.orderedObjective

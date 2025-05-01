@@ -33,6 +33,7 @@
 		704352422DB09A5C00A12187 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C4CA0A22809AD500ECC3D7 /* Assets.xcassets */; };
 		7055723F2DC1E63A008E5B0A /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7055723E2DC1E63A008E5B0A /* InsightsView.swift */; };
 		705572402DC1EAEE008E5B0A /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7055723E2DC1E63A008E5B0A /* InsightsView.swift */; };
+		7055725B2DC33AB1008E5B0A /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7055725A2DC33AAC008E5B0A /* SplashScreenView.swift */; };
 		7075151E28DE1A8300A57A0C /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7075151C28DE1A7400A57A0C /* MainView.swift */; };
 		7075152028DE1BB400A57A0C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7075151F28DE1BB400A57A0C /* LoginView.swift */; };
 		707CC714254DA91900116728 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
@@ -44,6 +45,7 @@
 		7083A856279CA40A00B3832E /* PCKUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083A855279CA40A00B3832E /* PCKUtility.swift */; };
 		7083A857279CA40F00B3832E /* PCKUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083A855279CA40A00B3832E /* PCKUtility.swift */; };
 		708542F9276687F90029E888 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51F6343923D2877B00FE576E /* HealthKit.framework */; };
+		7094DCF32DC340E40039CA64 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7055725A2DC33AAC008E5B0A /* SplashScreenView.swift */; };
 		7099D1FF29E98D900037CD8E /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7099D1FE29E98D900037CD8E /* AppError.swift */; };
 		7099D20029E98D900037CD8E /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7099D1FE29E98D900037CD8E /* AppError.swift */; };
 		7099D20529E98DFF0037CD8E /* TaskID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7099D20429E98DFF0037CD8E /* TaskID.swift */; };
@@ -172,6 +174,7 @@
 		7036E516256F2413006E9A3C /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		7036E63F25717F85006E9A3C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		7055723E2DC1E63A008E5B0A /* InsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsView.swift; sourceTree = "<group>"; };
+		7055725A2DC33AAC008E5B0A /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		705B22BE25E2C1A700C472AC /* OCKWatchSample Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "OCKWatchSample Extension.entitlements"; sourceTree = "<group>"; };
 		7075151C28DE1A7400A57A0C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		7075151F28DE1BB400A57A0C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -302,6 +305,7 @@
 			children = (
 				70221F2728D7809800971195 /* MainTabView.swift */,
 				7036E4D2256EBE35006E9A3C /* MainView.swift */,
+				7055725A2DC33AAC008E5B0A /* SplashScreenView.swift */,
 				70E3422C2DB058A7005124F9 /* Cards */,
 				70308878258272CD00FFABB6 /* Care */,
 				7030887D258272F400FFABB6 /* Contact */,
@@ -781,6 +785,7 @@
 				70E342292DB05813005124F9 /* ProfileView.swift in Sources */,
 				70F921B227CAC16E00368CEC /* RemoteSessionDelegate.swift in Sources */,
 				70E342302DB062F8005124F9 /* NoHighlightStyle.swift in Sources */,
+				7094DCF32DC340E40039CA64 /* SplashScreenView.swift in Sources */,
 				70221F2F28D7CDE400971195 /* AppDelegate+ParseRemoteDelegate.swift in Sources */,
 				7083A857279CA40F00B3832E /* PCKUtility.swift in Sources */,
 				705572402DC1EAEE008E5B0A /* InsightsView.swift in Sources */,
@@ -819,6 +824,7 @@
 				7036E4CE256E9A0C006E9A3C /* ContactView.swift in Sources */,
 				70F03A972786098F00E5AFB4 /* OCKStore.swift in Sources */,
 				70DFD80B2567074500B9DB12 /* LoginView.swift in Sources */,
+				7055725B2DC33AB1008E5B0A /* SplashScreenView.swift in Sources */,
 				70F03AA827860E7700E5AFB4 /* FontColorKey.swift in Sources */,
 				9169381B271B64E100A634ED /* Styler.swift in Sources */,
 				70F921A827CA9A3A00368CEC /* CustomStylerKey.swift in Sources */,
@@ -1282,8 +1288,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/netreconlab/CareKitEssentials";
 			requirement = {
-				kind = revision;
-				revision = 948882dfc184171fa321597eb4401a05881f09ea;
+				kind = exactVersion;
+				version = "1.0.0-alpha.50";
 			};
 		};
 		70202EBF2807333900CF73FB /* XCRemoteSwiftPackageReference "CareKit" */ = {

@@ -32,7 +32,7 @@ struct MainView: View {
 					LoginView(viewModel: loginViewModel)
 				}
 			} else {
-				Text("Loading...")
+				SplashScreenView()
 			}
 		}
 		.task {
