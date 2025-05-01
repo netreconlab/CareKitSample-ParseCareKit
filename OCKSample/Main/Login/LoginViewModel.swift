@@ -16,7 +16,7 @@ import WatchConnectivity
 class LoginViewModel: ObservableObject {
 
     // MARK: Public read, private write properties
-    @Published private(set) var isLoggedOut = true {
+	@Published private(set) var isLoggedIn: Bool? {
         willSet {
             /*
              Publishes a notification to subscribers whenever this value changes.
@@ -24,7 +24,7 @@ class LoginViewModel: ObservableObject {
              everytime you use it to wrap a property.
             */
             objectWillChange.send()
-            if newValue {
+            if let newValue {
                 self.sendUpdatedUserStatusToWatch()
             }
         }
@@ -39,17 +39,12 @@ class LoginViewModel: ObservableObject {
 
     // MARK: Helpers (private)
     @MainActor
-    private func checkStatus() async {
-        let isLoggedOut = self.isLoggedOut
+    func checkStatus() async {
         do {
             _ = try await User.current()
-            if isLoggedOut {
-                self.isLoggedOut = false
-            }
+			self.isLoggedIn = true
         } catch {
-            if !isLoggedOut {
-                self.isLoggedOut = true
-            }
+			self.isLoggedIn = false
         }
     }
 

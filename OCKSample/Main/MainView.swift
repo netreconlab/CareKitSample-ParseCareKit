@@ -14,52 +14,38 @@ import SwiftUI
 struct MainView: View {
     @EnvironmentObject private var appDelegate: AppDelegate
     @StateObject private var loginViewModel = LoginViewModel()
-    @State private var path = [MainViewPath]()
     @State private var storeCoordinator = OCKStoreCoordinator()
+	@State private var isLoggedIn: Bool?
 
     var body: some View {
-        NavigationStack(path: $path) {
-            LoginView(viewModel: loginViewModel)
-                .navigationDestination(for: MainViewPath.self) { destination in
-                    switch destination {
-                    case .tabs:
-                        if isSyncingWithRemote {
-                            MainTabView(loginViewModel: loginViewModel)
-                                .navigationBarHidden(true)
-                        } else {
-                            CareView()
-                                .navigationBarHidden(true)
-                        }
-                    }
-                }
-                .onAppear {
-                    guard isSyncingWithRemote else {
-                        updatePath([.tabs])
-                        return
-                    }
-                    guard !loginViewModel.isLoggedOut else {
-                        updatePath([])
-                        return
-                    }
-                    updatePath([.tabs])
-                }
-        }
+		Group {
+			if let isLoggedIn {
+				if isLoggedIn {
+					if isSyncingWithRemote {
+						MainTabView(loginViewModel: loginViewModel)
+							.navigationBarHidden(true)
+					} else {
+						CareView()
+							.navigationBarHidden(true)
+					}
+				} else {
+					LoginView(viewModel: loginViewModel)
+				}
+			} else {
+				SplashScreenView()
+			}
+		}
+		.task {
+			await loginViewModel.checkStatus()
+		}
         .environment(\.careStore, storeCoordinator)
-		.onChange(of: appDelegate.storeCoordinator) { newStoreCoordinator in
+		.onReceive(appDelegate.$storeCoordinator) { newStoreCoordinator in
+			guard storeCoordinator !== newStoreCoordinator else { return }
 			storeCoordinator = newStoreCoordinator
 		}
-		.onReceive(loginViewModel.$isLoggedOut) { isLoggedOut in
-            guard !isLoggedOut else {
-                updatePath([])
-                return
-            }
-            updatePath([.tabs])
+		.onReceive(loginViewModel.isLoggedIn.publisher) { currentStatus in
+			isLoggedIn = currentStatus
         }
-    }
-
-    @MainActor
-    func updatePath(_ path: [MainViewPath]) {
-        self.path = path
     }
 }
 

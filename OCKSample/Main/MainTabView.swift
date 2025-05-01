@@ -21,38 +21,50 @@ struct MainTabView: View {
             CareView()
                 .tabItem {
                     if selectedTab == 0 {
-                        Image("carecard-filled")
+                        Image(systemName: "chart.line.text.clipboard")
                             .renderingMode(.template)
                     } else {
-                        Image("carecard")
+						Image(systemName: "chart.line.text.clipboard.fill")
                             .renderingMode(.template)
                     }
                 }
                 .tag(0)
 
-            ContactView()
-                .tabItem {
-                    if selectedTab == 1 {
-                        Image("phone.bubble.left.fill")
-                            .renderingMode(.template)
-                    } else {
-                        Image("phone.bubble.left")
-                            .renderingMode(.template)
-                    }
-                }
-                .tag(1)
+			InsightsView()
+				.tabItem {
+					if selectedTab == 1 {
+						Image(systemName: "chart.pie.fill")
+							.renderingMode(.template)
+					} else {
+						Image(systemName: "chart.pie")
+							.renderingMode(.template)
+					}
+				}
+				.tag(1)
 
-            ProfileView(loginViewModel: loginViewModel)
-                .tabItem {
-                    if selectedTab == 2 {
-                        Image("connect-filled")
-                            .renderingMode(.template)
-                    } else {
-                        Image("connect")
-                            .renderingMode(.template)
-                    }
-                }
-                .tag(2)
+			ContactView()
+				.tabItem {
+					if selectedTab == 2 {
+						Image(systemName: "phone.bubble.fill")
+							.renderingMode(.template)
+					} else {
+						Image(systemName: "phone.bubble")
+							.renderingMode(.template)
+					}
+				}
+				.tag(2)
+
+			ProfileView(loginViewModel: loginViewModel)
+				.tabItem {
+					if selectedTab == 3 {
+						Image(systemName: "person.circle.fill")
+							.renderingMode(.template)
+					} else {
+						Image(systemName: "person.circle")
+							.renderingMode(.template)
+					}
+				}
+				.tag(3)
         }
     }
 }

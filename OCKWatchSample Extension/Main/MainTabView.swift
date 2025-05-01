@@ -19,6 +19,10 @@ struct MainTabView: View {
 				.tabItem {
 					Text(careTabName)
 				}
+			InsightsView()
+				.tabItem {
+					Text(insightsTabName)
+				}
 			ProfileView()
 				.tabItem {
 					Text(profileTabName)
@@ -32,7 +36,9 @@ struct MainTabView: View {
 	private var careTabName: LocalizedStringKey {
 		"CARE"
 	}
-
+	private var insightsTabName: LocalizedStringKey {
+		"INSIGHTS"
+	}
 	private var profileTabName: LocalizedStringKey {
 		"PROFILE"
 	}

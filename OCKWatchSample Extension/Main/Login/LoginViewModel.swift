@@ -13,28 +13,17 @@ import os.log
 
 class LoginViewModel: ObservableObject {
     // MARK: Public read, private write properties
-    @Published private(set) var isLoggedOut = true
-
-    init() {
-        Task {
-            await self.checkStatus()
-        }
-    }
+	@Published private(set) var isLoggedIn: Bool?
 
     // MARK: Helpers (private)
 
     @MainActor
     func checkStatus() async {
-        let isLoggedOut = self.isLoggedOut
         do {
             _ = try await User.current()
-            if isLoggedOut {
-                self.isLoggedOut = false
-            }
+			self.isLoggedIn = true
         } catch {
-            if !isLoggedOut {
-                self.isLoggedOut = true
-            }
+			self.isLoggedIn = false
         }
     }
 

@@ -18,15 +18,6 @@ struct CareView: View {
     @CareStoreFetchRequest(query: query()) private var events
     @State var sortedTaskIDs: [String: Int] = [:]
 
-    private var orderedEvents: [CareStoreFetchedResult<OCKAnyEvent>] {
-        events.latest.sorted(by: { left, right in
-            let leftTaskID = left.result.task.id
-            let rightTaskID = right.result.task.id
-
-            return sortedTaskIDs[leftTaskID] ?? 0 < sortedTaskIDs[rightTaskID] ?? 0
-        })
-    }
-
     var body: some View {
         ScrollView {
 			ForEach(orderedEvents) { event in
@@ -43,9 +34,17 @@ struct CareView: View {
         }
     }
 
+	private var orderedEvents: [CareStoreFetchedResult<OCKAnyEvent>] {
+		events.latest.sorted(by: { left, right in
+			let leftTaskID = left.result.task.id
+			let rightTaskID = right.result.task.id
+
+			return sortedTaskIDs[leftTaskID] ?? 0 < sortedTaskIDs[rightTaskID] ?? 0
+		})
+	}
+
     static func query() -> OCKEventQuery {
-        var query = OCKEventQuery(for: Date())
-        query.taskIDs = TaskID.orderedWatchOS
+        let query = OCKEventQuery(for: Date())
         return query
     }
 
