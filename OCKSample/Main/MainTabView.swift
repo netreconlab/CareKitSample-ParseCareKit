@@ -21,10 +21,10 @@ struct MainTabView: View {
             CareView()
                 .tabItem {
                     if selectedTab == 0 {
-                        Image("carecard-filled")
+                        Image(systemName: "chart.line.text.clipboard")
                             .renderingMode(.template)
                     } else {
-                        Image("carecard")
+						Image(systemName: "chart.line.text.clipboard.fill")
                             .renderingMode(.template)
                     }
                 }
@@ -45,10 +45,10 @@ struct MainTabView: View {
 			ContactView()
 				.tabItem {
 					if selectedTab == 2 {
-						Image("phone.bubble.left.fill")
+						Image(systemName: "phone.bubble.fill")
 							.renderingMode(.template)
 					} else {
-						Image("phone.bubble.left")
+						Image(systemName: "phone.bubble")
 							.renderingMode(.template)
 					}
 				}
@@ -57,10 +57,10 @@ struct MainTabView: View {
 			ProfileView(loginViewModel: loginViewModel)
 				.tabItem {
 					if selectedTab == 3 {
-						Image("connect-filled")
+						Image(systemName: "person.circle.fill")
 							.renderingMode(.template)
 					} else {
-						Image("connect")
+						Image(systemName: "person.circle")
 							.renderingMode(.template)
 					}
 				}
