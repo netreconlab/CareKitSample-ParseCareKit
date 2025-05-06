@@ -7,6 +7,9 @@ An example application of [CareKit](https://github.com/carekit-apple/CareKit)'s 
 
 **Similar to the [What's New in CareKit](https://developer.apple.com/videos/play/wwdc2020/10151/) WWDC20 video, this app syncs data between iOS and an Apple Watch (setting the flag `isSyncingWithRemote` in `Constants.swift` to `isSyncingWithRemote = false.` Different from the video, setting `isSyncingWithRemote = true` (default behavior) in the aforementioned file syncs iOS and watchOS to a Parse Server.**
 
+**If you want to populate random sample OCKOutcomes for events in the past, for example to view data in the InsightsView when testing, set 
+`daysInThePastToGenerateSampleData` to a negative number in `Constants.swift`.
+
 ParseCareKit synchronizes the following entities to Parse tables/classes using [Parse-Swift](https://github.com/netreconlab/Parse-Swift):
 
 - [x] OCKPatient <-> Patient

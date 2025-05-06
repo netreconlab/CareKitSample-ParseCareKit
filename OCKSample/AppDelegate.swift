@@ -84,8 +84,10 @@ class AppDelegate: UIResponder, ObservableObject {
         healthKitStore = nil
         parseRemote = nil
 
-        let store = OCKStore(name: Constants.noCareStoreName,
-                             type: .inMemory)
+        let store = OCKStore(
+			name: Constants.noCareStoreName,
+			type: .inMemory
+		)
         sessionDelegate.store = store
         self.store = store
         PCKUtility.removeCache()

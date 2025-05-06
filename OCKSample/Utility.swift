@@ -112,14 +112,28 @@ class Utility {
                 // If patient exists, assume store is already populated
                 _ = try await store.fetchPatient(withID: patientId)
             } catch {
-                var patient = OCKPatient(id: patientId,
-                                         givenName: "Preview",
-                                         familyName: "Patient")
-                patient.birthday = Calendar.current.date(byAdding: .year,
-                                                         value: -20,
-                                                         to: Date())
+                var patient = OCKPatient(
+					id: patientId,
+					givenName: "Preview",
+					familyName: "Patient"
+				)
+                patient.birthday = Calendar.current.date(
+					byAdding: .year,
+					value: -20,
+					to: Date()
+				)
                 _ = try? await store.addPatient(patient)
-                try? await store.populateSampleData()
+				let startDate = Calendar.current.date(
+					byAdding: .day,
+					value: -30,
+					to: Date()
+				)!
+                try? await store.populateDefaultCarePlansTasksContacts(
+					startDate: startDate
+				)
+				try? await store.populateSampleOutcomes(
+					startDate: startDate
+				)
             }
         }
         return store
