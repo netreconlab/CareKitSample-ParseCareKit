@@ -119,8 +119,24 @@ class LoginViewModel: ObservableObject {
                                     familyName: lastName)
         newPatient.userType = type
         let savedPatient = try await appDelegate.store.addPatient(newPatient)
-        try await appDelegate.store.populateSampleData()
-        try await appDelegate.healthKitStore.populateSampleData()
+
+		let currentDate = Date()
+		let startDate = daysInThePastToGenerateSampleData < 0 ? Calendar.current.date(
+			byAdding: .day,
+			value: daysInThePastToGenerateSampleData,
+			to: currentDate
+		)! : currentDate
+        try await appDelegate.store.populateDefaultCarePlansTasksContacts(
+			startDate: startDate
+		)
+        try await appDelegate.healthKitStore.populateDefaultHealthKitTasks(
+			startDate: startDate
+		)
+		if startDate < currentDate {
+			try await appDelegate.store.populateSampleOutcomes(
+				startDate: startDate
+			)
+		}
         appDelegate.parseRemote.automaticallySynchronizes = true
 
         // Post notification to sync

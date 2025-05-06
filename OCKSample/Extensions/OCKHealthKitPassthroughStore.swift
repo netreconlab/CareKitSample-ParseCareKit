@@ -14,7 +14,9 @@ import os.log
 
 extension OCKHealthKitPassthroughStore {
 
-    func populateSampleData() async throws {
+    func populateDefaultHealthKitTasks(
+		startDate: Date = Date()
+	) async throws {
 
         let countUnit = HKUnit.count()
         let stepTargetValue = OCKOutcomeValue(
@@ -25,7 +27,7 @@ extension OCKHealthKitPassthroughStore {
         let stepSchedule = OCKSchedule.dailyAtTime(
             hour: 8,
             minutes: 0,
-            start: Date(),
+            start: startDate,
             end: nil,
             text: nil,
             duration: .allDay,
@@ -47,7 +49,7 @@ extension OCKHealthKitPassthroughStore {
         let ovulationTestResultSchedule = OCKSchedule.dailyAtTime(
             hour: 8,
             minutes: 0,
-            start: Date(),
+            start: startDate,
             end: nil,
             text: nil,
             duration: .allDay,
