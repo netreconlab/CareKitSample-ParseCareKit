@@ -24,6 +24,13 @@ let isSyncingWithRemote = true
  */
 let isSendingPushUpdatesToWatch = true
 
+/**
+ If you want to generate sample data for x amount of days in the past (before user sign-up),
+ set this value to a negative number. This is used for demo purposes if you want populate
+ the InsightsView charts with data.
+ */
+let daysInThePastToGenerateSampleData: Int = 0 // Should be a negative number, for example -30, for the past 30 days.
+
 enum Constants {
     static let parseConfigFileName = "ParseCareKit"
     static let iOSParseCareStoreName = "iOSParseStore"
