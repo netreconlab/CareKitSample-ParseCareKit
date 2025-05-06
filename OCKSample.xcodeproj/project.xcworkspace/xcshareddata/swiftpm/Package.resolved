@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/netreconlab/CareKitEssentials",
       "state" : {
-        "revision" : "6bddb504f64a86514c35a80218702dd356936b06",
-        "version" : "1.0.0-alpha.54"
+        "revision" : "a4585fb65bb1c4dbb94fef2c5a1163c8acd68d71",
+        "version" : "1.0.0-alpha.55"
       }
     },
     {
