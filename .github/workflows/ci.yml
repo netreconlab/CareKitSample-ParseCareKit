@@ -32,6 +32,7 @@ jobs:
           scheme: 'OCKVisionSample'
         - destination: 'CODE_SIGNING_ALLOWED="NO"'
           scheme: 'OCKVisionSample'
+    name: ${{ matrix.scheme }} Unit Tests
     steps:
     - uses: actions/checkout@v4
     - name: Install SwiftLint
