@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -44,6 +44,59 @@
 		707CC719254DA91900116728 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
 		707D28CF2DCA8AAB00980253 /* OCKStore+SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707D28CE2DCA8AA500980253 /* OCKStore+SampleData.swift */; };
 		707D28D02DCA8AAB00980253 /* OCKStore+SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707D28CE2DCA8AA500980253 /* OCKStore+SampleData.swift */; };
+		707D292D2DCBE5E500980253 /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 707D292C2DCBE5E500980253 /* RealityKitContent */; };
+		707D29462DCBE68500980253 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70221F2728D7809800971195 /* MainTabView.swift */; };
+		707D29472DCBE68500980253 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70077596252228E900EC0EDA /* User.swift */; };
+		707D29482DCBE68500980253 /* FontColorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AA727860E7700E5AFB4 /* FontColorKey.swift */; };
+		707D29492DCBE68500980253 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4D2256EBE35006E9A3C /* MainView.swift */; };
+		707D294A2DCBE68500980253 /* CustomStylerKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F921A727CA9A3A00368CEC /* CustomStylerKey.swift */; };
+		707D294B2DCBE68500980253 /* TipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7C37848228F887800E982D8 /* TipView.swift */; };
+		707D294C2DCBE68500980253 /* StoreCoordinatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEC4271B4EA70045A0EF /* StoreCoordinatorKey.swift */; };
+		707D294D2DCBE68500980253 /* InsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7055723E2DC1E63A008E5B0A /* InsightsView.swift */; };
+		707D294E2DCBE68500980253 /* OCKHealthKitPassthroughStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A942786093B00E5AFB4 /* OCKHealthKitPassthroughStore.swift */; };
+		707D294F2DCBE68500980253 /* OCKStore+SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707D28CE2DCA8AA500980253 /* OCKStore+SampleData.swift */; };
+		707D29502DCBE68500980253 /* TaskID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7099D20429E98DFF0037CD8E /* TaskID.swift */; };
+		707D29512DCBE68500980253 /* CareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C3256E0A48006E9A3C /* CareView.swift */; };
+		707D29522DCBE68500980253 /* AppDelegateKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE928C2EE6C0005B5A2 /* AppDelegateKey.swift */; };
+		707D29532DCBE68500980253 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEB6271B41FF0045A0EF /* Logger.swift */; };
+		707D29542DCBE68500980253 /* TintColorFlipKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CF66E328E1E74C00FAE977 /* TintColorFlipKey.swift */; };
+		707D29552DCBE68500980253 /* Installation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918FDEB4271B40590045A0EF /* Installation.swift */; };
+		707D29562DCBE68500980253 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7055725A2DC33AAC008E5B0A /* SplashScreenView.swift */; };
+		707D29572DCBE68500980253 /* OCKStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03A962786098F00E5AFB4 /* OCKStore.swift */; };
+		707D29582DCBE68500980253 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4C8256E1A6F006E9A3C /* ProfileView.swift */; };
+		707D29592DCBE68500980253 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7099D1FE29E98D900037CD8E /* AppError.swift */; };
+		707D295A2DCBE68500980253 /* InstallationChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7099D20A29E98E400037CD8E /* InstallationChannel.swift */; };
+		707D295B2DCBE68500980253 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BD2B1E254B44DB0030B424 /* LoginView.swift */; };
+		707D295C2DCBE68500980253 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72B2C09226939E3009A9438 /* AppDelegate.swift */; };
+		707D295D2DCBE68500980253 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4BE256DA089006E9A3C /* LoginViewModel.swift */; };
+		707D295E2DCBE68500980253 /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91693821271B897200A634ED /* Utility.swift */; };
+		707D295F2DCBE68500980253 /* OCKSampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F0EFE728C2EC050005B5A2 /* OCKSampleApp.swift */; };
+		707D29602DCBE68500980253 /* SessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F921AB27CABE3000368CEC /* SessionDelegate.swift */; };
+		707D29612DCBE68500980253 /* Styler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381A271B64E100A634ED /* Styler.swift */; };
+		707D29622DCBE68500980253 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E516256F2413006E9A3C /* ProfileViewModel.swift */; };
+		707D29632DCBE68500980253 /* AppDelegate+UIApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70221F3328D8ABBE00971195 /* AppDelegate+UIApplicationDelegate.swift */; };
+		707D29642DCBE68500980253 /* CareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7440E4E229477F7007AD30A /* CareViewController.swift */; };
+		707D29652DCBE68500980253 /* PCKUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083A855279CA40A00B3832E /* PCKUtility.swift */; };
+		707D29662DCBE68500980253 /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7099D20729E98E200037CD8E /* UserType.swift */; };
+		707D29672DCBE68500980253 /* ContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E4CD256E9A0C006E9A3C /* ContactView.swift */; };
+		707D29682DCBE68500980253 /* NoHighlightStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E3422E2DB06281005124F9 /* NoHighlightStyle.swift */; };
+		707D29692DCBE68500980253 /* LocalSyncSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F921AF27CABED600368CEC /* LocalSyncSessionDelegate.swift */; };
+		707D296A2DCBE68500980253 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7036E63F25717F85006E9A3C /* Constants.swift */; };
+		707D296B2DCBE68500980253 /* AppDelegate+ParseRemoteDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70221F2928D7BE0600971195 /* AppDelegate+ParseRemoteDelegate.swift */; };
+		707D296C2DCBE68500980253 /* RemoteSessionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F921AD27CABE7700368CEC /* RemoteSessionDelegate.swift */; };
+		707D296D2DCBE68500980253 /* OCKPatient+Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F03AA227860AFF00E5AFB4 /* OCKPatient+Parse.swift */; };
+		707D296E2DCBE68500980253 /* ColorStyler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169381C271B650700A634ED /* ColorStyler.swift */; };
+		707D296F2DCBE68600980253 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E7C4CA0A22809AD500ECC3D7 /* Assets.xcassets */; };
+		707D29702DCBE68600980253 /* ParseCareKit.plist in Resources */ = {isa = PBXBuildFile; fileRef = 91AD922124A45A3900925D4D /* ParseCareKit.plist */; };
+		707D29712DCBE6A000980253 /* OCKLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CC713254DA91900116728 /* OCKLocalization.swift */; };
+		707D29722DCBE6AC00980253 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 707CC711254DA91900116728 /* Localizable.stringsdict */; };
+		707D29732DCBE6AC00980253 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 707CC70F254DA91900116728 /* Localizable.strings */; };
+		707D29762DCBE89600980253 /* ParseCareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 707D29752DCBE89600980253 /* ParseCareKit */; };
+		707D29782DCBE89600980253 /* CareKit in Frameworks */ = {isa = PBXBuildFile; productRef = 707D29772DCBE89600980253 /* CareKit */; };
+		707D297A2DCBE89600980253 /* CareKitFHIR in Frameworks */ = {isa = PBXBuildFile; productRef = 707D29792DCBE89600980253 /* CareKitFHIR */; };
+		707D297C2DCBE89600980253 /* CareKitStore in Frameworks */ = {isa = PBXBuildFile; productRef = 707D297B2DCBE89600980253 /* CareKitStore */; };
+		707D297E2DCBE89600980253 /* CareKitUI in Frameworks */ = {isa = PBXBuildFile; productRef = 707D297D2DCBE89600980253 /* CareKitUI */; };
+		707D29802DCBE89600980253 /* CareKitEssentials in Frameworks */ = {isa = PBXBuildFile; productRef = 707D297F2DCBE89600980253 /* CareKitEssentials */; };
 		7083A856279CA40A00B3832E /* PCKUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083A855279CA40A00B3832E /* PCKUtility.swift */; };
 		7083A857279CA40F00B3832E /* PCKUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7083A855279CA40A00B3832E /* PCKUtility.swift */; };
 		708542F9276687F90029E888 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51F6343923D2877B00FE576E /* HealthKit.framework */; };
@@ -122,6 +175,13 @@
 			remoteGlobalIDString = E72B2C05226939E3009A9438;
 			remoteInfo = OCKSample;
 		};
+		707D293A2DCBE5E600980253 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E72B2BFE226939E3009A9438 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 707D29272DCBE5E500980253;
+			remoteInfo = OCKVisionSample;
+		};
 		91AD924924A4C42E00925D4D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E72B2BFE226939E3009A9438 /* Project object */;
@@ -184,6 +244,9 @@
 		707CC712254DA91900116728 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		707CC713254DA91900116728 /* OCKLocalization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OCKLocalization.swift; sourceTree = "<group>"; };
 		707D28CE2DCA8AA500980253 /* OCKStore+SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "OCKStore+SampleData.swift"; sourceTree = "<group>"; };
+		707D29282DCBE5E500980253 /* OCKVisionSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OCKVisionSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		707D292B2DCBE5E500980253 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
+		707D29392DCBE5E600980253 /* OCKVisionSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OCKVisionSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7083A855279CA40A00B3832E /* PCKUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PCKUtility.swift; sourceTree = "<group>"; };
 		7099D1FE29E98D900037CD8E /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		7099D20429E98DFF0037CD8E /* TaskID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskID.swift; sourceTree = "<group>"; };
@@ -234,6 +297,21 @@
 		E7C4CA0A22809AD500ECC3D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		707D29432DCBE5E600980253 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 707D29272DCBE5E500980253 /* OCKVisionSample */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		707D29292DCBE5E500980253 /* OCKVisionSample */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (707D29432DCBE5E600980253 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = OCKVisionSample; sourceTree = "<group>"; };
+		707D293C2DCBE5E600980253 /* OCKVisionSampleTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = OCKVisionSampleTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		51431FA123D166AE006A7CFD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -245,6 +323,27 @@
 				700DA93E2C35D33500435E2C /* CareKitEssentials in Frameworks */,
 				708542F9276687F90029E888 /* HealthKit.framework in Frameworks */,
 				70202EC32807333900CF73FB /* CareKitFHIR in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		707D29252DCBE5E500980253 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				707D29782DCBE89600980253 /* CareKit in Frameworks */,
+				707D29762DCBE89600980253 /* ParseCareKit in Frameworks */,
+				707D297E2DCBE89600980253 /* CareKitUI in Frameworks */,
+				707D292D2DCBE5E500980253 /* RealityKitContent in Frameworks */,
+				707D29802DCBE89600980253 /* CareKitEssentials in Frameworks */,
+				707D297A2DCBE89600980253 /* CareKitFHIR in Frameworks */,
+				707D297C2DCBE89600980253 /* CareKitStore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		707D29362DCBE5E600980253 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +482,14 @@
 				707CC713254DA91900116728 /* OCKLocalization.swift */,
 			);
 			path = Localization;
+			sourceTree = "<group>";
+		};
+		707D292A2DCBE5E500980253 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				707D292B2DCBE5E500980253 /* RealityKitContent */,
+			);
+			path = Packages;
 			sourceTree = "<group>";
 		};
 		7099D1FD29E98D780037CD8E /* Parse */ = {
@@ -545,11 +652,14 @@
 				9169381F271B80EA00A634ED /* CONTRIBUTING.md */,
 				91AD922324A461D200925D4D /* README.md */,
 				0520468223C3C1F2004F0F36 /* OCKSample.xctestplan */,
+				707D29292DCBE5E500980253 /* OCKVisionSample */,
+				707D293C2DCBE5E600980253 /* OCKVisionSampleTests */,
 				51431F9723D166AE006A7CFD /* Frameworks */,
 				E72B2C08226939E3009A9438 /* OCKSample */,
 				5173CB8823C3A846007655A0 /* OCKSampleUITests */,
 				91AD922824A4C42B00925D4D /* OCKWatchSample */,
 				91AD923724A4C42D00925D4D /* OCKWatchSample Extension */,
+				707D292A2DCBE5E500980253 /* Packages */,
 				E72B2C07226939E3009A9438 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -560,6 +670,8 @@
 				E72B2C06226939E3009A9438 /* OCKSample.app */,
 				5173CB8723C3A846007655A0 /* OCKSampleUITests.xctest */,
 				91AD922724A4C42B00925D4D /* OCKWatchSample.app */,
+				707D29282DCBE5E500980253 /* OCKVisionSample.app */,
+				707D29392DCBE5E600980253 /* OCKVisionSampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -602,6 +714,58 @@
 			productName = OCKSampleUITests;
 			productReference = 5173CB8723C3A846007655A0 /* OCKSampleUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		707D29272DCBE5E500980253 /* OCKVisionSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 707D29442DCBE5E600980253 /* Build configuration list for PBXNativeTarget "OCKVisionSample" */;
+			buildPhases = (
+				707D29242DCBE5E500980253 /* Sources */,
+				707D29252DCBE5E500980253 /* Frameworks */,
+				707D29262DCBE5E500980253 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				707D29292DCBE5E500980253 /* OCKVisionSample */,
+			);
+			name = OCKVisionSample;
+			packageProductDependencies = (
+				707D292C2DCBE5E500980253 /* RealityKitContent */,
+				707D29752DCBE89600980253 /* ParseCareKit */,
+				707D29772DCBE89600980253 /* CareKit */,
+				707D29792DCBE89600980253 /* CareKitFHIR */,
+				707D297B2DCBE89600980253 /* CareKitStore */,
+				707D297D2DCBE89600980253 /* CareKitUI */,
+				707D297F2DCBE89600980253 /* CareKitEssentials */,
+			);
+			productName = OCKVisionSample;
+			productReference = 707D29282DCBE5E500980253 /* OCKVisionSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		707D29382DCBE5E600980253 /* OCKVisionSampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 707D29452DCBE5E600980253 /* Build configuration list for PBXNativeTarget "OCKVisionSampleTests" */;
+			buildPhases = (
+				707D29352DCBE5E600980253 /* Sources */,
+				707D29362DCBE5E600980253 /* Frameworks */,
+				707D29372DCBE5E600980253 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				707D293B2DCBE5E600980253 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				707D293C2DCBE5E600980253 /* OCKVisionSampleTests */,
+			);
+			name = OCKVisionSampleTests;
+			packageProductDependencies = (
+			);
+			productName = OCKVisionSampleTests;
+			productReference = 707D29392DCBE5E600980253 /* OCKVisionSampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		91AD922624A4C42B00925D4D /* OCKWatchSample */ = {
 			isa = PBXNativeTarget;
@@ -658,13 +822,20 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1630;
 				LastUpgradeCheck = 1620;
 				ORGANIZATIONNAME = "Network Reconnaissance Lab";
 				TargetAttributes = {
 					5173CB8623C3A846007655A0 = {
 						CreatedOnToolsVersion = 11.1;
 						TestTargetID = E72B2C05226939E3009A9438;
+					};
+					707D29272DCBE5E500980253 = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					707D29382DCBE5E600980253 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 707D29272DCBE5E500980253;
 					};
 					91AD922624A4C42B00925D4D = {
 						CreatedOnToolsVersion = 12.0;
@@ -696,12 +867,32 @@
 				E72B2C05226939E3009A9438 /* OCKSample */,
 				5173CB8623C3A846007655A0 /* OCKSampleUITests */,
 				91AD922624A4C42B00925D4D /* OCKWatchSample */,
+				707D29272DCBE5E500980253 /* OCKVisionSample */,
+				707D29382DCBE5E600980253 /* OCKVisionSampleTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5173CB8523C3A846007655A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		707D29262DCBE5E500980253 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				707D296F2DCBE68600980253 /* Assets.xcassets in Resources */,
+				707D29702DCBE68600980253 /* ParseCareKit.plist in Resources */,
+				707D29722DCBE6AC00980253 /* Localizable.stringsdict in Resources */,
+				707D29732DCBE6AC00980253 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		707D29372DCBE5E600980253 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -766,6 +957,62 @@
 			buildActionMask = 2147483647;
 			files = (
 				5173CB8A23C3A846007655A0 /* OCKSampleUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		707D29242DCBE5E500980253 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				707D29462DCBE68500980253 /* MainTabView.swift in Sources */,
+				707D29472DCBE68500980253 /* User.swift in Sources */,
+				707D29482DCBE68500980253 /* FontColorKey.swift in Sources */,
+				707D29492DCBE68500980253 /* MainView.swift in Sources */,
+				707D294A2DCBE68500980253 /* CustomStylerKey.swift in Sources */,
+				707D294B2DCBE68500980253 /* TipView.swift in Sources */,
+				707D29712DCBE6A000980253 /* OCKLocalization.swift in Sources */,
+				707D294C2DCBE68500980253 /* StoreCoordinatorKey.swift in Sources */,
+				707D294D2DCBE68500980253 /* InsightsView.swift in Sources */,
+				707D294E2DCBE68500980253 /* OCKHealthKitPassthroughStore.swift in Sources */,
+				707D294F2DCBE68500980253 /* OCKStore+SampleData.swift in Sources */,
+				707D29502DCBE68500980253 /* TaskID.swift in Sources */,
+				707D29512DCBE68500980253 /* CareView.swift in Sources */,
+				707D29522DCBE68500980253 /* AppDelegateKey.swift in Sources */,
+				707D29532DCBE68500980253 /* Logger.swift in Sources */,
+				707D29542DCBE68500980253 /* TintColorFlipKey.swift in Sources */,
+				707D29552DCBE68500980253 /* Installation.swift in Sources */,
+				707D29562DCBE68500980253 /* SplashScreenView.swift in Sources */,
+				707D29572DCBE68500980253 /* OCKStore.swift in Sources */,
+				707D29582DCBE68500980253 /* ProfileView.swift in Sources */,
+				707D29592DCBE68500980253 /* AppError.swift in Sources */,
+				707D295A2DCBE68500980253 /* InstallationChannel.swift in Sources */,
+				707D295B2DCBE68500980253 /* LoginView.swift in Sources */,
+				707D295C2DCBE68500980253 /* AppDelegate.swift in Sources */,
+				707D295D2DCBE68500980253 /* LoginViewModel.swift in Sources */,
+				707D295E2DCBE68500980253 /* Utility.swift in Sources */,
+				707D295F2DCBE68500980253 /* OCKSampleApp.swift in Sources */,
+				707D29602DCBE68500980253 /* SessionDelegate.swift in Sources */,
+				707D29612DCBE68500980253 /* Styler.swift in Sources */,
+				707D29622DCBE68500980253 /* ProfileViewModel.swift in Sources */,
+				707D29632DCBE68500980253 /* AppDelegate+UIApplicationDelegate.swift in Sources */,
+				707D29642DCBE68500980253 /* CareViewController.swift in Sources */,
+				707D29652DCBE68500980253 /* PCKUtility.swift in Sources */,
+				707D29662DCBE68500980253 /* UserType.swift in Sources */,
+				707D29672DCBE68500980253 /* ContactView.swift in Sources */,
+				707D29682DCBE68500980253 /* NoHighlightStyle.swift in Sources */,
+				707D29692DCBE68500980253 /* LocalSyncSessionDelegate.swift in Sources */,
+				707D296A2DCBE68500980253 /* Constants.swift in Sources */,
+				707D296B2DCBE68500980253 /* AppDelegate+ParseRemoteDelegate.swift in Sources */,
+				707D296C2DCBE68500980253 /* RemoteSessionDelegate.swift in Sources */,
+				707D296D2DCBE68500980253 /* OCKPatient+Parse.swift in Sources */,
+				707D296E2DCBE68500980253 /* ColorStyler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		707D29352DCBE5E600980253 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -870,6 +1117,11 @@
 			isa = PBXTargetDependency;
 			target = E72B2C05226939E3009A9438 /* OCKSample */;
 			targetProxy = 5173CB8C23C3A846007655A0 /* PBXContainerItemProxy */;
+		};
+		707D293B2DCBE5E600980253 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 707D29272DCBE5E500980253 /* OCKVisionSample */;
+			targetProxy = 707D293A2DCBE5E600980253 /* PBXContainerItemProxy */;
 		};
 		91AD924A24A4C42E00925D4D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1090,6 +1342,120 @@
 			};
 			name = Release;
 		};
+		707D293F2DCBE5E600980253 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = OCKVisionSample/OCKVisionSample.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.netrecon.usc.OCKVisionSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Debug;
+		};
+		707D29402DCBE5E600980253 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = OCKVisionSample/OCKVisionSample.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(TARGET_NAME)/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.netrecon.usc.OCKVisionSample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Release;
+		};
+		707D29412DCBE5E600980253 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.netrecon.usc.OCKVisionSampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OCKVisionSample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OCKVisionSample";
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Debug;
+		};
+		707D29422DCBE5E600980253 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.netrecon.usc.OCKVisionSampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = xros;
+				SUPPORTED_PLATFORMS = "xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 7;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OCKVisionSample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/OCKVisionSample";
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Release;
+		};
 		91AD924D24A4C42E00925D4D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1260,6 +1626,24 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		707D29442DCBE5E600980253 /* Build configuration list for PBXNativeTarget "OCKVisionSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				707D293F2DCBE5E600980253 /* Debug */,
+				707D29402DCBE5E600980253 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		707D29452DCBE5E600980253 /* Build configuration list for PBXNativeTarget "OCKVisionSampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				707D29412DCBE5E600980253 /* Debug */,
+				707D29422DCBE5E600980253 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		91AD925324A4C42E00925D4D /* Build configuration list for PBXNativeTarget "OCKWatchSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1346,6 +1730,40 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 70202EBF2807333900CF73FB /* XCRemoteSwiftPackageReference "CareKit" */;
 			productName = CareKit;
+		};
+		707D292C2DCBE5E500980253 /* RealityKitContent */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RealityKitContent;
+		};
+		707D29752DCBE89600980253 /* ParseCareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 918FDEAD271B3F8F0045A0EF /* XCRemoteSwiftPackageReference "ParseCareKit" */;
+			productName = ParseCareKit;
+		};
+		707D29772DCBE89600980253 /* CareKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70202EBF2807333900CF73FB /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKit;
+		};
+		707D29792DCBE89600980253 /* CareKitFHIR */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70202EBF2807333900CF73FB /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitFHIR;
+		};
+		707D297B2DCBE89600980253 /* CareKitStore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70202EBF2807333900CF73FB /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitStore;
+		};
+		707D297D2DCBE89600980253 /* CareKitUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 70202EBF2807333900CF73FB /* XCRemoteSwiftPackageReference "CareKit" */;
+			productName = CareKitUI;
+		};
+		707D297F2DCBE89600980253 /* CareKitEssentials */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 700DA93C2C35D2D600435E2C /* XCRemoteSwiftPackageReference "CareKitEssentials" */;
+			productName = CareKitEssentials;
 		};
 		918FDEAE271B3F8F0045A0EF /* ParseCareKit */ = {
 			isa = XCSwiftPackageProductDependency;

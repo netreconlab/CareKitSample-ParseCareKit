@@ -24,7 +24,7 @@ class LoginViewModel: ObservableObject {
              everytime you use it to wrap a property.
             */
             objectWillChange.send()
-            if let newValue {
+            if newValue != nil {
                 self.sendUpdatedUserStatusToWatch()
             }
         }
