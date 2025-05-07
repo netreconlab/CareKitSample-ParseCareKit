@@ -17,13 +17,22 @@ jobs:
     runs-on: macos-15
     strategy:
       matrix:
-        destination: ['-destination platform\=iOS\ Simulator,OS=18.1,name\=iPhone\ 16\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"']
-        scheme: ['OCKSample', 'OCKWatchSample']
+        destination: ['-destination platform\=iOS\ Simulator,OS=18.1,name\=iPhone\ 16\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"', '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro']
+        scheme: ['OCKSample', 'OCKWatchSample', 'OCKVisionSample']
         exclude:
         - destination: '-destination platform\=iOS\ Simulator,OS=18.1,name\=iPhone\ 16\ Pro\ Max test'
           scheme: 'OCKWatchSample'
+        - destination: '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro'
+          scheme: 'OCKWatchSample'
         - destination: 'CODE_SIGNING_ALLOWED="NO"'
           scheme: 'OCKSample'
+        - destination: '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro'
+          scheme: 'OCKSample'
+        - destination: '-destination platform\=iOS\ Simulator,OS=18.1,name\=iPhone\ 16\ Pro\ Max test'
+          scheme: 'OCKVisionSample'
+        - destination: 'CODE_SIGNING_ALLOWED="NO"'
+          scheme: 'OCKVisionSample'
+    name: ${{ matrix.scheme }} Unit Tests
     steps:
     - uses: actions/checkout@v4
     - name: Install SwiftLint
