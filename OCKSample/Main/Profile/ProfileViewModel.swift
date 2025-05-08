@@ -69,8 +69,13 @@ class ProfileViewModel: ObservableObject {
         }
 
         if patientHasBeenUpdated {
-            _ = try await AppDelegateKey.defaultValue?.store.updatePatient(patientToUpdate)
-            Logger.profile.info("Successfully updated patient")
+            if let anyPatient = try await AppDelegateKey.defaultValue?.store.updateAnyPatient(patientToUpdate),
+               let updatedPatient = anyPatient as? OCKPatient {
+                self.patient = updatedPatient
+                Logger.profile.info("Successfully updated patient and synced local state.")
+            } else {
+                Logger.profile.error("Patient was updated in store but could not be cast to OCKPatient.")
+            }
         }
     }
 }
