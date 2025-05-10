@@ -31,7 +31,7 @@ struct InsightsView: View {
 					// for every task which may not always be the case.
 					ForEach(orderedEvents) { event in
 						let eventResult = event.result
-
+						let dataStrategy = determineDataStrategy(for: eventResult.task.id)
 						if eventResult.task.id != TaskID.doxylamine
 							&& eventResult.task.id != TaskID.nausea {
 
@@ -43,7 +43,7 @@ struct InsightsView: View {
 							// chart by adding multiple configurations.
 							let meanConfiguration = CKEDataSeriesConfiguration(
 								taskID: eventResult.task.id,
-								dataStrategy: .mean,
+								dataStrategy: dataStrategy,
 								mark: .bar,
 								legendTitle: String(localized: "AVERAGE"),
 								showMarkWhenHighlighted: true,
@@ -127,7 +127,6 @@ struct InsightsView: View {
 								]
 							)
 						}
-						Spacer()
 					}
 				}
 				.padding()
@@ -206,6 +205,15 @@ struct InsightsView: View {
 			for: Date()
 		)!
 		return interval
+	}
+
+	private func determineDataStrategy(for taskID: String) -> CKEDataSeriesConfiguration.DataStrategy {
+		switch taskID {
+		case TaskID.ovulationTestResult, TaskID.steps:
+			return .max
+		default:
+			return .mean
+		}
 	}
 
 	private func setupChartPropertiesForSegmentSelection(_ segmentValue: Int) {
