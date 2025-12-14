@@ -6,7 +6,7 @@ on:
     branches: [ main ]
 
 env:
-    CI_XCODE: '/Applications/Xcode_16.1.app/Contents/Developer'
+    CI_XCODE: '/Applications/Xcode_26.1.app/Contents/Developer'
 
 concurrency:
    group: ${{ github.workflow }}-${{ github.ref }}
@@ -17,10 +17,10 @@ jobs:
     runs-on: macos-15
     strategy:
       matrix:
-        destination: ['-destination platform\=iOS\ Simulator,OS=18.1,name\=iPhone\ 16\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"', '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro']
+        destination: ['-destination platform\=iOS\ Simulator,OS=16.4,name\=iPhone\ 16\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"', '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro']
         scheme: ['OCKSample', 'OCKWatchSample', 'OCKVisionSample']
         exclude:
-        - destination: '-destination platform\=iOS\ Simulator,OS=18.1,name\=iPhone\ 16\ Pro\ Max test'
+        - destination: '-destination platform\=iOS\ Simulator,OS=16.4,name\=iPhone\ 16\ Pro\ Max test'
           scheme: 'OCKWatchSample'
         - destination: '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro'
           scheme: 'OCKWatchSample'
@@ -28,18 +28,36 @@ jobs:
           scheme: 'OCKSample'
         - destination: '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro'
           scheme: 'OCKSample'
-        - destination: '-destination platform\=iOS\ Simulator,OS=18.1,name\=iPhone\ 16\ Pro\ Max test'
+        - destination: '-destination platform\=iOS\ Simulator,OS=16.4,name\=iPhone\ 17\ Pro\ Max test'
           scheme: 'OCKVisionSample'
         - destination: 'CODE_SIGNING_ALLOWED="NO"'
           scheme: 'OCKVisionSample'
     name: ${{ matrix.scheme }} Unit Tests
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Install SwiftLint
       run: brew install swiftlint
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme ${{ matrix.scheme }} ${{ matrix.destination }} 2>&1 | xcbeautify --renderer github-actions
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE }}
-    - name: Send codecov
-      run: bash <(curl https://codecov.io/bash)
+    - name: Upload codecov yml
+      run: |
+        cat .codecov.yml | curl --data-binary @- https://codecov.io/validate
+    - name: Prepare codecov
+      uses: sersoft-gmbh/swift-coverage-action@v5
+      id: coverage-files
+      with:
+        format: lcov
+        search-paths: ./DerivedData
+        ignore-conversion-failures: true
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE }}
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
+        fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE }}
