@@ -14,21 +14,21 @@ concurrency:
 
 jobs:
   test:
-    runs-on: macos-15
+    runs-on: macos-26
     strategy:
       matrix:
-        destination: ['-destination platform\=iOS\ Simulator,OS=16.4,name\=iPhone\ 16\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"', '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro']
+        destination: ['-destination platform\=iOS\ Simulator,OS=26.1,name\=iPhone\ 17\ Pro\ Max test', 'CODE_SIGNING_ALLOWED="NO"', '-destination platform\=visionOS\ Simulator,OS=26.1,name\=Apple\ Vision\ Pro']
         scheme: ['OCKSample', 'OCKWatchSample', 'OCKVisionSample']
         exclude:
-        - destination: '-destination platform\=iOS\ Simulator,OS=16.4,name\=iPhone\ 16\ Pro\ Max test'
+        - destination: '-destination platform\=iOS\ Simulator,OS=26.1,name\=iPhone\ 17\ Pro\ Max test'
           scheme: 'OCKWatchSample'
-        - destination: '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro'
+        - destination: '-destination platform\=visionOS\ Simulator,OS=26.1,name\=Apple\ Vision\ Pro'
           scheme: 'OCKWatchSample'
         - destination: 'CODE_SIGNING_ALLOWED="NO"'
           scheme: 'OCKSample'
-        - destination: '-destination platform\=visionOS\ Simulator,OS=2.4,name\=Apple\ Vision\ Pro'
+        - destination: '-destination platform\=visionOS\ Simulator,OS=26.1,name\=Apple\ Vision\ Pro'
           scheme: 'OCKSample'
-        - destination: '-destination platform\=iOS\ Simulator,OS=16.4,name\=iPhone\ 17\ Pro\ Max test'
+        - destination: '-destination platform\=iOS\ Simulator,OS=26.1,name\=iPhone\ 17\ Pro\ Max test'
           scheme: 'OCKVisionSample'
         - destination: 'CODE_SIGNING_ALLOWED="NO"'
           scheme: 'OCKVisionSample'
@@ -38,7 +38,7 @@ jobs:
     - name: Install SwiftLint
       run: brew install swiftlint
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme ${{ matrix.scheme }} ${{ matrix.destination }} 2>&1 | xcbeautify --renderer github-actions
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -project OCKSample.xcodeproj -scheme ${{ matrix.scheme }} ${{ matrix.destination }} -derivedDataPath DerivedData 2>&1 | xcbeautify --renderer github-actions
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE }}
     - name: Upload codecov yml
