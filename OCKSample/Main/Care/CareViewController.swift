@@ -203,7 +203,7 @@ class CareViewController: OCKDailyPageViewController {
         }
     }
 
-    private func fetchTasks(on date: Date) async -> [OCKAnyTask] {
+    private func fetchTasks(on date: Date) async -> [any OCKAnyTask] {
         var query = OCKTaskQuery(for: date)
         query.excludesTasksWithNoEvents = true
         do {
@@ -219,7 +219,7 @@ class CareViewController: OCKDailyPageViewController {
     }
 
     private func taskViewControllers(
-        _ task: OCKAnyTask,
+        _ task: any OCKAnyTask,
         on date: Date
     ) -> [UIViewController]? {
 
@@ -301,7 +301,7 @@ class CareViewController: OCKDailyPageViewController {
     }
 
     private func appendTasks(
-        _ tasks: [OCKAnyTask],
+        _ tasks: [any OCKAnyTask],
         to listViewController: OCKListViewController,
         date: Date
     ) {
