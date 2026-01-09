@@ -8,6 +8,7 @@
 
 import UIKit
 import CareKitStore
+import os.log
 import ParseCareKit
 import WatchConnectivity
 

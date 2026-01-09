@@ -205,7 +205,7 @@ final class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 			name: Constants.noCareStoreName,
 			type: .inMemory
 		)
-		sessionDelegate.store.setValue(store)
+		sessionDelegate?.store.setValue(store)
         self.store = store
     }
 
