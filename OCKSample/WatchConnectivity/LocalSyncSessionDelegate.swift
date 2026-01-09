@@ -81,11 +81,11 @@ final class LocalSessionDelegate: NSObject, SessionDelegate, Sendable {
 						message,
 						replyHandler: nil,
 						errorHandler: { error in
-							Logger.remoteSessionDelegate.info("Could not send session token to watch: \(error)")
+							Logger.localSessionDelegate.info("Could not send session token to watch: \(error)")
 						}
 					)
 				} catch {
-					Logger.remoteSessionDelegate.info("Could not get session token for watch: \(error)")
+					Logger.localSessionDelegate.info("Could not get session token for watch: \(error)")
 				}
 			}
         } else {

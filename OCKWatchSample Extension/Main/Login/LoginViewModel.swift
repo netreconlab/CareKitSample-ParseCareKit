@@ -34,19 +34,33 @@ class LoginViewModel: ObservableObject {
             return
         }
 
-        do {
-            let user = try await User.become(sessionToken: sessionToken)
-            Logger.login.info("Parse login successful \(user, privacy: .private)")
-            try await Utility.setupRemoteAfterLogin()
-
-            // Setup installation to receive push notifications
-            Task {
-                await Utility.updateInstallationWithDeviceToken()
-            }
-        } catch {
-            // swiftlint:disable:next line_length
-            Logger.login.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
-            Logger.login.error("Parse error: \(String(describing: error))")
-        }
+		do {
+			let currentSessionToken = try await User.sessionToken()
+			guard currentSessionToken != sessionToken else {
+				Logger.login.info("Already logged in with same token as iPhone")
+				return
+			}
+			await Utility.logoutAndResetAppState()
+			await loginWithSessionToken(sessionToken)
+		} catch {
+			await loginWithSessionToken(sessionToken)
+		}
     }
+
+	static func loginWithSessionToken(_ sessionToken: String) async {
+		do {
+			let user = try await User.become(sessionToken: sessionToken)
+			Logger.login.info("Parse login successful \(user, privacy: .private)")
+			try await Utility.setupRemoteAfterLogin()
+
+			// Setup installation to receive push notifications
+			Task {
+				await Utility.updateInstallationWithDeviceToken()
+			}
+		} catch {
+			// swiftlint:disable:next line_length
+			Logger.login.error("*** Error logging into Parse Server. If you are still having problems check for help here: https://github.com/netreconlab/parse-hipaa#getting-started ***")
+			Logger.login.error("Parse error: \(String(describing: error))")
+		}
+	}
 }

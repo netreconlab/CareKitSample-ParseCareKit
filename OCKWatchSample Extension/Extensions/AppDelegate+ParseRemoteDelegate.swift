@@ -13,6 +13,7 @@ import ParseCareKit
 import os.log
 
 extension AppDelegate: ParseRemoteDelegate {
+
 	nonisolated func didRequestSynchronization(
 		_ remote: OCKRemoteSynchronizable
 	) {

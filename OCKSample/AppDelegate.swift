@@ -39,13 +39,10 @@ import WatchConnectivity
 
 @MainActor
 final class AppDelegate: UIResponder, ObservableObject {
+
     // MARK: Public read/write properties
 
-    @Published var isFirstTimeLogin = false {
-        willSet {
-			self.objectWillChange.send()
-        }
-    }
+    @Published var isFirstTimeLogin = false
 
     // MARK: Public read private write properties
 
@@ -78,13 +75,26 @@ final class AppDelegate: UIResponder, ObservableObject {
 
     // MARK: Private read/write properties
 
-    private var sessionDelegate: SessionDelegate!
-	private var watchRemote: OCKWatchConnectivityPeer {
+	fileprivate var watchRemote: OCKWatchConnectivityPeer {
 		get {
 			return state.withLock { $0.watchRemote }
 		}
 		set {
 			state.withLock { $0.watchRemote = newValue }
+		}
+	}
+
+	fileprivate var _sessionDelegate: SessionDelegate!
+	fileprivate var sessionDelegate: SessionDelegate! {
+		get {
+			sessionDelegateLock.lock()
+			defer { sessionDelegateLock.unlock() }
+			return _sessionDelegate
+		}
+		set {
+			sessionDelegateLock.lock()
+			defer { sessionDelegateLock.unlock() }
+			_sessionDelegate = newValue
 		}
 	}
 
@@ -94,6 +104,7 @@ final class AppDelegate: UIResponder, ObservableObject {
 		lazy var watchRemote = OCKWatchConnectivityPeer()
 	}
 	private let state = Mutex<State>(.init())
+	fileprivate let sessionDelegateLock = NSLock()
 
     // MARK: Helpers
 

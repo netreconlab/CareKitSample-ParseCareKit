@@ -9,6 +9,7 @@
 import Foundation
 import CareKit
 import CareKitStore
+import ParseCareKit
 import ParseSwift
 import os.log
 
@@ -196,6 +197,17 @@ class Utility {
             }
         }
     }
+
+	@MainActor
+	static func logoutAndResetAppState() async {
+		do {
+			try await User.logout()
+		} catch {
+			Logger.utility.error("Error logging out: \(error)")
+		}
+		AppDelegateKey.defaultValue?.resetAppToInitialState()
+		PCKUtility.removeCache()
+	}
 
     #if os(iOS) || os(visionOS)
 	@MainActor

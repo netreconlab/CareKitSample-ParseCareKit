@@ -20,14 +20,13 @@ final class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 
     // MARK: Public read private write properties
     @Published private(set) var store: OCKStore! {
-        willSet {
-            newValue.synchronize { error in
-                let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-                Logger.appDelegate.info("\(errorString)")
-            }
-			state.withLock { $0.store = newValue }
-            self.objectWillChange.send()
-        }
+		didSet {
+			state.withLock { $0.store = store }
+			store.synchronize { error in
+				let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+				Logger.appDelegate.info("\(errorString)")
+			}
+		}
     }
 	@Published private(set) var storeCoordinator: OCKStoreCoordinator = .init() {
 		willSet {
@@ -54,8 +53,15 @@ final class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 
     // MARK: Private read/write properties
 
-    private var sessionDelegate: SessionDelegate!
-	var phoneRemote: OCKWatchConnectivityPeer {
+	struct State {
+		var store: OCKStore!
+		var healthKitStore: OCKHealthKitPassthroughStore!
+		var parseRemote: ParseRemote!
+		lazy var phoneRemote = OCKWatchConnectivityPeer()
+	}
+	let state = Mutex<State>(.init())
+
+	fileprivate var phoneRemote: OCKWatchConnectivityPeer {
 		get {
 			return state.withLock { $0.phoneRemote }
 		}
@@ -64,13 +70,20 @@ final class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 		}
 	}
 
-	struct State {
-		var store: OCKStore!
-		var healthKitStore: OCKHealthKitPassthroughStore!
-		var parseRemote: ParseRemote!
-		lazy var phoneRemote = OCKWatchConnectivityPeer()
+	fileprivate var _sessionDelegate: SessionDelegate!
+	fileprivate var sessionDelegate: SessionDelegate! {
+		get {
+			sessionDelegateLock.lock()
+			defer { sessionDelegateLock.unlock() }
+			return _sessionDelegate
+		}
+		set {
+			sessionDelegateLock.lock()
+			defer { sessionDelegateLock.unlock() }
+			_sessionDelegate = newValue
+		}
 	}
-	let state = Mutex<State>(.init())
+	fileprivate let sessionDelegateLock = NSLock()
 
     func applicationDidFinishLaunching() {
         Task {
@@ -92,7 +105,7 @@ final class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                             Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
                             try await setupRemotes(uuid: nil)
                         }
-						state.withLock { $0.parseRemote.automaticallySynchronizes = true }
+						parseRemote?.automaticallySynchronizes = true
                     } catch {
                         Logger.appDelegate.info("User is not logged in...")
                         try await setupRemotes(uuid: nil)

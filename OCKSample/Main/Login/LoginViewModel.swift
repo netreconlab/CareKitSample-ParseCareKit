@@ -26,7 +26,7 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
             */
             objectWillChange.send()
             if newValue != nil {
-                self.sendUpdatedUserStatusToWatch()
+                self.sendUpdatedUserSessionTokenToWatch()
             }
         }
     }
@@ -48,17 +48,21 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
         }
     }
 
-    private func sendUpdatedUserStatusToWatch() {
+    private func sendUpdatedUserSessionTokenToWatch() {
         Task {
             do {
                 let message = try await Utility.getUserSessionForWatch()
-				WCSession.default.sendMessage(
-					message,
-					replyHandler: nil,
-					errorHandler: { error in
-						Logger.remoteSessionDelegate.info("Could not send updated session token to watch: \(error)")
-					}
-				)
+				DispatchQueue.global(qos: .default).async {
+					// WCSession.default.sendMessage crashes when sending on MainActor
+					// so we call on a less important queue.
+					WCSession.default.sendMessage(
+						message,
+						replyHandler: nil,
+						errorHandler: { error in
+							Logger.remoteSessionDelegate.info("Could not send updated session token to watch: \(error)")
+						}
+					)
+				}
             } catch {
                 Logger.login.info("Could not get session token for watch: \(error)")
                 return
@@ -269,15 +273,7 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
      Logs out the currently logged in person *asynchronously*.
     */
     func logout() async {
-        // You may not have seen "throws" before, but it's simple,
-        // this throws an error if one occurs, if not it behaves as normal
-        // Normally, you've seen do {} catch {} which catches the error, same concept...
-        do {
-            try await User.logout()
-        } catch {
-            Logger.login.error("Error logging out: \(error)")
-        }
-        AppDelegateKey.defaultValue?.resetAppToInitialState()
+		await Utility.logoutAndResetAppState()
         await self.checkStatus()
     }
 }
