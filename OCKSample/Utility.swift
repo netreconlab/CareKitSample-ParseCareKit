@@ -91,25 +91,23 @@ class Utility {
         }
         let installation = currentInstallation
         let isUpdatingInstallation = isUpdatingInstallationMutable
-        Task {
-            do {
-                if isUpdatingInstallation {
-                    let updatedInstallation = try await installation.save()
-                    Logger.utility.info("""
-                        Updated installation: \(updatedInstallation, privacy: .private)
-                    """)
-                } else {
-                    let updatedInstallation = try await installation.create()
-                    Logger.utility.info("""
-                        Created installation: \(updatedInstallation, privacy: .private)
-                    """)
-                }
-            } catch {
-                Logger.utility.error("""
-                    Could not update installation: \(error)
-                """)
-            }
-        }
+		do {
+			if isUpdatingInstallation {
+				let updatedInstallation = try await installation.save()
+				Logger.utility.info("""
+					Updated installation: \(updatedInstallation, privacy: .private)
+				""")
+			} else {
+				let updatedInstallation = try await installation.create()
+				Logger.utility.info("""
+					Created installation: \(updatedInstallation, privacy: .private)
+				""")
+			}
+		} catch {
+			Logger.utility.error("""
+				Could not update installation: \(error)
+			""")
+		}
     }
 
     static func createPreviewStore() -> OCKStore {
