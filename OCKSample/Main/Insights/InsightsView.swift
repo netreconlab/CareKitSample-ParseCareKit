@@ -139,7 +139,7 @@ struct InsightsView: View {
 				setupChartPropertiesForSegmentSelection(intervalSelected)
 			}
 #if os(iOS)
-			.onChange(of: intervalSelected) { intervalSegmentValue in
+			.onChange(of: intervalSelected) { _, intervalSegmentValue in
 				setupChartPropertiesForSegmentSelection(intervalSegmentValue)
 			}
 #else
