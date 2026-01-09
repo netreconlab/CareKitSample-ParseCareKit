@@ -40,23 +40,25 @@ import UIKit
 @MainActor
 class CareViewController: OCKDailyPageViewController, @unchecked Sendable { // swiftlint:disable:this type_body_length
 
-	private let _isSyncing = Mutex<Bool>(false)
-	private let _isLoading = Mutex<Bool>(false)
-
+	private struct State {
+		var isSyncing = false
+		var isLoading = false
+	}
+	private let state = Mutex<State>(.init())
 	private var isSyncing: Bool {
 		get {
-			_isSyncing.value()
+			state.withLock { $0.isSyncing }
 		}
 		set {
-			_isSyncing.setValue(newValue)
+			state.withLock { $0.isSyncing = newValue }
 		}
 	}
 	private var isLoading: Bool {
 		get {
-			_isLoading.value()
+			state.withLock { $0.isLoading }
 		}
 		set {
-			_isLoading.setValue(newValue)
+			state.withLock { $0.isLoading = newValue }
 		}
 	}
     private var style: Styler {
@@ -106,30 +108,33 @@ class CareViewController: OCKDailyPageViewController, @unchecked Sendable { // s
             return
         }
 
-        DispatchQueue.main.async {
-            switch progress {
-            case 0, 100:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
-                                                                         style: .plain, target: self,
-                                                                         action: #selector(self.synchronizeWithRemote))
-                if progress == 100 {
-                    // Give sometime for the user to see 100
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
-                                                                                 target: self,
-                                                                                 // swiftlint:disable:next line_length
-                                                                                 action: #selector(self.synchronizeWithRemote))
-                        // swiftlint:disable:next line_length
-                        self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
-                    }
-                }
-            default:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
-                                                                         style: .plain, target: self,
-                                                                         action: #selector(self.synchronizeWithRemote))
-				self.navigationItem.rightBarButtonItem?.tintColor = self.view.tintColor
-            }
-        }
+		switch progress {
+		case 0, 100:
+			self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+				title: "\(progress)",
+				style: .plain, target: self,
+				action: #selector(self.synchronizeWithRemote)
+			)
+
+			if progress == 100 {
+				// Give sometime for the user to see 100
+				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+					self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+						barButtonSystemItem: .refresh,
+						target: self,
+						action: #selector(self.synchronizeWithRemote)
+					)
+					self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
+				}
+			}
+		default:
+			self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+				title: "\(progress)",
+				style: .plain, target: self,
+				action: #selector(self.synchronizeWithRemote)
+			)
+			self.navigationItem.rightBarButtonItem?.tintColor = self.view.tintColor
+		}
     }
 
     @objc private func synchronizeWithRemote() {
@@ -341,14 +346,10 @@ class CareViewController: OCKDailyPageViewController, @unchecked Sendable { // s
         }.forEach { (cards: [UIViewController]) in
             cards.forEach {
                 let card = $0
-                DispatchQueue.main.async {
-                    listViewController.appendViewController(card, animated: true)
-                }
+				listViewController.appendViewController(card, animated: true)
             }
         }
-        DispatchQueue.main.async {
-            self.isLoading = false
-        }
+		self.isLoading = false
     }
 }
 
