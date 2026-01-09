@@ -12,13 +12,15 @@ import CareKitEssentials
 import SwiftUI
 import os.log
 
-class ProfileViewModel: ObservableObject, @unchecked Sendable {
+@MainActor
+class ProfileViewModel: ObservableObject {
 
     // MARK: Public read/write properties
 
     var firstName = ""
     var lastName = ""
     var birthday = Date()
+
     var patient: OCKPatient? {
         willSet {
             if let currentFirstName = newValue?.name.givenName {

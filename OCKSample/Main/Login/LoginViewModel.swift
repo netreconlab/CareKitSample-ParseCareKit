@@ -14,7 +14,7 @@ import os.log
 import WatchConnectivity
 
 @MainActor
-class LoginViewModel: ObservableObject, @unchecked Sendable {
+class LoginViewModel: ObservableObject {
 
     // MARK: Public read, private write properties
 	@Published private(set) var isLoggedIn: Bool? {
