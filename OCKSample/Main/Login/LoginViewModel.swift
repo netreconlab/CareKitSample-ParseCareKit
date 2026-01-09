@@ -13,7 +13,7 @@ import ParseSwift
 import os.log
 import WatchConnectivity
 
-class LoginViewModel: ObservableObject {
+class LoginViewModel: ObservableObject, @unchecked Sendable {
 
     // MARK: Public read, private write properties
 	@Published private(set) var isLoggedIn: Bool? {
@@ -32,8 +32,8 @@ class LoginViewModel: ObservableObject {
     @Published private(set) var loginError: ParseError?
 
     init() {
-        Task {
-            await checkStatus()
+		Task {
+			await checkStatus()
         }
     }
 
@@ -52,13 +52,15 @@ class LoginViewModel: ObservableObject {
         Task {
             do {
                 let message = try await Utility.getUserSessionForWatch()
-                DispatchQueue.main.async {
-                    WCSession.default.sendMessage(message,
-                                                  replyHandler: nil,
-                                                  errorHandler: nil)
-                }
+				WCSession.default.sendMessage(
+					message,
+					replyHandler: nil,
+					errorHandler: { error in
+						Logger.remoteSessionDelegate.info("Could not send updated session token to watch: \(error)")
+					}
+				)
             } catch {
-                Logger.login.info("Could not get session for watch: \(error)")
+                Logger.login.info("Could not get session token for watch: \(error)")
                 return
             }
         }
@@ -113,10 +115,12 @@ class LoginViewModel: ObservableObject {
         }
         try await appDelegate.setupRemotes(uuid: remoteUUID)
 
-        var newPatient = OCKPatient(remoteUUID: remoteUUID,
-                                    id: remoteUUID.uuidString,
-                                    givenName: firstName,
-                                    familyName: lastName)
+        var newPatient = OCKPatient(
+			remoteUUID: remoteUUID,
+			id: remoteUUID.uuidString,
+			givenName: firstName,
+			familyName: lastName
+		)
         newPatient.userType = type
         let savedPatient = try await appDelegate.store.addPatient(newPatient)
 

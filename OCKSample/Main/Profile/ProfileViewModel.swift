@@ -12,7 +12,7 @@ import CareKitEssentials
 import SwiftUI
 import os.log
 
-class ProfileViewModel: ObservableObject {
+class ProfileViewModel: ObservableObject, @unchecked Sendable {
 
     // MARK: Public read/write properties
 

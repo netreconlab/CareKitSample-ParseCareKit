@@ -10,6 +10,7 @@ import CareKit
 import CareKitStore
 import ParseCareKit
 import ParseSwift
+import Synchronization
 import WatchKit
 import WatchConnectivity
 import os.log
@@ -17,13 +18,13 @@ import os.log
 class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 
     // MARK: Public read private write properties
-
     @Published private(set) var store: OCKStore! {
         willSet {
             newValue.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with remote!"
                 Logger.appDelegate.info("\(errorString)")
             }
+			state.withLock { $0.store = newValue }
             self.objectWillChange.send()
         }
     }
@@ -33,13 +34,42 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 			self.objectWillChange.send()
 		}
 	}
-    private(set) var parseRemote: ParseRemote!
-	private(set) var healthKitStore: OCKHealthKitPassthroughStore!
+	private(set) var parseRemote: ParseRemote! {
+		get {
+			return state.withLock { $0.parseRemote }
+		}
+		set {
+			state.withLock { $0.parseRemote = newValue }
+		}
+	}
+	private(set) var healthKitStore: OCKHealthKitPassthroughStore! {
+		get {
+			return state.withLock { $0.healthKitStore }
+		}
+		set {
+			state.withLock { $0.healthKitStore = newValue }
+		}
+	}
 
     // MARK: Private read/write properties
 
     private var sessionDelegate: SessionDelegate!
-    private lazy var phoneRemote = OCKWatchConnectivityPeer()
+	var phoneRemote: OCKWatchConnectivityPeer {
+		get {
+			return state.withLock { $0.phoneRemote }
+		}
+		set {
+			state.withLock { $0.phoneRemote = newValue }
+		}
+	}
+
+	struct State {
+		var store: OCKStore!
+		var healthKitStore: OCKHealthKitPassthroughStore!
+		var parseRemote: ParseRemote!
+		lazy var phoneRemote = OCKWatchConnectivityPeer()
+	}
+	let state = Mutex<State>(.init())
 
     func applicationDidFinishLaunching() {
         Task {
@@ -61,7 +91,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                             Logger.appDelegate.error("User is logged in, but missing remoteId: \(error)")
                             try await setupRemotes(uuid: nil)
                         }
-                        parseRemote.automaticallySynchronizes = true
+						state.withLock { $0.parseRemote.automaticallySynchronizes = true }
                     } catch {
                         Logger.appDelegate.info("User is not logged in...")
                         try await setupRemotes(uuid: nil)
@@ -84,6 +114,10 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
         }
     }
 
+	func getOCKStore() async -> OCKStore {
+		store
+	}
+
     func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
         Task {
             await Utility.updateInstallationWithDeviceToken(deviceToken)
@@ -103,20 +137,21 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                     WCSession.default.activate()
                     return
                 }
-                parseRemote = try await ParseRemote(
+				let parseRemote = try await ParseRemote(
 					uuid: uuid,
 					auto: false,
 					subscribeToRemoteUpdates: true,
 					defaultACL: PCKUtility.getDefaultACL()
 				)
-                let store = OCKStore(
+				parseRemote.parseRemoteDelegate = self
+				let store = OCKStore(
 					name: Constants.watchOSParseCareStoreName,
 					type: .onDisk(),
 					remote: parseRemote
 				)
-                parseRemote?.parseRemoteDelegate = self
-                sessionDelegate.store = store
-                self.store = store
+				sessionDelegate?.store.setValue(store)
+				self.parseRemote = parseRemote
+				self.store = store
             } else {
                 let store = OCKStore(name: Constants.watchOSLocalCareStoreName,
                                      type: .onDisk(),
@@ -127,7 +162,7 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
                 WCSession.default.delegate = sessionDelegate
                 self.store = store
             }
-            WCSession.default.activate()
+            // WCSession.default.activate()
 
 			healthKitStore = OCKHealthKitPassthroughStore(store: store)
 			let storeCoordinator = OCKStoreCoordinator()
@@ -149,11 +184,12 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
             Logger.appDelegate.error("Error deleting OCKStore: \(error)")
         }
 
-        parseRemote = nil
-
-        let store = OCKStore(name: Constants.noCareStoreName,
-                             type: .inMemory)
-        sessionDelegate.store = store
+		parseRemote = nil
+		let store = OCKStore(
+			name: Constants.noCareStoreName,
+			type: .inMemory
+		)
+		sessionDelegate.store.setValue(store)
         self.store = store
     }
 

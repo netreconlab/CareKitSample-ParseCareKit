@@ -33,14 +33,32 @@ import CareKitEssentials
 import CareKitStore
 import CareKitUI
 import os.log
+import Synchronization
 import SwiftUI
 import UIKit
 
 @MainActor
-class CareViewController: OCKDailyPageViewController {
+class CareViewController: OCKDailyPageViewController, @unchecked Sendable { // swiftlint:disable:this type_body_length
 
-    private var isSyncing = false
-    private var isLoading = false
+	private let _isSyncing = Mutex<Bool>(false)
+	private let _isLoading = Mutex<Bool>(false)
+
+	private var isSyncing: Bool {
+		get {
+			_isSyncing.value()
+		}
+		set {
+			_isSyncing.setValue(newValue)
+		}
+	}
+	private var isLoading: Bool {
+		get {
+			_isLoading.value()
+		}
+		set {
+			_isLoading.setValue(newValue)
+		}
+	}
     private var style: Styler {
         CustomStylerKey.defaultValue
     }
@@ -122,7 +140,8 @@ class CareViewController: OCKDailyPageViewController {
         AppDelegateKey.defaultValue?.store.synchronize { error in
             let errorString = error?.localizedDescription ?? "Successful sync with remote!"
             Logger.feed.info("\(errorString)")
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+				guard let self else { return }
                 if error != nil {
                     self.navigationItem.rightBarButtonItem?.tintColor = .red
                 } else {

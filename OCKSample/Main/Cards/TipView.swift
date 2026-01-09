@@ -33,7 +33,7 @@ import UIKit
 import CareKit
 import CareKitUI
 
-class TipView: OCKView, OCKCardable {
+class TipView: OCKView, @MainActor OCKCardable {
 
     var cardView: UIView { self }
     let contentView: UIView = OCKView()

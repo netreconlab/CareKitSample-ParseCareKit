@@ -8,8 +8,9 @@
 
 import CareKitStore
 import Foundation
+import Synchronization
 import WatchConnectivity
 
 protocol SessionDelegate: WCSessionDelegate {
-    var store: OCKStore? { get set }
+    var store: Mutex<OCKStore?> { get }
 }

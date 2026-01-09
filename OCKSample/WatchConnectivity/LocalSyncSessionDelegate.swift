@@ -9,15 +9,17 @@
 import CareKitStore
 import Foundation
 import os.log
+import Synchronization
 import WatchConnectivity
 
-class LocalSessionDelegate: NSObject, SessionDelegate {
+@MainActor
+class LocalSessionDelegate: NSObject, @MainActor SessionDelegate {
     let remote: OCKWatchConnectivityPeer
-    var store: OCKStore?
+	let store = Mutex<OCKStore?>(nil)
 
     init(remote: OCKWatchConnectivityPeer, store: OCKStore?) {
         self.remote = remote
-        self.store = store
+		self.store.setValue(store)
     }
 
     #if os(iOS) || os(visionOS)
@@ -36,7 +38,7 @@ class LocalSessionDelegate: NSObject, SessionDelegate {
         Logger.localSessionDelegate.info("New session state: \(activationState.rawValue)")
         if activationState == .activated {
             #if os(watchOS)
-            store?.synchronize { error in
+			store.value()?.synchronize { error in
                 let errorString = error?.localizedDescription ?? "Successful sync with iPhone!"
                 Logger.localSessionDelegate.info("\(errorString)")
             }
@@ -51,7 +53,7 @@ class LocalSessionDelegate: NSObject, SessionDelegate {
                  replyHandler: @escaping ([String: Any]) -> Void) {
         #if os(watchOS)
         Logger.localSessionDelegate.info("Received message from iPhone")
-        guard let store = store else {
+		guard let store = store.value() else {
             return
         }
         remote.reply(to: message, store: store) { reply in
@@ -62,10 +64,11 @@ class LocalSessionDelegate: NSObject, SessionDelegate {
         #else
         if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
             Logger.localSessionDelegate.info("Received message from Apple Watch requesting ParseUser, sending now")
-            Task {
+
+			Task {
                 do {
                     // Prepare data for watchOS
-                    let returnMessage = try await Utility.getUserSessionForWatch()
+					let returnMessage = try await Utility.getUserSessionForWatch()
                     DispatchQueue.main.async {
                         replyHandler(returnMessage)
                     }
