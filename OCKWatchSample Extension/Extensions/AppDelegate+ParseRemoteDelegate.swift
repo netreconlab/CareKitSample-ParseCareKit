@@ -13,7 +13,9 @@ import ParseCareKit
 import os.log
 
 extension AppDelegate: ParseRemoteDelegate {
-	nonisolated func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
+	nonisolated func didRequestSynchronization(
+		_ remote: OCKRemoteSynchronizable
+	) {
 		state.withLock {
 			$0.store?.synchronize { error in
 				let errorString = error?.localizedDescription ?? "Successful sync with remote!"
@@ -34,19 +36,36 @@ extension AppDelegate: ParseRemoteDelegate {
 		return store
 	}
 
-	nonisolated func remote(_ remote: OCKRemoteSynchronizable, didUpdateProgress progress: Double) {}
+	nonisolated func remote(
+		_ remote: OCKRemoteSynchronizable,
+		didUpdateProgress progress: Double
+	) {
+		// no-op on watch for now.
+	}
 
-	nonisolated func chooseConflictResolution(conflicts: [OCKEntity], completion: @escaping OCKResultClosure<OCKEntity>) {
+	nonisolated func chooseConflictResolution(
+		conflicts: [OCKEntity],
+		completion: @escaping OCKResultClosure<OCKEntity>
+	) {
 
         // https://github.com/carekit-apple/CareKit/issues/567
         // Last write wins
         do {
             let lastWrite = try conflicts
-                .max(by: { try $0.parseEntity().value.createdDate! > $1.parseEntity().value.createdDate! })!
-
+                .max(
+					by: {
+						try $0.parseEntity().value.createdDate! > $1.parseEntity().value.createdDate!
+					}
+				)!
             completion(.success(lastWrite))
         } catch {
-            completion(.failure(.invalidValue(reason: error.localizedDescription)))
+            completion(
+				.failure(
+					.invalidValue(
+						reason: error.localizedDescription
+					)
+				)
+			)
         }
     }
 }

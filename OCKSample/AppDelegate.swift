@@ -37,14 +37,13 @@ import Synchronization
 import UIKit
 import WatchConnectivity
 
-class AppDelegate: UIResponder, ObservableObject, @unchecked Sendable {
+@MainActor
+final class AppDelegate: UIResponder, ObservableObject {
     // MARK: Public read/write properties
 
     @Published var isFirstTimeLogin = false {
         willSet {
-            DispatchQueue.main.async {
-                self.objectWillChange.send()
-            }
+			self.objectWillChange.send()
         }
     }
 
@@ -68,14 +67,14 @@ class AppDelegate: UIResponder, ObservableObject, @unchecked Sendable {
 			state.withLock { $0.healthKitStore = newValue }
 		}
 	}
-    private(set) var parseRemote: ParseRemote! /*{
+    private(set) var parseRemote: ParseRemote! {
 		get {
 			return state.withLock { $0.parseRemote }
 		}
 		set {
 			state.withLock { $0.parseRemote = newValue }
 		}
-	} */
+	}
 
     // MARK: Private read/write properties
 
@@ -98,7 +97,10 @@ class AppDelegate: UIResponder, ObservableObject, @unchecked Sendable {
 
     // MARK: Helpers
 
-    @MainActor
+	func setFirstTimeLogin(_ isFirstTimeLogin: Bool) {
+		self.isFirstTimeLogin = isFirstTimeLogin
+	}
+
     func resetAppToInitialState() {
         do {
             try storeCoordinator.reset()
@@ -125,7 +127,6 @@ class AppDelegate: UIResponder, ObservableObject, @unchecked Sendable {
         PCKUtility.removeCache()
     }
 
-    @MainActor
     func setupRemotes(uuid: UUID? = nil) async throws {
         do {
             if isSyncingWithRemote {
@@ -159,9 +160,7 @@ class AppDelegate: UIResponder, ObservableObject, @unchecked Sendable {
 
             // Setup communication with watch
             WCSession.default.delegate = sessionDelegate
-			DispatchQueue.main.async {
-				WCSession.default.activate()
-			}
+			WCSession.default.activate()
 
             healthKitStore = OCKHealthKitPassthroughStore(store: store)
             let storeCoordinator = OCKStoreCoordinator()

@@ -15,7 +15,8 @@ import WatchKit
 import WatchConnectivity
 import os.log
 
-class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
+@MainActor
+final class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 
     // MARK: Public read private write properties
     @Published private(set) var store: OCKStore! {
@@ -114,18 +115,17 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
         }
     }
 
-	func getOCKStore() async -> OCKStore {
-		store
-	}
-
-    func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
+    func didRegisterForRemoteNotifications(
+		withDeviceToken deviceToken: Data
+	) {
         Task {
             await Utility.updateInstallationWithDeviceToken(deviceToken)
         }
     }
 
-    @MainActor
-    func setupRemotes(uuid: UUID? = nil) async throws {
+    func setupRemotes(
+		uuid: UUID? = nil
+	) async throws {
         do {
             if isSyncingWithRemote {
                 if sessionDelegate == nil {
@@ -153,16 +153,20 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
 				self.parseRemote = parseRemote
 				self.store = store
             } else {
-                let store = OCKStore(name: Constants.watchOSLocalCareStoreName,
-                                     type: .onDisk(),
-                                     remote: phoneRemote)
+                let store = OCKStore(
+					name: Constants.watchOSLocalCareStoreName,
+					type: .onDisk(),
+					remote: phoneRemote
+				)
                 phoneRemote.delegate = self
-                sessionDelegate = LocalSessionDelegate(remote: phoneRemote,
-                                                       store: store)
+                sessionDelegate = LocalSessionDelegate(
+					remote: phoneRemote,
+					store: store
+				)
                 WCSession.default.delegate = sessionDelegate
                 self.store = store
             }
-            // WCSession.default.activate()
+            WCSession.default.activate()
 
 			healthKitStore = OCKHealthKitPassthroughStore(store: store)
 			let storeCoordinator = OCKStoreCoordinator()
@@ -175,7 +179,6 @@ class AppDelegate: NSObject, WKApplicationDelegate, ObservableObject {
         }
     }
 
-    @MainActor
     func resetAppToInitialState() {
 
         do {

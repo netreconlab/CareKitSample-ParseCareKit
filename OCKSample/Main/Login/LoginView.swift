@@ -98,16 +98,20 @@ struct LoginView: View {
                 switch signupLoginSegmentValue {
                 case 1:
                     Task {
-                        await viewModel.signup(.patient,
-                                               username: usersname,
-                                               password: password,
-                                               firstName: firstName,
-                                               lastName: lastName)
+                        await viewModel.signup(
+							.patient,
+							username: usersname,
+							password: password,
+							firstName: firstName,
+							lastName: lastName
+						)
                     }
                 default:
                     Task {
-                        await viewModel.login(username: usersname,
-                                              password: password)
+                        await viewModel.login(
+							username: usersname,
+							password: password
+						)
                     }
                 }
             }, label: {

@@ -12,29 +12,37 @@ import os.log
 import Synchronization
 import WatchConnectivity
 
-@MainActor
-class LocalSessionDelegate: NSObject, @MainActor SessionDelegate {
+final class LocalSessionDelegate: NSObject, SessionDelegate, Sendable {
     let remote: OCKWatchConnectivityPeer
 	let store = Mutex<OCKStore?>(nil)
 
-    init(remote: OCKWatchConnectivityPeer, store: OCKStore?) {
+    init(
+		remote: OCKWatchConnectivityPeer,
+		store: OCKStore?
+	) {
         self.remote = remote
 		self.store.setValue(store)
     }
 
     #if os(iOS) || os(visionOS)
-    func sessionDidBecomeInactive(_ session: WCSession) {
+    func sessionDidBecomeInactive(
+		_ session: WCSession
+	) {
         Logger.localSessionDelegate.info("sessionDidBecomeInactive")
     }
 
-    func sessionDidDeactivate(_ session: WCSession) {
+    func sessionDidDeactivate(
+		_ session: WCSession
+	) {
         Logger.localSessionDelegate.info("sessionDidDeactivate")
     }
     #endif
 
-    func session(_ session: WCSession,
-                 activationDidCompleteWith activationState: WCSessionActivationState,
-                 error: Error?) {
+    func session(
+		_ session: WCSession,
+		activationDidCompleteWith activationState: WCSessionActivationState,
+		error: Error?
+	) {
         Logger.localSessionDelegate.info("New session state: \(activationState.rawValue)")
         if activationState == .activated {
             #if os(watchOS)
@@ -48,38 +56,40 @@ class LocalSessionDelegate: NSObject, @MainActor SessionDelegate {
         }
     }
 
-    func session(_ session: WCSession,
-                 didReceiveMessage message: [String: Any],
-                 replyHandler: @escaping ([String: Any]) -> Void) {
+    func session(
+		_ session: WCSession,
+		didReceiveMessage message: [String: Any],
+		replyHandler: @escaping ([String: Any]) -> Void
+	) {
         #if os(watchOS)
         Logger.localSessionDelegate.info("Received message from iPhone")
 		guard let store = store.value() else {
             return
         }
         remote.reply(to: message, store: store) { reply in
-            DispatchQueue.main.async {
-                replyHandler(reply)
-            }
+			replyHandler(reply)
         }
         #else
         if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
             Logger.localSessionDelegate.info("Received message from Apple Watch requesting ParseUser, sending now")
 
+			// Prepare data for watchOS, don't use reply handler as it's not Sendable.
 			Task {
-                do {
-                    // Prepare data for watchOS
-					let returnMessage = try await Utility.getUserSessionForWatch()
-                    DispatchQueue.main.async {
-                        replyHandler(returnMessage)
-                    }
-                } catch {
-                    Logger.localSessionDelegate.info("Could not get session for watch: \(error)")
-                }
-            }
+				do {
+					let message = try await Utility.getUserSessionForWatch()
+					WCSession.default.sendMessage(
+						message,
+						replyHandler: nil,
+						errorHandler: { error in
+							Logger.remoteSessionDelegate.info("Could not send session token to watch: \(error)")
+						}
+					)
+				} catch {
+					Logger.remoteSessionDelegate.info("Could not get session token for watch: \(error)")
+				}
+			}
         } else {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-            }
+			NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
         }
         #endif
     }

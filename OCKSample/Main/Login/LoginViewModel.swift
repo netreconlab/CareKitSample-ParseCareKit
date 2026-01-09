@@ -13,6 +13,7 @@ import ParseSwift
 import os.log
 import WatchConnectivity
 
+@MainActor
 class LoginViewModel: ObservableObject, @unchecked Sendable {
 
     // MARK: Public read, private write properties
@@ -38,7 +39,6 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
     }
 
     // MARK: Helpers (private)
-    @MainActor
     func checkStatus() async {
         do {
             _ = try await User.current()
@@ -66,8 +66,9 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
         }
     }
 
-    @MainActor
-    private func finishCompletingSignIn(_ careKitPatient: OCKPatient? = nil) async throws {
+    private func finishCompletingSignIn(
+		_ careKitPatient: OCKPatient? = nil
+	) async throws {
         if let careKitUser = careKitPatient {
             var user = try await User.current()
             guard let userType = careKitUser.userType,
@@ -99,10 +100,12 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
         await Utility.updateInstallationWithDeviceToken()
     }
 
-    @MainActor
-    private func savePatientAfterSignUp(_ type: UserType,
-                                        firstName: String,
-                                        lastName: String) async throws -> OCKPatient {
+    private func savePatientAfterSignUp(
+		_ type: UserType,
+		firstName: String,
+		lastName: String
+	) async throws -> OCKPatient {
+
         let remoteUUID = UUID()
         do {
             try await Utility.setDefaultACL()
@@ -159,12 +162,13 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
      - parameter firstName: The first name of the person signing up.
      - parameter lastName: The last name of the person signing up.
     */
-    @MainActor
-    func signup(_ type: UserType,
-                username: String,
-                password: String,
-                firstName: String,
-                lastName: String) async {
+    func signup(
+		_ type: UserType,
+		username: String,
+		password: String,
+		firstName: String,
+		lastName: String
+	) async {
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -204,9 +208,10 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
      - parameter username: The username the person logging in.
      - parameter password: The password the person logging in.
     */
-    @MainActor
-    func login(username: String,
-               password: String) async {
+    func login(
+		username: String,
+		password: String
+	) async {
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -214,7 +219,7 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
             }
             let user = try await User.login(username: username.lowercased(), password: password)
             Logger.login.info("Parse login successful: \(user, privacy: .private)")
-            AppDelegateKey.defaultValue?.isFirstTimeLogin = true
+            AppDelegateKey.defaultValue?.setFirstTimeLogin(true)
             do {
                 try await Utility.setupRemoteAfterLogin()
                 try await finishCompletingSignIn()
@@ -236,7 +241,6 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
     /**
      Logs in the user anonymously *asynchronously*.
     */
-    @MainActor
     func loginAnonymously() async {
         do {
             guard try await PCKUtility.isServerAvailable() else {
@@ -264,7 +268,6 @@ class LoginViewModel: ObservableObject, @unchecked Sendable {
     /**
      Logs out the currently logged in person *asynchronously*.
     */
-    @MainActor
     func logout() async {
         // You may not have seen "throws" before, but it's simple,
         // this throws an error if one occurs, if not it behaves as normal

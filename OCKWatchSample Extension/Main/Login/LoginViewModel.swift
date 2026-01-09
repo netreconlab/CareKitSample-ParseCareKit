@@ -11,13 +11,13 @@ import CareKit
 import ParseSwift
 import os.log
 
+@MainActor
 class LoginViewModel: ObservableObject {
     // MARK: Public read, private write properties
 	@Published private(set) var isLoggedIn: Bool?
 
     // MARK: Helpers (private)
 
-    @MainActor
     func checkStatus() async {
         do {
             _ = try await User.current()

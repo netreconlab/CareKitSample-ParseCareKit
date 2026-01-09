@@ -57,41 +57,20 @@ final class RemoteSessionDelegate: NSObject, SessionDelegate, Sendable {
 			}
 
 #else
-			if activationState == .activated {
-				NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-			}
+			NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
 #endif
 		default:
 			Logger.remoteSessionDelegate.info("None supported session state: \(activationState.rawValue)")
 		}
 	}
 
-	func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
-#if os(watchOS)
-		if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
-			let sendableMessage = Utility.convertNonSendableDictionaryToSendable(message)
-			Task {
-				await LoginViewModel.loginFromiPhoneMessage(sendableMessage)
-			}
-		} else if (message[Constants.requestSync] as? String) != nil {
-			store.value()?.synchronize { error in
-				let errorString = error?.localizedDescription ?? "Successful sync with remote!"
-				Logger.remoteSessionDelegate.info("\(errorString)")
-			}
-		}
-#else
-		NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
-#endif
-	}
-
 	func session(
 		_ session: WCSession,
-		didReceiveMessage message: [String: Any],
-		replyHandler: @escaping ([String: Any]) -> Void
+		didReceiveMessage message: [String: Any]
 	) {
-        #if os(iOS)
-        if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
-            Logger.remoteSessionDelegate.info("Received message from Apple Watch requesting session token, sending now")
+#if os(iOS)
+		if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
+			Logger.remoteSessionDelegate.info("Received message from Apple Watch requesting session token, sending now")
 			// Prepare data for watchOS, don't use reply handler as it's not Sendable.
 			Task {
 				do {
@@ -107,7 +86,25 @@ final class RemoteSessionDelegate: NSObject, SessionDelegate, Sendable {
 					Logger.remoteSessionDelegate.info("Could not get session token for watch: \(error)")
 				}
 			}
-        }
-        #endif
-    }
+		} else {
+			NotificationCenter.default.post(
+				.init(
+					name: Notification.Name(rawValue: Constants.requestSync)
+				)
+			)
+		}
+#elseif os(watchOS)
+		if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
+			let sendableMessage = Utility.convertNonSendableDictionaryToSendable(message)
+			Task {
+				await LoginViewModel.loginFromiPhoneMessage(sendableMessage)
+			}
+		} else if (message[Constants.requestSync] as? String) != nil {
+			store.value()?.synchronize { error in
+				let errorString = error?.localizedDescription ?? "Successful sync with remote!"
+				Logger.remoteSessionDelegate.info("\(errorString)")
+			}
+		}
+#endif
+	}
 }
