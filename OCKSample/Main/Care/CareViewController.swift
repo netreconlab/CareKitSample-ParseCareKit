@@ -38,7 +38,7 @@ import SwiftUI
 import UIKit
 
 @MainActor
-class CareViewController: OCKDailyPageViewController, @unchecked Sendable { // swiftlint:disable:this type_body_length
+final class CareViewController: OCKDailyPageViewController, @unchecked Sendable { // swiftlint:disable:this type_body_length line_length
 
 	private struct State {
 		var isSyncing = false
@@ -223,7 +223,9 @@ class CareViewController: OCKDailyPageViewController, @unchecked Sendable { // s
     ) {
         Task {
             let tasks = await self.fetchTasks(on: date)
-            appendTasks(tasks, to: listViewController, date: date)
+			await MainActor.run {
+				appendTasks(tasks, to: listViewController, date: date)
+			}
         }
     }
 
