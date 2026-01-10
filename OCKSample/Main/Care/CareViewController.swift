@@ -203,9 +203,7 @@ final class CareViewController: OCKDailyPageViewController, @unchecked Sendable 
     ) {
         Task {
             let tasks = await self.fetchTasks(on: date)
-			await MainActor.run {
-				appendTasks(tasks, to: listViewController, date: date)
-			}
+			appendTasks(tasks, to: listViewController, date: date)
         }
     }
 
