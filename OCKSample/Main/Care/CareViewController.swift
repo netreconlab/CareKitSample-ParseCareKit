@@ -33,7 +33,6 @@ import CareKitEssentials
 import CareKitStore
 import CareKitUI
 import os.log
-import Synchronization
 import SwiftUI
 import UIKit
 

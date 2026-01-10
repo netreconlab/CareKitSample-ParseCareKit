@@ -43,9 +43,14 @@ class LoginViewModel: ObservableObject {
 			}
 			await Utility.logoutAndResetAppState()
 			// Need to wait a short time to provide a chance for all data
-			// to uoload to the server for syncing to the watch after login.
+			// to upload to the server for syncing to the watch after login.
+			try Task.checkCancellation()
 			try await Task.sleep(for: .seconds(5))
+			try Task.checkCancellation()
 			await loginWithSessionToken(sessionToken)
+		} catch is CancellationError {
+			Logger.login.info("Login cancelled")
+			return
 		} catch {
 			await loginWithSessionToken(sessionToken)
 		}
