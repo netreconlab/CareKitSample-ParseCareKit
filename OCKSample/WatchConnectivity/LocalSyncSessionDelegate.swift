@@ -51,7 +51,13 @@ final class LocalSessionDelegate: NSObject, SessionDelegate, Sendable {
                 Logger.localSessionDelegate.info("\(errorString)")
             }
             #else
-            NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+			DispatchQueue.main.async {
+				NotificationCenter.default.post(
+					.init(
+						name: Notification.Name(rawValue: Constants.requestSync)
+					)
+				)
+			}
             #endif
         }
     }
@@ -89,7 +95,9 @@ final class LocalSessionDelegate: NSObject, SessionDelegate, Sendable {
 				}
 			}
         } else {
-			NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+			DispatchQueue.main.async {
+				NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+			}
         }
         #endif
     }

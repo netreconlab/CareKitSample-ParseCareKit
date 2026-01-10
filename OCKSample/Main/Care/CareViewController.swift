@@ -38,29 +38,10 @@ import SwiftUI
 import UIKit
 
 @MainActor
-final class CareViewController: OCKDailyPageViewController, @unchecked Sendable { // swiftlint:disable:this type_body_length line_length
+final class CareViewController: OCKDailyPageViewController, @unchecked Sendable {
 
-	private struct State {
-		var isSyncing = false
-		var isLoading = false
-	}
-	private let state = Mutex<State>(.init())
-	private var isSyncing: Bool {
-		get {
-			state.withLock { $0.isSyncing }
-		}
-		set {
-			state.withLock { $0.isSyncing = newValue }
-		}
-	}
-	private var isLoading: Bool {
-		get {
-			state.withLock { $0.isLoading }
-		}
-		set {
-			state.withLock { $0.isLoading = newValue }
-		}
-	}
+	private var isSyncing = false
+	private var isLoading = false
     private var style: Styler {
         CustomStylerKey.defaultValue
     }

@@ -42,6 +42,9 @@ class LoginViewModel: ObservableObject {
 				return
 			}
 			await Utility.logoutAndResetAppState()
+			// Need to wait a short time to provide a chance for all data
+			// to uoload to the server for syncing to the watch after login.
+			try await Task.sleep(for: .seconds(5))
 			await loginWithSessionToken(sessionToken)
 		} catch {
 			await loginWithSessionToken(sessionToken)

@@ -15,7 +15,9 @@ import WatchConnectivity
 extension AppDelegate: ParseRemoteDelegate {
 
 	nonisolated func didRequestSynchronization(_ remote: OCKRemoteSynchronizable) {
-		NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+		DispatchQueue.main.async {
+			NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+		}
 	}
 
 	nonisolated func successfullyPushedToRemote() {
@@ -49,14 +51,16 @@ extension AppDelegate: ParseRemoteDelegate {
 		didUpdateProgress progress: Double
 	) {
 		let progressPercentage = Int(progress * 100.0)
-		NotificationCenter.default.post(
-			.init(
-				name: Notification.Name(
-					rawValue: Constants.progressUpdate
-				),
-				userInfo: [Constants.progressUpdate: progressPercentage]
+		DispatchQueue.main.async {
+			NotificationCenter.default.post(
+				.init(
+					name: Notification.Name(
+						rawValue: Constants.progressUpdate
+					),
+					userInfo: [Constants.progressUpdate: progressPercentage]
+				)
 			)
-		)
+		}
 	}
 
 	nonisolated func chooseConflictResolution(

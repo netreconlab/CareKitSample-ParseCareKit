@@ -57,7 +57,9 @@ final class RemoteSessionDelegate: NSObject, SessionDelegate, Sendable {
 			}
 
 #else
-			NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+			DispatchQueue.main.async {
+				NotificationCenter.default.post(.init(name: Notification.Name(rawValue: Constants.requestSync)))
+			}
 #endif
 		default:
 			Logger.remoteSessionDelegate.info("None supported session state: \(activationState.rawValue)")
@@ -87,11 +89,13 @@ final class RemoteSessionDelegate: NSObject, SessionDelegate, Sendable {
 				}
 			}
 		} else {
-			NotificationCenter.default.post(
-				.init(
-					name: Notification.Name(rawValue: Constants.requestSync)
+			DispatchQueue.main.async {
+				NotificationCenter.default.post(
+					.init(
+						name: Notification.Name(rawValue: Constants.requestSync)
+					)
 				)
-			)
+			}
 		}
 #elseif os(watchOS)
 		if (message[Constants.parseUserSessionTokenKey] as? String) != nil {
