@@ -28,6 +28,7 @@ class LoginViewModel: ObservableObject {
     }
 
     // MARK: Helpers (public)
+	@MainActor
     static func loginFromiPhoneMessage(_ message: [String: String]) async {
         guard let sessionToken = message[Constants.parseUserSessionTokenKey] else {
             Logger.login.error("Error: data missing in iPhone message")
