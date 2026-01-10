@@ -109,23 +109,23 @@ final class CareViewController: OCKDailyPageViewController, @unchecked Sendable 
         }
 
 		switch progress {
-		case 0, 100:
+		case 100:
 			self.navigationItem.rightBarButtonItem = UIBarButtonItem(
 				title: "\(progress)",
 				style: .plain, target: self,
 				action: #selector(self.synchronizeWithRemote)
 			)
+			self.navigationItem.rightBarButtonItem?.tintColor = self.view.tintColor
 
-			if progress == 100 {
-				// Give sometime for the user to see 100
-				DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-					self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-						barButtonSystemItem: .refresh,
-						target: self,
-						action: #selector(self.synchronizeWithRemote)
-					)
-					self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
-				}
+			// Give sometime for the user to see 100
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+				guard let self else { return }
+				self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+					barButtonSystemItem: .refresh,
+					target: self,
+					action: #selector(self.synchronizeWithRemote)
+				)
+				self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
 			}
 		default:
 			self.navigationItem.rightBarButtonItem = UIBarButtonItem(
