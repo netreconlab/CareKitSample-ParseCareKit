@@ -37,10 +37,10 @@ import SwiftUI
 import UIKit
 
 @MainActor
-class CareViewController: OCKDailyPageViewController {
+final class CareViewController: OCKDailyPageViewController, @unchecked Sendable {
 
-    private var isSyncing = false
-    private var isLoading = false
+	private var isSyncing = false
+	private var isLoading = false
     private var style: Styler {
         CustomStylerKey.defaultValue
     }
@@ -88,30 +88,33 @@ class CareViewController: OCKDailyPageViewController {
             return
         }
 
-        DispatchQueue.main.async {
-            switch progress {
-            case 0, 100:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
-                                                                         style: .plain, target: self,
-                                                                         action: #selector(self.synchronizeWithRemote))
-                if progress == 100 {
-                    // Give sometime for the user to see 100
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
-                                                                                 target: self,
-                                                                                 // swiftlint:disable:next line_length
-                                                                                 action: #selector(self.synchronizeWithRemote))
-                        // swiftlint:disable:next line_length
-                        self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
-                    }
-                }
-            default:
-                self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "\(progress)",
-                                                                         style: .plain, target: self,
-                                                                         action: #selector(self.synchronizeWithRemote))
-				self.navigationItem.rightBarButtonItem?.tintColor = self.view.tintColor
-            }
-        }
+		switch progress {
+		case 100:
+			self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+				title: "\(progress)",
+				style: .plain, target: self,
+				action: #selector(self.synchronizeWithRemote)
+			)
+			self.navigationItem.rightBarButtonItem?.tintColor = self.view.tintColor
+
+			// Give sometime for the user to see 100
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+				guard let self else { return }
+				self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+					barButtonSystemItem: .refresh,
+					target: self,
+					action: #selector(self.synchronizeWithRemote)
+				)
+				self.navigationItem.rightBarButtonItem?.tintColor = self.navigationItem.leftBarButtonItem?.tintColor
+			}
+		default:
+			self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+				title: "\(progress)",
+				style: .plain, target: self,
+				action: #selector(self.synchronizeWithRemote)
+			)
+			self.navigationItem.rightBarButtonItem?.tintColor = self.view.tintColor
+		}
     }
 
     @objc private func synchronizeWithRemote() {
@@ -122,7 +125,8 @@ class CareViewController: OCKDailyPageViewController {
         AppDelegateKey.defaultValue?.store.synchronize { error in
             let errorString = error?.localizedDescription ?? "Successful sync with remote!"
             Logger.feed.info("\(errorString)")
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+				guard let self else { return }
                 if error != nil {
                     self.navigationItem.rightBarButtonItem?.tintColor = .red
                 } else {
@@ -199,7 +203,7 @@ class CareViewController: OCKDailyPageViewController {
     ) {
         Task {
             let tasks = await self.fetchTasks(on: date)
-            appendTasks(tasks, to: listViewController, date: date)
+			appendTasks(tasks, to: listViewController, date: date)
         }
     }
 
@@ -322,14 +326,10 @@ class CareViewController: OCKDailyPageViewController {
         }.forEach { (cards: [UIViewController]) in
             cards.forEach {
                 let card = $0
-                DispatchQueue.main.async {
-                    listViewController.appendViewController(card, animated: true)
-                }
+				listViewController.appendViewController(card, animated: true)
             }
         }
-        DispatchQueue.main.async {
-            self.isLoading = false
-        }
+		self.isLoading = false
     }
 }
 

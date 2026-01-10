@@ -10,9 +10,19 @@ import Foundation
 import SwiftUI
 import CareKit
 import CareKitStore
+import Synchronization
 
 struct StoreCoordinatorKey: EnvironmentKey {
-    static var defaultValue = OCKStoreCoordinator()
+	static var defaultValue: OCKStoreCoordinator {
+		get {
+			return _defaultValue.value()
+		}
+		set {
+			_defaultValue.setValue(newValue)
+		}
+	}
+
+	static private let _defaultValue = Mutex<OCKStoreCoordinator>(.init())
 }
 
 extension EnvironmentValues {
@@ -23,6 +33,7 @@ extension EnvironmentValues {
         }
 
         set {
+			StoreCoordinatorKey.defaultValue = newValue
             self[StoreCoordinatorKey.self] = newValue
         }
     }

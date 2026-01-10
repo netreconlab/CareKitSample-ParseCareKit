@@ -13,6 +13,7 @@ import ParseSwift
 import os.log
 import WatchConnectivity
 
+@MainActor
 class LoginViewModel: ObservableObject {
 
     // MARK: Public read, private write properties
@@ -25,20 +26,19 @@ class LoginViewModel: ObservableObject {
             */
             objectWillChange.send()
             if newValue != nil {
-                self.sendUpdatedUserStatusToWatch()
+                self.sendUpdatedUserSessionTokenToWatch()
             }
         }
     }
     @Published private(set) var loginError: ParseError?
 
     init() {
-        Task {
-            await checkStatus()
+		Task {
+			await checkStatus()
         }
     }
 
     // MARK: Helpers (private)
-    @MainActor
     func checkStatus() async {
         do {
             _ = try await User.current()
@@ -48,24 +48,31 @@ class LoginViewModel: ObservableObject {
         }
     }
 
-    private func sendUpdatedUserStatusToWatch() {
+    private func sendUpdatedUserSessionTokenToWatch() {
         Task {
             do {
                 let message = try await Utility.getUserSessionForWatch()
-                DispatchQueue.main.async {
-                    WCSession.default.sendMessage(message,
-                                                  replyHandler: nil,
-                                                  errorHandler: nil)
-                }
+				DispatchQueue.global(qos: .default).async {
+					// WCSession.default.sendMessage crashes when sending on MainActor
+					// so we call on a less important queue.
+					WCSession.default.sendMessage(
+						message,
+						replyHandler: nil,
+						errorHandler: { error in
+							Logger.remoteSessionDelegate.info("Could not send updated session token to watch: \(error)")
+						}
+					)
+				}
             } catch {
-                Logger.login.info("Could not get session for watch: \(error)")
+                Logger.login.info("Could not get session token for watch: \(error)")
                 return
             }
         }
     }
 
-    @MainActor
-    private func finishCompletingSignIn(_ careKitPatient: OCKPatient? = nil) async throws {
+    private func finishCompletingSignIn(
+		_ careKitPatient: OCKPatient? = nil
+	) async throws {
         if let careKitUser = careKitPatient {
             var user = try await User.current()
             guard let userType = careKitUser.userType,
@@ -97,10 +104,12 @@ class LoginViewModel: ObservableObject {
         await Utility.updateInstallationWithDeviceToken()
     }
 
-    @MainActor
-    private func savePatientAfterSignUp(_ type: UserType,
-                                        firstName: String,
-                                        lastName: String) async throws -> OCKPatient {
+    private func savePatientAfterSignUp(
+		_ type: UserType,
+		firstName: String,
+		lastName: String
+	) async throws -> OCKPatient {
+
         let remoteUUID = UUID()
         do {
             try await Utility.setDefaultACL()
@@ -113,10 +122,12 @@ class LoginViewModel: ObservableObject {
         }
         try await appDelegate.setupRemotes(uuid: remoteUUID)
 
-        var newPatient = OCKPatient(remoteUUID: remoteUUID,
-                                    id: remoteUUID.uuidString,
-                                    givenName: firstName,
-                                    familyName: lastName)
+        var newPatient = OCKPatient(
+			remoteUUID: remoteUUID,
+			id: remoteUUID.uuidString,
+			givenName: firstName,
+			familyName: lastName
+		)
         newPatient.userType = type
         let savedPatient = try await appDelegate.store.addPatient(newPatient)
 
@@ -155,12 +166,13 @@ class LoginViewModel: ObservableObject {
      - parameter firstName: The first name of the person signing up.
      - parameter lastName: The last name of the person signing up.
     */
-    @MainActor
-    func signup(_ type: UserType,
-                username: String,
-                password: String,
-                firstName: String,
-                lastName: String) async {
+    func signup(
+		_ type: UserType,
+		username: String,
+		password: String,
+		firstName: String,
+		lastName: String
+	) async {
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -200,9 +212,10 @@ class LoginViewModel: ObservableObject {
      - parameter username: The username the person logging in.
      - parameter password: The password the person logging in.
     */
-    @MainActor
-    func login(username: String,
-               password: String) async {
+    func login(
+		username: String,
+		password: String
+	) async {
         do {
             guard try await PCKUtility.isServerAvailable() else {
                 Logger.login.error("Server health is not \"ok\"")
@@ -210,7 +223,7 @@ class LoginViewModel: ObservableObject {
             }
             let user = try await User.login(username: username.lowercased(), password: password)
             Logger.login.info("Parse login successful: \(user, privacy: .private)")
-            AppDelegateKey.defaultValue?.isFirstTimeLogin = true
+            AppDelegateKey.defaultValue?.setFirstTimeLogin(true)
             do {
                 try await Utility.setupRemoteAfterLogin()
                 try await finishCompletingSignIn()
@@ -232,7 +245,6 @@ class LoginViewModel: ObservableObject {
     /**
      Logs in the user anonymously *asynchronously*.
     */
-    @MainActor
     func loginAnonymously() async {
         do {
             guard try await PCKUtility.isServerAvailable() else {
@@ -260,17 +272,8 @@ class LoginViewModel: ObservableObject {
     /**
      Logs out the currently logged in person *asynchronously*.
     */
-    @MainActor
     func logout() async {
-        // You may not have seen "throws" before, but it's simple,
-        // this throws an error if one occurs, if not it behaves as normal
-        // Normally, you've seen do {} catch {} which catches the error, same concept...
-        do {
-            try await User.logout()
-        } catch {
-            Logger.login.error("Error logging out: \(error)")
-        }
-        AppDelegateKey.defaultValue?.resetAppToInitialState()
+		await Utility.logoutAndResetAppState()
         await self.checkStatus()
     }
 }

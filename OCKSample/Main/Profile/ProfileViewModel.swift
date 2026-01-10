@@ -12,6 +12,7 @@ import CareKitEssentials
 import SwiftUI
 import os.log
 
+@MainActor
 class ProfileViewModel: ObservableObject {
 
     // MARK: Public read/write properties
@@ -19,6 +20,7 @@ class ProfileViewModel: ObservableObject {
     var firstName = ""
     var lastName = ""
     var birthday = Date()
+
     var patient: OCKPatient? {
         willSet {
             if let currentFirstName = newValue?.name.givenName {

@@ -101,13 +101,7 @@ struct ProfileView: View {
 	}
 
 	private func logout() async throws {
-		do {
-			try await User.logout()
-		} catch {
-			Logger.profile.error("Error logging out: \(error)")
-		}
-		AppDelegateKey.defaultValue?.resetAppToInitialState()
-		PCKUtility.removeCache()
+		await Utility.logoutAndResetAppState()
 		isLoggedOut = true
 	}
 }

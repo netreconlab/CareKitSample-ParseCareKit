@@ -9,24 +9,32 @@
 import Foundation
 import CareKit
 import CareKitStore
+import ParseCareKit
 import ParseSwift
 import os.log
 
 class Utility {
-    // For classes, we can use "class" or "static" to declare type methods/properties.
-    class func prepareSyncMessageForWatch() -> [String: Any] {
-        var returnMessage = [String: Any]()
+
+    static func convertNonSendableDictionaryToSendable(_ dictionary: [String: Any]) -> [String: String] {
+		let sendableDictionary: [String: String] = dictionary.reduce(into: [:]) {
+			$0[$1.key] = $1.value as? String
+		}
+		return sendableDictionary
+	}
+
+    static func prepareSyncMessageForWatch() -> [String: String] {
+        var returnMessage = [String: String]()
         returnMessage[Constants.requestSync] = "new messages on Remote"
         return returnMessage
     }
 
-    class func getUserSessionForWatch() async throws -> [String: Any] {
-        var returnMessage = [String: Any]()
+    static func getUserSessionForWatch() async throws -> [String: String] {
+        var returnMessage = [String: String]()
         returnMessage[Constants.parseUserSessionTokenKey] = try await User.sessionToken()
         return returnMessage
     }
 
-    class func getRemoteClockUUID() async throws -> UUID {
+    static func getRemoteClockUUID() async throws -> UUID {
         guard let user = try? await User.current(),
             let lastUserTypeSelected = user.lastTypeSelected,
             let remoteClockUUID = user.userTypeUUIDs?[lastUserTypeSelected] else {
@@ -35,7 +43,7 @@ class Utility {
         return remoteClockUUID
     }
 
-    class func setDefaultACL() async throws {
+    static func setDefaultACL() async throws {
         var defaultACL = ParseACL()
         defaultACL.publicRead = false
         defaultACL.publicWrite = false
@@ -43,7 +51,7 @@ class Utility {
     }
 
     @MainActor
-    class func setupRemoteAfterLogin() async throws {
+    static func setupRemoteAfterLogin() async throws {
         let remoteUUID = try await Utility.getRemoteClockUUID()
         do {
             try await setDefaultACL()
@@ -60,7 +68,7 @@ class Utility {
         return
     }
 
-    class func updateInstallationWithDeviceToken(_ deviceToken: Data? = nil) async {
+    static func updateInstallationWithDeviceToken(_ deviceToken: Data? = nil) async {
         guard let keychainInstallation = try? await Installation.current() else {
             Logger.utility.debug("""
                 Attempted to update installation,
@@ -83,28 +91,26 @@ class Utility {
         }
         let installation = currentInstallation
         let isUpdatingInstallation = isUpdatingInstallationMutable
-        Task {
-            do {
-                if isUpdatingInstallation {
-                    let updatedInstallation = try await installation.save()
-                    Logger.utility.info("""
-                        Updated installation: \(updatedInstallation, privacy: .private)
-                    """)
-                } else {
-                    let updatedInstallation = try await installation.create()
-                    Logger.utility.info("""
-                        Created installation: \(updatedInstallation, privacy: .private)
-                    """)
-                }
-            } catch {
-                Logger.utility.error("""
-                    Could not update installation: \(error)
-                """)
-            }
-        }
+		do {
+			if isUpdatingInstallation {
+				let updatedInstallation = try await installation.save()
+				Logger.utility.info("""
+					Updated installation: \(updatedInstallation, privacy: .private)
+				""")
+			} else {
+				let updatedInstallation = try await installation.create()
+				Logger.utility.info("""
+					Created installation: \(updatedInstallation, privacy: .private)
+				""")
+			}
+		} catch {
+			Logger.utility.error("""
+				Could not update installation: \(error)
+			""")
+		}
     }
 
-    class func createPreviewStore() -> OCKStore {
+    static func createPreviewStore() -> OCKStore {
         let store = OCKStore(name: Constants.noCareStoreName, type: .inMemory)
         let patientId = "preview"
         Task {
@@ -139,7 +145,7 @@ class Utility {
         return store
     }
 
-    class func clearDeviceOnFirstRun(storeName: String? = nil) async {
+    static func clearDeviceOnFirstRun(storeName: String? = nil) async {
         // Clear items out of the Keychain on app first run.
         if UserDefaults.standard.object(forKey: Constants.appName) == nil {
 
@@ -190,9 +196,21 @@ class Utility {
         }
     }
 
+	@MainActor
+	static func logoutAndResetAppState() async {
+		do {
+			try await User.logout()
+		} catch {
+			Logger.utility.error("Error logging out: \(error)")
+		}
+		AppDelegateKey.defaultValue?.resetAppToInitialState()
+		PCKUtility.removeCache()
+	}
+
     #if os(iOS) || os(visionOS)
-    class func requestHealthKitPermissions() {
-        AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
+	@MainActor
+	static func requestHealthKitPermissions() {
+		AppDelegateKey.defaultValue?.healthKitStore.requestHealthKitPermissionsForAllTasksInStore { error in
             guard let error = error else {
                 DispatchQueue.main.async {
                     // swiftlint:disable:next line_length

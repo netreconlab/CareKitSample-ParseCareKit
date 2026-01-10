@@ -7,10 +7,20 @@
 //
 
 import Foundation
+import Synchronization
 import SwiftUI
 
 struct AppDelegateKey: EnvironmentKey {
-    static var defaultValue: AppDelegate?
+    static var defaultValue: AppDelegate? {
+		get {
+			return _defaultValue.value()
+		}
+		set {
+			_defaultValue.setValue(newValue)
+		}
+	}
+
+	static private let _defaultValue = Mutex<AppDelegate?>(nil)
 }
 
 extension EnvironmentValues {
